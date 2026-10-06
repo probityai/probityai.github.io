@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Probity AI - tools for agent evidence</title>
+  <meta name="description" content="Choose a task: test an agent-evidence verifier, replay a retained evidence decision, or find the right Probity component.">
+  <link rel="canonical" href="https://probityai.github.io/">
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #182734; background: #f6f8fa; }
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.6; }
+    main, footer { max-width: 58rem; margin: auto; padding: 2rem 1.25rem; }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.2; margin: 0 0 1rem; }
+    h2 { font-size: 1.2rem; line-height: 1.4; margin: 0 0 .5rem; }
+    p { margin: 0 0 1rem; }
+    .intro { max-width: 42rem; font-size: 1.1rem; }
+    .tasks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin: 2rem 0; }
+    article { background: white; border: 1px solid #c5cfd8; border-radius: .5rem; padding: 1.25rem; }
+    article p { margin-bottom: 0; }
+    a { color: #064c8c; text-underline-offset: .2em; }
+    a:hover { text-decoration-thickness: .15em; }
+    a:focus-visible { outline: 3px solid #a34400; outline-offset: 4px; }
+    .skip { position: absolute; top: -5rem; left: 1rem; background: white; padding: .5rem 1rem; z-index: 1; }
+    .skip:focus { top: .5rem; }
+    footer { border-top: 1px solid #c5cfd8; padding-top: 1rem; font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <main id="main" tabindex="-1">
+    <h1>Probity AI</h1>
+    <p class="intro">Open source tools for checking claims about AI agent actions. Start with the task you need.</p>
+    <section class="tasks" aria-label="Choose a task">
+      <article>
+        <h2><a href="https://probityai.github.io/agent-evidence-vectors/start.html">Test a verifier</a></h2>
+        <p>Run Probity Vectors against an evidence verifier. Follow the install commands and compare its results with known outcomes.</p>
+      </article>
+      <article>
+        <h2><a href="https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.html">Replay an evidence decision</a></h2>
+        <p>Check a retained file-action example. Inspect the first decision and refusals for replay, changed authority and altered signed bytes.</p>
+      </article>
+      <article>
+        <h2><a href="https://probityai.github.io/agent-evidence-atlas/start.html">Choose a component</a></h2>
+        <p>Find tools for observation, claim checks, admission policy, vocabulary, JSON and signatures. Each entry names its status and next step.</p>
+      </article>
+      <article>
+        <h2><a href="https://probityai.github.io/agent-evidence-atlas/lab.html">Inspect or contribute a run</a></h2>
+        <p>Use the Open Evidence Lab to read retained results and submit a reproducible evidence packet.</p>
+      </article>
+    </section>
+    <p>Vectors tests verifier behavior. Verify checks a supplied claim against saved evidence. Use the component catalog to find the supported recipe.</p>
+  </main>
+  <footer>
+    <a href="https://github.com/probityai">Source repositories</a>
+  </footer>
+</body>
+</html>
