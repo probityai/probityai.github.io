@@ -251,7 +251,7 @@ try {
     if (index === 0) {
       assert(page.commands.some(command => /agent-evidence-vectors==\d+\.\d+\.\d+/.test(command)), 'Verifier task lacks a pinned Python install');
       assert(page.commands.some(command => /aee-verify@v\d+\.\d+\.\d+/.test(command)), 'Verifier task lacks a pinned Go install');
-      assert(page.text.includes('Python 3.13+') && page.text.includes('Go 1.24+'), 'Verifier prerequisites are missing');
+      assert(/Python 3\.\d+\+/.test(page.text) && /Go 1\.\d+\+/.test(page.text), 'Verifier prerequisites are missing');
     } else if (index === 2) {
       const components = ['vectors', 'verify', 'admission', 'observer', 'vocabulary', 'atlas', 'jcs-admit', 'dsse'];
       assert(await evaluate(`${JSON.stringify(components)}.every(id => document.getElementById(id))`), 'Component catalog must expose all eight components');

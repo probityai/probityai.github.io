@@ -23,6 +23,9 @@
     a:focus-visible { outline: 3px solid #a34400; outline-offset: 4px; }
     .skip { position: absolute; top: -5rem; left: 1rem; background: white; padding: .5rem 1rem; z-index: 1; }
     .skip:focus { top: .5rem; }
+    .repos { padding-left: 1.25rem; }
+    .repos li { margin-bottom: .75rem; }
+    code { overflow-wrap: anywhere; background: #e9eef3; padding: 0 .25rem; border-radius: .25rem; }
     footer { border-top: 1px solid #c5cfd8; padding-top: 1rem; font-size: .95rem; }
   </style>
 </head>
@@ -30,7 +33,7 @@
   <a class="skip" href="#main">Skip to content</a>
   <main id="main" tabindex="-1">
     <h1>Probity AI</h1>
-    <p class="intro">Open source tools for checking claims about AI agent actions. Start with the task you need.</p>
+    <p class="intro">Check any verifier of signed AI-agent and supply-chain records against a public corpus. Start with the task you need.</p>
     <section class="tasks" aria-label="Choose a task">
       <article>
         <h2><a href="https://probityai.github.io/agent-evidence-vectors/start.html">Test a verifier</a></h2>
@@ -50,6 +53,19 @@
       </article>
     </section>
     <p>Vectors tests verifier behavior. Verify checks a supplied claim against saved evidence. Use the component catalog to find the supported recipe.</p>
+    <section aria-labelledby="repos">
+      <h2 id="repos">Repositories and current releases</h2>
+      <ul class="repos">
+      <li><a href="https://github.com/probityai/agent-evidence-vectors">agent-evidence-vectors</a>: Conformance cases and reference verifiers for signed agent evidence. Release <a href="https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6">v0.17.6</a>; install with <code>pip install agent-evidence-vectors==0.17.6</code>.</li>
+      <li><a href="https://github.com/probityai/agent-evidence-admission">agent-evidence-admission</a>: OPA, Kyverno and policy-controller rules for admitting signed evidence. Release <a href="https://github.com/probityai/agent-evidence-admission/releases/tag/py-v0.1.0">py-v0.1.0</a>; install with <code>pip install agent-evidence-admission==0.1.0</code>.</li>
+      <li><a href="https://github.com/probityai/agent-evidence-vocabulary">agent-evidence-vocabulary</a>: Versioned terms and crosswalks for evidence claims. Release <a href="https://github.com/probityai/agent-evidence-vocabulary/releases/tag/v0.3.0">v0.3.0</a>; install with <code>git clone --branch v0.3.0 https://github.com/probityai/agent-evidence-vocabulary</code>.</li>
+      <li><a href="https://github.com/probityai/dsse">dsse</a>: Rust library to sign and verify DSSE envelopes. Release <a href="https://github.com/probityai/dsse/releases/tag/v0.1.2">v0.1.2</a>; install with <code>cargo add dsse@=0.1.2</code>.</li>
+      <li><a href="https://github.com/probityai/jcs-admit">jcs-admit</a>: Rust library that checks raw JSON before RFC 8785 canonicalization. Release <a href="https://github.com/probityai/jcs-admit/releases/tag/v0.1.1">v0.1.1</a>; install with <code>cargo add jcs-admit@=0.1.1</code>.</li>
+      <li><a href="https://github.com/probityai/agent-evidence-observer">agent-evidence-observer</a>: Records brokered file requests and reads selected delegation runs offline. No tagged release yet; the README gives source-pinned steps.</li>
+      <li><a href="https://github.com/probityai/probity-verify">probity-verify</a>: Checks supplied evidence bytes offline through claim-specific adapters. No tagged release yet; the README gives source-pinned steps.</li>
+      <li><a href="https://github.com/probityai/agent-evidence-atlas">agent-evidence-atlas</a>: Maps assurance claims to evidence, with the Open Evidence Lab run register. No tagged release yet; the README gives source-pinned steps.</li>
+      </ul>
+    </section>
   </main>
   <footer>
     <a href="https://github.com/probityai">Source repositories</a>
