@@ -3,73 +3,156 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Probity AI - tools for agent evidence</title>
-  <meta name="description" content="Choose a task: test an agent-evidence verifier, replay a retained evidence decision, or find the right Probity component.">
+  <meta name="theme-color" content="#eef4ff">
+  <title>Probity - check what your agent evidence proves</title>
+  <meta name="description" content="Open tools to test an agent-evidence verifier, replay a saved decision, and inspect the evidence behind a claim. Start with one check.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Check what your agent evidence proves.">
+  <meta property="og:description" content="Open tools, public conformance cases and replayable evidence. Find the check you need.">
+  <meta property="og:url" content="https://probityai.github.io/">
+  <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://probityai.github.io/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23214fe5'/%3E%3Cpath d='M19 17h18l9 9v21H19z' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M27 33h12M27 40h8' stroke='white' stroke-width='4'/%3E%3C/svg%3E">
   <style>
-    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #182734; background: #f6f8fa; }
+    :root {
+      color-scheme: light;
+      --page: #eef4ff;
+      --surface: #fff;
+      --ink: #142d4e;
+      --body: #344b65;
+      --action: #214fe5;
+      --rule: #c2d0e6;
+      --type: "Avenir Next", "Segoe UI", sans-serif;
+      --code: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-family: var(--type);
+      color: var(--ink);
+      background: var(--page);
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; line-height: 1.6; }
-    main, footer { max-width: 58rem; margin: auto; padding: 2rem 1.25rem; }
-    h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.2; margin: 0 0 1rem; }
-    h2 { font-size: 1.2rem; line-height: 1.4; margin: 0 0 .5rem; }
-    p { margin: 0 0 1rem; }
-    .intro { max-width: 42rem; font-size: 1.1rem; }
-    .tasks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin: 2rem 0; }
-    article { background: white; border: 1px solid #c5cfd8; border-radius: .5rem; padding: 1.25rem; }
-    article p { margin-bottom: 0; }
-    a { color: #064c8c; text-underline-offset: .2em; }
-    a:hover { text-decoration-thickness: .15em; }
-    a:focus-visible { outline: 3px solid #a34400; outline-offset: 4px; }
-    .skip { position: absolute; top: -5rem; left: 1rem; background: white; padding: .5rem 1rem; z-index: 1; }
+    body { margin: 0; }
+    .t-hero { font: 700 clamp(2.625rem, 1.55rem + 3.7vw, 4.75rem)/1.06 var(--type); letter-spacing: -.045em; }
+    .t-heading { font: 700 clamp(1.875rem, 1.4rem + 1.3vw, 2.5rem)/1.15 var(--type); letter-spacing: -.025em; }
+    .t-title { font: 700 1.375rem/1.3 var(--type); letter-spacing: -.015em; }
+    .t-lead { font: 400 1.125rem/1.65 var(--type); letter-spacing: 0; }
+    .t-body { font: 400 1rem/1.65 var(--type); letter-spacing: 0; }
+    .t-small { font: 400 .875rem/1.6 var(--type); letter-spacing: 0; }
+    .t-code { font: 400 .8125rem/1.6 var(--code); letter-spacing: 0; }
+    h1, h2, h3, p, figure, dl, dd { margin: 0; }
+    a { color: var(--action); text-underline-offset: .22em; text-decoration-thickness: .07em; }
+    a:hover { text-decoration-thickness: .13em; }
+    a:focus-visible { outline: 3px solid #142d4e; outline-offset: 5px; border-radius: 2px; }
+    .shell { max-width: 76rem; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 4rem); }
+    .masthead { display: flex; align-items: center; gap: 1rem; padding-block: 2.25rem; }
+    .brand { display: flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -.04em; }
+    .brand svg { width: 2rem; height: 2rem; flex: none; }
+    .masthead p { padding-left: 1rem; border-left: 1px solid var(--rule); color: var(--body); }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); padding-block: 3rem 5rem; }
+    .intro h1 { max-width: 10ch; }
+    .intro > p { color: var(--body); max-width: 39ch; margin-top: 1.75rem; }
+    .primary { display: inline-flex; justify-content: center; align-items: center; gap: 1.25rem; min-height: 3.5rem; margin-top: 2rem; padding: .75rem 1.25rem; border-radius: .375rem; background: var(--action); color: white; font-weight: 700; text-decoration: none; }
+    .primary:hover { background: #153bbf; }
+    .primary:focus-visible { outline: 3px solid white; outline-offset: 3px; box-shadow: 0 0 0 7px #142d4e; }
+    .primary svg { width: 1.25rem; height: 1.25rem; }
+    .intro .install-note { margin-top: .875rem; max-width: 36ch; }
+    .packet { position: relative; isolation: isolate; background: var(--surface); border: 1px solid #aebed6; border-radius: .75rem; box-shadow: 0 1.5rem 3rem -2rem #496b9f66; }
+    .packet::before { content: ""; position: absolute; z-index: -1; inset: -10px 10px 10px -10px; border: 1px solid #aebed6; border-radius: .75rem; }
+    .packet-caption { padding: 1.125rem 1.5rem; border-bottom: 1px solid var(--rule); color: var(--body); display: flex; gap: .75rem; align-items: center; }
+    .packet-caption svg { width: 1.125rem; height: 1.125rem; flex: none; }
+    .packet dl { padding: .25rem 1.5rem; }
+    .packet .field { padding-block: 1.25rem; }
+    .packet .field + .field { border-top: 1px solid #e0e7f2; }
+    .packet dt { color: var(--body); margin-bottom: .5rem; }
+    .packet dd { font-size: 1.125rem; line-height: 1.5; }
+    .packet code { overflow-wrap: anywhere; }
+    .evidence-list { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }
+    .evidence-list li { padding: .25rem .625rem; border: 1px solid var(--rule); border-radius: .25rem; font-size: .875rem; color: var(--body); }
+    .verdict { display: inline-flex; align-items: center; gap: .5rem; color: #833006; background: #fff0e5; border-radius: .25rem; padding: .25rem .625rem; font-weight: 700; }
+    .verdict svg { height: 1rem; width: 1rem; flex: none; }
+    .reason { display: block; margin-top: .625rem; color: var(--body); }
+    .packet-note { background: #f6f8fc; padding: 1rem 1.5rem; border-top: 1px solid var(--rule); border-radius: 0 0 .75rem .75rem; color: var(--body); }
+    .routes { border-top: 1px solid var(--rule); padding-block: 3rem 4rem; }
+    .routes > h2 { max-width: 22ch; }
+    .route-list { margin: 2rem 0 0; padding: 0; list-style: none; }
+    .route { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: start; gap: 2rem; padding-block: 1.5rem; }
+    .route + .route { border-top: 1px solid var(--rule); }
+    .route h3 a { display: inline-block; padding-block: .125rem; }
+    .route p { color: var(--body); max-width: 48ch; }
+    .source-note { border-top: 1px solid var(--rule); padding-block: 2rem 3rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2rem; color: var(--body); }
+    .source-note p { max-width: 52ch; }
+    footer { background: var(--surface); border-top: 1px solid var(--rule); }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; padding-block: 1.5rem; color: var(--body); }
+    .footer-inner a { display: inline-block; padding-block: .25rem; }
+    .skip { position: absolute; top: -6rem; left: 1rem; background: white; padding: .75rem 1rem; z-index: 2; }
     .skip:focus { top: .5rem; }
-    .repos { padding-left: 1.25rem; }
-    .repos li { margin-bottom: .75rem; }
-    code { overflow-wrap: anywhere; background: #e9eef3; padding: 0 .25rem; border-radius: .25rem; }
-    footer { border-top: 1px solid #c5cfd8; padding-top: 1rem; font-size: .95rem; }
+    @media (max-width: 56rem) {
+      .hero { gap: 2rem; }
+      .intro h1 { max-width: 12ch; }
+      .packet-caption, .packet-note { padding-inline: 1.125rem; }
+      .packet dl { padding-inline: 1.125rem; }
+    }
+    @media (max-width: 43rem) {
+      .masthead { padding-block: 1.5rem; }
+      .masthead p { max-width: 17ch; font-size: .8125rem; }
+      .hero { grid-template-columns: 1fr; gap: 3rem; padding-block: 1.5rem 3rem; }
+      .intro h1 { max-width: 13ch; }
+      .intro > p { max-width: 42ch; margin-top: 1.25rem; }
+      .primary { margin-top: 1.5rem; }
+      .packet { margin-left: .625rem; }
+      .routes { padding-block: 2.5rem 3rem; }
+      .route { grid-template-columns: 1fr; gap: .75rem; padding-block: 1.5rem; }
+      .source-note { grid-template-columns: 1fr; gap: 1rem; padding-block: 1.5rem 2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media print {
+      :root { background: white; }
+      .hero { padding-block: 1rem; }
+      .packet { box-shadow: none; }
+      .packet::before { display: none; }
+      .skip { display: none; }
+      a { color: inherit; }
+    }
   </style>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-  <main id="main" tabindex="-1">
-    <h1>Probity AI</h1>
-    <p class="intro">Check any verifier of signed AI-agent and supply-chain records against a public corpus. Start with the task you need.</p>
-    <section class="tasks" aria-label="Choose a task">
-      <article>
-        <h2><a href="https://probityai.github.io/agent-evidence-vectors/start.html">Test a verifier</a></h2>
-        <p>Run Probity Vectors against an evidence verifier. Follow the install commands and compare its results with known outcomes.</p>
-      </article>
-      <article>
-        <h2><a href="https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.html">Replay an evidence decision</a></h2>
-        <p>Check a retained file-action example. Inspect the first decision and refusals for replay, changed authority and altered signed bytes.</p>
-      </article>
-      <article>
-        <h2><a href="https://probityai.github.io/agent-evidence-atlas/start.html">Choose a component</a></h2>
-        <p>Find tools for observation, claim checks, admission policy, vocabulary, JSON and signatures. Each entry names its status and next step.</p>
-      </article>
-      <article>
-        <h2><a href="https://probityai.github.io/agent-evidence-atlas/lab.html">Inspect or contribute a run</a></h2>
-        <p>Use the Open Evidence Lab to read retained results and submit a reproducible evidence packet.</p>
-      </article>
+  <a class="skip t-body" href="#main">Skip to content</a>
+  <header class="shell masthead">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#214fe5"/><path d="M10 8h9l4 4v12H10zM14 16h5m-5 4h3" fill="none" stroke="white" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <span>Probity</span>
+    </div>
+    <p class="t-small">Open tools for agent evidence</p>
+  </header>
+  <main id="main" class="shell" tabindex="-1">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="intro">
+        <h1 id="page-title" class="t-hero">Check what your agent evidence proves.</h1>
+        <p class="t-lead">Test a verifier, replay a decision, or inspect a retained run. Start with one useful check and the bytes behind its result.</p>
+        <a class="primary t-body" href="https://probityai.github.io/agent-evidence-vectors/start.html">Test a verifier<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <p class="install-note t-small">Pinned Python and Go commands, conformance cases, and expected outcomes.</p>
+      </div>
+      <figure class="packet" aria-labelledby="packet-title">
+        <figcaption id="packet-title" class="packet-caption t-small"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2h7l4 4v12H5zM12 2v5h4M8 11h5m-5 3h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>A published Verify example</figcaption>
+        <dl>
+          <div class="field"><dt class="t-small">The claim</dt><dd>The report includes every selected source passage.</dd></div>
+          <div class="field"><dt class="t-small">The supplied evidence</dt><dd><ul class="evidence-list"><li>Source capture</li><li>Report</li><li>Consumer policy</li></ul></dd></div>
+          <div class="field"><dt class="t-small">The decision</dt><dd><span class="verdict"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>contradicted</span><code class="reason t-code">selected_span_missing_from_record</code></dd></div>
+        </dl>
+        <p class="packet-note t-small">The check completes. A selected passage is missing from the report. Read the decision before you approve an action.</p>
+      </figure>
     </section>
-    <p>Vectors tests verifier behavior. Verify checks a supplied claim against saved evidence. Use the component catalog to find the supported recipe.</p>
-    <section aria-labelledby="repos">
-      <h2 id="repos">Repositories and current releases</h2>
-      <ul class="repos">
-      <li><a href="https://github.com/probityai/agent-evidence-vectors">agent-evidence-vectors</a>: Conformance cases and reference verifiers for signed agent evidence. Release <a href="https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6">v0.17.6</a>; install with <code>pip install agent-evidence-vectors==0.17.6</code>.</li>
-      <li><a href="https://github.com/probityai/agent-evidence-admission">agent-evidence-admission</a>: OPA, Kyverno and policy-controller rules for admitting signed evidence. Release <a href="https://github.com/probityai/agent-evidence-admission/releases/tag/py-v0.1.0">py-v0.1.0</a>; install with <code>pip install agent-evidence-admission==0.1.0</code>.</li>
-      <li><a href="https://github.com/probityai/agent-evidence-vocabulary">agent-evidence-vocabulary</a>: Versioned terms and crosswalks for evidence claims. Release <a href="https://github.com/probityai/agent-evidence-vocabulary/releases/tag/v0.3.0">v0.3.0</a>; install with <code>git clone --branch v0.3.0 https://github.com/probityai/agent-evidence-vocabulary</code>.</li>
-      <li><a href="https://github.com/probityai/dsse">dsse</a>: Rust library to sign and verify DSSE envelopes. Release <a href="https://github.com/probityai/dsse/releases/tag/v0.1.2">v0.1.2</a>; install with <code>cargo add dsse@=0.1.2</code>.</li>
-      <li><a href="https://github.com/probityai/jcs-admit">jcs-admit</a>: Rust library that checks raw JSON before RFC 8785 canonicalization. Release <a href="https://github.com/probityai/jcs-admit/releases/tag/v0.1.1">v0.1.1</a>; install with <code>cargo add jcs-admit@=0.1.1</code>.</li>
-      <li><a href="https://github.com/probityai/agent-evidence-observer">agent-evidence-observer</a>: Records brokered file requests and reads selected delegation runs offline. No tagged release yet; the README gives source-pinned steps.</li>
-      <li><a href="https://github.com/probityai/probity-verify">probity-verify</a>: Checks supplied evidence bytes offline through claim-specific adapters. No tagged release yet; the README gives source-pinned steps.</li>
-      <li><a href="https://github.com/probityai/agent-evidence-atlas">agent-evidence-atlas</a>: Maps assurance claims to evidence, with the Open Evidence Lab run register. No tagged release yet; the README gives source-pinned steps.</li>
-      <li><a href="https://github.com/probityai/ratchet">ratchet</a>: Agent harness that turns each observed failure into an executable guard, proves it by replay against recorded history and fresh held-out runs before admitting it, and signs every admission decision with the <a href="https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md">agent change admission predicate</a>. Install with <code>pip install probity-ratchet==0.1.0</code>.</li>
+    <section class="routes" aria-labelledby="next-task">
+      <h2 id="next-task" class="t-heading">Follow the evidence.<br>Choose your next task.</h2>
+      <ul class="route-list">
+        <li class="route"><h3 class="t-title"><a href="https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.html">Replay an evidence decision</a></h3><p class="t-body">Reproduce a retained file-action example. Inspect its inputs and the refusals for changed authority, altered bytes and replay.</p></li>
+        <li class="route"><h3 class="t-title"><a href="https://probityai.github.io/agent-evidence-atlas/start.html">Choose a component</a></h3><p class="t-body">Find the tool for observation, claim checks, admission policy, vocabulary, JSON or signatures. The catalog keeps status and source pins together.</p></li>
+        <li class="route"><h3 class="t-title"><a href="https://probityai.github.io/agent-evidence-atlas/lab.html">Inspect or contribute a run</a></h3><p class="t-body">Read the Open Evidence Lab's retained results, follow their provenance, or submit a result another reader can check.</p></li>
       </ul>
     </section>
+    <aside class="source-note t-small" aria-label="Sources and versions">
+      <p>Project status and install routes live in the <a href="https://probityai.github.io/agent-evidence-atlas/start.html">Atlas catalog</a>. Historical runs keep the versions used for that run.</p>
+      <p>The example above comes from the <a href="https://github.com/probityai/probity-verify/blob/b920366397cb131232163706864a70723b867367/README.md">pinned Verify quickstart</a>. It checks supplied evidence; the example is not a live verification widget.</p>
+    </aside>
   </main>
-  <footer>
-    <a href="https://github.com/probityai">Source repositories</a>
-  </footer>
+  <footer><div class="shell footer-inner t-small"><span>Probity - open agent evidence tools</span><a href="https://github.com/probityai">Source repositories</a></div></footer>
 </body>
 </html>
