@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Done Receipt</title>
+<meta name="description" content="Type URI, version and schema of the Done Receipt in-toto predicate.">
+<link rel="canonical" href="https://probityai.github.io/probity/predicate/v1/done-receipt">
+<style>
+:root{color-scheme:light;--page:#eef4ff;--surface:#fff;--ink:#142d4e;--body:#344b65;--action:#214fe5;--rule:#c2d0e6;--type:"Avenir Next","Segoe UI",sans-serif;--code:ui-monospace,"SFMono-Regular",Consolas,monospace;font-family:var(--type);color:var(--ink);background:var(--page)}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.65 var(--type)}
+a{color:var(--action);text-underline-offset:.22em}a:focus-visible{outline:3px solid #142d4e;outline-offset:3px}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,3rem)}
+header{padding-block:2rem}header a{font-weight:700;font-size:1.5rem;letter-spacing:-.04em;text-decoration:none;color:var(--ink)}
+h1{font:700 clamp(1.875rem,1.4rem+1.6vw,2.5rem)/1.15 var(--type);letter-spacing:-.025em;margin:0 0 1rem}
+h2{font:700 1.375rem/1.3 var(--type);margin:2.25rem 0 .75rem}
+p,ul{color:var(--body);margin:.75rem 0}code{font-family:var(--code);font-size:.875em;overflow-wrap:anywhere}
+.uri{background:var(--surface);border:1px solid var(--rule);border-radius:.375rem;padding:.75rem 1rem;display:block}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:.375rem;padding:1rem;overflow-x:auto;font:400 .8125rem/1.6 var(--code);margin:.75rem 0}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-size:.9375rem}
+th,td{border:1px solid var(--rule);padding:.5rem .75rem;text-align:left;vertical-align:top}
+footer{border-top:1px solid var(--rule);background:var(--surface);margin-top:3rem;padding-block:1.5rem;color:var(--body)}
+.scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://probityai.github.io/">Probity</a></header>
+<main class="shell">
+<h1>Predicate type: Done Receipt</h1>
+<p>Type URI:</p>
+<code class="uri">https://probityai.github.io/probity/predicate/v1/done-receipt</code>
+<p>Version 0.1.0. Status: draft, self-hosted predicate type URI.</p>
+<h2>Purpose</h2><p>Records the verdict of an outside verifier on one claim: that a coding agent finished its task. The receipt names the records the verdict rests on by digest, carries three checks and the verdict they give, and carries what the agent did outside its workspace. A reader recomputes every one of them from the records, so the receipt asserts nothing a reader cannot check. It is computed over a <a href="https://probityai.github.io/probity/predicate/v1/done-contract">Done Contract</a>.</p>
+<h2>The three checks</h2><div class="scroll"><table><thead><tr><th>Claim type</th><th>Question</th></tr></thead><tbody><tr><td><code>protected_paths/v1</code></td><td>Did the agent leave the contract's protected paths alone?</td></tr><tr><td><code>acceptance_observed/v1</code></td><td>Do the contract's acceptance commands pass when a separate verifier runs them on the agent's final tree?</td></tr><tr><td><code>tool_claim_match/v1</code></td><td>Did every command the agent says it ran actually run, after its last edit?</td></tr></tbody></table></div><p>Each returns <code>supported</code>, <code>contradicted</code> or <code>not_established</code>. <code>not_established</code> is an answer, not a failure: the records did not allow either of the others, and the receipt says which record was missing.</p><h2>Model</h2><p>The producer is an outside verifier. The <strong>subject</strong> is the agent's final workspace: one member whose <code>sha256</code> digest equals <code>tree_sha256</code> of the tree record. <code>predicateType</code> must equal the type URI above. The records named in <code>records</code> travel beside the receipt, and a reader that does not hold one refuses the receipt rather than trust the carried verdict.</p><h2>Schema</h2><pre>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;workspace-tree&quot;, &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;tree_sha256 of the tree record&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://probityai.github.io/probity/predicate/v1/done-receipt&quot;,
+  &quot;predicate&quot;: {
+    &quot;schema_version&quot;: &quot;probity-done-receipt/v1&quot;,
+    &quot;claim_id&quot;: &quot;&lt;the records&#x27; claim_id&gt;&quot;,
+    &quot;invocation_id&quot;: &quot;&lt;the records&#x27; invocation_id&gt;&quot;,
+    &quot;records&quot;: {
+      &quot;contract&quot;:    { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;tree&quot;:        { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;observation&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;capability&quot;:  { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;grade&quot;:       { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;claims&quot;:      { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;launch&quot;:         { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+      &quot;launch_receipt&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex&gt;&quot; }
+    },
+    &quot;checks&quot;: [
+      { &quot;claim_type&quot;: &quot;protected_paths/v1&quot;, &quot;decision&quot;: &quot;supported&quot;,
+        &quot;reason&quot;: &quot;protected_paths_untouched&quot;, &quot;vantage&quot;: &quot;independent&quot;,
+        &quot;witness_scope&quot;: &quot;PEER&quot; },
+      { &quot;claim_type&quot;: &quot;acceptance_observed/v1&quot;, &quot;...&quot;: &quot;...&quot; },
+      { &quot;claim_type&quot;: &quot;tool_claim_match/v1&quot;, &quot;...&quot;: &quot;...&quot; }
+    ],
+    &quot;verdict&quot;: { &quot;decision&quot;: &quot;supported&quot;, &quot;reason&quot;: &quot;done_checks_supported&quot;,
+                 &quot;vantage&quot;: &quot;independent&quot;, &quot;witness_scope&quot;: &quot;PEER&quot; },
+    &quot;external_effects&quot;: [],
+    &quot;policy&quot;: { &quot;table_sha256&quot;: &quot;&lt;64-hex&gt;&quot; },
+    &quot;stop_decision&quot;: { &quot;action&quot;: &quot;continue&quot;, &quot;reason&quot;: &quot;done_checks_supported&quot; },
+    &quot;verifier_isolation&quot;: { &quot;contract_sha256&quot;: &quot;&lt;64-hex&gt;&quot;, &quot;...&quot;: &quot;...&quot; }
+  }
+}</pre><p><code>checks</code> has exactly three entries in the order above. The optional members are <code>policy</code>, <code>stop_decision</code>, <code>verifier_isolation</code>, and the two launch records, which come together.</p><h2>The done verdict</h2><ol style="color:var(--body)"><li>If any check is <code>contradicted</code>, the verdict is <code>contradicted</code> with the first such check's reason.</li><li>Otherwise, if <code>external_effects</code> holds a mutation at a path a grader loads or writes its result to, the verdict is <code>contradicted</code> with reason <code>external_effect_on_grader_path</code>.</li><li>Otherwise, if all three are <code>supported</code>, the verdict is <code>supported</code> with reason <code>done_checks_supported</code>.</li><li>Otherwise the verdict is <code>not_established</code> with the reason of the first check that is.</li></ol><h2>Vantage and witness scope</h2><p>A <code>supported</code> or <code>contradicted</code> check reports <code>vantage: independent</code> when every record it rests on met its independence pin, and a <code>witness_scope</code> of <code>EXTERNAL</code> only when every such record says <code>EXTERNAL</code>; otherwise <code>PEER</code>. A <code>not_established</code> check reports <code>vantage: unestablished</code> and no scope.</p>
+<h2>Specification and vectors</h2><ul><li><a href="https://github.com/probityai/agent-evidence-vectors/blob/main/spec/predicates/done-receipt.md">Specification: done-receipt</a></li><li><a href="https://github.com/probityai/agent-evidence-vectors/blob/main/spec/predicates/done-records.md">Record rules: done-records</a></li><li><a href="https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-done-receipt">Conformance vectors: vectors-done-receipt</a></li><li><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence Vectors</a></li></ul>
+<p>The URI of this page is the predicate type URI. It does not change once a signed statement carries it.</p>
+</main>
+<footer><div class="shell"><a href="https://probityai.github.io/">Probity</a> - open tools for agent evidence</div></footer>
+</body>
+</html>
