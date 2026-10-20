@@ -270,6 +270,7 @@ try {
   await stopBrowser();
   await new Promise(resolve => server.close(resolve));
   log.end();
-  await rm(profile, { recursive: true, force: true });
+  // Chrome's helper processes can still be writing the profile after the main process exits.
+  await rm(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
 }
 console.log(JSON.stringify(receipt, null, 2));
