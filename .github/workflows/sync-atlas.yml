@@ -89,7 +89,14 @@ jobs:
             echo "::error::the task-route check on ${branch} ended '${conclusion}'"
             exit 1
           fi
-          git push origin "HEAD:main"
+          # The check result can take a few seconds to register against the commit, and main's rule
+          # refuses the push until it does, so the push is retried for about two minutes.
+          pushed=""
+          for _ in $(seq 1 12); do
+            if git push origin "HEAD:main"; then pushed=yes; break; fi
+            sleep 10
+          done
+          [ -n "${pushed}" ] || { echo "::error::main refused the Atlas commit after retries"; exit 1; }
           git push origin --delete "${branch}"
           echo "published=${sha}" >> "$GITHUB_ENV"
       - name: Read the served register back
