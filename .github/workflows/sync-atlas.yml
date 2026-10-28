@@ -8,12 +8,12 @@ name: Publish the Atlas
 # the commit, and the organisation does not let Actions open pull requests or use deploy keys.
 #
 # It pulls, because a push from agent-evidence would need a stored personal token. The schedule
-# bounds the delay at about ten minutes after a merge; a push to main also runs it, and it can be
+# bounds the delay at about fifteen minutes after a merge; a push to main also runs it, and it can be
 # run by hand from the Actions tab. A run whose result matches pages-live stops after the comparison.
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "7,22,37,52 * * * *"
   push:
     branches: [main]
   workflow_dispatch:
