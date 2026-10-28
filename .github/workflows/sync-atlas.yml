@@ -1,0 +1,88 @@
+name: Publish the Atlas
+
+# The Agent Evidence Atlas is built in probityai/agent-evidence under site/ and served here at
+# https://probityai.github.io/agent-evidence-atlas/. This workflow copies agent-evidence main's
+# site/docs into agent-evidence-atlas/ whenever the two differ, so a merged change there reaches
+# the served pages without a hand copy. A run with nothing to publish stops after the comparison.
+#
+# It pulls, because the organisation does not allow deploy keys on this repository and a push
+# from agent-evidence would need a stored personal token. The schedule bounds the delay at about
+# ten minutes after a merge; run it by hand from the Actions tab to publish at once.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-atlas
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'probityai/probityai.github.io'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: pages
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: probityai/agent-evidence
+          ref: main
+          path: source
+          persist-credentials: false
+          sparse-checkout: site
+      - name: Compare the built site with the served copy
+        id: diff
+        run: |
+          set -euo pipefail
+          changes="$(rsync -rc --delete --dry-run --itemize-changes source/site/docs/ pages/agent-evidence-atlas/ | grep -v '/$' | grep -c . || true)"
+          echo "changed entries: ${changes}"
+          echo "changes=${changes}" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        if: steps.diff.outputs.changes != '0'
+        with:
+          python-version: "3.12"
+      - name: Install pandoc 3.3
+        if: steps.diff.outputs.changes != '0'
+        run: |
+          curl -sSL -o pandoc.deb https://github.com/jgm/pandoc/releases/download/3.3/pandoc-3.3-1-amd64.deb
+          echo "7a6625d5aeb6b8666375807a3e16cc00659c48fb88299707651f60d88c31a360  pandoc.deb" | sha256sum -c -
+          sudo dpkg -i pandoc.deb
+      - name: Require docs/ to match its sources
+        if: steps.diff.outputs.changes != '0'
+        working-directory: source/site
+        run: python3 tools/build.py --check
+      - name: Copy and commit
+        if: steps.diff.outputs.changes != '0'
+        run: |
+          set -euo pipefail
+          sha="$(git -C source rev-parse HEAD)"
+          rsync -rc --delete source/site/docs/ pages/agent-evidence-atlas/
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A agent-evidence-atlas
+          git commit -m "Publish the Atlas from agent-evidence ${sha}"
+          git push origin HEAD:main
+          echo "published=${sha}" >> "$GITHUB_ENV"
+      - name: Read the served register back
+        if: steps.diff.outputs.changes != '0'
+        run: |
+          set -euo pipefail
+          want="$(sha256sum source/site/docs/lab/register.json | cut -d' ' -f1)"
+          for _ in $(seq 1 45); do
+            got="$(curl -fsSL "https://probityai.github.io/agent-evidence-atlas/lab/register.json?sync=${published}" | sha256sum | cut -d' ' -f1 || true)"
+            if [ "${got}" = "${want}" ]; then
+              echo "served lab/register.json matches ${published} (${want})"
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "::error::the served lab/register.json is ${got}, expected ${want}"
+          exit 1
