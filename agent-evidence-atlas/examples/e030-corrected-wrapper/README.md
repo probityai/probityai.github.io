@@ -32,4 +32,4 @@ an invocation. The native report has no invocation token.
 | Inputs, field meanings and ownership | [Source map](docs/SOURCE-MAP.md) |
 | Run and comparison contract | [Contract](docs/CONTRACT.md) |
 | Historical vector, preserved at its original pin | [Original Atlas vector](https://github.com/probityai/agent-evidence-atlas/blob/89250120e9cafe14eafb87eaa9c1454bab64683c/experiments/aps-priorseal-source-replay/check-run-contract.mjs) |
-| Already kept outside check | [E030 run](https://github.com/probityai/agent-evidence-atlas/issues/43) |
+| Already kept outside check | [E030 run](https://github.com/probityai/agent-evidence/issues/31) |

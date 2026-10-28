@@ -17,7 +17,7 @@ shows each claim result, the operator roles and the unexercised claims.
 - The first reported run had one false alarm: a Python heredoc wrote documentation naming a force push; no push occurred
 - The corrected source treats heredoc data separately, handles --mirror and ignores a dry run. The public test source and the default pytest selection bind the regression.
 - The hosted suite reports 1,431 tests passed, one skipped and nine deselected. It is not a fresh replay of private historical transcripts.
-- This packet copies no private transcript or private Ratchet core source. It does not establish production prevention or revenue.
+- This packet copies no private transcript or private source. It does not establish production prevention or revenue.
 
 ## Original result
 

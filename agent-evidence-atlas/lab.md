@@ -26,9 +26,10 @@ The Open Evidence Lab helps teams test a specific question like this. A useful r
 | Which NIST AI 300-1 structural and mutation checks actually ran? | [Read the retained case](runs.md#record-nist-ai300-1-checker-2026-10-13). |
 | Can genuine signatures survive a broken or rolled-back stored history? | [Read the retained case](runs.md#record-signed-history-boundaries-2026-10-13). |
 | Did the guard distinguish a benign document from an actual force push? | [Read the retained case](runs.md#record-ratchet-benign-heredoc-2026-10-15). |
-| How do I check approval, retries, and a missing acknowledgement? | [Read the refund example](https://github.com/probityai/agent-evidence-observer/blob/main/docs/APS-REFUND-RETRIES.md). |
+| How do I check approval, retries, and a missing acknowledgement? | [Read the refund example](https://github.com/probityai/probity/blob/main/packages/observer/docs/APS-REFUND-RETRIES.md). |
 | Did a database write match its approval, even if the state changed later? | [Try the SQL example](approved-sql.md) and bring a native audit pair. |
 | Did the agent change the call after approval, or did the resource change later? | [Compare the request/effect cases](request-effect-join.md) and bring a reader or retained run. |
+| Did an agent purchase that was approved get charged, ordered and delivered as approved? | [Read the checkout assessment](agent-checkout-assessment.md) and run the public refund-handoff cases. |
 | Does an approved target, completion report or later observation establish the same thing? | [Try the authority and effect controls](authority-effect-cases.md) and compare the separate conclusions. |
 | Does a signed native result identify the selected report without enlarging its claim? | [Replay the independent M1 consumer](trace-m1-consumer.md) and inspect its retained decisions. |
 | How do I replay an existing result? | [Open the retained replay procedure](#start-with-a-run-that-exists) in the technical notes below. |
@@ -43,9 +44,9 @@ Probity offers working examples, verification tools, a shared result page, and h
 
 You keep control of your implementation, policy, and original result. The first contribution is a concrete experiment with a named owner. A run in the Lab does not appoint your project to a coalition role or establish its endorsement.
 
-Have a tool, a check, or a problem to work on? [Join the collaboration thread](https://github.com/probityai/agent-evidence-atlas/issues/49) and tell us about it.
+Have a tool, a check, or a problem to work on? [Join the collaboration thread](https://github.com/probityai/agent-evidence/issues/24) and tell us about it.
 
-[Propose a run](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-run.yml). Describe the question and the evidence you can supply. The form and technical protocol list the inputs needed for review.
+[Propose a run](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml). Describe the question and the evidence you can supply. The form and technical protocol list the inputs needed for review.
 
 <a id="read-a-result-with-its-limits"></a>
 
@@ -53,7 +54,7 @@ Have a tool, a check, or a problem to work on? [Join the collaboration thread](h
 
 A signature check, an authorization decision, and an observed effect answer different questions. A result should say which it checked. Missing evidence must remain visible. A run by the author can be useful without establishing that another operator independently controlled its keys or observations.
 
-Keep the original report separate from later comparisons or corrections. [Report a correction](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-correction.yml) when the retained evidence does not support a claim.
+Keep the original report separate from later comparisons or corrections. [Report a correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) when the retained evidence does not support a claim.
 
 <a id="technical-protocol-and-retained-run-notes"></a>
 
@@ -70,7 +71,7 @@ Protocol draft 0.1.9. Register updated 11 October 2026. The register retains nat
 
 Maintainers can use this protocol to submit a verifier run, a host-project CI integration, or an observer/witness experiment. Each record names its contract, retained inputs, implementation and operators, and reports what passed, failed or remained untested. Probity maintains this register. A listed result makes no membership, endorsement or adoption commitment on behalf of another project.
 
-[Submit a run](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-run.yml) or [report a correction](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-correction.yml). The forms request the evidence needed for review. The [machine-readable register](lab/register.json), [experiments](experiments.md) and [claim ledger](claims.md) retain the supporting records.
+[Submit a run](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml) or [report a correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml). The forms request the evidence needed for review. The [machine-readable register](lab/register.json), [experiments](experiments.md) and [claim ledger](claims.md) retain the supporting records.
 
 [Find a retained run](runs.md) by a claim, declared role, limit or per-claim result. Each entry links its original report, provenance and contract. The browser keeps the recorded result tokens and does not assign a grade to the whole run.
 
@@ -99,6 +100,12 @@ The source records four valid, fourteen invalid and two indeterminate SDK observ
 Five upstream draft annotations remain separate from those outcome counts: `did-web-resolver-not-found`, `expired`, `not-yet-valid`, `record-type-changed` and `version-changed`. The reader uses supplied resolver answers and evaluation times. It does not establish historical key authority, principal binding or live identity acceptance. Ed25519 checks use cryptography/OpenSSL; the reader does not import the APS SDK or claim an independent cryptographic backend.
 
 The original overall run remains adverse. Both selected SDK invocations stopped at IPC creation before corpus evaluation, and their original locked dependency audit retains three high entries and two advisories. The useful reader result stays separate from those failures, whole-SDK qualification, federation enrollment and host adoption. All earlier register objects and evidence bytes are unchanged.
+
+<a id="revision-2-of-the-corrected-corpus"></a>
+
+### Revision 2 of the corrected corpus
+
+APS/AEOESS then published revision 2 of the file, at `e061462cea95b029203374496bbd14488d8d2993`, SHA-256 `9bd1f1849910c85f0555baf8efaa529aa9d057dce13c24606285b8643a003b89`. Probity ran the same reader over it with a small [retained diff](experiments/aps-corrected20-r2-2026-10-27/reader-diff-from-r1.diff). The [report](experiments/aps-corrected20-r2-2026-10-27/report.json) shows source and reader both at four valid, eleven invalid, three indeterminate and two unsupported outcomes, with all 20 outcomes, layer maps and resolver requests in agreement and no declared difference. Its raw byte checks match the revision 1 report on all 20 cases. The producer moved three expected outcomes to the values the revision 1 report returned, so this confirms the revision and is not a new blind test. The [source and run record](experiments/aps-corrected20-r2-2026-10-27/README.md) holds the hash-pinned requirements and the replay command. The revision 1 record above stays as published, and no SDK invocation or dependency audit was repeated.
 
 <a id="outside-receipt-verifier-and-primitive-identifier-checks"></a>
 
@@ -258,10 +265,10 @@ The first register entry is [E6: observer declaration, admission and replay](exp
 On Linux, use the actual checked-in runner and retained bytes:
 
 ``` sh
-git clone https://github.com/probityai/agent-evidence-atlas atlas
+git clone https://github.com/probityai/agent-evidence/tree/main/site atlas
 cd atlas
 git checkout --detach 91a0759e459acee8355e2f9aba34f8e80d19e038
-git clone https://github.com/probityai/agent-evidence-observer .observer-source
+git clone https://github.com/probityai/probity/tree/main/packages/observer .observer-source
 git -C .observer-source checkout --detach 8562c25fb7ec97596ea9d0297c495340298914b6
 uv venv --python 3.12.14 .venv
 UV_LINK_MODE=copy uv pip install --python .venv/bin/python cryptography==46.0.7
@@ -336,7 +343,7 @@ A submission starts as **submitted**. Review can classify individual claims as *
 
 Review returns an explicit missing field, unresolved rule, counterexample or evidence mismatch. Changed source bytes without a new revision, missing raw outputs, answer-key exposure described as blind, an accept-all control that succeeds, bundled keys described as independently pinned, and missing observations counted as success block the affected claim. A useful failed or partial run can still be retained as a gap record.
 
-Use the [correction form](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-correction.yml) with the record ID, challenged claim, immutable counterevidence and proposed correction. A corrective pull request marks the affected claim disputed or superseded, links the replacement record and preserves the original result and review trail. Do not rewrite an old run to look like the corrected experiment. Scope or contract disagreements remain named until the relevant specification owner resolves them.
+Use the [correction form](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) with the record ID, challenged claim, immutable counterevidence and proposed correction. A corrective pull request marks the affected claim disputed or superseded, links the replacement record and preserves the original result and review trail. Do not rewrite an old run to look like the corrected experiment. Scope or contract disagreements remain named until the relevant specification owner resolves them.
 
 <a id="connections-to-current-upstream-work"></a>
 
