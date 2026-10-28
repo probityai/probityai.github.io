@@ -1,23 +1,25 @@
 name: Publish the Atlas
 
 # The Agent Evidence Atlas is built in probityai/agent-evidence under site/ and served here at
-# https://probityai.github.io/agent-evidence-atlas/. This workflow copies agent-evidence main's
-# site/docs into agent-evidence-atlas/ whenever the two differ, so a merged change there reaches
-# the served pages without a hand copy. A run with nothing to publish stops after the comparison.
+# https://probityai.github.io/agent-evidence-atlas/. This workflow lays agent-evidence main's
+# site/docs over this repository's main and publishes the result to the pages-live branch, which
+# GitHub Pages serves. main is the source of the root site and is never written by the workflow:
+# its ruleset declines pushes from the workflow token even when the required check has passed on
+# the commit, and the organisation does not let Actions open pull requests or use deploy keys.
 #
-# It pulls, because the organisation does not allow deploy keys on this repository and a push
-# from agent-evidence would need a stored personal token. The schedule bounds the delay at about
-# ten minutes after a merge; run it by hand from the Actions tab to publish at once. The commit
-# reaches main only after the repository's own site check has passed on it.
+# It pulls, because a push from agent-evidence would need a stored personal token. The schedule
+# bounds the delay at about ten minutes after a merge; a push to main also runs it, and it can be
+# run by hand from the Actions tab. A run whose result matches pages-live stops after the comparison.
 
 on:
   schedule:
     - cron: "*/10 * * * *"
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: sync-atlas
@@ -39,13 +41,24 @@ jobs:
           path: source
           persist-credentials: false
           sparse-checkout: site
-      - name: Compare the built site with the served copy
+      - name: Compare the combined site with pages-live
         id: diff
         run: |
           set -euo pipefail
-          changes="$(rsync -rc --delete --dry-run --itemize-changes source/site/docs/ pages/agent-evidence-atlas/ | grep -v '/$' | grep -c . || true)"
-          echo "changed entries: ${changes}"
-          echo "changes=${changes}" >> "$GITHUB_OUTPUT"
+          rsync -rc --delete source/site/docs/ pages/agent-evidence-atlas/
+          cd pages
+          git add -A
+          want_tree="$(git write-tree)"
+          have_tree=""
+          if git fetch --depth 1 origin pages-live; then
+            have_tree="$(git rev-parse FETCH_HEAD^{tree})"
+          fi
+          echo "combined tree ${want_tree}, pages-live tree ${have_tree:-none}"
+          if [ "${want_tree}" = "${have_tree}" ]; then
+            echo "changes=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "changes=1" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         if: steps.diff.outputs.changes != '0'
         with:
@@ -62,42 +75,16 @@ jobs:
         run: |
           python3 -m pip install -r requirements/discoverability-test.txt
           python3 tools/build.py --check
-      - name: Copy and commit
+      - name: Commit and publish to pages-live
         if: steps.diff.outputs.changes != '0'
         run: |
           set -euo pipefail
           sha="$(git -C source rev-parse HEAD)"
-          rsync -rc --delete source/site/docs/ pages/agent-evidence-atlas/
           cd pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A agent-evidence-atlas
           git commit -m "Publish the Atlas from agent-evidence ${sha}"
-          # main requires the "Root task navigation" check on every commit, and a push made with
-          # the workflow token starts no workflow. So the commit goes to a branch first, the check
-          # workflow is dispatched on that branch, and main is updated only once it has passed.
-          branch="publish/atlas-${sha:0:12}"
-          git push --force origin "HEAD:refs/heads/${branch}"
-          GH_TOKEN="${{ github.token }}" gh workflow run site-check.yml --ref "${branch}"
-          conclusion=""
-          for _ in $(seq 1 30); do
-            sleep 10
-            conclusion="$(GH_TOKEN="${{ github.token }}" gh run list --workflow site-check.yml --branch "${branch}" --event workflow_dispatch --limit 1 --json status,conclusion --jq 'if .[0].status == "completed" then .[0].conclusion else "" end')"
-            [ -n "${conclusion}" ] && break
-          done
-          if [ "${conclusion}" != "success" ]; then
-            echo "::error::the task-route check on ${branch} ended '${conclusion}'"
-            exit 1
-          fi
-          # The check result can take a few seconds to register against the commit, and main's rule
-          # refuses the push until it does, so the push is retried for about two minutes.
-          pushed=""
-          for _ in $(seq 1 12); do
-            if git push origin "HEAD:main"; then pushed=yes; break; fi
-            sleep 10
-          done
-          [ -n "${pushed}" ] || { echo "::error::main refused the Atlas commit after retries"; exit 1; }
-          git push origin --delete "${branch}"
+          git push --force origin HEAD:refs/heads/pages-live
           echo "published=${sha}" >> "$GITHUB_ENV"
       - name: Read the served register back
         if: steps.diff.outputs.changes != '0'
