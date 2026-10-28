@@ -7,7 +7,8 @@ name: Publish the Atlas
 #
 # It pulls, because the organisation does not allow deploy keys on this repository and a push
 # from agent-evidence would need a stored personal token. The schedule bounds the delay at about
-# ten minutes after a merge; run it by hand from the Actions tab to publish at once.
+# ten minutes after a merge; run it by hand from the Actions tab to publish at once. The commit
+# reaches main only after the repository's own site check has passed on it.
 
 on:
   schedule:
@@ -16,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: sync-atlas
@@ -71,7 +73,24 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A agent-evidence-atlas
           git commit -m "Publish the Atlas from agent-evidence ${sha}"
-          git push origin HEAD:main
+          # main requires the "Root task navigation" check on every commit, and a push made with
+          # the workflow token starts no workflow. So the commit goes to a branch first, the check
+          # workflow is dispatched on that branch, and main is updated only once it has passed.
+          branch="publish/atlas-${sha:0:12}"
+          git push --force origin "HEAD:refs/heads/${branch}"
+          GH_TOKEN="${{ github.token }}" gh workflow run site-check.yml --ref "${branch}"
+          conclusion=""
+          for _ in $(seq 1 30); do
+            sleep 10
+            conclusion="$(GH_TOKEN="${{ github.token }}" gh run list --workflow site-check.yml --branch "${branch}" --event workflow_dispatch --limit 1 --json status,conclusion --jq 'if .[0].status == "completed" then .[0].conclusion else "" end')"
+            [ -n "${conclusion}" ] && break
+          done
+          if [ "${conclusion}" != "success" ]; then
+            echo "::error::the task-route check on ${branch} ended '${conclusion}'"
+            exit 1
+          fi
+          git push origin "HEAD:main"
+          git push origin --delete "${branch}"
           echo "published=${sha}" >> "$GITHUB_ENV"
       - name: Read the served register back
         if: steps.diff.outputs.changes != '0'
