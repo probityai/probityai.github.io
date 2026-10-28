@@ -57,7 +57,9 @@ jobs:
       - name: Require docs/ to match its sources
         if: steps.diff.outputs.changes != '0'
         working-directory: source/site
-        run: python3 tools/build.py --check
+        run: |
+          python3 -m pip install -r requirements/discoverability-test.txt
+          python3 tools/build.py --check
       - name: Copy and commit
         if: steps.diff.outputs.changes != '0'
         run: |
