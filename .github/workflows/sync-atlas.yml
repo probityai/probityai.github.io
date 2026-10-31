@@ -1,13 +1,13 @@
 name: Publish the Atlas
 
-# The Agent Evidence Atlas is built in probityai/agent-evidence under site/ and served here at
-# https://probityai.github.io/agent-evidence-atlas/. This workflow lays agent-evidence main's
+# The Agent Evidence Atlas is built in probityai/agent-evidence-vectors under site/ and served here at
+# https://probityai.github.io/agent-evidence-atlas/. This workflow lays agent-evidence-vectors main's
 # site/docs over this repository's main and publishes the result to the pages-live branch, which
 # GitHub Pages serves. main is the source of the root site and is never written by the workflow:
 # its ruleset declines pushes from the workflow token even when the required check has passed on
 # the commit, and the organisation does not let Actions open pull requests or use deploy keys.
 #
-# It pulls, because a push from agent-evidence would need a stored personal token. The schedule
+# It pulls, because a push from agent-evidence-vectors would need a stored personal token. The schedule
 # bounds the delay at about fifteen minutes after a merge; a push to main also runs it, and it can be
 # run by hand from the Actions tab. A run whose result matches pages-live stops after the comparison.
 
@@ -36,7 +36,7 @@ jobs:
           path: pages
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: probityai/agent-evidence
+          repository: probityai/agent-evidence-vectors
           ref: main
           path: source
           persist-credentials: false
@@ -83,7 +83,7 @@ jobs:
           cd pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Publish the Atlas from agent-evidence ${sha}"
+          git commit -m "Publish the Atlas from agent-evidence-vectors ${sha}"
           git push --force origin HEAD:refs/heads/pages-live
           echo "published=${sha}" >> "$GITHUB_ENV"
       - name: Read the served register back
