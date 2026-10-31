@@ -1,9 +1,11 @@
-name: Publish the Atlas
+name: Publish the Atlas and the identifier pages
 
 # The Agent Evidence Atlas is built in probityai/agent-evidence-vectors under site/ and served here at
-# https://probityai.github.io/agent-evidence-atlas/. This workflow lays agent-evidence-vectors main's
-# site/docs over this repository's main and publishes the result to the pages-live branch, which
-# GitHub Pages serves. main is the source of the root site and is never written by the workflow:
+# https://probityai.github.io/agent-evidence-atlas/. The pages behind the persistent identifiers under
+# https://w3id.org/agent-evidence/ are built in the same repository under pages/ and served here at
+# https://probityai.github.io/agent-evidence/. This workflow lays agent-evidence-vectors main's
+# site/docs and pages/ over this repository's main and publishes the result to the pages-live
+# branch, which GitHub Pages serves. main is the source of the root site and is never written by the workflow:
 # its ruleset declines pushes from the workflow token even when the required check has passed on
 # the commit, and the organisation does not let Actions open pull requests or use deploy keys.
 #
@@ -40,18 +42,22 @@ jobs:
           ref: main
           path: source
           persist-credentials: false
-          sparse-checkout: site
+          sparse-checkout: |
+            site
+            pages
+            scripts/check_predicate_pages.py
       - name: Compare the combined site with pages-live
         id: diff
         run: |
           set -euo pipefail
           rsync -rc --delete source/site/docs/ pages/agent-evidence-atlas/
+          rsync -rc --delete source/pages/ pages/agent-evidence/
           cd pages
           git add -A
           want_tree="$(git write-tree)"
           have_tree=""
           if git fetch --depth 1 origin pages-live; then
-            have_tree="$(git rev-parse FETCH_HEAD^{tree})"
+            have_tree="$(git rev-parse "FETCH_HEAD^{tree}")"
           fi
           echo "combined tree ${want_tree}, pages-live tree ${have_tree:-none}"
           if [ "${want_tree}" = "${have_tree}" ]; then
@@ -75,6 +81,9 @@ jobs:
         run: |
           python3 -m pip install -r requirements/discoverability-test.txt
           python3 tools/build.py --check
+      - name: Require every predicate page to match its pin
+        if: steps.diff.outputs.changes != '0'
+        run: python3 source/scripts/check_predicate_pages.py
       - name: Commit and publish to pages-live
         if: steps.diff.outputs.changes != '0'
         run: |
@@ -83,7 +92,7 @@ jobs:
           cd pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Publish the Atlas from agent-evidence-vectors ${sha}"
+          git commit -m "Publish the Atlas and the identifier pages from agent-evidence-vectors ${sha}"
           git push --force origin HEAD:refs/heads/pages-live
           echo "published=${sha}" >> "$GITHUB_ENV"
       - name: Read the served register back
@@ -100,4 +109,19 @@ jobs:
             sleep 20
           done
           echo "::error::the served lab/register.json is ${got}, expected ${want}"
+          exit 1
+      - name: Read the served identifier page back
+        if: steps.diff.outputs.changes != '0'
+        run: |
+          set -euo pipefail
+          want="$(sha256sum source/pages/predicate/v1/PAGES.sha256 | cut -d' ' -f1)"
+          for _ in $(seq 1 45); do
+            got="$(curl -fsSL "https://probityai.github.io/agent-evidence/predicate/v1/PAGES.sha256?sync=${published}" | sha256sum | cut -d' ' -f1 || true)"
+            if [ "${got}" = "${want}" ]; then
+              echo "served agent-evidence/predicate/v1/PAGES.sha256 matches ${published} (${want})"
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "::error::the served agent-evidence/predicate/v1/PAGES.sha256 is ${got}, expected ${want}"
           exit 1
