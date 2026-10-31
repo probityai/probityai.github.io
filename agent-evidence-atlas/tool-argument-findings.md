@@ -2,7 +2,7 @@
 
 The authored CPU tool-argument study scored all 128 planned attempts. Every 24-token response reaches its cap before valid JSON. Every 96-token response satisfies its selected schema. At that longer cap, the smaller model scores 0/16 and the larger model 7/16 in each mode. Neither mode produces a correct abstention or fully correct contrast pair. All eight strict quality rows hold. [Claims P-51–P-56](claims.md) supply sources, read times, commands and limits.
 
-These are exposed authored tool-argument and abstention cases, not a representative model benchmark. The run supports publication of this scoped evidence report. All task-quality gates remain held; model-action admission, dispatch, recovery and protected effects require their own authority.
+These are exposed authored tool-argument and abstention cases, not a representative model benchmark. The run supports publishing this report within that scope. Task-quality gates stay held. Admitting a model action, dispatching it, recovering it and producing protected effects each need their own authority.
 
 <a id="prospectively-selected-population"></a>
 

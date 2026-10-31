@@ -18,7 +18,7 @@ The files in the repository, the rule for releasing an artifact, and the command
 | `data/catalog.json`, `data/catalog-sources.json` | Reviewed project identities, tasks and pinned README sources. |
 | `tools/discovery.py`, `tools/discoverability/` | Task navigation and machine indexes used by the site build. |
 | `src/pilot.md` | The proposed APS and PriorSeal pilot status, acceptance gates and open decisions; separate from measured Lab records. |
-| `tools/check_lab.py` | Checks register artifact hashes and measured-field bindings before the site builds. Review of claim meaning and operational independence remains explicit. |
+| `tools/check_lab.py` | Checks register artifact hashes and measured-field bindings before the site builds. Whether a claim means what it says, and whether anyone independent ran it, is still reviewed by hand. |
 | `tools/build.py`, `tools/template.html`, `assets/site.css` | The site build: HTML and readable Markdown from the same expanded source, failing on any pandoc warning. |
 | `tools/gen_atlas.py`, `templates/atlas.md.in` | Renders the atlas page from `data/atlas.toml`. |
 | `tools/markdown_mirrors.py` | Preserves visible page content, code and stable fragments in readable Markdown. |

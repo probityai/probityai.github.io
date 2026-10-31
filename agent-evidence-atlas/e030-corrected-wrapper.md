@@ -6,7 +6,7 @@ A wrapper can finish successfully and still leave you without a usable report. T
 
 The corrected Frequency wrapper now returns failed command exits. It still prints `PASS` when an exit-zero verifier produces no report or a bad one. The reader catches those cases and keeps each raw result.
 
-[Run the example](examples/e030-corrected-wrapper/README.md), compare another wrapper, or keep the check in your CI. Bring your output to the [shared case thread](https://github.com/probityai/agent-evidence-atlas/issues/43).
+[Run the example](examples/e030-corrected-wrapper/README.md), compare another wrapper, or keep the check in your CI. Bring your output to the [shared case thread](https://github.com/probityai/agent-evidence/issues/31).
 
 The retained run covers 14 cases and 63 tests. Failed commands, absent and malformed reports, wrong inputs, stale times and a linked report stay separate. These are injected commands and example reports; they do not run the producer's verifier.
 

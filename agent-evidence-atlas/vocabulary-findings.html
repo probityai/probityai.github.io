@@ -21,6 +21,7 @@
       <a href="lab.html">Open Evidence Lab</a>
       <a href="status.html">Claim status</a>
       <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
       <a href="pilot.html">Pilot status</a>
       <a href="atlas.html">Atlas</a>
       <a href="experiments.html">Experiments</a>
@@ -48,7 +49,7 @@
 <h2 id="what-changed-before-inference">What changed before inference</h2>
 <p>The frozen protocol copies the original sixteen policy inputs, targets, pair identities and roles into two modes. The control permits any string decision. The vocabulary mode permits the same seven case-sensitive labels for every case: <code>publish</code>, <code>hold</code>, <code>admit</code>, <code>reject</code>, <code>retry</code>, <code>inspect</code> and <code>dispatch</code>. It exposes no case-specific answer through its grammar.</p>
 <p>The protocol declares 32 case identities and 128 unique model calls. Each of the sixteen policy-case blocks rotates the eight model/cap/mode cells. Each cell occupies each position twice. The prompts remain identical between modes. The contrast analysis contains sixteen matching policy pair identities, without the older arithmetic or grounded pairs. These choices precede inference and the normal protected merge. The <a href="experiments/model-vocabulary-cpu-2026-10-03/provenance.json">provenance</a> records the frozen protocol, reviewed source, merge and authenticated workflow run separately.</p>
-<p>All 128 calls started and scored. None has an error, incomplete, unknown-start or unsupported outcome. Completeness does not remove wrong policy decisions.</p>
+<p>All 128 calls started and scored. None has an error, incomplete, unknown-start or unsupported outcome. A complete run can still contain wrong policy decisions.</p>
 <h2 id="original-semantic-scores">Original semantic scores</h2>
 <p>Each row contains sixteen decisions and eight contrast pairs. Every row has sixteen schema-valid outputs. The native caps allow 24 or 96 completion tokens per call.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Model / Cap / Control correct / Vocabulary correct / Control complete pairs / Vocabulary complete pairs">

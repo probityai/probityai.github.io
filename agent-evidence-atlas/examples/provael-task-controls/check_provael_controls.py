@@ -13,6 +13,7 @@ import hashlib
 import json
 import logging
 import math
+import sys
 import zipfile
 from collections import Counter
 from fractions import Fraction
@@ -555,7 +556,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.output:
             args.output.write_bytes(raw)
         else:
-            print(raw.decode(), end="")
+            sys.stdout.buffer.write(raw)
         return 0
     except (ValueError, OSError, KeyError, TypeError) as error:
         LOGGER.error("Provael controls refused: %s", error)

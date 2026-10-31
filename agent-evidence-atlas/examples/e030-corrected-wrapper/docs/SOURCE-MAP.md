@@ -26,7 +26,7 @@ The source checkouts remain clean. The harness removes inherited Git routing and
 settings before reading or invoking them. Output is outside each producer tree, including through
 parent symlinks.
 
-Pico's [historical outside result](https://github.com/probityai/agent-evidence-atlas/issues/43)
+Pico's [historical outside result](https://github.com/probityai/agent-evidence/issues/31)
 uses the old wrapper at `b12879d5878991d9c3ed260d06ee11716eb99d33`.
 It does not qualify the corrected wrapper. This experiment does not rewrite its record,
 its attribution, or its expected answers.

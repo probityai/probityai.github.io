@@ -1,6 +1,6 @@
 # Approved SQL: approval, execution, and a later change
 
-Cho HyunJong (`hangum`) nominated this case in [the Open Evidence Lab thread](https://github.com/probityai/agent-evidence-atlas/issues/49#issuecomment-6072475161). He described a Settle approval record and `executed_sql_resource`, compared with a database-native audit record. He did not supply a fixture or a database run in that comment.
+Cho HyunJong (`hangum`) nominated this case in [the Open Evidence Lab thread](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247269344). He described a Settle approval record and `executed_sql_resource`, compared with a database-native audit record. He did not supply a fixture or a database run in that comment.
 
 The useful check compares four things: exact SQL and bound parameters, database and schema, the database principal, and the actual outcome. A later database read is a separate observation. It cannot by itself tell us who made an earlier change.
 
@@ -39,7 +39,7 @@ The inspected DML path saves `reqQuery.getSql()` in the application history, the
 
 One shareable, version-pinned example is enough to start: the approved Settle export, its application execution record and SQL child record, and the corresponding database-native audit event. Include the database/version, the join rule, typed bound parameters, execution-time target and principal, transaction outcome, and audit collection scope. If a field cannot be exported, keep that field unknown.
 
-The [runnable illustration](README.md) implements this comparison with 16 author-created fixtures. Its fields belong to the illustration. They are not claimed as Tadpole's export fields or a database-native adapter.
+The [runnable illustration](README.md) implements this comparison with 17 author-created fixtures. Its fields belong to the illustration. They are not claimed as Tadpole's export fields or a database-native adapter.
 
 Producer semantics stay with Tadpole and the database's audit specification. We own the comparison code and its test cases. A native export, an outside run, and a kept downstream check remain separate tasks.
 

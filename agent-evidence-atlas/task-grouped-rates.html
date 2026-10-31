@@ -21,6 +21,7 @@
       <a href="lab.html">Open Evidence Lab</a>
       <a href="status.html">Claim status</a>
       <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
       <a href="pilot.html">Pilot status</a>
       <a href="atlas.html">Atlas</a>
       <a href="experiments.html">Experiments</a>
@@ -113,7 +114,7 @@
 <p>For larger inputs, an explicit <code>monte-carlo</code> configuration requires a seed and replicate count. <code>sha256-counter-rejection-v1</code> generates paired task indices reproducibly; all draws are retained. It approximates the empirical bootstrap distribution and adds Monte Carlo error. The byte, population and draw caps are in the contract.</p>
 <h2 id="sources-and-a-producer-owned-next-run">Sources and a producer-owned next run</h2>
 <p><a href="https://doi.org/10.3368/jhr.50.2.317">Cameron and Miller’s published article</a> describes whole-cluster resampling and warns about few clusters and missing bootstrap values. <a href="https://docs.scipy.org/doc/scipy-1.16.2/reference/generated/scipy.stats.bootstrap.html">SciPy 1.16.2’s bootstrap documentation</a> describes paired index resampling and percentile intervals. This reader uses its own explicit nearest-rank convention; neither source establishes coverage for this example. The source record, <code>source-record.json</code>, keeps the originally checked July 2014 author manuscript, its version and hashes. The current citation uses the publisher’s DOI; this route update does not replace that checked manuscript or change the reader’s methods and results.</p>
-<p>A producer can replace the labels with a task-grouped attack/benign run, pin its source, retain raw episodes and disclose missing labels, sampling design and residual dependence. A Lab submission still needs its own evidence and review. This example leaves the measured register unchanged.</p>
+<p>A producer can replace the labels with a task-grouped attack/benign run, pin its source, retain raw episodes and disclose missing labels, sampling design and residual dependence. A Lab submission still needs its own evidence and review. This example does not change the measured register.</p>
 </main>
 <footer class="site">
   <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>

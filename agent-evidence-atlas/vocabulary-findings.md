@@ -12,7 +12,7 @@ The frozen protocol copies the original sixteen policy inputs, targets, pair ide
 
 The protocol declares 32 case identities and 128 unique model calls. Each of the sixteen policy-case blocks rotates the eight model/cap/mode cells. Each cell occupies each position twice. The prompts remain identical between modes. The contrast analysis contains sixteen matching policy pair identities, without the older arithmetic or grounded pairs. These choices precede inference and the normal protected merge. The [provenance](experiments/model-vocabulary-cpu-2026-10-03/provenance.json) records the frozen protocol, reviewed source, merge and authenticated workflow run separately.
 
-All 128 calls started and scored. None has an error, incomplete, unknown-start or unsupported outcome. Completeness does not remove wrong policy decisions.
+All 128 calls started and scored. None has an error, incomplete, unknown-start or unsupported outcome. A complete run can still contain wrong policy decisions.
 
 <a id="original-semantic-scores"></a>
 

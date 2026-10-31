@@ -4,7 +4,7 @@
 
 ## Choose the procedure
 
-The [complete source-replay procedure](https://github.com/probityai/agent-evidence-atlas/blob/main/experiments/aps-priorseal-source-replay/RUN.md) gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its `runner.mjs` helper and, for the replay, the unchanged `recorded.json` baseline. Use all files from the same selected Atlas commit.
+The [complete source-replay procedure](https://github.com/probityai/agent-evidence/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md) gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its `runner.mjs` helper and, for the replay, the unchanged `recorded.json` baseline. Use all files from the same selected Atlas commit.
 
 The replay runs the pinned Frequency adapter directly. The separate wrapper check asks whether a zero exit also produced a new report. These are different checks. Neither authenticates a real operator or establishes a live action, production use or an independently operated witness.
 
@@ -32,7 +32,7 @@ Keep the generated `receipt.json` or `record.json`, its child command metadata a
 
 The CI artifact keeps `result/receipt.json` and `contract-result/record.json` with their sibling logs. The curated controls are in `caller-controls/public-results/`. Their manifest declares that base relative to its own directory and binds each selected file by size and SHA-256. Follow those declared paths to check the artifact.
 
-The wrapper's `meetsRunContract` is true only when its actual and retained exits are zero and a previously absent report path exists after execution. It does not establish that the report is valid or that Probity admitted it. The procedure keeps the original producer outcomes and their stated limits.
+The wrapper's `meetsRunContract` is true only when its actual and retained exits are zero and a previously absent report path exists after execution. It does not establish that the report is valid or that Probity admitted it. The procedure leaves the original producer outcomes and their stated limits unchanged.
 
 <a id="read-the-existing-evidence"></a>
 

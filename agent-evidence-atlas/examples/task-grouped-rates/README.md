@@ -95,4 +95,4 @@ checked manuscript or change the reader's methods and results.
 A producer can replace the labels with a task-grouped attack/benign run, pin
 its source, retain raw episodes and disclose missing labels, sampling design
 and residual dependence. A Lab submission still needs its own evidence and
-review. This example leaves the measured register unchanged.
+review. This example does not change the measured register.

@@ -8,7 +8,7 @@ An agent says it completed a task. What would let you check that claim?
 
 Imagine an agent approved to refund an order. A signed approval can show who authorized the request. It takes a separate observation to show that the refund happened. If the acknowledgement was lost, the outcome may still be unknown. These are different questions, and the evidence should keep them separate.
 
-The Open Evidence Lab helps teams test a specific question like this. A useful run leaves an example you can reproduce, a result you can inspect, and a clear account of its limits. A failed check or missing observation can be useful too.
+The Open Evidence Lab helps teams test a specific question like this. A useful run leaves an example you can reproduce and a result you can inspect, and it says what it does not show. A failed check or missing observation can be useful too.
 
 <a id="find-an-example"></a>
 
@@ -26,9 +26,10 @@ The Open Evidence Lab helps teams test a specific question like this. A useful r
 | Which NIST AI 300-1 structural and mutation checks actually ran? | [Read the retained case](runs.md#record-nist-ai300-1-checker-2026-10-13). |
 | Can genuine signatures survive a broken or rolled-back stored history? | [Read the retained case](runs.md#record-signed-history-boundaries-2026-10-13). |
 | Did the guard distinguish a benign document from an actual force push? | [Read the retained case](runs.md#record-ratchet-benign-heredoc-2026-10-15). |
-| How do I check approval, retries, and a missing acknowledgement? | [Read the refund example](https://github.com/probityai/agent-evidence-observer/blob/main/docs/APS-REFUND-RETRIES.md). |
+| How do I check approval, retries, and a missing acknowledgement? | [Read the refund example](https://github.com/probityai/probity/blob/main/packages/observer/docs/APS-REFUND-RETRIES.md). |
 | Did a database write match its approval, even if the state changed later? | [Try the SQL example](approved-sql.md) and bring a native audit pair. |
 | Did the agent change the call after approval, or did the resource change later? | [Compare the request/effect cases](request-effect-join.md) and bring a reader or retained run. |
+| Did an agent purchase that was approved get charged, ordered and delivered as approved? | [Read the checkout assessment](agent-checkout-assessment.md) and run the public refund-handoff cases. |
 | Does an approved target, completion report or later observation establish the same thing? | [Try the authority and effect controls](authority-effect-cases.md) and compare the separate conclusions. |
 | Does a signed native result identify the selected report without enlarging its claim? | [Replay the independent M1 consumer](trace-m1-consumer.md) and inspect its retained decisions. |
 | How do I replay an existing result? | [Open the retained replay procedure](#start-with-a-run-that-exists) in the technical notes below. |
@@ -39,13 +40,13 @@ The Open Evidence Lab helps teams test a specific question like this. A useful r
 
 Start with one decision your system needs to make. For example: should this changed request be refused, does this record identify the right tenant, or did the observed effect match the approved action?
 
-Probity offers working examples, verification tools, a shared result page, and help with the integration it contributes. You bring the real question and the part of the system you can exercise. Together, define what success would mean, include cases that should fail, and retain the original output. A check your own project can keep is a useful next step.
+Probity offers working examples, verification tools, a shared result page, and help with the integration it contributes. You bring the real question and the part of the system you can exercise. Together we agree what success would mean, add cases that should fail, and keep the original output. The aim is a check your own project can keep running.
 
 You keep control of your implementation, policy, and original result. The first contribution is a concrete experiment with a named owner. A run in the Lab does not appoint your project to a coalition role or establish its endorsement.
 
-Have a tool, a check, or a problem to work on? [Join the collaboration thread](https://github.com/probityai/agent-evidence-atlas/issues/49) and tell us about it.
+Have a tool, a check, or a problem to work on? [Join the collaboration thread](https://github.com/probityai/agent-evidence/issues/24) and tell us about it.
 
-[Propose a run](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-run.yml). Describe the question and the evidence you can supply. The form and technical protocol list the inputs needed for review.
+[Propose a run](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml). Describe the question and the evidence you can supply. The form and technical protocol list the inputs needed for review.
 
 <a id="read-a-result-with-its-limits"></a>
 
@@ -53,7 +54,7 @@ Have a tool, a check, or a problem to work on? [Join the collaboration thread](h
 
 A signature check, an authorization decision, and an observed effect answer different questions. A result should say which it checked. Missing evidence must remain visible. A run by the author can be useful without establishing that another operator independently controlled its keys or observations.
 
-Keep the original report separate from later comparisons or corrections. [Report a correction](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-correction.yml) when the retained evidence does not support a claim.
+Keep the original report separate from later comparisons or corrections. [Report a correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) when the retained evidence does not support a claim.
 
 <a id="technical-protocol-and-retained-run-notes"></a>
 
@@ -70,7 +71,7 @@ Protocol draft 0.1.9. Register updated 11 October 2026. The register retains nat
 
 Maintainers can use this protocol to submit a verifier run, a host-project CI integration, or an observer/witness experiment. Each record names its contract, retained inputs, implementation and operators, and reports what passed, failed or remained untested. Probity maintains this register. A listed result makes no membership, endorsement or adoption commitment on behalf of another project.
 
-[Submit a run](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-run.yml) or [report a correction](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-correction.yml). The forms request the evidence needed for review. The [machine-readable register](lab/register.json), [experiments](experiments.md) and [claim ledger](claims.md) retain the supporting records.
+[Submit a run](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml) or [report a correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml). The forms request the evidence needed for review. The [machine-readable register](lab/register.json), [experiments](experiments.md) and [claim ledger](claims.md) retain the supporting records.
 
 [Find a retained run](runs.md) by a claim, declared role, limit or per-claim result. Each entry links its original report, provenance and contract. The browser keeps the recorded result tokens and does not assign a grade to the whole run.
 
@@ -99,6 +100,12 @@ The source records four valid, fourteen invalid and two indeterminate SDK observ
 Five upstream draft annotations remain separate from those outcome counts: `did-web-resolver-not-found`, `expired`, `not-yet-valid`, `record-type-changed` and `version-changed`. The reader uses supplied resolver answers and evaluation times. It does not establish historical key authority, principal binding or live identity acceptance. Ed25519 checks use cryptography/OpenSSL; the reader does not import the APS SDK or claim an independent cryptographic backend.
 
 The original overall run remains adverse. Both selected SDK invocations stopped at IPC creation before corpus evaluation, and their original locked dependency audit retains three high entries and two advisories. The useful reader result stays separate from those failures, whole-SDK qualification, federation enrollment and host adoption. All earlier register objects and evidence bytes are unchanged.
+
+<a id="revision-2-of-the-corrected-corpus"></a>
+
+### Revision 2 of the corrected corpus
+
+APS/AEOESS then published revision 2 of the file, at `e061462cea95b029203374496bbd14488d8d2993`, SHA-256 `9bd1f1849910c85f0555baf8efaa529aa9d057dce13c24606285b8643a003b89`. Probity ran the same reader over it with a small [retained diff](experiments/aps-corrected20-r2-2026-10-27/reader-diff-from-r1.diff). The [report](experiments/aps-corrected20-r2-2026-10-27/report.json) shows source and reader both at four valid, eleven invalid, three indeterminate and two unsupported outcomes, with all 20 outcomes, layer maps and resolver requests in agreement and no declared difference. Its raw byte checks match the revision 1 report on all 20 cases. The producer moved three expected outcomes to the values the revision 1 report returned, so this confirms the revision and is not a new blind test. The [source and run record](experiments/aps-corrected20-r2-2026-10-27/README.md) holds the hash-pinned requirements and the replay command. The revision 1 record above stays as published, and no SDK invocation or dependency audit was repeated.
 
 <a id="outside-receipt-verifier-and-primitive-identifier-checks"></a>
 
@@ -187,7 +194,7 @@ REMORA's native `INDEPENDENT` classification uses its package's external-operato
 
 ## Retained recovery and actual-weight runs
 
-These are Probity-operated runs and Probity-selected reader reproductions. They advance runnable capability and retained measurement; they establish no outside workflow adoption or independent effect custody. [The register](lab/register.json) binds measured claims to exact report fields and retains separate outcome axes.
+These are Probity-operated runs and Probity-selected reader reproductions. They add runnable capability and retained measurement. They do not show outside workflow adoption or independent effect custody. [The register](lab/register.json) binds measured claims to exact report fields and retains separate outcome axes.
 
 | Run | Measured result | Retained bytes and limit |
 |----|----|----|
@@ -224,7 +231,7 @@ The four continuation additions bring the register to ten retained records, with
 
 An additional [ExecSurface state-join record](experiments/execsurface-state-2026-10-02/report.json) retains one declared generated-file overwrite and its separate before/after captures. Actual native metadata carries one successful file-descriptor write; the companion carries the declared nine-byte endpoint state and authenticates a source-selected byte predicate. Native schema-v2 metadata contains neither the written bytes nor the write count. Endpoint snapshots do not prove that no intermediate writes occurred.
 
-The record remains voluntary/peer/log-import/software-only. Its predicate is valid, native invocation reports complete and the selected byte join verifies, while `scopeComplete` is false and typed collection health remains `unknown-no-typed-envelope`. These axes stay separate. The producer's native learn/check PASS is a same-byte calibration outside the claimed signed interval; it does not establish authority, collection health or task quality. Same-team software signing does not establish independent key, store or clock custody.
+The record remains voluntary/peer/log-import/software-only. Its predicate is valid, native invocation reports complete and the selected byte join verifies, while `scopeComplete` is false and typed collection health remains `unknown-no-typed-envelope`. Each of these is reported on its own. The producer's native learn/check PASS is a same-byte calibration outside the claimed signed interval; it does not establish authority, collection health or task quality. Same-team software signing does not establish independent key, store or clock custody.
 
 [The original exact-main archive](experiments/execsurface-state-2026-10-02/original-artifact.zip) and [source/member provenance](experiments/execsurface-state-2026-10-02/provenance.json) retain all twenty-nine provider members, including native trace, snapshots, commitment/envelope, selected publication policy and calibration. The signed interval retains eighteen selected files. The register now contains eleven records; this additional record preserves all ten earlier entries and their archive bytes. Linux x86_64 ptrace scope and backend limitations remain explicit; no outside adoption or independent effect custody is established.
 
@@ -238,7 +245,7 @@ An author-operated Atomic run passes all four declared cases using twelve distin
 
 The [immutable Atomic fork source](https://github.com/astrogilda/atomic/tree/80be8dae6feb8b9106181b78fba2c7c6a7c8f4d8) contains the [rerun command and boundary](https://github.com/astrogilda/atomic/blob/80be8dae6feb8b9106181b78fba2c7c6a7c8f4d8/tools/native-evaluation/README.md). Normal reader-process restarts establish local certificate-selection persistence; they do not establish crash-mid-write recovery, server permission enforcement, remote revocation or external effect custody. Child process identifiers are unsigned runner testimony. Expected outcomes were exposed in the tests, and observations and assertions were emitted together.
 
-This is an additional bounded Lab record. It preserves all fifteen earlier register objects and artifact bytes. Upstream maintainer acceptance, completed host CI, recurring outside use and independently operated custody remain unestablished for this contribution.
+This record adds to the register and preserves all fifteen earlier register objects and artifact bytes. Upstream maintainer acceptance, completed host CI, recurring outside use and independently operated custody remain unestablished for this contribution.
 
 <a id="start-with-a-run-that-exists"></a>
 
@@ -258,10 +265,10 @@ The first register entry is [E6: observer declaration, admission and replay](exp
 On Linux, use the actual checked-in runner and retained bytes:
 
 ``` sh
-git clone https://github.com/probityai/agent-evidence-atlas atlas
+git clone https://github.com/probityai/agent-evidence/tree/main/site atlas
 cd atlas
 git checkout --detach 91a0759e459acee8355e2f9aba34f8e80d19e038
-git clone https://github.com/probityai/agent-evidence-observer .observer-source
+git clone https://github.com/probityai/probity/tree/main/packages/observer .observer-source
 git -C .observer-source checkout --detach 8562c25fb7ec97596ea9d0297c495340298914b6
 uv venv --python 3.12.14 .venv
 UV_LINK_MODE=copy uv pip install --python .venv/bin/python cryptography==46.0.7
@@ -336,7 +343,7 @@ A submission starts as **submitted**. Review can classify individual claims as *
 
 Review returns an explicit missing field, unresolved rule, counterexample or evidence mismatch. Changed source bytes without a new revision, missing raw outputs, answer-key exposure described as blind, an accept-all control that succeeds, bundled keys described as independently pinned, and missing observations counted as success block the affected claim. A useful failed or partial run can still be retained as a gap record.
 
-Use the [correction form](https://github.com/probityai/agent-evidence-atlas/issues/new?template=evidence-correction.yml) with the record ID, challenged claim, immutable counterevidence and proposed correction. A corrective pull request marks the affected claim disputed or superseded, links the replacement record and preserves the original result and review trail. Do not rewrite an old run to look like the corrected experiment. Scope or contract disagreements remain named until the relevant specification owner resolves them.
+Use the [correction form](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) with the record ID, challenged claim, immutable counterevidence and proposed correction. A corrective pull request marks the affected claim disputed or superseded, links the replacement record and preserves the original result and review trail. Do not rewrite an old run to look like the corrected experiment. Scope or contract disagreements remain named until the relevant specification owner resolves them.
 
 <a id="connections-to-current-upstream-work"></a>
 
@@ -379,7 +386,7 @@ The [Google ADK reference report](experiments/google-adk-ticket-2026-10-02/repor
 
 The [complete original ADK archive](experiments/google-adk-ticket-2026-10-02/original-artifact.zip) and [provenance](experiments/google-adk-ticket-2026-10-02/provenance.json) retain 838 members and distinguish original synthetic execution source, producer implementation, reviewed reader and separately selected target baseline. A later exact-main run also passed; its separate metrics do not replace this original report. Target, store, keys, clock and expected outcomes remain under the same operator. No process restart, power-loss recovery, outside recurring use or independent effect custody is established.
 
-The [installed consumer report](experiments/installed-format-policy-2026-10-02/report.json) retains a framework-free installed reader upgrade from 0.0.2 to 0.0.3. The old reader refuses the unsupported format profile. The upgraded reader preserves the earlier native reports and verifies the format experiment's evidence for bounded report publication. A separate selected quality policy still holds both larger-model schema-decoded policy rows: each is correct in one of six cases against the example host's minimum of three. Verification of evidence, publication of a scoped report and approval of model decisions are distinct. A changed-source mutant is also held.
+The [installed consumer report](experiments/installed-format-policy-2026-10-02/report.json) retains a framework-free installed reader upgrade from 0.0.2 to 0.0.3. The old reader refuses the unsupported format profile. The upgraded reader preserves the earlier native reports and verifies the format experiment's evidence for bounded report publication. A separate selected quality policy still holds both larger-model schema-decoded policy rows: each is correct in one of six cases against the example host's minimum of three. Verifying the evidence does not approve the model's decisions, and publishing a scoped report does not either. A changed-source mutant is also held.
 
 The [complete installed upgrade archive](experiments/installed-format-policy-2026-10-02/original-artifact.zip) and [provenance](experiments/installed-format-policy-2026-10-02/provenance.json) retain all 2,268 original members, including the earlier upgrade, immutable producer fixtures, installation receipts, three wheels and raw reader/gate streams. This run performs no new model inference and supplies no dispatch or recovery authority. It does not establish a registry release, outside acceptance or recurring adoption. The selected register gate refuses promoting a committed ADK error into task completion or a verified-but-held quality result into publication, including reselected receipt controls.
 
@@ -391,7 +398,7 @@ These additions bring the [register](lab/register.json) to fourteen records, whi
 
 The fifteenth author-operated [register record](lab/register.json) retains the completed 384-call original with all twenty-four separate semantic rows and 192 pair records. Its 192 schema-constrained outputs are schema-valid, while no policy or grounded pair has both cases strictly correct. The [finite comparative finding](boundary-findings.md) preserves every original score and distinguishes policy vocabulary failures from wrong decisions using valid labels; it introduces no new inference, general benchmark estimate, outside acceptance, recurring adoption or independent custody.
 
-The [unmodified report](experiments/model-boundary-cpu-2026-10-02/report.json), [original compact provider ZIP](experiments/model-boundary-cpu-2026-10-02/original-artifact.zip) and [source/member provenance](experiments/model-boundary-cpu-2026-10-02/provenance.json) preserve all 871 compact members and an explicit mapping to the complete 901-member preparation original, including all thirty omissions. The complete original remains privately archived. All fourteen earlier register objects and retained artifact bytes remain unchanged. Selected source, installed consumer acceptance and actual outside operation remain distinct records.
+The [unmodified report](experiments/model-boundary-cpu-2026-10-02/report.json), [original compact provider ZIP](experiments/model-boundary-cpu-2026-10-02/original-artifact.zip) and [source/member provenance](experiments/model-boundary-cpu-2026-10-02/provenance.json) preserve all 871 compact members and an explicit mapping to the complete 901-member preparation original, including all thirty omissions. The complete original remains privately archived. All fourteen earlier register objects and retained artifact bytes remain unchanged. The selected source, the installed consumer's acceptance and actual outside operation are recorded separately.
 
 <a id="installed-boundary-evidence-and-semantic-quality-policy"></a>
 

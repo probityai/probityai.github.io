@@ -56,7 +56,7 @@ A disclosed post hoc diagnostic checks case-sensitive membership in the seven ac
 | 360M | 24 | 9/16 | 5/16 | 2/16 |
 | 360M | 96 | 9/16 | 5/16 | 2/16 |
 
-This separates a candidate interface intervention from decision reasoning. Constraining outputs to host-selected valid action labels could remove the first class of failures. The five wrong decisions using valid labels already show that vocabulary compliance alone cannot satisfy the original task rubric. Any vocabulary intervention must be a new named experiment: it would add semantic contract information beyond the original syntax/type-only grammar. It must preserve all pairs, current authority requirements and no-dispatch controls. No intervention has been executed or accepted here.
+It tests the interface change on its own, apart from decision reasoning. Constraining outputs to host-selected valid action labels could remove the first class of failures. The five wrong decisions using valid labels already show that vocabulary compliance alone cannot satisfy the original task rubric. Any vocabulary intervention must be a new named experiment: it would add semantic contract information beyond the original syntax/type-only grammar. It must preserve all pairs, current authority requirements and no-dispatch controls. No intervention has been executed or accepted here.
 
 <a id="resources-and-retained-originals"></a>
 
