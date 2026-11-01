@@ -24,26 +24,24 @@ HERE = Path(__file__).resolve().parent
 NAME = "f1-four-verdicts"
 REV = 3
 ARMS = tomllib.loads((HERE / "data/four-arms.toml").read_text())["arm"]
-INTACT, BYTE, MISSING, CHANGED = ARMS
 TITLE = "Four verdicts from one evidence archive"
 # the alt text: each row's caption with what the verifier prints for it, from data/four-arms.toml
 DESC = " ".join(
     ["One sealed archive of three files, checked four ways."]
     + [f"{a['caption']}: {a['verdict']}, exit {a['exit']}." for a in ARMS]
     + [
-        "The last row reads the same archive with the old verifier and the changed one; both receipts are kept."
+        "The intact archive is read by the verifier and, the same archive, by the changed verifier; each prints its own receipt, and both receipts are kept in one binder."
     ]
 )
 INK = {
     "check": "fg",
-    "cross": "fg",
+    "cross": "loss",
     "query": "fg",
-}  # one ink for every verdict glyph: the mark's shape carries the verdict
+}  # the cross takes the changed byte's ink: that byte is why the verifier refused
 STATE = (
     {},
-    {"mark": (1, (1, 0)), "broken": True},
-    {"missing": 1},
-    {},
+    {"mark": (1, (2, 0)), "broken": True},
+    {"missing": 1, "loud": True},
 )
 
 
@@ -63,75 +61,56 @@ def _verdict(f: fk.Fig, arm, x, cy, stacked: bool) -> float:
 
 
 def _row(f: fk.Fig, k, bx, cy, geo, sgap, lr, sh, stacked, split) -> float:
-    """One arm: the archive box centred on cy at bx, the lens, the receipt and the printed verdict.
-    split is the vertical offset of row 4's two verifiers. Returns the row's right edge."""
+    """One archive at bx centred on cy, read by a verifier that prints a receipt with its verdict.
+    Row 0 is the intact archive, and it is read twice: by the verifier (blue lens, at cy) and, from the same
+    archive, by the changed verifier (the same lens in dark ink with cross hairs, at cy + split). An arrow
+    runs from the old lens down into the changed one. Each lens prints its own receipt, and both receipts
+    are filed in one ring binder. Returns the row's right edge."""
     arm = ARMS[k]
     bw, bh = fk.box_size(3, geo, sgap)
-    top = cy - bh / 2 + 6
-    fk.box(f, bx, top, geo=geo, sgap=sgap, lock_r=lr * 0.8, **STATE[k])
+    fk.box(f, bx, cy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8, **STATE[k])
     x = bx + bw
     lx = x + 30 + lr
-    sx = lx + lr * 1.6 + 24
-    tx = sx + sh * 0.74 + 26
-    ink = INK[arm["glyph"]]
-    if arm is not CHANGED:
+    rw = round(sh * 0.74, 1)
+    if k != 0:
+        sx = lx + lr * 1.6 + 24
         f.line(x + 6, cy, lx - lr - 2, cy, "accent", sw=3)
         fk.lens(f, lx, cy, lr)
         f.line(lx + lr + 2, cy, sx - 12, cy, "accent", sw=3)
         fk.arrow(f, sx - 4, cy, size=7)
-        fk.slip(f, sx, cy, sh, arm["glyph"], ink)
-        return _verdict(f, arm, tx, cy, stacked)
-    # the same archive read by the old verifier (above) and by the changed verifier (below): an arrow in
-    # loss ink runs from the old lens down into the changed one, which is the same lens in loss ink with a
-    # second ring in its rim. Both lines merge into one arrow, and both receipts stand in one open tray.
-    sz = f.text_size
-    rw = round(sh * 0.74, 1)
-    tm, tg = 10, 10  # the tray's margin round its receipts; the gap between them
-    tx0 = sx + 22
-    tray_w = 2 * tm + 2 * rw + tg
-    rxs = (tx0 + tm, tx0 + tm + rw + tg)  # the two receipts' left edges
-    mx = tx0 - 30  # where the two lines meet
-    rcy = cy - 4  # the receipts' centre
-    for k2, (d, v_ink) in enumerate(((-1, "accent"), (1, "loss"))):
-        y = cy + d * split
-        f.path(
-            f"M{x + 6:.1f} {cy:.1f} L{x + 14:.1f} {cy:.1f} Q{x + 22:.1f} {cy:.1f} {x + 22:.1f} {cy + d * 8:.1f} "
-            f"L{x + 22:.1f} {y - d * 8:.1f} Q{x + 22:.1f} {y:.1f} {x + 30:.1f} {y:.1f} L{lx - lr - 2:.1f} {y:.1f}",
-            stroke=v_ink,
-            sw=3,
-        )
-        fk.lens(f, lx, y, lr, stroke=v_ink, double=d == 1)
-        # both lines run on and merge into one arrow into the tray
-        f.path(
-            f"M{lx + lr + 2:.1f} {y:.1f} L{mx - 22:.1f} {y:.1f} Q{mx:.1f} {y:.1f} {mx:.1f} {cy - d * 2:.1f}",
-            stroke=v_ink,
-            sw=3,
-        )
-    f.line(mx, cy, tx0 - 12, cy, "fg", sw=3)
-    fk.arrow(f, tx0 - 4, cy, "fg", size=7)
-    # the old lens becomes the changed one
-    ax = lx - lr * 0.15
-    f.line(ax, cy - split + lr + 5, ax, cy + split - lr - 14, "loss", sw=3)
-    fk.arrow(f, ax, cy + split - lr - 5, "loss", size=6, direction="down")
-    # the open tray under both receipts: a shallow base with low sides, the receipts whole above it
-    base = rcy + sh / 2 + 7
-    for k2, r_ink in ((0, "accent"), (1, "loss")):
-        fk.slip(f, rxs[k2], rcy, sh, arm["glyph"], ink, ink=r_ink)
+        fk.slip(f, sx, cy, sh, arm["glyph"], INK[arm["glyph"]])
+        return _verdict(f, arm, sx + rw + 26, cy, stacked)
+    changed = ARMS[3]
+    y2 = cy + split
+    # the same archive feeds both verifiers: one line straight on, one dropping to the changed verifier
+    f.line(x + 6, cy, lx - lr - 2, cy, "accent", sw=3)
     f.path(
-        f"M{tx0:.1f} {base - 16:.1f} L{tx0:.1f} {base:.1f} L{tx0 + tray_w:.1f} {base:.1f} L{tx0 + tray_w:.1f} {base - 16:.1f}",
-        stroke="rule",
+        f"M{x + 6:.1f} {cy:.1f} L{x + 12:.1f} {cy:.1f} Q{x + 20:.1f} {cy:.1f} {x + 20:.1f} {cy + 8:.1f} "
+        f"L{x + 20:.1f} {y2 - 8:.1f} Q{x + 20:.1f} {y2:.1f} {x + 28:.1f} {y2:.1f} L{lx - lr - 2:.1f} {y2:.1f}",
+        stroke="fg",
         sw=3,
-        join="round",
     )
-    vx = tx0 + tray_w + 26
-    if (
-        stacked
-    ):  # narrow: one block, since both receipts print the same verdict and exit code
-        return _verdict(f, arm, vx, cy, True)
-    right = 0.0
-    for d in (-1, 1):
-        right = max(right, _verdict(f, arm, vx, cy + d * sz * 0.75, False))
-    return right
+    fk.lens(f, lx, cy, lr)
+    fk.lens(f, lx, y2, lr, stroke="fg", reticle=True)
+    # the old verifier becomes the changed one
+    ax = lx
+    f.line(ax, cy + lr + 6, ax, y2 - lr - 12, "fg", sw=3)
+    fk.arrow(f, ax, y2 - lr - 3, "fg", size=6, direction="down")
+    # one ring binder holds both receipts, each fed by its own lens
+    bnx = lx + lr * 1.6 + 30
+    bnw = rw + 2 * 16 + 18
+    bny = cy - sh / 2 - 12
+    bnh = split + sh + 24
+    fk.binder(f, bnx, bny, bnw, bnh)
+    sx = bnx + 34
+    for y, ink, a in ((cy, "accent", arm), (y2, "fg", changed)):
+        f.line(lx + lr + 2, y, bnx - 10, y, ink, sw=3)
+        fk.arrow(f, bnx - 2, y, ink, size=7)
+        fk.slip(f, sx, y, sh, a["glyph"], INK[a["glyph"]], ink=ink)
+    vx = bnx + bnw + 6 + 24
+    if stacked:
+        return max(_verdict(f, arm, vx, cy, True), _verdict(f, changed, vx, y2, True))
+    return max(_verdict(f, arm, vx, cy, False), _verdict(f, changed, vx, y2, False))
 
 
 def wide() -> fk.Fig:
@@ -139,9 +118,9 @@ def wide() -> fk.Fig:
     geo, sgap = (3, 3, 11, 4, 10), 10
     bw, bh = fk.box_size(3, geo, sgap)
     f = fk.Fig(NAME, "wide", W, 0, TITLE, DESC)
-    pitch, split = bh + 52, 44
+    pitch, split = bh + 52, 96
     c0 = 36 + bh / 2
-    centres = [c0 + k * pitch for k in range(3)] + [c0 + 3 * pitch + split]
+    centres = [c0, c0 + split + pitch, c0 + split + 2 * pitch]
     # the one archive, at the left, copied into every row
     sy = (centres[0] + centres[-1]) / 2
     fk.box(f, pad, sy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=16)
@@ -157,7 +136,7 @@ def wide() -> fk.Fig:
     for k, cy in enumerate(centres):
         right = _row(f, k, rx, cy, geo, sgap, 20, 62, False, split)
         assert right <= W - pad, (k, right)
-    f.height = round(centres[-1] + split + 62 / 2 + 8 + 28)
+    f.height = round(centres[-1] + bh / 2 + 34)
     return f
 
 
@@ -166,14 +145,14 @@ def narrow() -> fk.Fig:
     geo, sgap = (3, 3, 9, 4, 8), 8
     _, bh = fk.box_size(3, geo, sgap)
     f = fk.Fig(NAME, "narrow", W, 0, TITLE, DESC)
-    split = 50
+    split = 100
     pitch = max(bh, 2 * f.text_size * 1.3) + 46
     c0 = 30 + bh / 2
-    centres = [c0 + k * pitch for k in range(3)] + [c0 + 3 * pitch + split]
+    centres = [c0, c0 + split + pitch, c0 + split + 2 * pitch]
     for k, cy in enumerate(centres):
         right = _row(f, k, pad, cy, geo, sgap, 18, 58, True, split)
         assert right <= W - pad, (k, right)
-    f.height = round(centres[-1] + split + 58 / 2 + 8 + 28)
+    f.height = round(centres[-1] + bh / 2 + 34)
     return f
 
 

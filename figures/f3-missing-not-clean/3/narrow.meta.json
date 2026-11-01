@@ -2,7 +2,7 @@
  "name": "f3-missing-not-clean",
  "layout": "narrow",
  "width": 720,
- "height": 489,
+ "height": 513,
  "text_size": 34,
  "alt": "Top: a record of seven passages with the fifth missing. A reader that trusts the record looks only at the record, passes the gap and says fine. Bottom: the source capture, all seven passages. probity-verify pairs each source passage with its passage in the record, finds the fifth has none, and returns contradicted, reason selected_span_missing_from_record. The two verdicts sit in one column.",
  "words": [

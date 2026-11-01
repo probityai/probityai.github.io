@@ -368,6 +368,7 @@ def sheet(
     pad=SPAD,
     state="present",
     mark=None,
+    loud=False,
 ):
     """A file sheet. state "missing" draws only the empty place a sheet would stand in: a thin dashed
     outline in rule ink with nothing inside. It carries no signal colour, because a coloured slot reads as a
@@ -376,7 +377,14 @@ def sheet(
     w, h = sheet_size(cols, rows, cell, gap, pad)
     outline = _eared(x, y, w, h, EAR)
     if state == "missing":
-        f.path(outline, stroke="rule", sw=2.5, dash="6 6")
+        if loud:
+            # the empty place in dark ink, with the same query mark the receipt prints, in the slot's
+            # upper half (the part an archive box leaves showing)
+            f.path(outline, stroke="fg", sw=3.5, dash="8 6")
+            g = min(w * 0.5, h * 0.42)
+            f.glyph("query", x + (w - g) / 2, y + h * 0.04, g, "fg", sw=max(3.0, g * 0.14))
+        else:
+            f.path(outline, stroke="rule", sw=2.5, dash="6 6")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
     f.path(
@@ -388,7 +396,21 @@ def sheet(
     for r in range(rows):
         for c in range(cols):
             cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
-            f.rect(cx, cy, cell, cell, fill="loss" if mark == (c, r) else "byte", rx=2)
+            if mark == (c, r):
+                continue
+            f.rect(cx, cy, cell, cell, fill="byte", rx=2)
+    if mark is not None:
+        # the changed byte: knocked out of the grid, tilted and larger than its neighbours, in loss ink
+        c, r = mark
+        ccx = x + pad + c * (cell + gap) + cell / 2
+        ccy = top + r * (cell + gap) + cell / 2
+        k = cell * 1.4
+        f.path(
+            f"M{ccx:.1f} {ccy - k:.1f} L{ccx + k:.1f} {ccy:.1f} L{ccx:.1f} {ccy + k:.1f} L{ccx - k:.1f} {ccy:.1f} Z",
+            fill="loss",
+            stroke="tile",
+            sw=2,
+        )
     return w, h
 
 
@@ -457,6 +479,7 @@ def box(
     sgap=14,
     broken=False,
     lock_r=14,
+    loud=False,
 ):
     """An archive box with its top-left at (x, y), the files' tops: n files stand in it, the front panel
     covers their lower half, and the padlock sits on the panel's top edge. missing is the index of a file
@@ -480,6 +503,7 @@ def box(
             *geo,
             state="missing" if missing == i else "present",
             mark=mark[1] if mark and mark[0] == i else None,
+            loud=loud,
         )
     f.rect(x, panel, w, y + h - panel, fill="tile", stroke="rule", rx=5, sw=2.5)
     # the box's hand hole, low on the panel
@@ -487,15 +511,36 @@ def box(
     hy = panel + (y + h - panel) * 0.62
     f.rect(x + w / 2 - hw / 2, hy - 5, hw, 10, fill="card", stroke="rule", rx=5, sw=2)
     lock(f, x + w - BOX_M - lock_r, panel, r=lock_r, broken=broken)
+    if mark is not None and broken:
+        # a crack in loss ink from the changed byte down to the sprung shackle: this byte broke the seal
+        c, r = mark[1]
+        cols_, rows_, cell, gap, pad = geo
+        sx0 = x + BOX_M + mark[0] * (sw_ + sgap)
+        ccx = sx0 + pad + c * (cell + gap) + cell / 2
+        ccy = y + pad + EAR / 2 + r * (cell + gap) + cell / 2 + cell * 1.4
+        lx_ = x + w - BOX_M - lock_r
+        ty = panel - 1.6 * lock_r * 0.3 - lock_r * 0.62 * 1.4
+        mx_ = (ccx + lx_) / 2
+        f.path(
+            f"M{ccx:.1f} {ccy:.1f} L{mx_ - 5:.1f} {(ccy + ty) / 2 - 3:.1f} L{mx_ + 5:.1f} {(ccy + ty) / 2 + 3:.1f} L{lx_ + lock_r * 0.4:.1f} {ty:.1f}",
+            stroke="loss",
+            sw=3,
+        )
     return w, h
 
 
-def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False):
-    """A verifier: a magnifying lens, handle down-right. double rings the rim twice: a different verifier."""
+def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False):
+    """A verifier: a magnifying lens, handle down-right. double rings the rim twice: a different verifier.
+    reticle draws fine cross hairs in the glass: the same lens made stricter."""
     f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, stroke, sw=6)
     f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4)
     if double:
         f.circle(cx, cy, r * 0.6, stroke=stroke, sw=3)
+    if reticle:
+        # cross hairs with an open centre and a small aiming ring
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            f.line(cx + dx * r * 0.3, cy + dy * r * 0.3, cx + dx * r * 0.85, cy + dy * r * 0.85, stroke, sw=2.4)
+        f.circle(cx, cy, r * 0.18, fill=stroke)
 
 
 def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
@@ -529,6 +574,49 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
     return x + w
 
 
+def binder(f: Fig, x, y, w, h, ink="rule"):
+    """Where records are kept: an open ring binder with its spine at the left, three rings on the spine.
+    Things drawn inside it after this call sit on its page."""
+    f.rect(x + 6, y + 6, w, h, fill="tile", stroke=ink, rx=6, sw=2.5)  # the back cover, offset
+    f.rect(x, y, w, h, fill="tile", stroke=ink, rx=6, sw=3)
+    f.line(x + 16, y + 4, x + 16, y + h - 4, ink, sw=2)
+    for k in range(3):
+        ry = y + h * (0.2 + 0.3 * k)
+        f.path(
+            f"M{x + 6:.1f} {ry:.1f} A9 9 0 0 1 {x + 26:.1f} {ry:.1f}",
+            stroke="fg",
+            sw=3,
+        )
+        f.circle(x + 6, ry, 3, fill="fg")
+        f.circle(x + 26, ry, 3, fill="fg")
+
+
+def thought(f: Fig, cx, cy, w, h, toward, ink="fg"):
+    """A thought cloud centred on (cx, cy), w by h, with a trail of shrinking bubbles running to the point
+    toward (the thinker). What is drawn inside it after this call is what the thinker believes."""
+    import math
+
+    n = 9
+    pts = []
+    for k in range(n):
+        a = 2 * math.pi * k / n
+        pts.append((cx + w / 2 * math.cos(a), cy + h / 2 * math.sin(a)))
+    d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f} "
+    bump = min(w, h) * 0.26
+    for k in range(n):
+        p0, p1 = pts[k], pts[(k + 1) % n]
+        d += f"A{bump:.1f} {bump:.1f} 0 0 1 {p1[0]:.1f} {p1[1]:.1f} "
+    f.path(d + "Z", fill="tile", stroke=ink, sw=2.5)
+    tx, ty = toward
+    dx, dy = tx - cx, ty - cy
+    dist = math.hypot(dx, dy)
+    a = math.atan2(dy, dx)
+    edge = math.hypot(w / 2 * math.cos(a), h / 2 * math.sin(a)) + bump * 0.35
+    for k, rr in enumerate((6, 4.5, 3)):
+        t = (edge + (dist - edge) * (0.2 + 0.32 * k)) / dist
+        f.circle(cx + dx * t, cy + dy * t, rr, fill="tile", stroke=ink, sw=2)
+
+
 def eye(f: Fig, cx, cy, r=18, ink="fg"):
     """A reader that only looks: an open eye, an almond outline round a solid iris."""
     f.path(
@@ -541,8 +629,10 @@ def eye(f: Fig, cx, cy, r=18, ink="fg"):
 
 
 def arrow(f: Fig, x, y, ink="accent", size=9, direction="right"):
-    """A solid arrowhead with its tip at (x, y), pointing right, up or down."""
-    if direction == "right":
+    """A solid arrowhead with its tip at (x, y), pointing right, left, up or down."""
+    if direction == "left":
+        d = f"M{x:.1f} {y:.1f} L{x + size * 1.2:.1f} {y - size * 0.75:.1f} L{x + size * 1.2:.1f} {y + size * 0.75:.1f} Z"
+    elif direction == "right":
         d = f"M{x:.1f} {y:.1f} L{x - size * 1.2:.1f} {y - size * 0.75:.1f} L{x - size * 1.2:.1f} {y + size * 0.75:.1f} Z"
     elif direction == "up":
         d = f"M{x:.1f} {y:.1f} L{x - size * 0.75:.1f} {y + size * 1.2:.1f} L{x + size * 0.75:.1f} {y + size * 1.2:.1f} Z"

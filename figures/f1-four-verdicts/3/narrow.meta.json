@@ -2,17 +2,17 @@
  "name": "f1-four-verdicts",
  "layout": "narrow",
  "width": 720,
- "height": 635,
+ "height": 506,
  "text_size": 34,
- "alt": "One sealed archive of three files, checked four ways. Intact archive: verified, exit 0. One byte changed: failed, exit 2. Required artifact missing: not-established, exit 3. Verifier changed: verified, exit 0. The last row reads the same archive with the old verifier and the changed one; both receipts are kept.",
+ "alt": "One sealed archive of three files, checked four ways. Intact archive: verified, exit 0. One byte changed: failed, exit 2. Required artifact missing: not-established, exit 3. Verifier changed: verified, exit 0. The intact archive is read by the verifier and, the same archive, by the changed verifier; each prints its own receipt, and both receipts are kept in one binder.",
  "words": [
+  "verified",
+  "exit 0",
   "verified",
   "exit 0",
   "failed",
   "exit 2",
   "not-established",
-  "exit 3",
-  "verified",
-  "exit 0"
+  "exit 3"
  ]
 }
