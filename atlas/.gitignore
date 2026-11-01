@@ -1,0 +1,13 @@
+_site/
+demo/verifier/target/
+*.pyc
+__pycache__/
+*.ledger.json
+.observer-source/
+observer-admission-run/
+observer-admission-report.json
+/.research-cache/
+approved-sql-site-results/
+.atlas-toolchain/
+# Experiment archives are release assets listed in ARCHIVES.json; tools/archives.py fetch restores them.
+*.zip

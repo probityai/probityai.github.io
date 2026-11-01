@@ -1,0 +1,1580 @@
+{
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:data/lab-register.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/data/lab-register.json",
+    "sha256": "c94425dc6cc188fde00cd5323825abcc0e21f0b76b7997e48ac0b0fb82a4141c"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/atomic-delegation-2026-10-02/native-run-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/atomic-delegation-2026-10-02/native-run-capsule.zip",
+    "sha256": "ba31071e1f0a60644117e3f4c300b16b07bc75c58caf3a5259047054132c3719"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/atomic-delegation-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/atomic-delegation-2026-10-02/provenance.json",
+    "sha256": "15fc513822f79e2cd3e12cfd22301e7f73e139359818f062e234958d5fd40f41"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/atomic-delegation-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/atomic-delegation-2026-10-02/report.json",
+    "sha256": "92b6cd64f85e7a87e8aee04bff128195e578acfd969170c231bbb1ac55f5f7c1"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/authority-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/authority-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "2f5754702be98a1681469b7943872cbb5b55e301081db571496fd0c5fa1066b2"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/authority-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/authority-recovery-2026-10-02/provenance.json",
+    "sha256": "e00e9f5031fb4e64a5363a05dcba333e569d5c228f96b2e9f42e2ebb381f9f2b"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/authority-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/authority-recovery-2026-10-02/report.json",
+    "sha256": "c3cc19a099737c686f373269cb542941fa893ea9d2da3035514776c74b9b6d6a"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/execsurface-state-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/execsurface-state-2026-10-02/original-artifact.zip",
+    "sha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/execsurface-state-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/execsurface-state-2026-10-02/provenance.json",
+    "sha256": "01ddd16d56af3743b8ba5a62931458f84636e51065b32a2d3bd7cfcbdb93092c"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/execsurface-state-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/execsurface-state-2026-10-02/report.json",
+    "sha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/google-adk-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "4602b83d1b3e52d6aea8def21eff28f5b18b78c04da9213e4187ee2c1abf31e6"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/google-adk-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/provenance.json",
+    "sha256": "5f23ac9220ca2f00e62f8bc6ea78bdbc49a16b4eee55d01ee5fb5133eadc6207"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/google-adk-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/report.json",
+    "sha256": "f66b10be372a4a9410978cf7c2279985ef4aeb9a27cf16d33944af0e8f49df9a"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/installed-format-policy-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/installed-format-policy-2026-10-02/original-artifact.zip",
+    "sha256": "a609ce71f6172d83f27a2992437d690ab6f7df85c1954cad87986152e5282c24"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/installed-format-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/installed-format-policy-2026-10-02/provenance.json",
+    "sha256": "5943a111e63beb959a34b87580d1e81173fe35ddc6f83ec072cce95a1964f104"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/installed-format-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/installed-format-policy-2026-10-02/report.json",
+    "sha256": "748125384aceea85cc1cd99f1cc5de781281689110f1157a545f71a05f427ac4"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/jep-core07-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/jep-core07-2026-10-02/original-artifact.zip",
+    "sha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/jep-core07-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/jep-core07-2026-10-02/provenance.json",
+    "sha256": "1526f25715de06be9432df0a0097fa78f77c4d4bba03cea55ff89341be368331"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/jep-core07-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/jep-core07-2026-10-02/report.json",
+    "sha256": "4f92e1bc30c8ff6c8f89819d9fbcbd7ef42dce0d46f40712c095f10b7d9ca574"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/langgraph-durable-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/langgraph-durable-2026-10-02/original-artifact.zip",
+    "sha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/langgraph-durable-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/langgraph-durable-2026-10-02/provenance.json",
+    "sha256": "c92f73156c57a0d41c61114c8ca3c36c800904eb7d09a88257f98dcaa953cd9d"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/langgraph-durable-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/langgraph-durable-2026-10-02/report.json",
+    "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-boundary-cpu-2026-10-02/finite-findings.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/finite-findings.json",
+    "sha256": "2ff6357c8c2eef79d5606257dad39f5c9491053e19640429b9a165328922ac7b"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-boundary-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "d8ff26e82aca136daf734da65ede259b2bfaed9dd547ba25b92d65bdeeef019f"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-boundary-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/provenance.json",
+    "sha256": "f653dfa3c02a9290a470a8ff8c4327297d7a732ee7421c347864335f7c1025a6"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-boundary-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/report.json",
+    "sha256": "fa7b0e39b69bcd42f82fc93096e071b534557c34cf0e03e73e1bac56dcdd72af"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-format-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-format-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e64eafb149f4a0975831b5ca36df74ca89abef0c8dd1ca2c40cc71e317d123fe"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-format-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-format-cpu-2026-10-02/provenance.json",
+    "sha256": "3ba30e6c165d771078db77309250024eff2620b50151e5521bee7ac185c42838"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-format-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-format-cpu-2026-10-02/report.json",
+    "sha256": "c2a7d1954f3fb005ab8f2d0faeb121f005deed7a54cd5d03ceeb4b13c861153d"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-operational-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-operational-2026-10-02/provenance.json",
+    "sha256": "00d9ff560b02f672704f496eacdbb5ed106a9678c89916b0b54b30951c032e0d"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-operational-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-operational-2026-10-02/report.json",
+    "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-operational-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-operational-2026-10-02/selected-capsule.zip",
+    "sha256": "1613aeff57e696ac1d0f87bbe2c0fe22157cbd6655f1130a2de95b29929b95e2"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-paired-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-paired-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/provenance.json",
+    "sha256": "952c6a8f438beb1f360fc40786584f73dde806f8af33ac4c8561e301e265374b"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/model-paired-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/report.json",
+    "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/observer-admission/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/observer-admission/provenance.json",
+    "sha256": "8ea7581c5555e135963fc1419979157360acc724be7c17c2784136e29ce691f0"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/observer-admission/recorded.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/observer-admission/recorded.json",
+    "sha256": "c8d9675ac0ff5fccd6545b6e6bb6ab5ac3bcc14b313d7087b253bab1f7f0f1eb"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/observer-admission/source-pins.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/observer-admission/source-pins.json",
+    "sha256": "2ffd87708075c0dd7b230336fdfd72c93bd2fbf3eded37ee632f75ad735418ec"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/openai-agents-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/openai-agents-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/provenance.json",
+    "sha256": "0737d0fdf9b8f5a23c73eddc3dd5a7c86f5c0544cac70a0f9c147e782d941099"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/openai-agents-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/report.json",
+    "sha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/pydantic-failure-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/pydantic-failure-2026-10-02/original-artifact.zip",
+    "sha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/pydantic-failure-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/pydantic-failure-2026-10-02/provenance.json",
+    "sha256": "d035a941c1f818daa2d488dd7f4f9ee1f715650dda38175244ffa2c2007ce5d7"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/pydantic-failure-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/pydantic-failure-2026-10-02/report.json",
+    "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/remora-e7-2026-10-02/external-run-record-v1.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/remora-e7-2026-10-02/external-run-record-v1.json",
+    "sha256": "24731968cb599c52f000b4584ed41a5b977637fd9b00f5756f8f8e2c4566fc48"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/remora-e7-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/remora-e7-2026-10-02/original-artifact.zip",
+    "sha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/remora-e7-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/remora-e7-2026-10-02/provenance.json",
+    "sha256": "b7906952ba8bcccf3a0b9d2ddf7b4c8628d04a3498f61ed7ccf49f49e6e236a8"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/remora-e7-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/remora-e7-2026-10-02/report.json",
+    "sha256": "8cab9f748fb17ba3bd2c20ca1896b1b50be96120e53a1e6c5394aa404a26bca1"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/target-process-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/target-process-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/target-process-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/target-process-recovery-2026-10-02/provenance.json",
+    "sha256": "5f294cbca4b3e6fd157f3a6a3418cbd9a13b8992754a8a8249f8a39994e1c217"
+  },
+  "1810018367fb4edde6c2cce69d971d74bdd9ec37:experiments/target-process-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "1810018367fb4edde6c2cce69d971d74bdd9ec37",
+    "path": "site/experiments/target-process-recovery-2026-10-02/report.json",
+    "sha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792"
+  },
+  "471daf65ae6fd4491c61648b80707bf69859b970:data/lab-register.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "471daf65ae6fd4491c61648b80707bf69859b970",
+    "path": "site/data/lab-register.json",
+    "sha256": "8d13c048e25db48dcdda9b1fcd225525b52c896381f7200813da84109417cccd"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:data/lab-register.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/data/lab-register.json",
+    "sha256": "16ff91de60e8afdcb6b7987c9f31f80f84706c9c3c0173f0a06a1d7a46ba3c76"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/authority-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/authority-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "2f5754702be98a1681469b7943872cbb5b55e301081db571496fd0c5fa1066b2"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/authority-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/authority-recovery-2026-10-02/provenance.json",
+    "sha256": "e00e9f5031fb4e64a5363a05dcba333e569d5c228f96b2e9f42e2ebb381f9f2b"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/authority-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/authority-recovery-2026-10-02/report.json",
+    "sha256": "c3cc19a099737c686f373269cb542941fa893ea9d2da3035514776c74b9b6d6a"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/execsurface-state-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/execsurface-state-2026-10-02/original-artifact.zip",
+    "sha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/execsurface-state-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/execsurface-state-2026-10-02/provenance.json",
+    "sha256": "01ddd16d56af3743b8ba5a62931458f84636e51065b32a2d3bd7cfcbdb93092c"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/execsurface-state-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/execsurface-state-2026-10-02/report.json",
+    "sha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/google-adk-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "4602b83d1b3e52d6aea8def21eff28f5b18b78c04da9213e4187ee2c1abf31e6"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/google-adk-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/provenance.json",
+    "sha256": "5f23ac9220ca2f00e62f8bc6ea78bdbc49a16b4eee55d01ee5fb5133eadc6207"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/google-adk-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/report.json",
+    "sha256": "f66b10be372a4a9410978cf7c2279985ef4aeb9a27cf16d33944af0e8f49df9a"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/installed-format-policy-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/installed-format-policy-2026-10-02/original-artifact.zip",
+    "sha256": "a609ce71f6172d83f27a2992437d690ab6f7df85c1954cad87986152e5282c24"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/installed-format-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/installed-format-policy-2026-10-02/provenance.json",
+    "sha256": "5943a111e63beb959a34b87580d1e81173fe35ddc6f83ec072cce95a1964f104"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/installed-format-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/installed-format-policy-2026-10-02/report.json",
+    "sha256": "748125384aceea85cc1cd99f1cc5de781281689110f1157a545f71a05f427ac4"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/jep-core07-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/jep-core07-2026-10-02/original-artifact.zip",
+    "sha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/jep-core07-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/jep-core07-2026-10-02/provenance.json",
+    "sha256": "1526f25715de06be9432df0a0097fa78f77c4d4bba03cea55ff89341be368331"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/jep-core07-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/jep-core07-2026-10-02/report.json",
+    "sha256": "4f92e1bc30c8ff6c8f89819d9fbcbd7ef42dce0d46f40712c095f10b7d9ca574"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/langgraph-durable-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/langgraph-durable-2026-10-02/original-artifact.zip",
+    "sha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/langgraph-durable-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/langgraph-durable-2026-10-02/provenance.json",
+    "sha256": "c92f73156c57a0d41c61114c8ca3c36c800904eb7d09a88257f98dcaa953cd9d"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/langgraph-durable-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/langgraph-durable-2026-10-02/report.json",
+    "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-boundary-cpu-2026-10-02/finite-findings.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/finite-findings.json",
+    "sha256": "2ff6357c8c2eef79d5606257dad39f5c9491053e19640429b9a165328922ac7b"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-boundary-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "d8ff26e82aca136daf734da65ede259b2bfaed9dd547ba25b92d65bdeeef019f"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-boundary-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/provenance.json",
+    "sha256": "f653dfa3c02a9290a470a8ff8c4327297d7a732ee7421c347864335f7c1025a6"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-boundary-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/report.json",
+    "sha256": "fa7b0e39b69bcd42f82fc93096e071b534557c34cf0e03e73e1bac56dcdd72af"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-format-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-format-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e64eafb149f4a0975831b5ca36df74ca89abef0c8dd1ca2c40cc71e317d123fe"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-format-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-format-cpu-2026-10-02/provenance.json",
+    "sha256": "3ba30e6c165d771078db77309250024eff2620b50151e5521bee7ac185c42838"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-format-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-format-cpu-2026-10-02/report.json",
+    "sha256": "c2a7d1954f3fb005ab8f2d0faeb121f005deed7a54cd5d03ceeb4b13c861153d"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-operational-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-operational-2026-10-02/provenance.json",
+    "sha256": "00d9ff560b02f672704f496eacdbb5ed106a9678c89916b0b54b30951c032e0d"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-operational-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-operational-2026-10-02/report.json",
+    "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-operational-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-operational-2026-10-02/selected-capsule.zip",
+    "sha256": "1613aeff57e696ac1d0f87bbe2c0fe22157cbd6655f1130a2de95b29929b95e2"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-paired-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-paired-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/provenance.json",
+    "sha256": "952c6a8f438beb1f360fc40786584f73dde806f8af33ac4c8561e301e265374b"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/model-paired-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/report.json",
+    "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/observer-admission/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/observer-admission/provenance.json",
+    "sha256": "8ea7581c5555e135963fc1419979157360acc724be7c17c2784136e29ce691f0"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/observer-admission/recorded.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/observer-admission/recorded.json",
+    "sha256": "c8d9675ac0ff5fccd6545b6e6bb6ab5ac3bcc14b313d7087b253bab1f7f0f1eb"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/observer-admission/source-pins.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/observer-admission/source-pins.json",
+    "sha256": "2ffd87708075c0dd7b230336fdfd72c93bd2fbf3eded37ee632f75ad735418ec"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/openai-agents-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/openai-agents-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/provenance.json",
+    "sha256": "0737d0fdf9b8f5a23c73eddc3dd5a7c86f5c0544cac70a0f9c147e782d941099"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/openai-agents-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/report.json",
+    "sha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/pydantic-failure-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/pydantic-failure-2026-10-02/original-artifact.zip",
+    "sha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/pydantic-failure-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/pydantic-failure-2026-10-02/provenance.json",
+    "sha256": "d035a941c1f818daa2d488dd7f4f9ee1f715650dda38175244ffa2c2007ce5d7"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/pydantic-failure-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/pydantic-failure-2026-10-02/report.json",
+    "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/remora-e7-2026-10-02/external-run-record-v1.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/remora-e7-2026-10-02/external-run-record-v1.json",
+    "sha256": "24731968cb599c52f000b4584ed41a5b977637fd9b00f5756f8f8e2c4566fc48"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/remora-e7-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/remora-e7-2026-10-02/original-artifact.zip",
+    "sha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/remora-e7-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/remora-e7-2026-10-02/provenance.json",
+    "sha256": "b7906952ba8bcccf3a0b9d2ddf7b4c8628d04a3498f61ed7ccf49f49e6e236a8"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/remora-e7-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/remora-e7-2026-10-02/report.json",
+    "sha256": "8cab9f748fb17ba3bd2c20ca1896b1b50be96120e53a1e6c5394aa404a26bca1"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/target-process-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/target-process-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/target-process-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/target-process-recovery-2026-10-02/provenance.json",
+    "sha256": "5f294cbca4b3e6fd157f3a6a3418cbd9a13b8992754a8a8249f8a39994e1c217"
+  },
+  "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7:experiments/target-process-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "57b7fabd3d75a6662a1c1434b3d18cf7336b2ce7",
+    "path": "site/experiments/target-process-recovery-2026-10-02/report.json",
+    "sha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:data/lab-register.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/data/lab-register.json",
+    "sha256": "9f8dbe365f07a38ea7fde93b800da7f2c1eef1e159a57a95ff147f9dc09f453f"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/atomic-delegation-2026-10-02/native-run-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/atomic-delegation-2026-10-02/native-run-capsule.zip",
+    "sha256": "ba31071e1f0a60644117e3f4c300b16b07bc75c58caf3a5259047054132c3719"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/atomic-delegation-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/atomic-delegation-2026-10-02/provenance.json",
+    "sha256": "15fc513822f79e2cd3e12cfd22301e7f73e139359818f062e234958d5fd40f41"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/atomic-delegation-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/atomic-delegation-2026-10-02/report.json",
+    "sha256": "92b6cd64f85e7a87e8aee04bff128195e578acfd969170c231bbb1ac55f5f7c1"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/authority-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/authority-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "2f5754702be98a1681469b7943872cbb5b55e301081db571496fd0c5fa1066b2"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/authority-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/authority-recovery-2026-10-02/provenance.json",
+    "sha256": "e00e9f5031fb4e64a5363a05dcba333e569d5c228f96b2e9f42e2ebb381f9f2b"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/authority-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/authority-recovery-2026-10-02/report.json",
+    "sha256": "c3cc19a099737c686f373269cb542941fa893ea9d2da3035514776c74b9b6d6a"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/execsurface-state-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/execsurface-state-2026-10-02/original-artifact.zip",
+    "sha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/execsurface-state-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/execsurface-state-2026-10-02/provenance.json",
+    "sha256": "01ddd16d56af3743b8ba5a62931458f84636e51065b32a2d3bd7cfcbdb93092c"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/execsurface-state-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/execsurface-state-2026-10-02/report.json",
+    "sha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/google-adk-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "4602b83d1b3e52d6aea8def21eff28f5b18b78c04da9213e4187ee2c1abf31e6"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/google-adk-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/provenance.json",
+    "sha256": "5f23ac9220ca2f00e62f8bc6ea78bdbc49a16b4eee55d01ee5fb5133eadc6207"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/google-adk-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/report.json",
+    "sha256": "f66b10be372a4a9410978cf7c2279985ef4aeb9a27cf16d33944af0e8f49df9a"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-boundary-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/provenance.json",
+    "sha256": "eab42b64b41a96050b119be7b3ac8a6be8f4030b8e24ff631e5ec180a58117b9"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-boundary-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/report.json",
+    "sha256": "5683be39874d2fd50c557c01e04f18dfae9d2394f84a8d73b06eb31a0b264276"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-boundary-policy-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/selected-capsule.zip",
+    "sha256": "e1b29236fd546fe4fc5b0cc3a602893a08b89549c8bc393041d04d09f6f9367d"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-boundary-policy-2026-10-02/source-contract.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/source-contract.json",
+    "sha256": "7f838482ac352411d389a88f550c642a82d065f8a3cac9c7dbf2976afc3c1f31"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-format-policy-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-format-policy-2026-10-02/original-artifact.zip",
+    "sha256": "a609ce71f6172d83f27a2992437d690ab6f7df85c1954cad87986152e5282c24"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-format-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-format-policy-2026-10-02/provenance.json",
+    "sha256": "5943a111e63beb959a34b87580d1e81173fe35ddc6f83ec072cce95a1964f104"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/installed-format-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/installed-format-policy-2026-10-02/report.json",
+    "sha256": "748125384aceea85cc1cd99f1cc5de781281689110f1157a545f71a05f427ac4"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/jep-core07-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/jep-core07-2026-10-02/original-artifact.zip",
+    "sha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/jep-core07-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/jep-core07-2026-10-02/provenance.json",
+    "sha256": "1526f25715de06be9432df0a0097fa78f77c4d4bba03cea55ff89341be368331"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/jep-core07-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/jep-core07-2026-10-02/report.json",
+    "sha256": "4f92e1bc30c8ff6c8f89819d9fbcbd7ef42dce0d46f40712c095f10b7d9ca574"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/langgraph-durable-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/langgraph-durable-2026-10-02/original-artifact.zip",
+    "sha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/langgraph-durable-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/langgraph-durable-2026-10-02/provenance.json",
+    "sha256": "c92f73156c57a0d41c61114c8ca3c36c800904eb7d09a88257f98dcaa953cd9d"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/langgraph-durable-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/langgraph-durable-2026-10-02/report.json",
+    "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-boundary-cpu-2026-10-02/finite-findings.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/finite-findings.json",
+    "sha256": "2ff6357c8c2eef79d5606257dad39f5c9491053e19640429b9a165328922ac7b"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-boundary-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "d8ff26e82aca136daf734da65ede259b2bfaed9dd547ba25b92d65bdeeef019f"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-boundary-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/provenance.json",
+    "sha256": "f653dfa3c02a9290a470a8ff8c4327297d7a732ee7421c347864335f7c1025a6"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-boundary-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/report.json",
+    "sha256": "fa7b0e39b69bcd42f82fc93096e071b534557c34cf0e03e73e1bac56dcdd72af"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-format-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-format-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e64eafb149f4a0975831b5ca36df74ca89abef0c8dd1ca2c40cc71e317d123fe"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-format-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-format-cpu-2026-10-02/provenance.json",
+    "sha256": "3ba30e6c165d771078db77309250024eff2620b50151e5521bee7ac185c42838"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-format-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-format-cpu-2026-10-02/report.json",
+    "sha256": "c2a7d1954f3fb005ab8f2d0faeb121f005deed7a54cd5d03ceeb4b13c861153d"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-operational-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-operational-2026-10-02/provenance.json",
+    "sha256": "00d9ff560b02f672704f496eacdbb5ed106a9678c89916b0b54b30951c032e0d"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-operational-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-operational-2026-10-02/report.json",
+    "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-operational-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-operational-2026-10-02/selected-capsule.zip",
+    "sha256": "1613aeff57e696ac1d0f87bbe2c0fe22157cbd6655f1130a2de95b29929b95e2"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-paired-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-paired-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/provenance.json",
+    "sha256": "952c6a8f438beb1f360fc40786584f73dde806f8af33ac4c8561e301e265374b"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-paired-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/report.json",
+    "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/installed-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/installed-capsule.zip",
+    "sha256": "93a86439639978dc35af686b46b7b51c202a44e868d8c759a75e08cb5cd79ca9"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/installed-replay.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/installed-replay.json",
+    "sha256": "1cde7314140f7bb9d8aad9cca1ece0cc5fee3f32c8bb0e7dcb65628a5a11fb97"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/native-report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/native-report.json",
+    "sha256": "4b9638a73ce0fc8e7273fc8969cfc92467b5779903e47a501b3989b357b4d9b0"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/original-artifact.zip",
+    "sha256": "eef05226335f9e2de6783ee797d891cbd1fe47058264e2d57eb41f1ec39131d8"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/provenance.json",
+    "sha256": "fefb96f1cac94f9cffbcdfd90d5434ba3dd4e2c993bf4c69c4a9d39e921d4e8f"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/provider-inventory.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/provider-inventory.json",
+    "sha256": "e50753f843e5d42facb65ef9e20b5f5c3ff9a2e7abc98d63a7cb75577dd86339"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/report.json",
+    "sha256": "b921ec50bb757e06f738bdec620f3a68051e3d6ce7630460116e782e99dd2dd2"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/model-vocabulary-cpu-2026-10-03/source-contract.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/model-vocabulary-cpu-2026-10-03/source-contract.json",
+    "sha256": "4a3a47b14308f726af505ac489c9cb4c482cd48c09eacd3881c2fafe44f14ff7"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/observer-admission/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/observer-admission/provenance.json",
+    "sha256": "8ea7581c5555e135963fc1419979157360acc724be7c17c2784136e29ce691f0"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/observer-admission/recorded.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/observer-admission/recorded.json",
+    "sha256": "c8d9675ac0ff5fccd6545b6e6bb6ab5ac3bcc14b313d7087b253bab1f7f0f1eb"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/observer-admission/source-pins.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/observer-admission/source-pins.json",
+    "sha256": "2ffd87708075c0dd7b230336fdfd72c93bd2fbf3eded37ee632f75ad735418ec"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/openai-agents-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/openai-agents-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/provenance.json",
+    "sha256": "0737d0fdf9b8f5a23c73eddc3dd5a7c86f5c0544cac70a0f9c147e782d941099"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/openai-agents-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/report.json",
+    "sha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/pydantic-failure-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/pydantic-failure-2026-10-02/original-artifact.zip",
+    "sha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/pydantic-failure-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/pydantic-failure-2026-10-02/provenance.json",
+    "sha256": "d035a941c1f818daa2d488dd7f4f9ee1f715650dda38175244ffa2c2007ce5d7"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/pydantic-failure-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/pydantic-failure-2026-10-02/report.json",
+    "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/remora-e7-2026-10-02/external-run-record-v1.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/remora-e7-2026-10-02/external-run-record-v1.json",
+    "sha256": "24731968cb599c52f000b4584ed41a5b977637fd9b00f5756f8f8e2c4566fc48"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/remora-e7-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/remora-e7-2026-10-02/original-artifact.zip",
+    "sha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/remora-e7-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/remora-e7-2026-10-02/provenance.json",
+    "sha256": "b7906952ba8bcccf3a0b9d2ddf7b4c8628d04a3498f61ed7ccf49f49e6e236a8"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/remora-e7-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/remora-e7-2026-10-02/report.json",
+    "sha256": "8cab9f748fb17ba3bd2c20ca1896b1b50be96120e53a1e6c5394aa404a26bca1"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/target-process-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/target-process-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/target-process-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/target-process-recovery-2026-10-02/provenance.json",
+    "sha256": "5f294cbca4b3e6fd157f3a6a3418cbd9a13b8992754a8a8249f8a39994e1c217"
+  },
+  "8800ec2a682bdc840619222c45b47e170887aeec:experiments/target-process-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8800ec2a682bdc840619222c45b47e170887aeec",
+    "path": "site/experiments/target-process-recovery-2026-10-02/report.json",
+    "sha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:data/lab-register.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/data/lab-register.json",
+    "sha256": "0e337a5074c14fdfa3f01c3417004e83f3bbaa81b464badee8e144bd98ec7cf3"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/authority-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/authority-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "2f5754702be98a1681469b7943872cbb5b55e301081db571496fd0c5fa1066b2"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/authority-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/authority-recovery-2026-10-02/provenance.json",
+    "sha256": "e00e9f5031fb4e64a5363a05dcba333e569d5c228f96b2e9f42e2ebb381f9f2b"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/authority-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/authority-recovery-2026-10-02/report.json",
+    "sha256": "c3cc19a099737c686f373269cb542941fa893ea9d2da3035514776c74b9b6d6a"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/execsurface-state-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/execsurface-state-2026-10-02/original-artifact.zip",
+    "sha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/execsurface-state-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/execsurface-state-2026-10-02/provenance.json",
+    "sha256": "01ddd16d56af3743b8ba5a62931458f84636e51065b32a2d3bd7cfcbdb93092c"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/execsurface-state-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/execsurface-state-2026-10-02/report.json",
+    "sha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/google-adk-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "4602b83d1b3e52d6aea8def21eff28f5b18b78c04da9213e4187ee2c1abf31e6"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/google-adk-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/provenance.json",
+    "sha256": "5f23ac9220ca2f00e62f8bc6ea78bdbc49a16b4eee55d01ee5fb5133eadc6207"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/google-adk-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/report.json",
+    "sha256": "f66b10be372a4a9410978cf7c2279985ef4aeb9a27cf16d33944af0e8f49df9a"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/installed-format-policy-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/installed-format-policy-2026-10-02/original-artifact.zip",
+    "sha256": "a609ce71f6172d83f27a2992437d690ab6f7df85c1954cad87986152e5282c24"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/installed-format-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/installed-format-policy-2026-10-02/provenance.json",
+    "sha256": "5943a111e63beb959a34b87580d1e81173fe35ddc6f83ec072cce95a1964f104"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/installed-format-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/installed-format-policy-2026-10-02/report.json",
+    "sha256": "748125384aceea85cc1cd99f1cc5de781281689110f1157a545f71a05f427ac4"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/jep-core07-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/jep-core07-2026-10-02/original-artifact.zip",
+    "sha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/jep-core07-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/jep-core07-2026-10-02/provenance.json",
+    "sha256": "1526f25715de06be9432df0a0097fa78f77c4d4bba03cea55ff89341be368331"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/jep-core07-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/jep-core07-2026-10-02/report.json",
+    "sha256": "4f92e1bc30c8ff6c8f89819d9fbcbd7ef42dce0d46f40712c095f10b7d9ca574"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/langgraph-durable-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/langgraph-durable-2026-10-02/original-artifact.zip",
+    "sha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/langgraph-durable-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/langgraph-durable-2026-10-02/provenance.json",
+    "sha256": "c92f73156c57a0d41c61114c8ca3c36c800904eb7d09a88257f98dcaa953cd9d"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/langgraph-durable-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/langgraph-durable-2026-10-02/report.json",
+    "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-format-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-format-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e64eafb149f4a0975831b5ca36df74ca89abef0c8dd1ca2c40cc71e317d123fe"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-format-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-format-cpu-2026-10-02/provenance.json",
+    "sha256": "3ba30e6c165d771078db77309250024eff2620b50151e5521bee7ac185c42838"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-format-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-format-cpu-2026-10-02/report.json",
+    "sha256": "c2a7d1954f3fb005ab8f2d0faeb121f005deed7a54cd5d03ceeb4b13c861153d"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-operational-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-operational-2026-10-02/provenance.json",
+    "sha256": "00d9ff560b02f672704f496eacdbb5ed106a9678c89916b0b54b30951c032e0d"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-operational-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-operational-2026-10-02/report.json",
+    "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-operational-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-operational-2026-10-02/selected-capsule.zip",
+    "sha256": "1613aeff57e696ac1d0f87bbe2c0fe22157cbd6655f1130a2de95b29929b95e2"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-paired-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-paired-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/provenance.json",
+    "sha256": "952c6a8f438beb1f360fc40786584f73dde806f8af33ac4c8561e301e265374b"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/model-paired-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/report.json",
+    "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/observer-admission/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/observer-admission/provenance.json",
+    "sha256": "8ea7581c5555e135963fc1419979157360acc724be7c17c2784136e29ce691f0"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/observer-admission/recorded.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/observer-admission/recorded.json",
+    "sha256": "c8d9675ac0ff5fccd6545b6e6bb6ab5ac3bcc14b313d7087b253bab1f7f0f1eb"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/observer-admission/source-pins.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/observer-admission/source-pins.json",
+    "sha256": "2ffd87708075c0dd7b230336fdfd72c93bd2fbf3eded37ee632f75ad735418ec"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/openai-agents-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/openai-agents-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/provenance.json",
+    "sha256": "0737d0fdf9b8f5a23c73eddc3dd5a7c86f5c0544cac70a0f9c147e782d941099"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/openai-agents-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/report.json",
+    "sha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/pydantic-failure-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/pydantic-failure-2026-10-02/original-artifact.zip",
+    "sha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/pydantic-failure-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/pydantic-failure-2026-10-02/provenance.json",
+    "sha256": "d035a941c1f818daa2d488dd7f4f9ee1f715650dda38175244ffa2c2007ce5d7"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/pydantic-failure-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/pydantic-failure-2026-10-02/report.json",
+    "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/remora-e7-2026-10-02/external-run-record-v1.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/remora-e7-2026-10-02/external-run-record-v1.json",
+    "sha256": "24731968cb599c52f000b4584ed41a5b977637fd9b00f5756f8f8e2c4566fc48"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/remora-e7-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/remora-e7-2026-10-02/original-artifact.zip",
+    "sha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/remora-e7-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/remora-e7-2026-10-02/provenance.json",
+    "sha256": "b7906952ba8bcccf3a0b9d2ddf7b4c8628d04a3498f61ed7ccf49f49e6e236a8"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/remora-e7-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/remora-e7-2026-10-02/report.json",
+    "sha256": "8cab9f748fb17ba3bd2c20ca1896b1b50be96120e53a1e6c5394aa404a26bca1"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/target-process-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/target-process-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/target-process-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/target-process-recovery-2026-10-02/provenance.json",
+    "sha256": "5f294cbca4b3e6fd157f3a6a3418cbd9a13b8992754a8a8249f8a39994e1c217"
+  },
+  "8ad206c11c38b7ba096ad06cbce240f95ddd3ace:experiments/target-process-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8ad206c11c38b7ba096ad06cbce240f95ddd3ace",
+    "path": "site/experiments/target-process-recovery-2026-10-02/report.json",
+    "sha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:data/lab-register.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/data/lab-register.json",
+    "sha256": "61081d9927cae0237bba1e36e6073e22f343671270e7188ccbc7398996001787"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/atomic-delegation-2026-10-02/native-run-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/atomic-delegation-2026-10-02/native-run-capsule.zip",
+    "sha256": "ba31071e1f0a60644117e3f4c300b16b07bc75c58caf3a5259047054132c3719"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/atomic-delegation-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/atomic-delegation-2026-10-02/provenance.json",
+    "sha256": "15fc513822f79e2cd3e12cfd22301e7f73e139359818f062e234958d5fd40f41"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/atomic-delegation-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/atomic-delegation-2026-10-02/report.json",
+    "sha256": "92b6cd64f85e7a87e8aee04bff128195e578acfd969170c231bbb1ac55f5f7c1"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/authority-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/authority-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "2f5754702be98a1681469b7943872cbb5b55e301081db571496fd0c5fa1066b2"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/authority-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/authority-recovery-2026-10-02/provenance.json",
+    "sha256": "e00e9f5031fb4e64a5363a05dcba333e569d5c228f96b2e9f42e2ebb381f9f2b"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/authority-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/authority-recovery-2026-10-02/report.json",
+    "sha256": "c3cc19a099737c686f373269cb542941fa893ea9d2da3035514776c74b9b6d6a"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/execsurface-state-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/execsurface-state-2026-10-02/original-artifact.zip",
+    "sha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/execsurface-state-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/execsurface-state-2026-10-02/provenance.json",
+    "sha256": "01ddd16d56af3743b8ba5a62931458f84636e51065b32a2d3bd7cfcbdb93092c"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/execsurface-state-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/execsurface-state-2026-10-02/report.json",
+    "sha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/google-adk-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "4602b83d1b3e52d6aea8def21eff28f5b18b78c04da9213e4187ee2c1abf31e6"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/google-adk-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/provenance.json",
+    "sha256": "5f23ac9220ca2f00e62f8bc6ea78bdbc49a16b4eee55d01ee5fb5133eadc6207"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/google-adk-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/google-adk-ticket-2026-10-02/report.json",
+    "sha256": "f66b10be372a4a9410978cf7c2279985ef4aeb9a27cf16d33944af0e8f49df9a"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-boundary-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/provenance.json",
+    "sha256": "eab42b64b41a96050b119be7b3ac8a6be8f4030b8e24ff631e5ec180a58117b9"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-boundary-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/report.json",
+    "sha256": "5683be39874d2fd50c557c01e04f18dfae9d2394f84a8d73b06eb31a0b264276"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-boundary-policy-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/selected-capsule.zip",
+    "sha256": "e1b29236fd546fe4fc5b0cc3a602893a08b89549c8bc393041d04d09f6f9367d"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-boundary-policy-2026-10-02/source-contract.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-boundary-policy-2026-10-02/source-contract.json",
+    "sha256": "7f838482ac352411d389a88f550c642a82d065f8a3cac9c7dbf2976afc3c1f31"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-format-policy-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-format-policy-2026-10-02/original-artifact.zip",
+    "sha256": "a609ce71f6172d83f27a2992437d690ab6f7df85c1954cad87986152e5282c24"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-format-policy-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-format-policy-2026-10-02/provenance.json",
+    "sha256": "5943a111e63beb959a34b87580d1e81173fe35ddc6f83ec072cce95a1964f104"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/installed-format-policy-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/installed-format-policy-2026-10-02/report.json",
+    "sha256": "748125384aceea85cc1cd99f1cc5de781281689110f1157a545f71a05f427ac4"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/jep-core07-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/jep-core07-2026-10-02/original-artifact.zip",
+    "sha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/jep-core07-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/jep-core07-2026-10-02/provenance.json",
+    "sha256": "1526f25715de06be9432df0a0097fa78f77c4d4bba03cea55ff89341be368331"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/jep-core07-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/jep-core07-2026-10-02/report.json",
+    "sha256": "4f92e1bc30c8ff6c8f89819d9fbcbd7ef42dce0d46f40712c095f10b7d9ca574"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/langgraph-durable-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/langgraph-durable-2026-10-02/original-artifact.zip",
+    "sha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/langgraph-durable-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/langgraph-durable-2026-10-02/provenance.json",
+    "sha256": "c92f73156c57a0d41c61114c8ca3c36c800904eb7d09a88257f98dcaa953cd9d"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/langgraph-durable-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/langgraph-durable-2026-10-02/report.json",
+    "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-boundary-cpu-2026-10-02/finite-findings.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/finite-findings.json",
+    "sha256": "2ff6357c8c2eef79d5606257dad39f5c9491053e19640429b9a165328922ac7b"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-boundary-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "d8ff26e82aca136daf734da65ede259b2bfaed9dd547ba25b92d65bdeeef019f"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-boundary-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/provenance.json",
+    "sha256": "f653dfa3c02a9290a470a8ff8c4327297d7a732ee7421c347864335f7c1025a6"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-boundary-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-boundary-cpu-2026-10-02/report.json",
+    "sha256": "fa7b0e39b69bcd42f82fc93096e071b534557c34cf0e03e73e1bac56dcdd72af"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-format-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-format-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e64eafb149f4a0975831b5ca36df74ca89abef0c8dd1ca2c40cc71e317d123fe"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-format-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-format-cpu-2026-10-02/provenance.json",
+    "sha256": "3ba30e6c165d771078db77309250024eff2620b50151e5521bee7ac185c42838"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-format-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-format-cpu-2026-10-02/report.json",
+    "sha256": "c2a7d1954f3fb005ab8f2d0faeb121f005deed7a54cd5d03ceeb4b13c861153d"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-operational-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-operational-2026-10-02/provenance.json",
+    "sha256": "00d9ff560b02f672704f496eacdbb5ed106a9678c89916b0b54b30951c032e0d"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-operational-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-operational-2026-10-02/report.json",
+    "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-operational-2026-10-02/selected-capsule.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-operational-2026-10-02/selected-capsule.zip",
+    "sha256": "1613aeff57e696ac1d0f87bbe2c0fe22157cbd6655f1130a2de95b29929b95e2"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-paired-cpu-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/original-artifact.zip",
+    "sha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-paired-cpu-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/provenance.json",
+    "sha256": "952c6a8f438beb1f360fc40786584f73dde806f8af33ac4c8561e301e265374b"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/model-paired-cpu-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/model-paired-cpu-2026-10-02/report.json",
+    "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/observer-admission/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/observer-admission/provenance.json",
+    "sha256": "8ea7581c5555e135963fc1419979157360acc724be7c17c2784136e29ce691f0"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/observer-admission/recorded.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/observer-admission/recorded.json",
+    "sha256": "c8d9675ac0ff5fccd6545b6e6bb6ab5ac3bcc14b313d7087b253bab1f7f0f1eb"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/observer-admission/source-pins.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/observer-admission/source-pins.json",
+    "sha256": "2ffd87708075c0dd7b230336fdfd72c93bd2fbf3eded37ee632f75ad735418ec"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/openai-agents-ticket-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/original-artifact.zip",
+    "sha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/openai-agents-ticket-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/provenance.json",
+    "sha256": "0737d0fdf9b8f5a23c73eddc3dd5a7c86f5c0544cac70a0f9c147e782d941099"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/openai-agents-ticket-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/openai-agents-ticket-2026-10-02/report.json",
+    "sha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/pydantic-failure-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/pydantic-failure-2026-10-02/original-artifact.zip",
+    "sha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/pydantic-failure-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/pydantic-failure-2026-10-02/provenance.json",
+    "sha256": "d035a941c1f818daa2d488dd7f4f9ee1f715650dda38175244ffa2c2007ce5d7"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/pydantic-failure-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/pydantic-failure-2026-10-02/report.json",
+    "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/remora-e7-2026-10-02/external-run-record-v1.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/remora-e7-2026-10-02/external-run-record-v1.json",
+    "sha256": "24731968cb599c52f000b4584ed41a5b977637fd9b00f5756f8f8e2c4566fc48"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/remora-e7-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/remora-e7-2026-10-02/original-artifact.zip",
+    "sha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/remora-e7-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/remora-e7-2026-10-02/provenance.json",
+    "sha256": "b7906952ba8bcccf3a0b9d2ddf7b4c8628d04a3498f61ed7ccf49f49e6e236a8"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/remora-e7-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/remora-e7-2026-10-02/report.json",
+    "sha256": "8cab9f748fb17ba3bd2c20ca1896b1b50be96120e53a1e6c5394aa404a26bca1"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/target-process-recovery-2026-10-02/original-artifact.zip": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/target-process-recovery-2026-10-02/original-artifact.zip",
+    "sha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/target-process-recovery-2026-10-02/provenance.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/target-process-recovery-2026-10-02/provenance.json",
+    "sha256": "5f294cbca4b3e6fd157f3a6a3418cbd9a13b8992754a8a8249f8a39994e1c217"
+  },
+  "8db4ae241fb1224cfbc9b15138a41b7a6b59787c:experiments/target-process-recovery-2026-10-02/report.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "8db4ae241fb1224cfbc9b15138a41b7a6b59787c",
+    "path": "site/experiments/target-process-recovery-2026-10-02/report.json",
+    "sha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792"
+  },
+  "9f6df2b04a7d4e314de52d08f914555977d34c28:data/catalog.json": {
+    "repository": "probityai/agent-evidence-vectors",
+    "commit": "9f6df2b04a7d4e314de52d08f914555977d34c28",
+    "path": "site/data/catalog.json",
+    "sha256": "60dd4a20d357467cdc1721a10d9291b1b5ce5e8c2365b5ab61528509f39dfd3a"
+  }
+}
