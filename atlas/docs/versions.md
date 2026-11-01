@@ -44,10 +44,10 @@ A digest here is the SHA-256 of the artifact's source file in the site's reposit
 | Essay | 0.2 | 2026-09-27 | held | page not built in this repository yet | Held until it passes its release criteria |
 | [Atlas](atlas.md) | 0.6.1-preview | 2026-10-16 | draft | `0ce692cc40eccceb` `data/atlas.toml` | Records jcs-admit 0.1.2 and dsse 0.1.3 from full registry byte readback; other source and corpus pins stay unchanged |
 | Verifier demonstration | 0.1 | 2026-09-27 | held | page not built in this repository yet | Held until it passes its release criteria |
-| [Experiments](experiments.md) | 0.5 | 2026-10-16 | draft | `11e849dc1744fbdc` `src/experiments.md` | Returns from the original admission experiment to its worked article and exact presentation packet |
+| [Experiments](experiments.md) | 0.5 | 2026-10-16 | draft | `46886465fa56ff12` `src/experiments.md` | Returns from the original admission experiment to its worked article and exact presentation packet |
 | Series plan | 0.1 | 2026-09-27 | held | page not built in this repository yet | Held until it passes its release criteria |
-| [Claim ledger](claims.md) | 0.8.37 | 2026-10-16 | draft | `1faedfe143592b1f` `CLAIMS.md` | Binds the actual native Rust registry releases and preserves separate historical guide pins |
-| [Probity Open Evidence Lab](lab.md) | 0.1.16 | 2026-10-16 | draft | `fd047a2c359d1975` `src/lab.md` | Repairs three retained workflow download paths without changing original bytes or results |
+| [Claim ledger](claims.md) | 0.8.37 | 2026-10-16 | draft | `01f06c6daebc75f5` `CLAIMS.md` | Binds the actual native Rust registry releases and preserves separate historical guide pins |
+| [Probity Open Evidence Lab](lab.md) | 0.1.16 | 2026-10-16 | draft | `96a0fc40d6d20785` `src/lab.md` | Repairs three retained workflow download paths without changing original bytes or results |
 | [Claim status](status.md) | 0.4 | 2026-10-15 | draft | `9abcf6f05347e6be` `src/status.md` | Counts the five retained case records at their stated evidence classes; outside hosting does not imply independent custody |
 | [Task-grouped rates worked example](task-grouped-rates.md) | 0.1 | 2026-10-03 | draft | `92940ce8ee827ad0` `examples/task-grouped-rates/input.json` | Authored labels, paired task resampling, explicit weighting targets and unresolved outcomes |
 | [Published robot controls companion](provael-task-controls.md) | 0.1 | 2026-10-03 | draft | `20b90c1ae59c399d` `examples/provael-task-controls/source-record.json` | Original publisher simulator labels, matched controls, corrected interpretation and exact paired task weights |
@@ -57,7 +57,7 @@ A digest here is the SHA-256 of the artifact's source file in the site's reposit
 | [Project catalog](start.md) | 0.12 | 2026-10-16 | draft | `7ed6cd4957b30875` `data/catalog.json` | Uses existing registry-release rows for actual native Rust crates without invented source tags |
 | [Automation guide](automation.md) | 0.2 | 2026-10-15 | draft | `e62f6fdf9c953300` `src/automation.md` | Explains the existing Vectors Action failure controls with exact source and hosted job |
 | [Catalog maintenance guide](catalog.md) | 0.7 | 2026-10-15 | draft | `8aad602241e86dc6` `src/catalog.md` | Explains exact registry releases without source tags and retains tagged release roles |
-| [Retained evidence decision walkthrough](replay-an-evidence-decision.md) | 0.5 | 2026-10-16 | draft | `d024fac08abebbaf` `src/replay-an-evidence-decision.md` | Links one reusable source-bound presentation packet without changing the replay method |
+| [Retained evidence decision walkthrough](replay-an-evidence-decision.md) | 0.5 | 2026-10-16 | draft | `9b2ef5ab6f5c24ae` `src/replay-an-evidence-decision.md` | Links one reusable source-bound presentation packet without changing the replay method |
 | [Retained-run browser](runs.md) | 0.1 | 2026-10-06 | draft | `6a2ac67797c7adf9` `src/runs.md` | Search, exact claim-result filters and complete static navigation over the existing Lab register; no aggregate run grade |
 | [Published source routes](start.md) | 0.2.3 | 2026-10-15 | draft | `c939ee5b051223c3` `data/catalog-sources.json` | Appends current Python guide source reviews while retaining all earlier recipe and Action pins |
 | [Caller-declared APS and PriorSeal replay guide](replay-tools.md) | 0.1 | 2026-10-06 | draft | `829782a14a702aed` `src/replay-tools.md` | Links one complete v2 procedure, explicit caller declarations, hashes of files read at invocation and actual process outputs; historical results stay unchanged |
