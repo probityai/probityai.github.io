@@ -3,7 +3,7 @@
 Top: the log reader's dotted track starts at a dot as heavy as probity-verify's and drops to every passage
 the report holds; from the passage before the gap it leaves on a solid arc that lands, arrowhead first, on
 the passage after it, never touching the empty slot, and under that arc, over the gap, it says check, "fine".
-Its track ends in a bare check.
+Its track ends in the same verdict: check, "fine".
 Bottom: probity-verify's lens sits under the gap, its tick reaching up into the empty page, and its route
 ends in a stop bar there; its verdict follows at once: contradicted, a plain gloss, and the packet's own
 reason line. The gap is a full dashed page in absent ink. The seven passages sit in one frame named
@@ -23,7 +23,7 @@ REV = 2
 CASE = tomllib.loads((HERE / "data/source-coverage.toml").read_text())
 N, HOLE = 7, 4
 GLOSS = "this passage is missing from the report"
-FINE = "fine"            # the log reader's verdict, in its own muted ink, said over the gap it skipped
+FINE = "fine"            # the log reader's verdict, said over the gap it skipped and again at its end
 FRAME = "report"
 TITLE = "A passage missing from the report is not a clean report"
 DESC = (
@@ -73,13 +73,15 @@ def _draw(f, geo, sgap, top, col_x, gsize, reason_below, lr=20):
         if i != HOLE:
             f.line(x + sw_ / 2, yu, x + sw_ / 2, top - 4, "muted", sw=3, dash="3 7")
     if stacked:
-        f.glyph("check", hx - g / 2, inner, g, "muted")
-        f.text(hx - fine_w / 2, fy, FINE, "muted", "sans", 600)
+        f.glyph("check", hx - g / 2, inner, g, "fg")
+        f.text(hx - fine_w / 2, fy, FINE, "fg", "sans", 600)
     else:
         fw = g + 6 + fine_w
-        f.glyph("check", hx - fw / 2, fy - g, g, "muted")
-        f.text(hx - fw / 2 + g + 6, fy, FINE, "muted", "sans", 600)
-    f.glyph("check", col_x, yu - gsize / 2, gsize, "muted")
+        f.glyph("check", hx - fw / 2, fy - g, g, "fg")
+        f.text(hx - fw / 2 + g + 6, fy, FINE, "fg", "sans", 600)
+    # the log reader's verdict at the end of its track: check, fine
+    f.glyph("check", col_x, yu - gsize / 2, gsize, "fg")
+    f.text(col_x + gsize + 8, yu + cap / 2, FINE, "fg", "sans", 600)
     # probity-verify: a lens on the accent route reads each passage and stops under the gap, showing it;
     # the route runs on from the lens to the verdict, in the same column as the log reader's check
     yl = top + sh_ + 10 + lr + 16
@@ -104,7 +106,7 @@ def _draw(f, geo, sgap, top, col_x, gsize, reason_below, lr=20):
     ry = label_y + sz * 1.5 if reason_below else base + sz * 1.35
     f.text(rx_, ry, GLOSS, "fg")
     f.text(rx_, ry + sz * 1.35, CASE["reason"], "muted", "mono", 500)
-    return max(col_x + gsize,
+    return max(col_x + gsize + 8 + fine_w,
                tx + fk.text_width(CASE["decision"], sz, "sans", 600),
                rx_ + max(fk.text_width(CASE["reason"], sz, "mono", 500), fk.text_width(GLOSS, sz)))
 
@@ -112,14 +114,14 @@ def _draw(f, geo, sgap, top, col_x, gsize, reason_below, lr=20):
 def wide() -> fk.Fig:
     f = fk.Fig(NAME, "wide", 1280, 360, TITLE, DESC)
     sz = f.text_size
-    col_x = 1280 - fk.PAD - 34
+    col_x = 1280 - fk.PAD - 34 - 8 - fk.text_width(FINE, f.text_size, "sans", 600)
     assert _draw(f, (3, 3, 12, 5, 11), 14, 134, col_x, 34, False) <= 1280 - fk.PAD
     return f
 
 
 def narrow() -> fk.Fig:
     f = fk.Fig(NAME, "narrow", 720, 516, TITLE, DESC)
-    col_x = 720 - fk.PAD - 40
+    col_x = 720 - fk.PAD - 40 - 8 - fk.text_width(FINE, f.text_size, "sans", 600)
     assert _draw(f, (2, 3, 10, 4, 7), 16, 186, col_x, 40, True, lr=26) <= 720 - fk.PAD
     return f
 
