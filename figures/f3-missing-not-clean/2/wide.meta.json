@@ -4,14 +4,14 @@
  "width": 1280,
  "height": 360,
  "text_size": 26,
- "alt": "A report of seven passages with one missing. A log reader reads what the report holds, jumps over the gap without reading it and ends in a check: fine. probity-verify reads the report against the source capture, halts at the gap and returns contradicted, reason selected_span_missing_from_record: the selected passage is not in the report.",
+ "alt": "A report of seven passages with one missing. A log reader reads what the report holds, jumps over the gap without reading it and, right over the gap, says fine. probity-verify reads the report against the source capture, halts at the gap and returns contradicted: this passage is missing from the report, reason selected_span_missing_from_record.",
  "words": [
   "report",
   "log reader",
   "fine",
   "probity-verify",
   "contradicted",
-  "selected_span_missing_from_record",
-  "the selected passage is not in the report"
+  "this passage is missing from the report",
+  "selected_span_missing_from_record"
  ]
 }

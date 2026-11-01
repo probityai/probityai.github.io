@@ -296,7 +296,7 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
     w, h = sheet_size(cols, rows, cell, gap, pad)
     outline = _eared(x, y, w, h, EAR)
     if state == "missing":
-        f.path(outline, stroke="absent", sw=3.5, dash="8 5")
+        f.path(outline, stroke="absent", sw=4.5, dash="9 5")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
     f.path(f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}", stroke="rule", sw=2)
@@ -318,8 +318,8 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
 def lock(f: Fig, cx, cy, r=12, broken=False):
     """The archive's signature: a padlock centred on (cx, cy) whose solid body carries a digest mark (#)
     knocked out in the card colour, so it reads as a lock over a digest, not an award. r is half the body
-    width. broken swings the shackle open off its right post and strikes the whole lock through with a
-    heavy loss-ink slash."""
+    width. broken swings the shackle open off its right post, snapped, in loss ink: the seal no longer
+    holds."""
     bw, bh = 2 * r, 1.6 * r
     bx, by = cx - r, cy - bh * 0.3
     sr = r * 0.62                                 # shackle radius
@@ -328,7 +328,7 @@ def lock(f: Fig, cx, cy, r=12, broken=False):
     if broken:
         # the shackle swung up and open: its left post leaves the body
         f.path(f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 0.9:.1f} A{sr:.1f} {sr:.1f} 0 0 0 {cx - sr * 0.9:.1f} {by - sr * 2.1:.1f}",
-               stroke="fg", sw=sw)
+               stroke="loss", sw=sw)
     else:
         f.path(f"M{cx - sr:.1f} {by:.1f} L{cx - sr:.1f} {by - sr * 0.6:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr:.1f} {by - sr * 0.6:.1f} L{cx + sr:.1f} {by:.1f}",
                stroke="fg", sw=sw)
@@ -339,10 +339,6 @@ def lock(f: Fig, cx, cy, r=12, broken=False):
     for d in (-1, 1):
         f.line(cx + d * hw * 0.28 + hw * 0.08, hy - hw * 0.55, cx + d * hw * 0.28 - hw * 0.08, hy + hw * 0.55, "card", sw=hs)
         f.line(cx - hw * 0.5, hy + d * hw * 0.22, cx + hw * 0.5, hy + d * hw * 0.22, "card", sw=hs)
-    if broken:
-        k = r * 1.7
-        f.line(cx - k, cy + k * 0.75, cx + k, cy - k * 0.95, "card", sw=sw + 6)
-        f.line(cx - k, cy + k * 0.75, cx + k, cy - k * 0.95, "loss", sw=sw + 1.5)
 
 
 def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, lock_r=12):
@@ -378,13 +374,14 @@ def archive_size(n=3, geo=(4, 3, CELL, GAP, SPAD), sgap=14):
 
 def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
     """The verifier: a magnifying lens on the route, handle down-right. found draws what it caught inside
-    the glass and turns the rim to loss ink: "hole" is the missing sheet's dashed dog-eared outline."""
+    the glass and turns the rim to loss ink: "hole" is the missing sheet's dashed dog-eared outline, in the
+    missing sheet's own absent ink."""
     rim = "loss" if found else stroke
     f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, rim, sw=6)
     f.circle(cx, cy, r, fill="card", stroke=rim, sw=4)
     if found == "hole":
         hw, hh = r * 0.76, r * 0.96
-        f.path(_eared(cx - hw / 2, cy - hh / 2, hw, hh, hw / 3), stroke="loss", sw=2.5, dash="4 3")
+        f.path(_eared(cx - hw / 2, cy - hh / 2, hw, hh, hw / 3), stroke="absent", sw=2.5, dash="4 3")
     return cx + r
 
 
