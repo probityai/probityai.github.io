@@ -21,6 +21,7 @@ import json
 import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 from xml.sax.saxutils import escape
 
 from fontTools import subset
@@ -62,17 +63,20 @@ def text_width(s: str, size: float, font: str = "sans", weight: int = 400) -> fl
     """Advance width of s in user units, from the font's own hmtx table (no kerning)."""
     f = _font((font, weight))
     cmap = f.getBestCmap()
-    hmtx = f["hmtx"]
-    return sum(hmtx[cmap[ord(c)]][0] for c in s) * size / f["head"].unitsPerEm
+    hmtx: Any = f["hmtx"]
+    head: Any = f["head"]
+    return sum(hmtx[cmap[ord(c)]][0] for c in s) * size / head.unitsPerEm
 
 
 def cap_height(size: float, font: str = "sans", weight: int = 400) -> float:
     f = _font((font, weight))
-    return f["OS/2"].sCapHeight * size / f["head"].unitsPerEm
+    os2: Any = f["OS/2"]
+    head: Any = f["head"]
+    return os2.sCapHeight * size / head.unitsPerEm
 
 
 def _woff_b64(key: tuple[str, int], chars: set[str]) -> str:
-    opts = subset.Options()
+    opts: Any = subset.Options()
     opts.flavor = "woff"
     opts.layout_features = ["kern", "liga", "tnum"]
     opts.name_IDs = [1, 2]  # Chrome's font sanitizer rejects an empty name table
@@ -97,7 +101,9 @@ class Fig:
     height: float
     title: str
     desc: str
-    els: list[tuple[str, dict[str, str], dict[str, str], str]] = field(default_factory=list)
+    els: list[tuple[str, dict[str, str], dict[str, str], str]] = field(
+        default_factory=list
+    )
     chars: dict[tuple[str, int], set[str]] = field(default_factory=dict)
     sizes: list[float] = field(default_factory=list)
     words: list[str] = field(default_factory=list)
@@ -106,7 +112,14 @@ class Fig:
     def text_size(self) -> int:
         return int(TOKENS["type"]["text_" + self.layout])
 
-    def _add(self, tag: str, attrs: dict[str, object], fill: str | None, stroke: str | None, body: str = "") -> None:
+    def _add(
+        self,
+        tag: str,
+        attrs: dict[str, object],
+        fill: str | None,
+        stroke: str | None,
+        body: str = "",
+    ) -> None:
         for role in (fill, stroke):
             if role is not None and role not in ROLES:
                 raise ValueError(f"unknown colour role {role!r}")
@@ -116,7 +129,18 @@ class Fig:
             paint["stroke"] = stroke
         self.els.append((tag, {k: _fmt(v) for k, v in attrs.items()}, paint, body))
 
-    def rect(self, x, y, w, h, fill=None, stroke=None, rx=0, sw=2, dash=None):
+    def rect(
+        self,
+        x,
+        y,
+        w,
+        h,
+        fill=None,
+        stroke=None,
+        rx: float = 0,
+        sw: float = 2,
+        dash=None,
+    ):
         a = {"x": x, "y": y, "width": w, "height": h, "rx": rx}
         if stroke:
             a["stroke-width"] = sw
@@ -124,7 +148,7 @@ class Fig:
             a["stroke-dasharray"] = dash
         self._add("rect", a, fill, stroke)
 
-    def circle(self, cx, cy, r, fill=None, stroke=None, sw=2, dash=None):
+    def circle(self, cx, cy, r, fill=None, stroke=None, sw: float = 2, dash=None):
         a = {"cx": cx, "cy": cy, "r": r}
         if stroke:
             a["stroke-width"] = sw
@@ -132,18 +156,36 @@ class Fig:
             a["stroke-dasharray"] = dash
         self._add("circle", a, fill, stroke)
 
-    def line(self, x1, y1, x2, y2, stroke, sw=2, dash=None):
-        a = {"x1": x1, "y1": y1, "x2": x2, "y2": y2, "stroke-width": sw, "stroke-linecap": "round"}
+    def line(self, x1, y1, x2, y2, stroke, sw: float = 2, dash=None):
+        a = {
+            "x1": x1,
+            "y1": y1,
+            "x2": x2,
+            "y2": y2,
+            "stroke-width": sw,
+            "stroke-linecap": "round",
+        }
         if dash:
             a["stroke-dasharray"] = dash
         self._add("line", a, None, stroke)
 
-    def path(self, d, fill=None, stroke=None, sw=2, dash=None, join="round", opacity=None):
+    def path(
+        self,
+        d,
+        fill=None,
+        stroke=None,
+        sw: float = 2,
+        dash=None,
+        join="round",
+        opacity=None,
+    ):
         a = {"d": d}
         if opacity is not None:
             a["opacity"] = opacity
         if stroke:
-            a.update({"stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": join})
+            a.update(
+                {"stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": join}
+            )
         if dash:
             a["stroke-dasharray"] = dash
         self._add("path", a, fill, stroke)
@@ -165,12 +207,18 @@ class Fig:
             stroke,
         )
 
-    def text(self, x, y, s, fill="fg", font="sans", weight=400, anchor="start", size=None):
+    def text(
+        self, x, y, s, fill="fg", font="sans", weight=400, anchor="start", size=None
+    ):
         size = size or self.text_size
         if size < self.text_size:
-            raise ValueError(f"{self.name}/{self.layout}: {s!r} at {size} is under {self.text_size}")
+            raise ValueError(
+                f"{self.name}/{self.layout}: {s!r} at {size} is under {self.text_size}"
+            )
         if fill == "accent":
-            raise ValueError("accent is for marks only (the verifier and its route), never text")
+            raise ValueError(
+                "accent is for marks only (the verifier and its route), never text"
+            )
         if fill == "muted" and weight < 500:
             raise ValueError("muted text is weight 500 or more")
         bad = [c for c in s if not 0x20 <= ord(c) < 0x7F]
@@ -206,7 +254,18 @@ class Fig:
         used: set[tuple[str, str]] = set()
         body = []
         r = 6 if self.layout == "wide" else 12
-        card = ("rect", {"x": "0", "y": "0", "width": _fmt(self.width), "height": _fmt(self.height), "rx": str(r)}, {"fill": "card"}, "")
+        card = (
+            "rect",
+            {
+                "x": "0",
+                "y": "0",
+                "width": _fmt(self.width),
+                "height": _fmt(self.height),
+                "rx": str(r),
+            },
+            {"fill": "card"},
+            "",
+        )
         for tag, attrs, paint, text in [card, *self.els]:
             if tag == "text" and not words:
                 continue
@@ -225,7 +284,9 @@ class Fig:
             body.append(f"<{tag} {attr}>{text}</{tag}>" if text else f"<{tag} {attr}/>")
         if theme == "auto":
             dark = TOKENS["dark"]
-            rules = "".join(f".{p[0]}-{role}{{{p}:{dark[role]}}}" for p, role in sorted(used))
+            rules = "".join(
+                f".{p[0]}-{role}{{{p}:{dark[role]}}}" for p, role in sorted(used)
+            )
             css.append(f"@media (prefers-color-scheme:dark){{{rules}}}")
         style = f"<style>{''.join(css)}</style>" if css else ""
         head = (
@@ -250,7 +311,7 @@ class Fig:
 def _fmt(v: object) -> str:
     if isinstance(v, float):
         s = f"{v:.1f}"
-        return s[:-2] if s.endswith(".0") else s
+        return s.removesuffix(".0")
     return str(v)
 
 
@@ -265,10 +326,14 @@ def write(figs: list[Fig], root: Path, rev: int) -> list[Path]:
             p = out / f"{fig.layout}-{theme}.svg"
             p.write_text(fig.render(theme))
             paths.append(p)
-        (out / f"{fig.layout}.meta.json").write_text(json.dumps(fig.meta(), indent=1) + "\n")
+        (out / f"{fig.layout}.meta.json").write_text(
+            json.dumps(fig.meta(), indent=1) + "\n"
+        )
         mute = root / "_mute"
         mute.mkdir(exist_ok=True)
-        (mute / f"{fig.name}-{fig.layout}.svg").write_text(fig.render("light", words=False))
+        (mute / f"{fig.name}-{fig.layout}.svg").write_text(
+            fig.render("light", words=False)
+        )
     return paths
 
 
@@ -282,14 +347,27 @@ CELL, GAP, SPAD, EAR = 12, 5, 11, 12
 
 
 def sheet_size(cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD):
-    return cols * cell + (cols - 1) * gap + 2 * pad, rows * cell + (rows - 1) * gap + 2 * pad + EAR / 2
+    return cols * cell + (cols - 1) * gap + 2 * pad, rows * cell + (
+        rows - 1
+    ) * gap + 2 * pad + EAR / 2
 
 
 def _eared(x, y, w, h, ear):
     return f"M{x:.1f} {y:.1f} L{x + w - ear:.1f} {y:.1f} L{x + w:.1f} {y + ear:.1f} L{x + w:.1f} {y + h:.1f} L{x:.1f} {y + h:.1f} Z"
 
 
-def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="present", mark=None):
+def sheet(
+    f: Fig,
+    x,
+    y,
+    cols=4,
+    rows=3,
+    cell=CELL,
+    gap=GAP,
+    pad=SPAD,
+    state="present",
+    mark=None,
+):
     """A file sheet. state "missing" draws a dashed hollow outline in absent ink (not there, not failed).
     mark (col, row) is the one byte cell drawn in loss ink, enlarged well past its neighbours and ringed
     in the card colour so it reads at thumbnail size: the changed byte."""
@@ -299,7 +377,11 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
         f.path(outline, stroke="absent", sw=4.5, dash="9 5")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
-    f.path(f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}", stroke="rule", sw=2)
+    f.path(
+        f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}",
+        stroke="rule",
+        sw=2,
+    )
     top = y + pad + EAR / 2
     for r in range(rows):
         for c in range(cols):
@@ -310,38 +392,76 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
         c, r = mark
         cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
         g = cell * 0.9
-        f.rect(cx - g - 2, cy - g - 2, cell + 2 * g + 4, cell + 2 * g + 4, fill="card", rx=5)
+        f.rect(
+            cx - g - 2,
+            cy - g - 2,
+            cell + 2 * g + 4,
+            cell + 2 * g + 4,
+            fill="card",
+            rx=5,
+        )
         f.rect(cx - g, cy - g, cell + 2 * g, cell + 2 * g, fill="loss", rx=4)
     return w, h
 
 
-def lock(f: Fig, cx, cy, r=12, broken=False):
+def lock(f: Fig, cx, cy, r: float = 12, broken=False):
     """The archive's signature: a padlock centred on (cx, cy) whose solid body carries a digest mark (#)
     knocked out in the card colour, so it reads as a lock over a digest, not an award. r is half the body
     width. broken swings the shackle open off its right post, snapped, in loss ink: the seal no longer
     holds."""
     bw, bh = 2 * r, 1.6 * r
     bx, by = cx - r, cy - bh * 0.3
-    sr = r * 0.62                                 # shackle radius
+    sr = r * 0.62  # shackle radius
     sw = max(3.0, r * 0.32)
     f.circle(cx, cy, r * 1.9, fill="card")
     if broken:
         # the shackle swung up and open: its left post leaves the body
-        f.path(f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 0.9:.1f} A{sr:.1f} {sr:.1f} 0 0 0 {cx - sr * 0.9:.1f} {by - sr * 2.1:.1f}",
-               stroke="loss", sw=sw)
+        f.path(
+            f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 0.9:.1f} A{sr:.1f} {sr:.1f} 0 0 0 {cx - sr * 0.9:.1f} {by - sr * 2.1:.1f}",
+            stroke="loss",
+            sw=sw,
+        )
     else:
-        f.path(f"M{cx - sr:.1f} {by:.1f} L{cx - sr:.1f} {by - sr * 0.6:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr:.1f} {by - sr * 0.6:.1f} L{cx + sr:.1f} {by:.1f}",
-               stroke="fg", sw=sw)
+        f.path(
+            f"M{cx - sr:.1f} {by:.1f} L{cx - sr:.1f} {by - sr * 0.6:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr:.1f} {by - sr * 0.6:.1f} L{cx + sr:.1f} {by:.1f}",
+            stroke="fg",
+            sw=sw,
+        )
     f.rect(bx, by, bw, bh, fill="fg", rx=r * 0.25)
     # the digest mark: two uprights and two bars, in the card colour
     hw, hs = r * 0.62, max(1.6, r * 0.13)
     hy = by + bh / 2
     for d in (-1, 1):
-        f.line(cx + d * hw * 0.28 + hw * 0.08, hy - hw * 0.55, cx + d * hw * 0.28 - hw * 0.08, hy + hw * 0.55, "card", sw=hs)
-        f.line(cx - hw * 0.5, hy + d * hw * 0.22, cx + hw * 0.5, hy + d * hw * 0.22, "card", sw=hs)
+        f.line(
+            cx + d * hw * 0.28 + hw * 0.08,
+            hy - hw * 0.55,
+            cx + d * hw * 0.28 - hw * 0.08,
+            hy + hw * 0.55,
+            "card",
+            sw=hs,
+        )
+        f.line(
+            cx - hw * 0.5,
+            hy + d * hw * 0.22,
+            cx + hw * 0.5,
+            hy + d * hw * 0.22,
+            "card",
+            sw=hs,
+        )
 
 
-def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, lock_r=12):
+def archive(
+    f: Fig,
+    x,
+    y,
+    n=3,
+    missing=None,
+    mark=None,
+    geo=(4, 3, CELL, GAP, SPAD),
+    sgap=14,
+    broken=False,
+    lock_r=12,
+):
     """n sheets in one outline, tied by a thin cord that runs across every sheet into the padlock on the
     right edge. Returns (width, height)."""
     sw_, sh_ = sheet_size(*geo)
@@ -350,8 +470,14 @@ def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SP
     h = 2 * m + sh_
     f.rect(x, y, w, h, stroke="rule", rx=10, sw=2)
     for i in range(n):
-        sheet(f, x + m + i * (sw_ + sgap), y + m, *geo, state="missing" if missing == i else "present",
-              mark=mark[1] if mark and mark[0] == i else None)
+        sheet(
+            f,
+            x + m + i * (sw_ + sgap),
+            y + m,
+            *geo,
+            state="missing" if missing == i else "present",
+            mark=mark[1] if mark and mark[0] == i else None,
+        )
     # the lock's cord: one thin strap across every sheet into the lock, so the lock reads as binding the
     # files; broken cuts a gap in the cord over the changed sheet and breaks the lock
     by, bh = y + m + EAR / 2 + 2, 3
@@ -381,7 +507,12 @@ def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
     f.circle(cx, cy, r, fill="card", stroke=rim, sw=4)
     if found == "hole":
         hw, hh = r * 0.76, r * 0.96
-        f.path(_eared(cx - hw / 2, cy - hh / 2, hw, hh, hw / 3), stroke="absent", sw=2.5, dash="4 3")
+        f.path(
+            _eared(cx - hw / 2, cy - hh / 2, hw, hh, hw / 3),
+            stroke="absent",
+            sw=2.5,
+            dash="4 3",
+        )
     return cx + r
 
 
@@ -392,9 +523,20 @@ def receipt(f: Fig, x, cy, h=48, ink="rule"):
     ear = h * 0.26
     y = cy - h / 2
     f.path(_eared(x, y, w, h, ear), fill="tile", stroke=ink, sw=2.5)
-    f.path(f"M{x + w - ear:.1f} {y:.1f} L{x + w - ear:.1f} {y + ear:.1f} L{x + w:.1f} {y + ear:.1f}", stroke=ink, sw=2.5)
+    f.path(
+        f"M{x + w - ear:.1f} {y:.1f} L{x + w - ear:.1f} {y + ear:.1f} L{x + w:.1f} {y + ear:.1f}",
+        stroke=ink,
+        sw=2.5,
+    )
     for k, right in ((0, w - ear - 4), (1, w - 6)):
-        f.line(x + 6, y + ear * 0.55 + 4 + k * 8, x + right, y + ear * 0.55 + 4 + k * 8, "rule", sw=2.5)
+        f.line(
+            x + 6,
+            y + ear * 0.55 + 4 + k * 8,
+            x + right,
+            y + ear * 0.55 + 4 + k * 8,
+            "rule",
+            sw=2.5,
+        )
     g = w * 0.5
     f.glyph("check", x + (w - g) / 2, y + h - g - 4, g, "fg", sw=2.5)
     return x + w
@@ -403,10 +545,13 @@ def receipt(f: Fig, x, cy, h=48, ink="rule"):
 def folder(f: Fig, x, y, w, h, ink="fg"):
     """A filing folder: a rounded pocket with a tab on its top-left edge. What sits inside is kept."""
     tw, th = min(56, w * 0.4), 9
-    f.path(f"M{x:.1f} {y + 6:.1f} Q{x:.1f} {y:.1f} {x + 6:.1f} {y:.1f} L{x + tw:.1f} {y:.1f} L{x + tw + th:.1f} {y + th:.1f} "
-           f"L{x + w - 6:.1f} {y + th:.1f} Q{x + w:.1f} {y + th:.1f} {x + w:.1f} {y + th + 6:.1f} L{x + w:.1f} {y + h - 6:.1f} "
-           f"Q{x + w:.1f} {y + h:.1f} {x + w - 6:.1f} {y + h:.1f} L{x + 6:.1f} {y + h:.1f} Q{x:.1f} {y + h:.1f} {x:.1f} {y + h - 6:.1f} Z",
-           stroke=ink, sw=2.5)
+    f.path(
+        f"M{x:.1f} {y + 6:.1f} Q{x:.1f} {y:.1f} {x + 6:.1f} {y:.1f} L{x + tw:.1f} {y:.1f} L{x + tw + th:.1f} {y + th:.1f} "
+        f"L{x + w - 6:.1f} {y + th:.1f} Q{x + w:.1f} {y + th:.1f} {x + w:.1f} {y + th + 6:.1f} L{x + w:.1f} {y + h - 6:.1f} "
+        f"Q{x + w:.1f} {y + h:.1f} {x + w - 6:.1f} {y + h:.1f} L{x + 6:.1f} {y + h:.1f} Q{x:.1f} {y + h:.1f} {x:.1f} {y + h - 6:.1f} Z",
+        stroke=ink,
+        sw=2.5,
+    )
 
 
 def arrow(f: Fig, x, y, ink="accent", size=9, direction="right"):

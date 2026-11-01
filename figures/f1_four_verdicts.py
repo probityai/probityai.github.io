@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import tomllib
 from pathlib import Path
+from typing import Any
 
 import figkit as fk
 
@@ -25,7 +26,9 @@ NAME = "f1-four-verdicts"
 REV = 2
 ARMS = tomllib.loads((HERE / "data/four-arms.toml").read_text())["arm"]
 INTACT, BYTE, MISSING, CHANGED = ARMS
-KEPT = CHANGED["header"].rsplit(", ", 1)[1]   # "both outcomes preserved", the arm's own words
+KEPT = CHANGED["header"].rsplit(", ", 1)[
+    1
+]  # "both outcomes preserved", the arm's own words
 TITLE = "Four verdicts from one evidence archive"
 DESC = (
     "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed "
@@ -34,16 +37,24 @@ DESC = (
     "verified, exit 0, and both receipts are filed side by side in one folder: both outcomes preserved. "
     "Exit codes: 0 verified, 2 failed, 3 not-established."
 )
-INK = {"check": "fg", "cross": "fg", "query": "absent"}   # not-established shares the missing file's ink
+INK = {
+    "check": "fg",
+    "cross": "fg",
+    "query": "absent",
+}  # not-established shares the missing file's ink
 
 
 def _verdict(f, arm, x, cy, gsize, exit_inline=True):
     """Glyph, verdict word and exit code with the glyph's centre at (x + gsize/2, cy). Returns the right edge."""
     sz = f.text_size
-    f.glyph(arm["glyph"], x - gsize * 0.12, cy - gsize / 2, gsize, INK[arm["glyph"]])   # the glyph box pads its stroke
+    f.glyph(
+        arm["glyph"], x - gsize * 0.12, cy - gsize / 2, gsize, INK[arm["glyph"]]
+    )  # the glyph box pads its stroke
     base = cy + fk.cap_height(sz, "sans", 600) / 2
     wx = x + gsize + 12
-    f.text(wx, base, arm["verdict"], "fg", "mono", 500)   # printed as the verifier prints it
+    f.text(
+        wx, base, arm["verdict"], "fg", "mono", 500
+    )  # printed as the verifier prints it
     ex = f"exit {arm['exit']}"
     if exit_inline:
         ex_x = wx + fk.text_width(arm["verdict"], sz, "mono", 500) + 14
@@ -55,7 +66,13 @@ def _verdict(f, arm, x, cy, gsize, exit_inline=True):
 
 def _verdict_width(f, arm, gsize):
     sz = f.text_size
-    return gsize + 12 + fk.text_width(arm["verdict"], sz, "mono", 500) + 14 + fk.text_width(f"exit {arm['exit']}", sz, "mono", 500)
+    return (
+        gsize
+        + 12
+        + fk.text_width(arm["verdict"], sz, "mono", 500)
+        + 14
+        + fk.text_width(f"exit {arm['exit']}", sz, "mono", 500)
+    )
 
 
 TAGS = ("v1", "v2")
@@ -64,9 +81,17 @@ TAGS = ("v1", "v2")
 def _kept(f, arm, x, cy, gsize, dy):
     """The changed verifier's two kept records: one printed verdict line per verifier, tagged v1 and v2."""
     sz = f.text_size
+    right = x
     for k, tag in enumerate(TAGS):
         right = _verdict(f, arm, x, cy + k * dy, gsize)
-        f.text(right + 18, cy + k * dy + fk.cap_height(sz, "mono", 500) / 2, tag, "muted", "mono", 500)
+        f.text(
+            right + 18,
+            cy + k * dy + fk.cap_height(sz, "mono", 500) / 2,
+            tag,
+            "muted",
+            "mono",
+            500,
+        )
     return right + 18 + fk.text_width(TAGS[1], sz, "mono", 500)
 
 
@@ -80,7 +105,7 @@ def _kept_pair(f, x, top, r, rh):
     tw = fk.text_width(TAGS[0], sz, "mono", 500) + 8
     cap = fk.cap_height(sz, "mono", 500)
     ly = top + r
-    slot = tw + r * 2 + r * 0.9 + 26           # tag, lens, handle and air
+    slot = tw + r * 2 + r * 0.9 + 26  # tag, lens, handle and air
     rw = round(rh * 0.78, 1)
     ftop = ly + r + 16
     fh = rh + 30
@@ -120,7 +145,9 @@ def _legend(f, x, y, stacked=False):
         f.text(cx, y, str(code), "fg", "mono", 500)
         cx += fk.text_width(f"{code} ", sz, "mono", 500)
         f.text(cx, y, word, "fg", "mono", 500)
-        cx += fk.text_width(word, sz, "mono", 500) + fk.text_width("   ", sz, "mono", 500)
+        cx += fk.text_width(word, sz, "mono", 500) + fk.text_width(
+            "   ", sz, "mono", 500
+        )
     return cx, y
 
 
@@ -150,22 +177,30 @@ def wide() -> fk.Fig:
     pic_y = ty + ah / 2 + 86
     bus = ty + ah / 2 + 42
     # the archive as it arrives after each transit fault, and the two verifiers filing their receipts
-    fk.archive(f, cols[0], pic_y, mark=(1, (1, 1)), geo=geo, sgap=sgap, broken=True, lock_r=16)
+    fk.archive(
+        f, cols[0], pic_y, mark=(1, (1, 1)), geo=geo, sgap=sgap, broken=True, lock_r=16
+    )
     fk.archive(f, cols[1], pic_y, missing=1, geo=geo, sgap=sgap, lock_r=16)
     right, bottom, v2x, kly = _kept_pair(f, cols[2], pic_y - 6, 16, 40)
     assert right <= cols[2] + colw
     pics = [cols[0] + aw / 2, cols[1] + aw / 2, v2x]
     tops = [pic_y - 16, pic_y - 16, kly - 16 - 8]
     strikes = [ax + aw + 70, cols[1] + aw / 2, lx]
-    inks = ["loss", "absent", "accent"]   # the changed verifier is no fault: a solid accent branch
+    inks = [
+        "loss",
+        "absent",
+        "accent",
+    ]  # the changed verifier is no fault: a solid accent branch
     for k in range(3):
         sx, px, top = strikes[k], pics[k], tops[k]
         y0 = ty + (lr + 10 if k == 2 else 0)
         if abs(sx - px) < 1:
             d = f"M{sx:.1f} {y0:.1f} L{px:.1f} {top:.1f}"
         else:
-            d = f"M{sx:.1f} {y0:.1f} L{sx:.1f} {bus - 10:.1f} Q{sx:.1f} {bus:.1f} {sx + (10 if px > sx else -10):.1f} {bus:.1f} " \
+            d = (
+                f"M{sx:.1f} {y0:.1f} L{sx:.1f} {bus - 10:.1f} Q{sx:.1f} {bus:.1f} {sx + (10 if px > sx else -10):.1f} {bus:.1f} "
                 f"L{px + (-10 if px > sx else 10):.1f} {bus:.1f} Q{px:.1f} {bus:.1f} {px:.1f} {bus + 10:.1f} L{px:.1f} {top:.1f}"
+            )
         if k == 2:
             f.path(d, stroke=inks[k], sw=3)
         else:
@@ -192,30 +227,37 @@ def wide() -> fk.Fig:
 def narrow() -> fk.Fig:
     W, pad = 720, fk.PAD
     geo, sgap = (3, 3, 12, 5, 10), 12
-    aw, ah = fk.archive_size(3, geo, sgap)
+    _, ah = fk.archive_size(3, geo, sgap)
     gs = 40
     blk = ah + 160
     f = fk.Fig(NAME, "narrow", W, 0, TITLE, DESC)
     sz = f.text_size
-    sx = pad + 34                     # the spine
+    sx = pad + 34  # the spine
     ay = 48
-    cx = sx + 72                      # left edge of every block
-    y = ay + ah + 50                  # top of the first block
+    cx = sx + 72  # left edge of every block
+    y = ay + ah + 50  # top of the first block
     lr = 26
     blocks = []
     for k in range(3):
         blocks.append(y)
         y += blk
-    ptop = blocks[2] + 30             # the two verifiers' lenses
-    ly = ptop - 20                    # the spine lens sits just above them
-    end_y = y + 250                   # the intact verdict's centre line (below the two kept lines)
+    ptop = blocks[2] + 30  # the two verifiers' lenses
+    ly = ptop - 20  # the spine lens sits just above them
+    end_y = y + 250  # the intact verdict's centre line (below the two kept lines)
     f.path(f"M{sx:.1f} {ay + ah:.1f} L{sx:.1f} {ly - lr:.1f}", stroke="accent", sw=3)
-    f.path(f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 24:.1f} {end_y:.1f}",
-           stroke="accent", sw=3)
+    f.path(
+        f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 24:.1f} {end_y:.1f}",
+        stroke="accent",
+        sw=3,
+    )
     fk.arrow(f, cx - 12, end_y, size=11)
     fk.archive(f, pad, ay, geo=geo, sgap=sgap, lock_r=20)
     # transit faults: strike on the spine, drop right to the archive as it arrives
-    for k, (kw, ink) in enumerate((({"mark": (1, (1, 1)), "broken": True}, "loss"), ({"missing": 1}, "absent"))):
+    faults: tuple[tuple[dict[str, Any], str], ...] = (
+        ({"mark": (1, (1, 1)), "broken": True}, "loss"),
+        ({"missing": 1}, "absent"),
+    )
+    for k, (kw, ink) in enumerate(faults):
         by = blocks[k]
         cy = by + ah / 2
         f.line(sx, cy, cx - 10, cy, ink, sw=2.5, dash="6 6")
@@ -224,8 +266,11 @@ def narrow() -> fk.Fig:
     # the changed verifier strikes at the lens and reaches the changed lens (v2)
     fk.lens(f, sx, ly, lr)
     _, bottom, v2x, kly = _kept_pair(f, cx, ptop, 22, 52)
-    f.path(f"M{sx + lr + 12:.1f} {ly:.1f} L{v2x - 10:.1f} {ly:.1f} Q{v2x:.1f} {ly:.1f} {v2x:.1f} {ly + 10:.1f} L{v2x:.1f} {kly - 22 - 8:.1f}",
-           stroke="accent", sw=3)
+    f.path(
+        f"M{sx + lr + 12:.1f} {ly:.1f} L{v2x - 10:.1f} {ly:.1f} Q{v2x:.1f} {ly:.1f} {v2x:.1f} {ly + 10:.1f} L{v2x:.1f} {kly - 22 - 8:.1f}",
+        stroke="accent",
+        sw=3,
+    )
     fk.strike(f, sx + lr + 12, ly, r=6, ink="accent")
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
         cap = blocks[k] + ah + 52 if k < 2 else max(blocks[k] + ah, bottom) + 56
@@ -240,7 +285,7 @@ def narrow() -> fk.Fig:
     _verdict(f, INTACT, cx, end_y, gs)
     ly_ = end_y + 96
     f.rect(pad, ly_ - 50, W - 2 * pad, 2, fill="rule")
-    end, last = _legend(f, pad, ly_, stacked=True)
+    _, last = _legend(f, pad, ly_, stacked=True)
     f.height = round(last + 34)
     return f
 

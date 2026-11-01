@@ -12,6 +12,7 @@ import hashlib
 import sys
 import tomllib
 from pathlib import Path
+from typing import Any
 
 from fontTools import subset
 from fontTools.ttLib import TTFont
@@ -25,8 +26,10 @@ def main(masters: Path) -> None:
         path = masters / src["file"]
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         if digest != src["sha256"]:
-            raise SystemExit(f"{key}: {path} has sha256 {digest}, SOURCES.toml pins {src['sha256']}")
-        opts = subset.Options()
+            raise SystemExit(
+                f"{key}: {path} has sha256 {digest}, SOURCES.toml pins {src['sha256']}"
+            )
+        opts: Any = subset.Options()
         opts.flavor = "woff"
         opts.layout_features = ["kern", "liga", "tnum"]
         opts.name_IDs = [1, 2]

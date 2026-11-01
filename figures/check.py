@@ -61,47 +61,72 @@ def check_svg(path: Path, floor: int) -> list[str]:
     root = ET.parse(path).getroot()
     vb = root.get("viewBox", "").split()
     if len(vb) != 4 or root.get("width") != vb[2] or root.get("height") != vb[3]:
-        errs.append(f"{path}: width/height {root.get('width')}x{root.get('height')} differ from viewBox {vb}")
+        errs.append(
+            f"{path}: width/height {root.get('width')}x{root.get('height')} differ from viewBox {vb}"
+        )
     if root.find(f"{NS}title") is None or root.find(f"{NS}desc") is None:
         errs.append(f"{path}: missing title or desc")
     for el in root.iter():
         tag = el.tag.removeprefix(NS)
-        if tag == "image" or el.get("href") or el.get("{http://www.w3.org/1999/xlink}href"):
+        if (
+            tag == "image"
+            or el.get("href")
+            or el.get("{http://www.w3.org/1999/xlink}href")
+        ):
             errs.append(f"{path}: image reference found")
         if tag == "text" and float(el.get("font-size", "0")) < floor:
-            errs.append(f"{path}: text {el.text!r} at {el.get('font-size')} under {floor}")
+            errs.append(
+                f"{path}: text {el.text!r} at {el.get('font-size')} under {floor}"
+            )
         cls = el.get("class")
         if cls:
             for c in cls.split():
                 prop = {"f": "fill", "s": "stroke"}[c[0]]
                 if not el.get(prop) or el.get(prop) == "none":
-                    errs.append(f"{path}: <{tag} class={c}> has no {prop} attribute to fall back on")
+                    errs.append(
+                        f"{path}: <{tag} class={c}> has no {prop} attribute to fall back on"
+                    )
     return errs
 
 
 def check_fresh() -> list[str]:
     errs = []
     with tempfile.TemporaryDirectory() as tmp:
-        subprocess.run([sys.executable, str(HERE / "build.py"), "--out", tmp], check=True, stdout=subprocess.DEVNULL)
-        built = sorted(p.relative_to(tmp) for p in Path(tmp).rglob("*") if p.is_file() and "_mute" not in p.parts)
+        subprocess.run(
+            [sys.executable, str(HERE / "build.py"), "--out", tmp],
+            check=True,
+            stdout=subprocess.DEVNULL,
+        )
+        built = sorted(
+            p.relative_to(tmp)
+            for p in Path(tmp).rglob("*")
+            if p.is_file() and "_mute" not in p.parts
+        )
         for rel in built:
             committed = HERE / rel
             if not committed.exists():
                 errs.append(f"fresh: {rel} is built but not committed")
             elif not filecmp.cmp(committed, Path(tmp) / rel, shallow=False):
-                errs.append(f"fresh: {rel} differs from its rebuild (run figures/build.py)")
+                errs.append(
+                    f"fresh: {rel} differs from its rebuild (run figures/build.py)"
+                )
         revdirs = {rel.parent for rel in built}
         for d in revdirs:
             for p in (HERE / d).iterdir():
                 if p.relative_to(HERE) not in built:
-                    errs.append(f"fresh: {p.relative_to(HERE)} is committed but not built")
+                    errs.append(
+                        f"fresh: {p.relative_to(HERE)} is committed but not built"
+                    )
     return errs
 
 
 def check_append_only(base: str) -> list[str]:
     out = subprocess.run(
         ["git", "diff", "--name-status", f"{base}...HEAD", "--", "figures/"],
-        cwd=HERE.parent, check=True, capture_output=True, text=True,
+        cwd=HERE.parent,
+        check=True,
+        capture_output=True,
+        text=True,
     ).stdout
     errs = []
     for line in out.splitlines():
@@ -109,13 +134,17 @@ def check_append_only(base: str) -> list[str]:
         m = re.match(r"figures/(f\d+-[a-z-]+)/(\d+)/", path)
         if not m or status.startswith("A"):
             continue
-        errs.append(f"append-only: {path} ({status}) is in a published revision; raise REV instead")
+        errs.append(
+            f"append-only: {path} ({status}) is in a published revision; raise REV instead"
+        )
     return errs
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Check the published figures.")
-    ap.add_argument("--base", help="git ref the branch starts from; enables the append-only check")
+    ap.add_argument(
+        "--base", help="git ref the branch starts from; enables the append-only check"
+    )
     args = ap.parse_args()
     tokens = tomllib.loads((HERE / "tokens.toml").read_text())
     errs = check_contrast(tokens) + check_fresh()
