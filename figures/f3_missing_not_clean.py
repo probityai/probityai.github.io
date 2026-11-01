@@ -38,19 +38,19 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason):
     f.circle(fk.PAD + 6, yu, 6, fill="rule")
     hop = sw_ / 2 + sgap / 2
     f.path(f"M{fk.PAD + 6:.1f} {yu:.1f} L{hx - hop:.1f} {yu:.1f} Q{hx:.1f} {yu - 26:.1f} {hx + hop:.1f} {yu:.1f} L{col_x - 14:.1f} {yu:.1f}",
-           stroke="rule", sw=2, dash="2 7")
+           stroke="rule", sw=2.5, dash="3 6")
     for i, x in enumerate(xs):
         if i != HOLE:
-            f.line(x + sw_ / 2, yu, x + sw_ / 2, top - 4, "rule", sw=2, dash="2 6")
+            f.line(x + sw_ / 2, yu, x + sw_ / 2, top - 4, "rule", sw=2.5, dash="3 6")
     f.glyph("check", col_x, yu - gsize / 2, gsize, "self")
     # probity-verify: gate glyph, solid accent route, T-bar under the hole
     yl = top + sh_ + 40
-    end = fk.gate(f, fk.PAD, yl, h=34, stroke="accent")
-    f.line(end + 4, yl, hx, yl, "accent", sw=3)
+    f.circle(fk.PAD + 6, yl, 7, fill="accent")
+    f.line(fk.PAD + 6, yl, hx, yl, "accent", sw=3)
     for x in xs[:HOLE]:
         f.line(x + sw_ / 2, yl, x + sw_ / 2, top + sh_ + 4, "accent", sw=3)
     f.line(hx, yl, hx, top + sh_ + 8, "accent", sw=3)
-    f.line(hx - 14, top + sh_ + 8, hx + 14, top + sh_ + 8, "accent", sw=3)
+    f.line(hx - 15, top + sh_ + 8, hx + 15, top + sh_ + 8, "loss", sw=4)
     f.text(fk.PAD, yl + 22 + sz, CASE["tool"], "fg", "mono", 500)
     f.glyph(CASE["glyph"], col_x, yl - gsize / 2, gsize, "fg")
     base = yl + fk.cap_height(sz, "sans", 600) / 2

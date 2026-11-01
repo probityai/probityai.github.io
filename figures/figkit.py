@@ -299,17 +299,21 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
 
 
 def rosette(f: Fig, cx, cy, r=16, broken=False):
-    """The archive's seal: an 8-scallop rosette. broken splits it with a gap in loss ink."""
+    """The archive's seal: a solid 16-scallop wax seal with two ribbon tails. broken splits it with a gap
+    in loss ink."""
     import math
 
-    for i in range(8):
-        a = math.pi * i / 4
-        f.circle(cx + r * 0.68 * math.cos(a), cy + r * 0.68 * math.sin(a), r * 0.34, fill="fg")
-    f.circle(cx, cy, r * 0.72, fill="fg")
-    f.circle(cx, cy, r * 0.34, fill="card")
+    for side in (-1, 1):
+        x = cx + side * r * 0.35
+        f.path(f"M{x:.1f} {cy + r * 0.5:.1f} L{x + side * r * 0.25:.1f} {cy + r * 1.45:.1f} L{x - side * r * 0.25:.1f} {cy + r * 1.25:.1f} Z",
+               fill="fg", stroke="fg", sw=1.5)
+    for i in range(16):
+        a = math.pi * i / 8
+        f.circle(cx + r * 0.8 * math.cos(a), cy + r * 0.8 * math.sin(a), r * 0.24, fill="fg")
+    f.circle(cx, cy, r * 0.85, fill="fg")
     if broken:
-        f.path(f"M{cx - r * 0.35:.1f} {cy - r - 3:.1f} L{cx + r * 0.25:.1f} {cy + r + 3:.1f}", stroke="card", sw=6)
-        f.path(f"M{cx - r * 0.35:.1f} {cy - r - 3:.1f} L{cx + r * 0.25:.1f} {cy + r + 3:.1f}", stroke="loss", sw=2.5)
+        f.path(f"M{cx - r * 0.45:.1f} {cy - r - 3:.1f} L{cx + r * 0.3:.1f} {cy + r + 3:.1f}", stroke="card", sw=7)
+        f.path(f"M{cx - r * 0.45:.1f} {cy - r - 3:.1f} L{cx + r * 0.3:.1f} {cy + r + 3:.1f}", stroke="loss", sw=3)
 
 
 def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False):
@@ -327,9 +331,13 @@ def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SP
 
 
 def gate(f: Fig, x, cy, h=56, stroke="fg", notched=False):
-    """A checker: two posts the route passes between. notched marks a changed checker."""
-    for px in (x, x + 18):
-        f.line(px, cy - h / 2, px, cy + h / 2, stroke, sw=4)
+    """A checker: a gateway of two posts under a lintel that the route passes through. notched cuts a
+    V into the lintel: a changed checker. Returns the x of the far post."""
+    top = cy - h / 2
+    for px in (x, x + 22):
+        f.line(px, top, px, cy + h / 2, stroke, sw=4)
     if notched:
-        f.path(f"M{x - 6:.1f} {cy - h / 2 - 2:.1f} L{x + 9:.1f} {cy - h / 2 + 8:.1f} L{x + 24:.1f} {cy - h / 2 - 2:.1f}", stroke=stroke, sw=3)
-    return x + 18
+        f.path(f"M{x - 4:.1f} {top:.1f} L{x + 6:.1f} {top:.1f} L{x + 11:.1f} {top + 7:.1f} L{x + 16:.1f} {top:.1f} L{x + 26:.1f} {top:.1f}", stroke=stroke, sw=4, join="miter")
+    else:
+        f.line(x - 4, top, x + 26, top, stroke, sw=4)
+    return x + 22

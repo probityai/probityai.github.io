@@ -42,8 +42,8 @@ def _row(f, i, arm, cy, ax, geo, gx, vx, layout):
     gy = cy - gsize / 2
     if i in (1, 2):
         # stopped at the gate: route runs to a T-bar in front of the first post
-        f.line(x0, cy, gx - 12, cy, "accent", sw=3)
-        f.line(gx - 12, cy - 13, gx - 12, cy + 13, "accent", sw=3)
+        f.line(x0, cy, gx - 14, cy, "accent", sw=3)
+        f.line(gx - 12, cy - 15, gx - 12, cy + 15, "loss", sw=4)
         fk.gate(f, gx, cy, h=56, stroke="accent")
         f.glyph(arm["glyph"], vx, gy, gsize, "fg")
     elif i == 3:
