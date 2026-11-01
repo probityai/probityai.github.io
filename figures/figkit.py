@@ -124,10 +124,12 @@ class Fig:
             a["stroke-dasharray"] = dash
         self._add("rect", a, fill, stroke)
 
-    def circle(self, cx, cy, r, fill=None, stroke=None, sw=2):
+    def circle(self, cx, cy, r, fill=None, stroke=None, sw=2, dash=None):
         a = {"cx": cx, "cy": cy, "r": r}
         if stroke:
             a["stroke-width"] = sw
+        if dash:
+            a["stroke-dasharray"] = dash
         self._add("circle", a, fill, stroke)
 
     def line(self, x1, y1, x2, y2, stroke, sw=2, dash=None):
@@ -136,8 +138,10 @@ class Fig:
             a["stroke-dasharray"] = dash
         self._add("line", a, None, stroke)
 
-    def path(self, d, fill=None, stroke=None, sw=2, dash=None, join="round"):
+    def path(self, d, fill=None, stroke=None, sw=2, dash=None, join="round", opacity=None):
         a = {"d": d}
+        if opacity is not None:
+            a["opacity"] = opacity
         if stroke:
             a.update({"stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": join})
         if dash:
@@ -165,6 +169,8 @@ class Fig:
         size = size or self.text_size
         if size < self.text_size:
             raise ValueError(f"{self.name}/{self.layout}: {s!r} at {size} is under {self.text_size}")
+        if fill == "accent":
+            raise ValueError("accent is for marks only (the verifier and its route), never text")
         if fill == "muted" and weight < 500:
             raise ValueError("muted text is weight 500 or more")
         bad = [c for c in s if not 0x20 <= ord(c) < 0x7F]
@@ -268,7 +274,8 @@ def write(figs: list[Fig], root: Path, rev: int) -> list[Path]:
 
 # --- Shared motifs -------------------------------------------------------------------------------------
 # An artifact is a file sheet with a dog-eared corner holding a grid of byte cells; an archive is a row of
-# sheets in one outline with a rosette seal on its top-right corner; a checker is a two-post gate.
+# sheets in one outline closed by a wax seal that straddles its top-right corner; the verifier is a lens
+# on its route; a kept verdict is a receipt (a small dog-eared slip with a check).
 
 CELL, GAP, SPAD, EAR = 12, 5, 11, 12
 
@@ -277,13 +284,17 @@ def sheet_size(cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD):
     return cols * cell + (cols - 1) * gap + 2 * pad, rows * cell + (rows - 1) * gap + 2 * pad + EAR / 2
 
 
+def _eared(x, y, w, h, ear):
+    return f"M{x:.1f} {y:.1f} L{x + w - ear:.1f} {y:.1f} L{x + w:.1f} {y + ear:.1f} L{x + w:.1f} {y + h:.1f} L{x:.1f} {y + h:.1f} Z"
+
+
 def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="present", mark=None):
     """A file sheet. state "missing" draws a dashed hollow outline in loss ink. mark (col, row) is the
     one byte cell drawn in loss ink, enlarged: the changed byte."""
     w, h = sheet_size(cols, rows, cell, gap, pad)
-    outline = f"M{x:.1f} {y:.1f} L{x + w - EAR:.1f} {y:.1f} L{x + w:.1f} {y + EAR:.1f} L{x + w:.1f} {y + h:.1f} L{x:.1f} {y + h:.1f} Z"
+    outline = _eared(x, y, w, h, EAR)
     if state == "missing":
-        f.path(outline, stroke="loss", sw=2.5, dash="7 5")
+        f.path(outline, stroke="loss", sw=3, dash="8 5")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
     f.path(f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}", stroke="rule", sw=2)
@@ -292,32 +303,44 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
         for c in range(cols):
             cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
             if mark == (c, r):
-                f.rect(cx - 3, cy - 3, cell + 6, cell + 6, fill="loss", rx=3)
+                f.rect(cx - 4, cy - 4, cell + 8, cell + 8, fill="loss", rx=3)
             else:
                 f.rect(cx, cy, cell, cell, fill="byte", rx=2)
     return w, h
 
 
-def rosette(f: Fig, cx, cy, r=16, broken=False):
-    """The archive's seal: a solid 16-scallop wax seal with two ribbon tails. broken splits it with a gap
-    in loss ink."""
+def seal(f: Fig, cx, cy, r=12, broken=False):
+    """The archive's wax seal: a disc in fg at 70% with two ribbon tails hanging below it. Placed on the
+    archive's top-right corner it straddles the outline and visibly closes it. broken splits the disc on
+    a 30-degree line, pushes the halves 3 units apart and strokes the gap in loss ink."""
     import math
 
     for side in (-1, 1):
-        x = cx + side * r * 0.35
-        f.path(f"M{x:.1f} {cy + r * 0.5:.1f} L{x + side * r * 0.25:.1f} {cy + r * 1.45:.1f} L{x - side * r * 0.25:.1f} {cy + r * 1.25:.1f} Z",
-               fill="fg", stroke="fg", sw=1.5)
-    for i in range(16):
-        a = math.pi * i / 8
-        f.circle(cx + r * 0.8 * math.cos(a), cy + r * 0.8 * math.sin(a), r * 0.24, fill="fg")
-    f.circle(cx, cy, r * 0.85, fill="fg")
-    if broken:
-        f.path(f"M{cx - r * 0.45:.1f} {cy - r - 3:.1f} L{cx + r * 0.3:.1f} {cy + r + 3:.1f}", stroke="card", sw=7)
-        f.path(f"M{cx - r * 0.45:.1f} {cy - r - 3:.1f} L{cx + r * 0.3:.1f} {cy + r + 3:.1f}", stroke="loss", sw=3)
+        x = cx + side * r * 0.42
+        y0 = cy + r * 0.55
+        f.path(f"M{x - 3.5:.1f} {y0:.1f} L{x + 3.5:.1f} {y0:.1f} L{x + 3.5 + side * 1.5:.1f} {y0 + r * 1.15:.1f} "
+               f"L{x + side * 1.5:.1f} {y0 + r * 0.95:.1f} L{x - 3.5 + side * 1.5:.1f} {y0 + r * 1.15:.1f} Z",
+               fill="rule", stroke="rule", sw=1)
+    if not broken:
+        f.circle(cx, cy, r + 2, fill="card")
+        f.path(f"M{cx - r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx + r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx - r:.1f} {cy:.1f} Z",
+               fill="fg", opacity=0.7)
+        return
+    t = math.radians(30)
+    ux, uy = math.sin(t), -math.cos(t)          # along the cut, 30 degrees off vertical
+    nx, ny = -uy, ux                            # normal to the cut
+    f.circle(cx, cy, r + 4, fill="card")
+    for side in (-1, 1):
+        ox, oy = cx + side * nx * 1.5, cy + side * ny * 1.5
+        ax, ay = ox + ux * r, oy + uy * r
+        bx, by = ox - ux * r, oy - uy * r
+        sweep = 1 if side > 0 else 0
+        f.path(f"M{ax:.1f} {ay:.1f} A{r} {r} 0 0 {sweep} {bx:.1f} {by:.1f} Z", fill="fg", opacity=0.7)
+    f.line(cx + ux * (r + 3), cy + uy * (r + 3), cx - ux * (r + 3), cy - uy * (r + 3), "loss", sw=2)
 
 
-def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False):
-    """n sheets in one outline with a rosette on its top-right corner. Returns (width, height)."""
+def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, seal_r=12):
+    """n sheets in one outline with a seal on its top-right corner. Returns (width, height)."""
     sw_, sh_ = sheet_size(*geo)
     m = 12
     w = 2 * m + n * sw_ + (n - 1) * sgap
@@ -326,26 +349,38 @@ def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SP
     for i in range(n):
         sheet(f, x + m + i * (sw_ + sgap), y + m, *geo, state="missing" if missing == i else "present",
               mark=mark[1] if mark and mark[0] == i else None)
-    rosette(f, x + w - 4, y + 4, broken=broken)
+    seal(f, x + w - 2, y + 2, r=seal_r, broken=broken)
     return w, h
 
 
+def archive_size(n=3, geo=(4, 3, CELL, GAP, SPAD), sgap=14):
+    sw_, sh_ = sheet_size(*geo)
+    return 24 + n * sw_ + (n - 1) * sgap, 24 + sh_
+
+
 def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
-    """The verifier: a magnifying lens on the route. found draws what it caught inside the lens in loss
-    ink ("byte": one changed cell, "hole": a dashed empty sheet) and turns the rim to loss ink."""
+    """The verifier: a magnifying lens on the route, handle down-right. found draws what it caught inside
+    the glass and turns the rim to loss ink: "hole" is the missing sheet's dashed dog-eared outline."""
     rim = "loss" if found else stroke
     f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, rim, sw=6)
     f.circle(cx, cy, r, fill="card", stroke=rim, sw=4)
-    if found == "byte":
-        f.rect(cx - 7, cy - 7, 14, 14, fill="loss", rx=3)
-    elif found == "hole":
-        f.rect(cx - 7, cy - 9, 14, 18, stroke="loss", rx=2, sw=2.5, dash="4 3")
+    if found == "hole":
+        f.path(_eared(cx - 7.5, cy - 9.5, 15, 19, 5), stroke="loss", sw=2.5, dash="4 3")
     return cx + r
 
 
-def receipt(f: Fig, x, cy, h=34, stroke="fg"):
-    """A kept record of a verdict: a slip with a check on it. Returns its right edge."""
-    w = h * 0.8
-    f.rect(x, cy - h / 2, w, h, fill="tile", stroke=stroke, rx=3, sw=2.5)
-    f.glyph("check", x + w * 0.14, cy - w * 0.36, w * 0.72, stroke, sw=3)
+def receipt(f: Fig, x, cy, h=30):
+    """A kept record of a verdict: a dog-eared slip (tile fill, rule outline) with a check on it."""
+    w = round(h * 0.78, 1)
+    ear = h * 0.28
+    f.path(_eared(x, cy - h / 2, w, h, ear), fill="tile", stroke="rule", sw=2)
+    f.path(f"M{x + w - ear:.1f} {cy - h / 2:.1f} L{x + w - ear:.1f} {cy - h / 2 + ear:.1f} L{x + w:.1f} {cy - h / 2 + ear:.1f}", stroke="rule", sw=2)
+    g = w * 0.7
+    f.glyph("check", x + (w - g) / 2, cy - g / 2 + h * 0.08, g, "fg", sw=2.5)
     return x + w
+
+
+def strike(f: Fig, x, y, r=7):
+    """Where a fault strikes the route: a loss-ink dot ringed in the card colour."""
+    f.circle(x, y, r + 3, fill="card")
+    f.circle(x, y, r, fill="loss")

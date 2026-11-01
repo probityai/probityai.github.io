@@ -2,7 +2,7 @@
  "name": "f3-missing-not-clean",
  "layout": "narrow",
  "width": 720,
- "height": 330,
+ "height": 320,
  "text_size": 34,
  "alt": "A report of seven passages with one missing. A log reader reads what the report holds, passes over the gap and ends in a check. probity-verify reads the report against the source capture, stops at the gap and returns contradicted, reason selected_span_missing_from_record.",
  "words": [
