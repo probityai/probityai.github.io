@@ -1,0 +1,19 @@
+# Master fonts the committed subsets come from. IBM Plex, version 1.1.0 of the npm packages.
+# Regenerate the subsets with: uv run --script figures/fonts/subset.py <dir holding the three masters>
+[sans-400]
+file = "IBMPlexSans-Regular.woff"
+url = "https://cdn.jsdelivr.net/npm/@ibm/plex-sans@1.1.0/fonts/complete/woff/IBMPlexSans-Regular.woff"
+sha256 = "b731cf56514a4bd711ab2f9acf641f9311707f4386772eb306d25c2b29b73b1a"
+subset = "plex-sans-400.woff"
+
+[sans-600]
+file = "IBMPlexSans-SemiBold.woff"
+url = "https://cdn.jsdelivr.net/npm/@ibm/plex-sans@1.1.0/fonts/complete/woff/IBMPlexSans-SemiBold.woff"
+sha256 = "fff45f420f0d026b4a39f99b3bfc47dfc06561c598c8db825cfce5fd706bda7a"
+subset = "plex-sans-600.woff"
+
+[mono-500]
+file = "IBMPlexMono-Medium.woff"
+url = "https://cdn.jsdelivr.net/npm/@ibm/plex-mono@1.1.0/fonts/complete/woff/IBMPlexMono-Medium.woff"
+sha256 = "15d0fcad70465530211f78116d13df0fc1a930361b613f4418238d212bafebf1"
+subset = "plex-mono-500.woff"

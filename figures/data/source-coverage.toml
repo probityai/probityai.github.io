@@ -1,0 +1,9 @@
+# Produced by: uvx probity-verify==0.3.0 "$samples/case.json" --policy "$samples/policy-june.json"
+# where samples is the package's own samples directory:
+#   uvx --from probity-verify==0.3.0 python -c 'import importlib.resources as r; print(r.files("probity_verify") / "samples")'
+# Run Sun 1 Nov 2026. decision and reason are the packet's "Decision:" and "Reason:" lines.
+# The case: a selected source passage is in the source capture but missing from the stored report.
+tool = "probity-verify"
+decision = "contradicted"
+reason = "selected_span_missing_from_record"
+glyph = "cross"
