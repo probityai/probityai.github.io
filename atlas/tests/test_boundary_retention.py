@@ -8,7 +8,6 @@ import json
 import logging
 import re
 import shutil
-import subprocess
 import zipfile
 from pathlib import Path
 from typing import Any
@@ -19,7 +18,7 @@ from hypothesis import HealthCheck, given, settings, strategies as st
 from tools.check_boundary_retention import IDENTITY, REPORT_SHA256, validate_boundary_retention
 from tools.check_lab import artifact_path, validate_register
 from tools.derive_boundary_findings import derive_findings, encode
-from imported_commits import here
+import history
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = "422a7241f8351f167fe407fe2bfe9aab5f079a6d"
@@ -96,16 +95,14 @@ class TestBoundaryRetention:
             validate_register(register, root)
 
         def test_all_fourteen_original_records_and_artifacts_preserved(self) -> None:
-            before = json.loads(subprocess.check_output(
-                ["git", "show", here(BASELINE) + ":./data/lab-register.json"], cwd=ROOT))
+            before = json.loads(history.show(BASELINE, "data/lab-register.json"))
             after = json.loads((ROOT / "data/lab-register.json").read_bytes())
             assert len(before["records"]) == 14
             assert after["records"][:14] == before["records"]
             for record in before["records"]:
                 for artifact in record["artifacts"]:
                     path = artifact_path(ROOT, artifact["path"])
-                    previous = subprocess.check_output(
-                        ["git", "show", here(BASELINE) + ":./" + path.relative_to(ROOT).as_posix()], cwd=ROOT)
+                    previous = history.show(BASELINE, path.relative_to(ROOT).as_posix())
                     assert path.read_bytes() == previous
 
     class TestFailingCases:

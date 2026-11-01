@@ -8,7 +8,6 @@ import json
 import logging
 import re
 import shutil
-import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +17,7 @@ from hypothesis import strategies as st
 
 from tools.check_installed_boundary import IDENTITY, encode
 from tools.check_lab import artifact_path, validate_register
-from imported_commits import here
+import history
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = "1bdfce81e3afff4ec1c18afdfe3c7d423b693198"
@@ -99,9 +98,7 @@ class TestInstalledBoundary:
         def test_all_sixteen_earlier_literal_records_and_artifact_bytes_preserved(
             self,
         ) -> None:
-            before = subprocess.check_output(
-                ["git", "show", here(BASELINE) + ":./data/lab-register.json"], cwd=ROOT
-            )
+            before = history.show(BASELINE, "data/lab-register.json")
             after = (ROOT / "data/lab-register.json").read_bytes()
             ending = b"\n  ]\n}\n"
             assert before.endswith(ending)
@@ -111,14 +108,7 @@ class TestInstalledBoundary:
             for record in previous:
                 for artifact in record["artifacts"]:
                     path = artifact_path(ROOT, artifact["path"])
-                    original = subprocess.check_output(
-                        [
-                            "git",
-                            "show",
-                            here(BASELINE) + ":./" + path.relative_to(ROOT).as_posix(),
-                        ],
-                        cwd=ROOT,
-                    )
+                    original = history.show(BASELINE, path.relative_to(ROOT).as_posix())
                     assert path.read_bytes() == original
 
     class TestFailingCases:

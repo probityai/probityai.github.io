@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 from tools.check_lab import validate_register
 from tools.check_report_replay import IDENTITY, derive, check_selected_report_replay
-from imported_commits import here
+import history
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -72,13 +72,12 @@ def test_reselected_manifest_base_refused(tmp_path):
 
 
 def test_preceding_register_objects_exact():
-    import subprocess
-    original = json.loads(subprocess.run(["git", "show", here("0f5d25ab4cb00337f332eb109ac0dbc8b5651e00") + ":./data/lab-register.json"], cwd=ROOT, capture_output=True, check=True).stdout)
+    original = json.loads(history.show("0f5d25ab4cb00337f332eb109ac0dbc8b5651e00", "data/lab-register.json"))
     current = json.loads((ROOT / "data/lab-register.json").read_text())
     assert len(original["records"]) == 25
     assert current["records"][:25] == original["records"]
     assert current["records"][25]["id"] == IDENTITY
-    before = subprocess.run(["git", "show", here("0f5d25ab4cb00337f332eb109ac0dbc8b5651e00") + ":./data/lab-register.json"], cwd=ROOT, capture_output=True, check=True).stdout
+    before = history.show("0f5d25ab4cb00337f332eb109ac0dbc8b5651e00", "data/lab-register.json")
     ending = b"\n  ]\n}\n"
     assert before.endswith(ending)
     assert (ROOT / "data/lab-register.json").read_bytes().startswith(before[:-len(ending)] + b",\n")

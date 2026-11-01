@@ -1,5 +1,6 @@
 """Finite receipt controls; these do not run discovery clients or search."""
 
+import history
 import copy
 import json
 import subprocess
@@ -91,8 +92,7 @@ def test_closed_schema_and_source_bound_task_inventory(suite):
         "atlas", "vocabulary", "vectors", "observer", "verify", "admission", "jcs-admit", "dsse"}
     reference = value["reference_catalog"]
     revision = _commit_here(reference["url"].split("/blob/", 1)[1].split("/", 1)[0])
-    prefix = subprocess.check_output(["git", "-C", str(reader.ROOT), "rev-parse", "--show-prefix"], text=True).strip()
-    raw = subprocess.check_output(["git", "-C", str(reader.ROOT), "show", f"{revision}:{prefix}data/catalog.json"])
+    raw = history.show(revision, "data/catalog.json")
     assert reader.digest(raw) == reference["sha256"]
     assert len(raw) == reference["bytes"]
     catalog = json.loads(raw)
