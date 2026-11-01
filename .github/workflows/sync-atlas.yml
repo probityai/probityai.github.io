@@ -28,6 +28,13 @@ on:
 permissions:
   contents: write
   pages: read
+  actions: read
+
+# GitHub's own "pages-build-deployment" run deploys pages-live after each push, and it refuses a deploy
+# while another is in progress (runs 41289027907 and 41290076112, 1 Nov 2026). That run cannot take a
+# concurrency group, so this job, the only writer of pages-live, waits until no Pages deploy is queued
+# or running before it pushes (and for its own build after, in the served check): with the group below,
+# no two deploys overlap.
 
 concurrency:
   group: sync-atlas
@@ -95,6 +102,11 @@ jobs:
       - name: Require every predicate page to match its pin
         if: steps.diff.outputs.changes != '0'
         run: python3 source/scripts/check_predicate_pages.py
+      - name: Wait for any Pages deploy in flight
+        if: steps.diff.outputs.changes != '0'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 pages/scripts/check_served.py --wait-idle --repo "$GITHUB_REPOSITORY"
       - name: Commit and publish to pages-live
         if: steps.diff.outputs.changes != '0'
         run: |
