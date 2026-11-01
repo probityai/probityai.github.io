@@ -32,7 +32,7 @@ DESC = (
 def _verdict(f, arm, x, cy, gsize, exit_inline=True):
     """Glyph, verdict word and exit code with the glyph's centre at (x + gsize/2, cy). Returns the right edge."""
     sz = f.text_size
-    f.glyph(arm["glyph"], x, cy - gsize / 2, gsize, "fg")
+    f.glyph(arm["glyph"], x - gsize * 0.12, cy - gsize / 2, gsize, "fg")   # the glyph box pads its stroke
     base = cy + fk.cap_height(sz, "sans", 600) / 2
     wx = x + gsize + 12
     f.text(wx, base, arm["verdict"], "fg", "sans", 600)
@@ -78,8 +78,9 @@ def wide() -> fk.Fig:
     lx = vx - 30 - lr * 1.6
     f.line(ax + aw, ty, lx - lr, ty, "accent", sw=3)
     fk.lens(f, lx, ty, lr)
-    f.line(lx + lr, ty, vx - 12, ty, "accent", sw=3)
-    fk.archive(f, ax, ay, geo=geo, sgap=sgap)
+    f.line(lx + lr, ty, vx - 22, ty, "accent", sw=3)
+    fk.arrow(f, vx - 12, ty)
+    fk.archive(f, ax, ay, geo=geo, sgap=sgap, seal_r=16)
     f.text(vx + gs + 12, ty - 30, INTACT["caption"], "fg")
     _verdict(f, INTACT, vx, ty, gs)
     # three columns below; each strike drops to its column
@@ -87,7 +88,7 @@ def wide() -> fk.Fig:
     cols = [pad + k * (colw + 28) for k in range(3)]
     pic_y = ty + ah / 2 + 86
     bus = ty + ah / 2 + 42
-    rr, rdy = 18, 26
+    rr, rdy = 18, 30
     pics = [cols[0] + aw / 2, cols[1] + aw / 2, cols[2] + rr]
     strikes = [ax + aw + 70, cols[1] + aw / 2, lx]
     for k in range(3):
@@ -104,9 +105,9 @@ def wide() -> fk.Fig:
         fk.strike(f, sx, ty)
     fk.strike(f, lx, ty + lr + 10, r=6)
     # the archive as it arrives after each transit fault
-    fk.archive(f, cols[0], pic_y, mark=(1, (1, 1)), geo=geo, sgap=sgap, broken=True)
-    fk.archive(f, cols[1], pic_y, missing=1, geo=geo, sgap=sgap)
-    _two_readers(f, cols[2], pic_y + ah / 2, rr, rdy, 34)
+    fk.archive(f, cols[0], pic_y, mark=(1, (1, 1)), geo=geo, sgap=sgap, broken=True, seal_r=16)
+    fk.archive(f, cols[1], pic_y, missing=1, geo=geo, sgap=sgap, seal_r=16)
+    _two_readers(f, cols[2], pic_y + ah / 2, rr, rdy, 48)
     cap_y = pic_y + ah + 44
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
         f.text(cols[k], cap_y, arm["caption"], "fg")
@@ -121,7 +122,7 @@ def narrow() -> fk.Fig:
     aw, ah = fk.archive_size(3, geo, sgap)
     gs = 40
     blk = ah + 160
-    H = 36 + ah + 50 + 3 * blk + 150
+    H = 36 + ah + 50 + 3 * blk + 216
     f = fk.Fig(NAME, "narrow", W, H, TITLE, DESC)
     sz = f.text_size
     sx = pad + 34                     # the spine
@@ -134,25 +135,26 @@ def narrow() -> fk.Fig:
         blocks.append(y)
         y += blk
     ly = blocks[2] + ah / 2           # the lens sits beside the changed-verifier picture
-    end_y = y + 84                    # the intact verdict's centre line
+    end_y = y + 150                   # the intact verdict's centre line
     f.path(f"M{sx:.1f} {ay + ah:.1f} L{sx:.1f} {ly - lr:.1f}", stroke="accent", sw=3)
-    f.path(f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 12:.1f} {end_y:.1f}",
+    f.path(f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 24:.1f} {end_y:.1f}",
            stroke="accent", sw=3)
-    fk.archive(f, pad, ay, geo=geo, sgap=sgap, seal_r=13)
+    fk.arrow(f, cx - 12, end_y, size=11)
+    fk.archive(f, pad, ay, geo=geo, sgap=sgap, seal_r=20)
     # transit faults: strike on the spine, drop right to the archive as it arrives
     for k, kw in enumerate(({"mark": (1, (1, 1)), "broken": True}, {"missing": 1})):
         by = blocks[k]
         cy = by + ah / 2
         f.line(sx, cy, cx - 10, cy, "loss", sw=2.5, dash="6 6")
         fk.strike(f, sx, cy)
-        fk.archive(f, cx, by, geo=geo, sgap=sgap, seal_r=13, **kw)
+        fk.archive(f, cx, by, geo=geo, sgap=sgap, seal_r=20, **kw)
     # the changed verifier strikes at the lens
     fk.lens(f, sx, ly, lr)
     f.line(sx + lr + 12, ly, cx - 10, ly, "loss", sw=2.5, dash="6 6")
     fk.strike(f, sx + lr + 12, ly, r=6)
-    _two_readers(f, cx, ly, 22, 32, 40)
+    _two_readers(f, cx, ly, 22, 38, 58)
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
-        cap = blocks[k] + ah + 52
+        cap = blocks[k] + ah + (52 if k < 2 else 74)   # the receipts reach lower than an archive
         f.text(cx, cap, arm["caption"], "fg")
         _verdict(f, arm, cx, cap + 50, gs)
         assert cx + _verdict_width(f, arm, gs) <= W - pad, arm

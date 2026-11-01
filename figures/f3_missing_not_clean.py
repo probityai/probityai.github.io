@@ -27,7 +27,7 @@ DESC = (
 )
 
 
-def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason):
+def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason, hop_r=13, lr=20):
     sz = f.text_size
     sw_, sh_ = fk.sheet_size(*geo)
     xs = [x_strip + i * (sw_ + sgap) for i in range(N)]
@@ -40,19 +40,18 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason):
     f.text(fk.PAD, yu - 26 - (sz * 0.3), "log reader", "fg", "sans", 600)
     f.circle(fk.PAD + 6, yu, 6, fill="rule")
     hop = sw_ / 2 + sgap / 2 + 8
-    apex = yu - 30
+    apex = yu - 17 - hop_r
     f.path(f"M{fk.PAD + 6:.1f} {yu:.1f} L{hx - hop:.1f} {yu:.1f} C{hx - hop / 2:.1f} {yu:.1f} {hx - hop / 2:.1f} {apex:.1f} {hx:.1f} {apex:.1f} "
            f"C{hx + hop / 2:.1f} {apex:.1f} {hx + hop / 2:.1f} {yu:.1f} {hx + hop:.1f} {yu:.1f} L{col_x - 14:.1f} {yu:.1f}",
            stroke="rule", sw=2.5, dash="3 6")
     for i, x in enumerate(xs):
         if i != HOLE:
             f.line(x + sw_ / 2, yu, x + sw_ / 2, top - 4, "rule", sw=2.5, dash="3 6")
-    f.circle(hx, apex, 13, fill="card", stroke="muted", sw=2.5)
-    f.line(hx + 9.5, apex + 9.5, hx + 16, apex + 16, "muted", sw=4)
+    f.circle(hx, apex, hop_r, fill="card", stroke="muted", sw=2.5)
+    f.line(hx + hop_r * 0.73, apex + hop_r * 0.73, hx + hop_r * 1.25, apex + hop_r * 1.25, "muted", sw=4)
     f.glyph("check", col_x, yu - gsize / 2, gsize, "muted")
     # probity-verify: a lens on the accent route reads each passage and stops under the gap, showing it;
     # the route runs on from the lens to the verdict, in the same column as the log reader's check
-    lr = 20
     yl = top + sh_ + lr + 16
     f.line(fk.PAD + 6, yl, hx - lr, yl, "accent", sw=3)
     f.circle(fk.PAD + 6, yl, 7, fill="accent")
@@ -60,7 +59,7 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason):
         f.line(x + sw_ / 2, yl, x + sw_ / 2, top + sh_ + 4, "accent", sw=3)
     f.line(hx + lr, yl, col_x - 14, yl, "accent", sw=3)
     fk.lens(f, hx, yl, lr, found="hole")
-    f.text(fk.PAD, yl + lr * 1.5 + 14 + fk.cap_height(sz, "mono", 500), CASE["tool"], "fg", "mono", 500)
+    f.text(fk.PAD, yl + lr * 1.5 + 28 + fk.cap_height(sz, "mono", 500), CASE["tool"], "fg", "mono", 500)
     f.glyph(CASE["glyph"], col_x, yl - gsize / 2, gsize, "fg")
     base = yl + fk.cap_height(sz, "sans", 600) / 2
     f.text(col_x + gsize + 12, base, CASE["decision"], "fg", "sans", 600)
@@ -69,7 +68,7 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason):
 
 
 def wide() -> fk.Fig:
-    f = fk.Fig(NAME, "wide", 1280, 336, TITLE, DESC)
+    f = fk.Fig(NAME, "wide", 1280, 350, TITLE, DESC)
     sz = f.text_size
     colw = 34 + 12 + fk.text_width(CASE["reason"], sz, "mono", 500)
     col_x = 1280 - fk.PAD - colw
@@ -78,11 +77,11 @@ def wide() -> fk.Fig:
 
 
 def narrow() -> fk.Fig:
-    f = fk.Fig(NAME, "narrow", 720, 320, TITLE, DESC)
+    f = fk.Fig(NAME, "narrow", 720, 372, TITLE, DESC)
     sz = f.text_size
     colw = 40 + 12 + fk.text_width(CASE["decision"], sz, "sans", 600)
     col_x = 720 - fk.PAD - colw
-    _draw(f, (2, 3, 9, 4, 7), 8, 60, 124, col_x, 40, False)
+    _draw(f, (2, 3, 9, 4, 7), 8, 60, 136, col_x, 40, False, hop_r=18, lr=26)
     return f
 
 

@@ -310,21 +310,22 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
 
 
 def seal(f: Fig, cx, cy, r=12, broken=False):
-    """The archive's wax seal: a disc in fg at 70% with two ribbon tails hanging below it. Placed on the
+    """The archive's wax seal: a solid fg disc with two ribbon tails hanging below it. Placed on the
     archive's top-right corner it straddles the outline and visibly closes it. broken splits the disc on
     a 30-degree line, pushes the halves 3 units apart and strokes the gap in loss ink."""
     import math
 
     for side in (-1, 1):
-        x = cx + side * r * 0.42
-        y0 = cy + r * 0.55
-        f.path(f"M{x - 3.5:.1f} {y0:.1f} L{x + 3.5:.1f} {y0:.1f} L{x + 3.5 + side * 1.5:.1f} {y0 + r * 1.15:.1f} "
-               f"L{x + side * 1.5:.1f} {y0 + r * 0.95:.1f} L{x - 3.5 + side * 1.5:.1f} {y0 + r * 1.15:.1f} Z",
-               fill="rule", stroke="rule", sw=1)
+        x = cx + side * r * 0.45
+        y0 = cy + r * 0.5
+        L = r * 1.6
+        f.path(f"M{x - 3.5:.1f} {y0:.1f} L{x + 3.5:.1f} {y0:.1f} L{x + 3.5 + side * 2:.1f} {y0 + L:.1f} "
+               f"L{x + side * 2:.1f} {y0 + L - 5:.1f} L{x - 3.5 + side * 2:.1f} {y0 + L:.1f} Z",
+               fill="fg", stroke="fg", sw=1)
     if not broken:
         f.circle(cx, cy, r + 2, fill="card")
         f.path(f"M{cx - r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx + r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx - r:.1f} {cy:.1f} Z",
-               fill="fg", opacity=0.7)
+               fill="fg")
         return
     t = math.radians(30)
     ux, uy = math.sin(t), -math.cos(t)          # along the cut, 30 degrees off vertical
@@ -335,7 +336,7 @@ def seal(f: Fig, cx, cy, r=12, broken=False):
         ax, ay = ox + ux * r, oy + uy * r
         bx, by = ox - ux * r, oy - uy * r
         sweep = 1 if side > 0 else 0
-        f.path(f"M{ax:.1f} {ay:.1f} A{r} {r} 0 0 {sweep} {bx:.1f} {by:.1f} Z", fill="fg", opacity=0.7)
+        f.path(f"M{ax:.1f} {ay:.1f} A{r} {r} 0 0 {sweep} {bx:.1f} {by:.1f} Z", fill="fg")
     f.line(cx + ux * (r + 3), cy + uy * (r + 3), cx - ux * (r + 3), cy - uy * (r + 3), "loss", sw=2)
 
 
@@ -365,19 +366,33 @@ def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
     f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, rim, sw=6)
     f.circle(cx, cy, r, fill="card", stroke=rim, sw=4)
     if found == "hole":
-        f.path(_eared(cx - 7.5, cy - 9.5, 15, 19, 5), stroke="loss", sw=2.5, dash="4 3")
+        hw, hh = r * 0.76, r * 0.96
+        f.path(_eared(cx - hw / 2, cy - hh / 2, hw, hh, hw / 3), stroke="loss", sw=2.5, dash="4 3")
     return cx + r
 
 
-def receipt(f: Fig, x, cy, h=30):
-    """A kept record of a verdict: a dog-eared slip (tile fill, rule outline) with a check on it."""
+def receipt(f: Fig, x, cy, h=48):
+    """A kept record of a verdict: a dog-eared slip (tile fill, rule outline) with two lines of text
+    strokes and a check in its lower half."""
     w = round(h * 0.78, 1)
-    ear = h * 0.28
-    f.path(_eared(x, cy - h / 2, w, h, ear), fill="tile", stroke="rule", sw=2)
-    f.path(f"M{x + w - ear:.1f} {cy - h / 2:.1f} L{x + w - ear:.1f} {cy - h / 2 + ear:.1f} L{x + w:.1f} {cy - h / 2 + ear:.1f}", stroke="rule", sw=2)
-    g = w * 0.7
-    f.glyph("check", x + (w - g) / 2, cy - g / 2 + h * 0.08, g, "fg", sw=2.5)
+    ear = h * 0.26
+    y = cy - h / 2
+    f.path(_eared(x, y, w, h, ear), fill="tile", stroke="rule", sw=2)
+    f.path(f"M{x + w - ear:.1f} {y:.1f} L{x + w - ear:.1f} {y + ear:.1f} L{x + w:.1f} {y + ear:.1f}", stroke="rule", sw=2)
+    for k, right in ((0, w - ear - 4), (1, w - 6)):
+        f.line(x + 6, y + ear * 0.55 + 4 + k * 8, x + right, y + ear * 0.55 + 4 + k * 8, "rule", sw=2.5)
+    g = w * 0.5
+    f.glyph("check", x + (w - g) / 2, y + h - g - 4, g, "fg", sw=2.5)
     return x + w
+
+
+def arrow(f: Fig, x, y, ink="accent", size=9, direction="right"):
+    """A solid arrowhead with its tip at (x, y), pointing right or down."""
+    if direction == "right":
+        d = f"M{x:.1f} {y:.1f} L{x - size * 1.2:.1f} {y - size * 0.75:.1f} L{x - size * 1.2:.1f} {y + size * 0.75:.1f} Z"
+    else:
+        d = f"M{x:.1f} {y:.1f} L{x - size * 0.75:.1f} {y - size * 1.2:.1f} L{x + size * 0.75:.1f} {y - size * 1.2:.1f} Z"
+    f.path(d, fill=ink, stroke=ink, sw=1)
 
 
 def strike(f: Fig, x, y, r=7):
