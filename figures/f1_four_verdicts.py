@@ -64,13 +64,16 @@ def _verdict(f: fk.Fig, arm, x, cy, stacked: bool) -> float:
     return ex_x + fk.text_width(ex, sz, "mono", 500)
 
 
-def _read(f: fk.Fig, x, cy, bars, lr=LR) -> float:
+def _read(f: fk.Fig, x, cy, bars, lr=LR, version=0) -> float:
     """The route from an archive's right edge x through a lens with `bars` glass to a receipt's arrow tip.
     Returns the x where the receipt's left edge goes."""
     lx = x + 30 + lr
     sx = lx + lr * 1.6 + 24
     f.line(x + 6, cy, lx - lr - 2, cy, "accent", sw=3)
-    fk.lens(f, lx, cy, lr, bars=bars)
+    if version:
+        fk.lens_version(f, lx, cy, lr, version)
+    else:
+        fk.lens(f, lx, cy, lr, bars=bars)
     f.line(lx + lr + 2, cy, sx - 12, cy, "accent", sw=3)
     fk.arrow(f, sx - 4, cy, size=7)
     return sx
@@ -81,7 +84,7 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
     arm = ARMS[k]
     bw, bh = fk.box_size(3, geo, sgap)
     fk.box(f, bx, cy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8, **STATE[k])
-    sx = _read(f, bx + bw, cy, 0, lr)
+    sx = _read(f, bx + bw, cy, 0, lr, version=1)
     fk.slip(f, sx, cy, sh, arm["glyph"], INK[arm["glyph"]])
     return _verdict(f, arm, sx + round(sh * 0.74, 1) + 26, cy, stacked)
 
@@ -90,10 +93,8 @@ def _swap(f: fk.Fig, x, cy, lr=LR) -> tuple[float, float]:
     """The same route as _read, but the lens's glass has been swapped: the old one-bar glass lies below the
     lens, dashed, with a curved arrow showing it came out; the lens holds a two-bar glass.
     Returns (receipt x, lowest y drawn)."""
-    lx = x + 30 + lr
-    sx = _read(f, x, cy, 0, lr)
-    fk.wrench(f, lx, cy, lr, angle_deg=-75.0)
-    return sx, cy + lr * 1.6
+    sx = _read(f, x, cy, 0, lr, version=2)
+    return sx, cy + lr * 1.8
 
 
 def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
@@ -103,7 +104,7 @@ def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
     top = cy - bh / 2 + 6
     # first reading
     fk.box(f, x0, top, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s1 = _read(f, x0 + bw, cy, 0)
+    s1 = _read(f, x0 + bw, cy, 0, version=1)
     fk.slip(f, s1, cy, SH, "check", "fg")
     # then: a long dotted arrow on to the second reading of the same archive
     bnw = 16 + 18 + 2 * rw + 14 + 16
@@ -111,6 +112,16 @@ def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
     t0 = s1 + rw + 22
     f.line(t0, cy, x2 - 22, cy, "rule", sw=2.5, dash="2 9")
     fk.arrow(f, x2 - 12, cy, "rule", size=7)
+    # between the readings, as its own step: the verifier changes. The version 1 lens, retired, gives way to
+    # the version 2 lens, a different instrument of the same kind with two notches on its handle
+    cr = LR * 0.85
+    cmx = (t0 + x2 - 22) / 2
+    c1, c2 = cmx - cr * 3.2, cmx + cr * 2.2
+    f.rect(c1 - cr * 2.0, cy - cr * 1.9, (c2 - c1) + cr * 4.4, cr * 4.3, fill="card")
+    fk.lens_version(f, c1, cy, cr, 1, stroke="rule")
+    f.line(c1 + cr * 1.9, cy, c2 - cr * 1.3, cy, "fg", sw=3)
+    fk.arrow(f, c2 - cr * 1.05, cy, "fg", size=7)
+    fk.lens_version(f, c2, cy, cr, 2)
     fk.box(f, x2, top, geo=geo, sgap=sgap, lock_r=LR * 0.8)
     s2, low = _swap(f, x2 + bw, cy)
     # the binder takes both receipts: the second straight on, the first by an arc over the second reading

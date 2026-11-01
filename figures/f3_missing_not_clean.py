@@ -44,7 +44,7 @@ def _record_frame(f: fk.Fig, x0, x1, y0, y1, hx0, hx1) -> None:
     passage was cut out): its top dips and its foot rises to meet in a narrow waist, stitched across."""
     r = 8
     mid = (y0 + y1) / 2
-    neck = 7  # half the waist's height
+    neck = (y1 - y0) * 0.22  # half the waist's height: the frame stays one open piece through the waist
     cx = (hx0 + hx1) / 2
     d = (
         f"M{x0 + r:.1f} {y0:.1f} L{hx0:.1f} {y0:.1f} Q{cx:.1f} {y0:.1f} {cx:.1f} {mid - neck:.1f} "
@@ -55,10 +55,11 @@ def _record_frame(f: fk.Fig, x0, x1, y0, y1, hx0, hx1) -> None:
         f"Q{x0:.1f} {y0:.1f} {x0 + r:.1f} {y0:.1f} Z"
     )
     f.path(d, stroke="rule", sw=2.5)
-    # stitches across the waist: the cut was sewn shut
-    for k in range(-2, 3):
-        y = mid + k * 9
-        f.line(cx - 9, y - 3, cx + 9, y + 3, "fg", sw=2.5)
+    # cross-stitches pull the waist's top and foot together: the cut was sewn shut
+    for k in (-1, 0, 1):
+        y = mid + k * neck * 0.75
+        f.line(cx - 7, y - 5, cx + 7, y + 5, "fg", sw=2.5)
+        f.line(cx - 7, y + 5, cx + 7, y - 5, "fg", sw=2.5)
 
 
 def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
@@ -78,7 +79,6 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     yr = top  # the record's top
     ys = yr + sh_ + 10 + 2 * (lr + 40)  # the source's top
     under = yr + sh_ + 10  # the record frame's foot
-    yv = under + 0.55 * (ys - 10 - under)  # probity-verify's line
     fw, fh = xs[-1] + sw_ - xs[0] + 20, sh_ + 20
     rx1 = xs[0] - 10 + fw
     assert rx1 + 40 <= gx - lr * 1.25, "the rows run into the readers' column"
@@ -131,7 +131,19 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
             f.line(x - 14, stop, x + 14, stop, "absent", sw=4)
         else:
             f.line(x, ys - 12, x, under + 2, "accent", sw=3)
-    f.line(xs[0] - 4, yv, gx - lr - 4, yv, "accent", sw=3)
+    # a brace gathers both rows and their rungs into the lens: it reads the two rows side by side
+    bx = rx1 + 22
+    bt_, bb_ = yr - 10, ys - 10 + fh
+    bm = (bt_ + bb_) / 2
+    f.path(
+        f"M{bx:.1f} {bt_:.1f} Q{bx + 12:.1f} {bt_:.1f} {bx + 12:.1f} {bt_ + 14:.1f} L{bx + 12:.1f} {bm - 14:.1f} "
+        f"Q{bx + 12:.1f} {bm:.1f} {bx + 24:.1f} {bm:.1f} Q{bx + 12:.1f} {bm:.1f} {bx + 12:.1f} {bm + 14:.1f} "
+        f"L{bx + 12:.1f} {bb_ - 14:.1f} Q{bx + 12:.1f} {bb_:.1f} {bx:.1f} {bb_:.1f}",
+        stroke="accent",
+        sw=3,
+    )
+    yv = bm
+    f.line(bx + 26, yv, gx - lr - 4, yv, "accent", sw=3)
     fk.lens(f, gx, yv, lr)
     f.line(gx + lr + 2, yv, mx - 12, yv, "accent", sw=3)
     fk.arrow(f, mx - 4, yv, size=7)
@@ -149,7 +161,7 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
 
 def wide() -> fk.Fig:
     f = fk.Fig(NAME, "wide", 1280, 0, TITLE, DESC)
-    f.height = round(_draw(f, (3, 3, 12, 5, 11), 14, 150, 34, False, 18) + 26)
+    f.height = round(_draw(f, (3, 3, 12, 5, 11), 34, 150, 34, False, 18) + 26)
     return f
 
 

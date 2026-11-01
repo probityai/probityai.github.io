@@ -557,6 +557,25 @@ def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False, bar
         f.circle(cx, cy, r * 0.18, fill=stroke)
 
 
+def lens_version(f: Fig, cx, cy, r=20, version=1, stroke="accent"):
+    """A verifier at a given version: version 1 is the round lens; a later version is a different instrument of
+    the same kind, a square-rimmed lens, and its handle carries one notch per version (two, three, ...), so a
+    reader counts the version off the handle the way a tally is counted. Version 1 carries no notch: a single
+    bar across a handle reads as a cross."""
+    import math
+
+    f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.75, cy + r * 1.75, stroke, sw=6)
+    for k in range(version if version > 1 else 0):
+        t = 1.18 + 0.32 * k  # notches along the handle, across it
+        hx, hy = cx + r * t, cy + r * t
+        d = r * 0.6 / math.sqrt(2)
+        f.line(hx - d, hy + d, hx + d, hy - d, stroke, sw=3.5)
+    if version == 1:
+        f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4)
+    else:
+        f.rect(cx - r * 0.95, cy - r * 0.95, r * 1.9, r * 1.9, fill="card", stroke=stroke, rx=r * 0.32, sw=4)
+
+
 def wrench(f: Fig, cx, cy, r, angle_deg=-135.0, ink="fg"):
     """An open-ended wrench clamped on the rim of the lens of radius r centred on (cx, cy), from the side at
     angle_deg: its jaw grips the rim and its handle points away. The lens is being changed."""
