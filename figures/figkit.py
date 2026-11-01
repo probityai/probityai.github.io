@@ -558,22 +558,16 @@ def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False, bar
 
 
 def lens_version(f: Fig, cx, cy, r=20, version=1, stroke="accent"):
-    """A verifier at a given version: version 1 is the round lens; a later version is a different instrument of
-    the same kind, a square-rimmed lens, and its handle carries one notch per version (two, three, ...), so a
-    reader counts the version off the handle the way a tally is counted. Version 1 carries no notch: a single
-    bar across a handle reads as a cross."""
-    import math
-
-    f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.75, cy + r * 1.75, stroke, sw=6)
-    for k in range(version if version > 1 else 0):
-        t = 1.18 + 0.32 * k  # notches along the handle, across it
-        hx, hy = cx + r * t, cy + r * t
-        d = r * 0.6 / math.sqrt(2)
-        f.line(hx - d, hy + d, hx + d, hy - d, stroke, sw=3.5)
+    """A verifier at a given version. Version 1 is the plain round lens. A later version is the same kind of
+    instrument made stronger, as a stricter verifier is: a larger lens with a second glass set inside the rim.
+    It stays a magnifier at a glance (a square rim and handle notches were read as a crossed-out square)."""
     if version == 1:
-        f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4)
-    else:
-        f.rect(cx - r * 0.95, cy - r * 0.95, r * 1.9, r * 1.9, fill="card", stroke=stroke, rx=r * 0.32, sw=4)
+        lens(f, cx, cy, r, stroke=stroke)
+        return
+    R = r * 1.3
+    f.line(cx + R * 0.72, cy + R * 0.72, cx + R * 1.5, cy + R * 1.5, stroke, sw=7)
+    f.circle(cx, cy, R, fill="card", stroke=stroke, sw=5)
+    f.circle(cx, cy, R * 0.62, fill="tile", stroke=stroke, sw=3)
 
 
 def wrench(f: Fig, cx, cy, r, angle_deg=-135.0, ink="fg"):

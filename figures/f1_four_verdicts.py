@@ -69,12 +69,13 @@ def _read(f: fk.Fig, x, cy, bars, lr=LR, version=0) -> float:
     Returns the x where the receipt's left edge goes."""
     lx = x + 30 + lr
     sx = lx + lr * 1.6 + 24
-    f.line(x + 6, cy, lx - lr - 2, cy, "accent", sw=3)
+    f.line(x + 6, cy, lx - lr * (1.3 if version > 1 else 1.0) - 2, cy, "accent", sw=3)
+    rim = lr * (1.3 if version > 1 else 1.0)  # a later version is drawn larger (fk.lens_version)
     if version:
         fk.lens_version(f, lx, cy, lr, version)
     else:
         fk.lens(f, lx, cy, lr, bars=bars)
-    f.line(lx + lr + 2, cy, sx - 12, cy, "accent", sw=3)
+    f.line(lx + rim + 2, cy, sx - 12, cy, "accent", sw=3)
     fk.arrow(f, sx - 4, cy, size=7)
     return sx
 
@@ -112,15 +113,15 @@ def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
     t0 = s1 + rw + 22
     f.line(t0, cy, x2 - 22, cy, "rule", sw=2.5, dash="2 9")
     fk.arrow(f, x2 - 12, cy, "rule", size=7)
-    # between the readings, as its own step: the verifier changes. The version 1 lens, retired, gives way to
-    # the version 2 lens, a different instrument of the same kind with two notches on its handle
+    # between the readings, as its own step: the verifier changes. The version 1 lens, retired in grey, gives
+    # way to the version 2 lens, the same kind of instrument made stronger
     cr = LR * 0.85
     cmx = (t0 + x2 - 22) / 2
     c1, c2 = cmx - cr * 3.2, cmx + cr * 2.2
     f.rect(c1 - cr * 2.0, cy - cr * 1.9, (c2 - c1) + cr * 4.4, cr * 4.3, fill="card")
     fk.lens_version(f, c1, cy, cr, 1, stroke="rule")
-    f.line(c1 + cr * 1.9, cy, c2 - cr * 1.3, cy, "fg", sw=3)
-    fk.arrow(f, c2 - cr * 1.05, cy, "fg", size=7)
+    f.line(c1 + cr * 1.9, cy, c2 - cr * 1.75, cy, "fg", sw=3)
+    fk.arrow(f, c2 - cr * 1.4, cy, "fg", size=7)
     fk.lens_version(f, c2, cy, cr, 2)
     fk.box(f, x2, top, geo=geo, sgap=sgap, lock_r=LR * 0.8)
     s2, low = _swap(f, x2 + bw, cy)
