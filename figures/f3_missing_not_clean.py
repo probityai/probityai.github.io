@@ -5,16 +5,18 @@
 contradicted, selected_span_missing_from_record). The picture shows why the two readers disagree:
 
 Top row: the record. Its passages stand over the source passages they came from, so every pairing rung is
-straight; where the fifth passage stood, the record's frame is pinched shut, so the
-record still reads as one closed piece. An eye at the right looks at the record alone: a translucent cone of
+straight; where the fifth passage stood, the record's frame is pinched in round the empty place. A tab on its
+top edge prints report.txt, the path the packet binds for the record. An eye at the right looks at the record alone: a translucent cone of
 sight from the eye covers the whole record, the pinched waist with the rest, and above the eye its belief is
 a check in a thought cloud: fine.
 Bottom row: the source capture, all seven passages in a frame with viewfinder corners, so it reads as the
-capture the record came from and not as a second record. probity-verify's lens runs between the two rows
+capture the record came from and not as a second record; a tab hanging from its foot prints source.html, the
+path the packet binds for the capture. probity-verify's lens runs between the two rows
 and pairs every source passage with its record passage, one straight rung per pair. The fifth rung climbs
-from the source and stops at the pinch under a plum stop bar: there is no passage to pair with.
+from the source and stops at the pinch under a stop bar in the cross's loss ink: there is no passage to pair with.
 The lens prints a receipt with a cross in loss ink, contradicted, over the packet's reason line. The two
-readers and their verdicts sit in one column at the right. The only words are what the readers print.
+readers and their verdicts sit in one column at the right. The only words are what the readers print and the
+two file paths the packet binds.
 """
 
 from __future__ import annotations
@@ -55,6 +57,19 @@ def _record_frame(f: fk.Fig, x0, x1, y0, y1, hx0, hx1) -> None:
         f"Q{x0:.1f} {y0:.1f} {x0 + r:.1f} {y0:.1f} Z"
     )
     f.path(d, stroke="rule", sw=2.5)
+
+
+def _tab(f: fk.Fig, cx, edge, name, below) -> float:
+    """A file-name tab centred on cx on a frame's edge at y=edge: standing on top of the frame, or hanging
+    from its foot when below. It carries the path the packet binds (product text). Returns its far edge."""
+    sz = f.text_size
+    cap = fk.cap_height(sz, "mono", 500)
+    w = fk.text_width(name, sz, "mono", 500) + 24
+    h = cap + 16
+    y = edge if below else edge - h
+    f.rect(cx - w / 2, y, w, h, fill="tile", stroke="rule", rx=5, sw=2.5)
+    f.text(cx, y + h / 2 + cap / 2, name, "fg", "mono", 500, anchor="middle")
+    return y + h if below else y
 
 
 def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
@@ -102,7 +117,7 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     # the eye hangs over the middle of the record and looks down at it alone: a beam of sight like a lamp's
     # covers the whole record, the pinched waist with the rest; its belief is a check in the cloud beside it
     er = lr * 1.25
-    ecx, ey = (xs[0] - 10 + rx1) / 2, yr - 10 - er - 52
+    ecx, ey = (xs[0] - 10 + rx1) / 2, yr - 10 - er - 62
     bl, br, bt, bb = xs[0] - 16, rx1 + 6, yr - 16, yr - 4 + fh
     f.path(
         f"M{ecx:.1f} {ey + er * 0.5:.1f} L{br:.1f} {bt:.1f} L{br:.1f} {bb:.1f} L{bl:.1f} {bb:.1f} L{bl:.1f} {bt:.1f} Z",
@@ -111,6 +126,9 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     )
     for x_ in (bl, br):
         f.line(ecx, ey + er * 0.5, x_, bt, "rule", sw=2, dash="2 7")
+    # the record's tab and the source's tab name the two files the packet binds; the tab stands in the beam
+    _tab(f, ecx, yr - 10, CASE["record_path"], below=False)
+    src_foot = _tab(f, ecx, ys - 10 + fh, CASE["source_path"], below=True)
     fk.eye(f, ecx, ey, er)
     cw, ch = gsize * 2.3, gsize * 1.7
     ccx, ccy = ecx + er + 26 + cw / 2, ey - ch * 0.25
@@ -124,8 +142,8 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
             # the rung climbs from the source and finds no passage: it stops at the pinch under a stop bar
             stop = under + 14
             f.line(x, ys - 12, x, stop + 10, "accent", sw=3)
-            f.line(x, stop + 10, x, stop, "absent", sw=3.5)
-            f.line(x - 22, stop, x + 22, stop, "absent", sw=5.5)
+            f.line(x, stop + 10, x, stop, "loss", sw=3.5)
+            f.line(x - 22, stop, x + 22, stop, "loss", sw=5.5)
         else:
             f.line(x, ys - 12, x, under + 2, "accent", sw=3)
     # a brace gathers both rows and their rungs into the lens: it reads the two rows side by side
@@ -147,10 +165,10 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     fk.slip(f, mx, yv, gsize * 1.9, CASE["glyph"], "loss")
     f.text(tx, yv + cap / 2, CASE["decision"], "fg", "sans", 600)
     if reason_below:
-        ry = ys + sh_ + 16 + sz * 1.9
+        ry = src_foot + 14 + sz
         f.text(fk.PAD - 1.5, ry, CASE["reason"], "muted", "mono", 500)
         return ry + sz * 0.6
-    ry = ys + sh_ + 16 + sz * 1.6
+    ry = max(ys + sh_ + 16 + sz * 1.6, src_foot)
     rx = f.width - fk.PAD - fk.text_width(CASE["reason"], sz, "mono", 500)
     f.text(rx, ry, CASE["reason"], "muted", "mono", 500)
     return ry + sz * 0.4

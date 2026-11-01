@@ -7,3 +7,7 @@ tool = "probity-verify"
 decision = "contradicted"
 reason = "selected_span_missing_from_record"
 glyph = "cross"
+# The two files the packet's "Scope and evidence" block binds: artifacts.report.path (the record) and
+# artifacts.capture.path (the source capture). Printed on the figure as product text, one on each row.
+record_path = "report.txt"
+source_path = "source.html"
