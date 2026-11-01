@@ -15,7 +15,8 @@ name: Publish the Atlas and the identifier pages
 # The schedule bounds the delay at about fifteen minutes after a merge there; a push to main here
 # also runs it, and it can be run by hand from the Actions tab. A run whose result matches
 # pages-live stops after the comparison. After a publish, scripts/check_served.py requires every
-# published file and every w3id identifier to answer 200 with the published bytes.
+# published file and every w3id identifier to answer 200 with the published bytes,
+# after the Pages build for the pushed commit reports built (the build races the check otherwise).
 
 on:
   schedule:
@@ -26,6 +27,7 @@ on:
 
 permissions:
   contents: write
+  pages: read
 
 concurrency:
   group: sync-atlas
@@ -136,4 +138,6 @@ jobs:
           exit 1
       - name: Require every published file and w3id identifier to serve its published bytes
         if: steps.diff.outputs.changes != '0'
-        run: python3 pages/scripts/check_served.py --tree pages --sync "${published}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 pages/scripts/check_served.py --tree pages --sync "${published}" --repo "${{ github.repository }}"
