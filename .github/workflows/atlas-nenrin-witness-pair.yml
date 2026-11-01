@@ -1,0 +1,42 @@
+# Runs the Atlas checks from atlas/ (moved from agent-evidence-vectors atlas/ on 2026-10-31).
+name: signed-witness-pair
+
+on:
+  push:
+    paths: ['atlas/**', '.github/workflows/atlas-nenrin-witness-pair.yml']
+    branches: [main]
+  pull_request:
+    paths: ['atlas/**', '.github/workflows/atlas-nenrin-witness-pair.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: atlas
+
+jobs:
+  signature-and-target-controls:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Restore the experiment archives from their release
+        working-directory: atlas
+        run: python3 tools/archives.py fetch
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.24"
+      - name: Install the exact reader tools in their own environment
+        working-directory: atlas/examples/nenrin-witness-pair
+        run: uv sync --frozen --group dev --python 3.14.7
+      - name: Check the signed bytes, target refusals and every assertion value
+        working-directory: atlas/examples/nenrin-witness-pair
+        run: .venv/bin/python scripts/qualify.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: signed-witness-pair-controls
+          path: atlas/examples/nenrin-witness-pair/gate-results/
