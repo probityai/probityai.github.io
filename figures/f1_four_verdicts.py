@@ -4,11 +4,12 @@
 One route carries the archive left to right (top to bottom in the narrow layout) through the verifier's
 lens to its verdict: verified, exit 0. The archive's files are tied into a padlock over their digest. A
 changed byte and a missing artifact strike the archive on its way to the verifier; each strike drops to
-the archive as it then arrives and to the verdict the verifier prints for it. A changed byte breaks the
-lock (loss ink: failed); a missing file is a dashed hole in absent ink, and its verdict's question mark
-takes the same ink, so not-established never reads as failed. The changed verifier strikes at the lens:
-the old lens (rule ink) and the changed one (accent) each read the archive and each drops its receipt
-into one folder, side by side: both records are kept. A legend maps each exit code to its verdict.
+the archive as it then arrives and to the verdict the verifier prints for it. A changed byte snaps the
+lock's shackle (loss ink: failed); a missing file is a dashed hole in absent ink, and its verdict's question
+mark takes the same ink, so not-established never reads as failed. The changed verifier is no fault: its
+branch leaves the lens on a solid accent line, and the old lens (rule ink) and the changed one (accent) each
+read the archive and each drops its receipt into one folder, side by side, under the arm's own words "both
+outcomes preserved": both records are kept. A legend maps each exit code to its verdict.
 Words and exit codes come from data/four-arms.toml.
 """
 
@@ -24,12 +25,13 @@ NAME = "f1-four-verdicts"
 REV = 2
 ARMS = tomllib.loads((HERE / "data/four-arms.toml").read_text())["arm"]
 INTACT, BYTE, MISSING, CHANGED = ARMS
+KEPT = CHANGED["header"].rsplit(", ", 1)[1]   # "both outcomes preserved", the arm's own words
 TITLE = "Four verdicts from one evidence archive"
 DESC = (
     "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed "
     "on the way breaks the seal: failed, exit 2. A required file lost on the way: not-established, exit 3. "
     "A changed verifier: the old verifier (v1) and the changed one (v2) both read the archive and both print "
-    "verified, exit 0, and both receipts are filed side by side in one folder: both records are kept. "
+    "verified, exit 0, and both receipts are filed side by side in one folder: both outcomes preserved. "
     "Exit codes: 0 verified, 2 failed, 3 not-established."
 )
 INK = {"check": "fg", "cross": "fg", "query": "absent"}   # not-established shares the missing file's ink
@@ -71,8 +73,9 @@ def _kept(f, arm, x, cy, gsize, dy):
 def _kept_pair(f, x, top, r, rh):
     """The changed-verifier picture: the old lens (v1, rule ink) and the changed lens (v2, accent) side by
     side, each dropping its receipt (outlined in its own ink) into one folder below, where the two receipts
-    sit side by side. x is the left edge, top the top of the lenses. Returns (right edge, bottom edge,
-    centre x of the changed lens, lens centre y)."""
+    sit side by side, and the arm's own words "both outcomes preserved" under the folder. x is the left
+    edge, top the top of the lenses. Returns (right edge, bottom edge, centre x of the changed lens, lens
+    centre y)."""
     sz = f.text_size
     tw = fk.text_width(TAGS[0], sz, "mono", 500) + 8
     cap = fk.cap_height(sz, "mono", 500)
@@ -95,7 +98,10 @@ def _kept_pair(f, x, top, r, rh):
     fx = centres[0] - rw / 2 - 18
     fw = centres[1] + rw / 2 + 18 - fx
     fk.folder(f, fx, ftop, fw, fh)
-    return max(x + 2 * slot, fx + fw), ftop + fh, centres[1], ly
+    ky = ftop + fh + 14 + fk.cap_height(sz, "sans", 600)
+    f.text(fx, ky, KEPT, "fg", "sans", 600)
+    right = max(x + 2 * slot, fx + fw, fx + fk.text_width(KEPT, sz, "sans", 600))
+    return right, ky, centres[1], ly
 
 
 def _legend(f, x, y, stacked=False):
@@ -151,7 +157,7 @@ def wide() -> fk.Fig:
     pics = [cols[0] + aw / 2, cols[1] + aw / 2, v2x]
     tops = [pic_y - 16, pic_y - 16, kly - 16 - 8]
     strikes = [ax + aw + 70, cols[1] + aw / 2, lx]
-    inks = ["loss", "absent", "loss"]
+    inks = ["loss", "absent", "accent"]   # the changed verifier is no fault: a solid accent branch
     for k in range(3):
         sx, px, top = strikes[k], pics[k], tops[k]
         y0 = ty + (lr + 10 if k == 2 else 0)
@@ -160,11 +166,14 @@ def wide() -> fk.Fig:
         else:
             d = f"M{sx:.1f} {y0:.1f} L{sx:.1f} {bus - 10:.1f} Q{sx:.1f} {bus:.1f} {sx + (10 if px > sx else -10):.1f} {bus:.1f} " \
                 f"L{px + (-10 if px > sx else 10):.1f} {bus:.1f} Q{px:.1f} {bus:.1f} {px:.1f} {bus + 10:.1f} L{px:.1f} {top:.1f}"
-        f.path(d, stroke=inks[k], sw=2.5, dash="6 6")
+        if k == 2:
+            f.path(d, stroke=inks[k], sw=3)
+        else:
+            f.path(d, stroke=inks[k], sw=2.5, dash="6 6")
     for sx, ink in zip(strikes[:2], inks, strict=False):
         fk.strike(f, sx, ty, ink=ink)
-    fk.strike(f, lx, ty + lr + 10, r=6)
-    cap_y = max(pic_y + ah, bottom) + 44
+    fk.strike(f, lx, ty + lr + 10, r=6, ink="accent")
+    cap_y = max(pic_y + ah, bottom) + 56
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
         f.text(cols[k], cap_y, arm["caption"], "fg")
         if arm is CHANGED:
@@ -199,7 +208,7 @@ def narrow() -> fk.Fig:
         y += blk
     ptop = blocks[2] + 30             # the two verifiers' lenses
     ly = ptop - 20                    # the spine lens sits just above them
-    end_y = y + 200                   # the intact verdict's centre line (below the two kept lines)
+    end_y = y + 250                   # the intact verdict's centre line (below the two kept lines)
     f.path(f"M{sx:.1f} {ay + ah:.1f} L{sx:.1f} {ly - lr:.1f}", stroke="accent", sw=3)
     f.path(f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 24:.1f} {end_y:.1f}",
            stroke="accent", sw=3)
@@ -216,10 +225,10 @@ def narrow() -> fk.Fig:
     fk.lens(f, sx, ly, lr)
     _, bottom, v2x, kly = _kept_pair(f, cx, ptop, 22, 52)
     f.path(f"M{sx + lr + 12:.1f} {ly:.1f} L{v2x - 10:.1f} {ly:.1f} Q{v2x:.1f} {ly:.1f} {v2x:.1f} {ly + 10:.1f} L{v2x:.1f} {kly - 22 - 8:.1f}",
-           stroke="loss", sw=2.5, dash="6 6")
-    fk.strike(f, sx + lr + 12, ly, r=6)
+           stroke="accent", sw=3)
+    fk.strike(f, sx + lr + 12, ly, r=6, ink="accent")
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
-        cap = blocks[k] + ah + 52 if k < 2 else max(blocks[k] + ah, bottom) + 52
+        cap = blocks[k] + ah + 52 if k < 2 else max(blocks[k] + ah, bottom) + 56
         f.text(cx, cap, arm["caption"], "fg")
         if arm is CHANGED:
             assert cap + 50 + 52 < end_y - 44 - sz, cap
