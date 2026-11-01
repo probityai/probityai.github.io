@@ -379,7 +379,7 @@ def sheet(
     if state == "missing":
         if loud:
             # the empty place in dark ink and nothing inside: a mark inside it read as a file of its own
-            f.path(outline, stroke="fg", sw=3.5, dash="8 6")
+            f.path(outline, fill="tile", stroke="fg", sw=4, dash="8 6")
         else:
             f.path(outline, stroke="rule", sw=2.5, dash="6 6")
         return w, h
@@ -397,17 +397,12 @@ def sheet(
                 continue
             f.rect(cx, cy, cell, cell, fill="byte", rx=2)
     if mark is not None:
-        # the changed byte: knocked out of the grid, tilted and larger than its neighbours, in loss ink
+        # the changed byte: one grid cell in loss ink, a little larger than its neighbours
         c, r = mark
         ccx = x + pad + c * (cell + gap) + cell / 2
         ccy = top + r * (cell + gap) + cell / 2
-        k = cell * 1.4
-        f.path(
-            f"M{ccx:.1f} {ccy - k:.1f} L{ccx + k:.1f} {ccy:.1f} L{ccx:.1f} {ccy + k:.1f} L{ccx - k:.1f} {ccy:.1f} Z",
-            fill="loss",
-            stroke="tile",
-            sw=2,
-        )
+        k = cell * 0.7
+        f.rect(ccx - k, ccy - k, 2 * k, 2 * k, fill="loss", rx=2)
     return w, h
 
 
@@ -508,21 +503,6 @@ def box(
     hy = panel + (y + h - panel) * 0.62
     f.rect(x + w / 2 - hw / 2, hy - 5, hw, 10, fill="card", stroke="rule", rx=5, sw=2)
     lock(f, x + w - BOX_M - lock_r, panel, r=lock_r, broken=broken)
-    if mark is not None and broken:
-        # a crack in loss ink from the changed byte down to the sprung shackle: this byte broke the seal
-        c, r = mark[1]
-        cols_, rows_, cell, gap, pad = geo
-        sx0 = x + BOX_M + mark[0] * (sw_ + sgap)
-        ccx = sx0 + pad + c * (cell + gap) + cell / 2
-        ccy = y + pad + EAR / 2 + r * (cell + gap) + cell / 2 + cell * 1.4
-        lx_ = x + w - BOX_M - lock_r
-        ty = panel - 1.6 * lock_r * 0.3 - lock_r * 0.62 * 1.4
-        mx_ = (ccx + lx_) / 2
-        f.path(
-            f"M{ccx:.1f} {ccy:.1f} L{mx_ - 5:.1f} {(ccy + ty) / 2 - 3:.1f} L{mx_ + 5:.1f} {(ccy + ty) / 2 + 3:.1f} L{lx_ + lock_r * 0.4:.1f} {ty:.1f}",
-            stroke="loss",
-            sw=3,
-        )
     return w, h
 
 
@@ -623,24 +603,24 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
     return x + w
 
 
-def paperclip(f: Fig, cx, top, bottom, w, ink="fg"):
-    """Records kept as one: a wire paperclip standing upright from top to bottom, w wide, centred on cx.
-    Draw it after the slips it holds, so its wire runs over their edges; a halo in the card colour keeps the
-    wire readable where it crosses a slip's outline."""
-    r1 = w / 2
-    rb, rt = r1 * 0.8, r1 * 0.5
-    l1, r1x = cx - r1, cx + r1
-    l2 = r1x - 2 * rb
-    r2 = l2 + 2 * rt
-    h = bottom - top
-    d = (
-        f"M{l1:.1f} {bottom - h * 0.3:.1f} L{l1:.1f} {top + r1:.1f} A{r1:.1f} {r1:.1f} 0 0 1 {r1x:.1f} {top + r1:.1f} "
-        f"L{r1x:.1f} {bottom - rb:.1f} A{rb:.1f} {rb:.1f} 0 0 1 {l2:.1f} {bottom - rb:.1f} "
-        f"L{l2:.1f} {top + h * 0.22 + rt:.1f} A{rt:.1f} {rt:.1f} 0 0 1 {r2:.1f} {top + h * 0.22 + rt:.1f} "
-        f"L{r2:.1f} {bottom - h * 0.24:.1f}"
+def folder_back(f: Fig, x, y, w, h, ink="rule"):
+    """Where records are kept: an open file folder seen from the front, x, y its back panel's top-left (under
+    the tab), w by h. Draw its back with this call, then what it holds, then folder_front, so the front flap
+    covers the lower part of what stands in it."""
+    tw, th = w * 0.38, 14
+    f.path(
+        f"M{x:.1f} {y + h:.1f} L{x:.1f} {y + 5:.1f} Q{x:.1f} {y:.1f} {x + 5:.1f} {y:.1f} "
+        f"L{x + 8:.1f} {y:.1f} L{x + 14:.1f} {y - th:.1f} L{x + tw:.1f} {y - th:.1f} L{x + tw + 6:.1f} {y:.1f} "
+        f"L{x + w - 5:.1f} {y:.1f} Q{x + w:.1f} {y:.1f} {x + w:.1f} {y + 5:.1f} L{x + w:.1f} {y + h:.1f} Z",
+        fill="tile",
+        stroke=ink,
+        sw=2.5,
     )
-    f.path(d, stroke="tile", sw=8)
-    f.path(d, stroke=ink, sw=3)
+
+
+def folder_front(f: Fig, x, y, w, h, flap, ink="rule"):
+    """The folder's front flap: the lower `flap` of the back panel at (x, y, w, h), drawn over what it holds."""
+    f.rect(x - 3, y + h - flap, w + 6, flap, fill="tile", stroke=ink, rx=5, sw=2.5)
 
 
 def thought(f: Fig, cx, cy, w, h, toward, ink="fg"):

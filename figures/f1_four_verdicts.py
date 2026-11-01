@@ -4,13 +4,13 @@ Two panels, one above the other, divided by a thin rule.
 Panel 1 (arms 1 to 3 of demo/four-arms.sh): the archive, an archive box of three files with a padlock over
 their digest, fans into three rows. Each row reads left to right: the archive as the verifier gets it, the
 verifier's lens (blue, its glass ground with one bar), and the receipt it prints with the verdict glyph.
-Loss ink is only for damage: in row 2 the changed byte is a larger tilted cell with a crack to the sprung
-shackle, and the receipt's cross takes the same ink. In row 3 the missing file is a dark dashed empty
+Loss ink is only for damage: in row 2 the changed byte is one byte cell in loss ink and the padlock's
+shackle springs open in the same ink, and the receipt's cross takes it too. In row 3 the missing file is a dark dashed empty
 place, so not-established never reads as failed.
 Panel 2 (arm 4) uses the same grammar: the same archive fans into two readings, the upper by the version 1
 lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is). Each
-reading's route bends onto its own receipt, the two receipts overlap, and one paperclip holds both: kept
-together. Each receipt has the verifier id its record carries printed after it.
+reading's route runs into one open file folder, and both receipts stand in it: kept together. Each lens has
+the verifier id its record carries printed beside it.
 Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
@@ -33,7 +33,7 @@ DESC = " ".join(
     + [
         f"Below: the same archive is read by verifier {ARMS[3]['verifier_ids'][0]} and by the changed verifier "
         f"{ARMS[3]['verifier_ids'][1]}. Both print {ARMS[3]['verdict']}, exit {ARMS[3]['exit']}, and both "
-        "receipts are clipped together."
+        "receipts are kept in one folder."
     ]
 )
 INK = {
@@ -93,10 +93,9 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
 def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float:
     """Panel 2: one archive at x0 centred on cy fans, as in panel 1, into two readings: the version 1 lens on
     the upper row, the version 2 lens (the same instrument made stronger) on the lower row. Both routes run
-    into one pair of receipts held by a paperclip: the version 1 receipt behind, the version 2 receipt in
-    front, below it, the clip over the right edges of both. The verifier id each record carries (product text
-    from data/four-arms.toml) is printed after its receipt (ids="right"), or, where the line is too short,
-    above the upper reading and below the lower one, with the pair at the right edge (ids="outside").
+    into one open file folder, and both receipts stand in it. The verifier id each reading's record carries
+    (product text from data/four-arms.toml) is printed above the upper lens and below the lower one; where
+    the line is too short (ids="outside") the ids start at the archive and the folder sits at the right edge.
     Returns the lowest y drawn."""
     bw, bh = fk.box_size(3, geo, sgap)
     rw = round(SH * 0.74, 1)
@@ -115,43 +114,40 @@ def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float
     for k, ry in enumerate(rows):
         f.line(rx - 4, ry, rx + 6, ry, "accent", sw=3)
         ends.append(_read(f, rx, ry, 0, lr, version=k + 1))
-    # the receipts' place: the two slips stand one over the other, the lower one's top over the upper one's
-    # torn foot, so one paperclip on their right edges can hold both;
-    # torn foot; the lower one sits a little to the right, so both slips' edges show
+    # the receipts' place: one open folder; both routes run into it and both receipts stand in it
     sh2 = SH + 10
     rw = round(sh2 * 0.74, 1)
-    dy, dx = sh2 - 10, 10
-    px = max(ends) + 30
+    g = 12
+    fw = 2 * rw + 3 * g
+    px = max(ends) + 34
     if ids == "outside":
-        px = f.width - fk.PAD - rw - dx - 18
-    slips = ((px, cy - dy / 2), (px + dx, cy + dy / 2))
-    for e, ry, (sx, sy) in zip(ends, rows, slips):
-        # each route leaves its lens level and bends onto its own receipt
-        x1 = sx - 12
+        px = f.width - fk.PAD - fw - 6
+    top = cy - sh2 / 2
+    fh = sh2 + 18
+    for e, ry, ty in zip(ends, rows, (cy - 12, cy + 12)):
+        x1 = px - 12
         f.path(
-            f"M{e - 12:.1f} {ry:.1f} C{(e + x1) / 2:.1f} {ry:.1f} {(e + x1) / 2:.1f} {sy:.1f} {x1:.1f} {sy:.1f}",
+            f"M{e - 12:.1f} {ry:.1f} C{(e + x1) / 2:.1f} {ry:.1f} {(e + x1) / 2:.1f} {ty:.1f} {x1:.1f} {ty:.1f}",
             stroke="accent",
             sw=3,
         )
-        fk.arrow(f, sx - 4, sy, size=7)
-    for sx, sy in slips:
-        fk.slip(f, sx, sy, sh2, "check", "fg")
-    # one long clip over both slips' right edges, from near the upper slip's top to near the lower one's foot:
-    # it holds the pile, not one slip
-    fk.paperclip(f, px + rw + dx / 2, slips[0][1] - sh2 / 2 + 8, slips[1][1] + sh2 / 2 - 12, 22)
-    # the verifier id each record carries, printed after its receipt as panel 1 prints the verdict
+        fk.arrow(f, px - 4, ty, size=7)
+    fk.folder_back(f, px, top - 8, fw, fh)
+    for k in range(2):
+        fk.slip(f, px + g + k * (rw + g), cy, sh2, "check", "fg")
+    fk.folder_front(f, px, top - 8, fw, fh, fh - 8 - sh2 * 0.87)  # below the checks: only the feet hide
+    # the verifier id each reading's record carries, by its own lens: above the upper, below the lower
     sz = f.text_size
     cap = fk.cap_height(sz, "mono", 500)
     v1, v2 = ARMS[3]["verifier_ids"]
-    low = max(rows[1] + lr * 1.3, slips[1][1] + sh2 / 2) + 20
-    if ids == "outside":
-        f.text(x0, rows[0] - lr * 1.3 - 18, v1, "fg", "mono", 500)
-        f.text(x0, rows[1] + lr * 1.3 + 18 + cap, v2, "fg", "mono", 500)
-        return max(low, rows[1] + lr * 1.3 + 18 + cap + sz * 0.3)
-    tx = px + dx + rw + 30
-    for (sx, sy), vid in zip(slips, (v1, v2)):
-        f.text(tx, sy + cap / 2, vid, "fg", "mono", 500)
+    tx = x0 if ids == "outside" else rx - 4
+    y1 = rows[0] - lr * 1.3 - 16
+    y2 = rows[1] + lr * 1.3 + 16 + cap
+    f.text(tx, y1, v1, "fg", "mono", 500)
+    f.text(tx, y2, v2, "fg", "mono", 500)
+    for vid in (v1, v2):
         assert tx + fk.text_width(vid, sz, "mono", 500) <= f.width - fk.PAD, vid
+    low = max(y2 + sz * 0.3, top - 8 + fh) + 20
     return low
 
 
@@ -199,7 +195,7 @@ def narrow() -> fk.Fig:
         assert right <= W - pad, (k, right)
     rule_y = centres[-1] + bh / 2 + 30
     f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
-    # panel 2: the same archive fans into the version 1 and version 2 readings, one paperclip keeps both
+    # panel 2: the same archive fans into the version 1 and version 2 readings, one folder keeps both
     pitch2 = bh + 2 * f.text_size + 40
     c2 = rule_y + 30 + f.text_size + 18 + 18 * 1.3 + pitch2 / 2
     low = _pair(f, pad, c2, geo, sgap, pitch2, 18, fan=70, ids="outside")
