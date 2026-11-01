@@ -623,21 +623,22 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
     return x + w
 
 
-def binder(f: Fig, x, y, w, h, ink="rule"):
-    """Where records are kept: an open ring binder with its spine at the left, three rings on the spine.
-    Things drawn inside it after this call sit on its page."""
+def binder(f: Fig, x, y, w, h, ink="rule", rings=True):
+    """Where records are kept: an open ring binder with its spine at the left. Things drawn inside it after
+    this call sit on its page; pass rings=False and call binder_rings after them, so the closed rings run
+    over the pages they hold."""
     f.rect(x + 6, y + 6, w, h, fill="tile", stroke=ink, rx=6, sw=2.5)  # the back cover, offset
     f.rect(x, y, w, h, fill="tile", stroke=ink, rx=6, sw=3)
     f.line(x + 16, y + 4, x + 16, y + h - 4, ink, sw=2)
+    if rings:
+        binder_rings(f, x, y, h)
+
+
+def binder_rings(f: Fig, x, y, h):
+    """The binder's three closed rings, each through the spine and the left edge of the pages it holds."""
     for k in range(3):
         ry = y + h * (0.2 + 0.3 * k)
-        f.path(
-            f"M{x + 6:.1f} {ry:.1f} A9 9 0 0 1 {x + 26:.1f} {ry:.1f}",
-            stroke="fg",
-            sw=3,
-        )
-        f.circle(x + 6, ry, 3, fill="fg")
-        f.circle(x + 26, ry, 3, fill="fg")
+        f.circle(x + 26, ry, 11, stroke="fg", sw=3)
 
 
 def thought(f: Fig, cx, cy, w, h, toward, ink="fg"):

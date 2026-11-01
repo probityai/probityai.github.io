@@ -122,9 +122,11 @@ def _pair(f: fk.Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> fl
             f.line(e - 12, ry, bnx + 22, ry, "accent", sw=3)
             fk.arrow(f, bnx + 30, ry, size=7)
     bny = rows[0] - SH / 2 - 14
-    fk.binder(f, bnx, bny, bnw, rows[1] - rows[0] + SH + 28)
+    bnh = rows[1] - rows[0] + SH + 28
+    fk.binder(f, bnx, bny, bnw, bnh, rings=False)
     for ry in rows:
         fk.slip(f, bnx + 34, ry, SH, "check", "fg")
+    fk.binder_rings(f, bnx, bny, bnh)
     # the verifier id each record carries, printed after its receipt as panel 1 prints the verdict
     sz = f.text_size
     cap = fk.cap_height(sz, "mono", 500)
