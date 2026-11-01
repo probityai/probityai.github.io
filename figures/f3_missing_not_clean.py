@@ -5,9 +5,9 @@
 contradicted, selected_span_missing_from_record). The picture shows why the two readers disagree:
 
 Top row: the record. Its passages stand over the source passages they came from, so every pairing rung is
-straight; where the fifth passage stood, the record's frame is pinched shut and stitched across, so the
+straight; where the fifth passage stood, the record's frame is pinched shut, so the
 record still reads as one closed piece. An eye at the right looks at the record alone: a translucent cone of
-sight from the eye covers the whole record, the stitched pinch with the rest, and above the eye its belief is
+sight from the eye covers the whole record, the pinched waist with the rest, and above the eye its belief is
 a check in a thought cloud: fine.
 Bottom row: the source capture, all seven passages in a frame with viewfinder corners, so it reads as the
 capture the record came from and not as a second record. probity-verify's lens runs between the two rows
@@ -41,7 +41,7 @@ DESC = (
 
 def _record_frame(f: fk.Fig, x0, x1, y0, y1, hx0, hx1) -> None:
     """The record's frame from x0 to x1, top y0, foot y1, pinched shut between hx0 and hx1 (the place a
-    passage was cut out): its top dips and its foot rises to meet in a narrow waist, stitched across."""
+    passage was cut out): its top dips and its foot rises to meet in a narrow waist, with no mark in it."""
     r = 8
     mid = (y0 + y1) / 2
     neck = (y1 - y0) * 0.22  # half the waist's height: the frame stays one open piece through the waist
@@ -55,11 +55,6 @@ def _record_frame(f: fk.Fig, x0, x1, y0, y1, hx0, hx1) -> None:
         f"Q{x0:.1f} {y0:.1f} {x0 + r:.1f} {y0:.1f} Z"
     )
     f.path(d, stroke="rule", sw=2.5)
-    # cross-stitches pull the waist's top and foot together: the cut was sewn shut
-    for k in (-1, 0, 1):
-        y = mid + k * neck * 0.75
-        f.line(cx - 7, y - 5, cx + 7, y + 5, "fg", sw=2.5)
-        f.line(cx - 7, y + 5, cx + 7, y - 5, "fg", sw=2.5)
 
 
 def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
@@ -83,7 +78,7 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     rx1 = xs[0] - 10 + fw
     assert rx1 + 40 <= gx - lr * 1.25, "the rows run into the readers' column"
     # the record: six passages over the source passages they came from, the fifth place pinched shut
-    # where the fifth passage stood, only its dashed empty place is left, under the stitches: a passage cut out
+    # where the fifth passage stood, only its dashed empty place is left inside the waist: a passage cut out
     fk.sheet(f, xs[HOLE], yr, *geo, state="missing")
     _record_frame(f, xs[0] - 10, rx1, yr - 10, yr - 10 + fh, xs[HOLE] - sgap / 2, xs[HOLE] + sw_ + sgap / 2)
     f.rect(xs[0] - 10, ys - 10, fw, fh, stroke="rule", rx=8, sw=2.5)
@@ -105,7 +100,7 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
         if i != HOLE:
             fk.sheet(f, x, yr, *geo)
     # the eye hangs over the middle of the record and looks down at it alone: a beam of sight like a lamp's
-    # covers the whole record, the stitched pinch with the rest; its belief is a check in the cloud beside it
+    # covers the whole record, the pinched waist with the rest; its belief is a check in the cloud beside it
     er = lr * 1.25
     ecx, ey = (xs[0] - 10 + rx1) / 2, yr - 10 - er - 52
     bl, br, bt, bb = xs[0] - 16, rx1 + 6, yr - 16, yr - 4 + fh
