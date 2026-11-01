@@ -62,7 +62,7 @@ def _font(key: tuple[str, int]) -> TTFont:
 def text_width(s: str, size: float, font: str = "sans", weight: int = 400) -> float:
     """Advance width of s in user units, from the font's own hmtx table (no kerning)."""
     f = _font((font, weight))
-    cmap = f.getBestCmap()
+    cmap: Any = f.getBestCmap()
     hmtx: Any = f["hmtx"]
     head: Any = f["head"]
     return sum(hmtx[cmap[ord(c)]][0] for c in s) * size / head.unitsPerEm
