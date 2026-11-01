@@ -11,14 +11,22 @@ or changes without a new publish is a break, not a cosmetic difference.
 
 Prints one line per failure and a final "N of M" line; exits 1 when any URL failed.
 
-    python3 scripts/check_served.py --tree <pages-live checkout> [--sync <token>]
+    python3 scripts/check_served.py --tree <pages-live checkout> [--sync <token>] [--repo <owner/repo>]
+
+With --repo and --sync, the byte comparison starts only after the Pages build for the commit
+named by --sync reports "built". Pages serves the old bytes until that build finishes, so a
+comparison made at the moment of the push reports a race, not a defect. A build that errors,
+or one that does not finish within --build-deadline seconds, fails with its own message.
 """
 
 from __future__ import annotations
 
 import argparse
+import collections.abc
 import concurrent.futures
 import hashlib
+import json
+import os
 import pathlib
 import sys
 import time
@@ -30,6 +38,68 @@ HOST = "https://probityai.github.io"
 W3ID = "https://w3id.org/agent-evidence"
 SERVED_DIRS = ("agent-evidence-atlas", "agent-evidence")
 TRIES = 4
+API = "https://api.github.com"
+BUILD_DEADLINE = 600.0
+BUILD_POLL = 10.0
+
+
+class BuildError(Exception):
+    """The Pages build did not finish for the commit we pushed."""
+
+
+class BuildErrored(BuildError):
+    """The Pages build for the commit ended in the errored state."""
+
+
+def latest_build(repo: str) -> dict:
+    """The body of GET /repos/{repo}/pages/builds/latest; raises BuildError when unreadable."""
+    headers = {"User-Agent": "probityai-served-check", "Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    try:
+        req = urllib.request.Request(f"{API}/repos/{repo}/pages/builds/latest", headers=headers)
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return json.loads(resp.read())
+    except (urllib.error.URLError, TimeoutError, ConnectionError, ValueError) as err:
+        raise BuildError(f"could not read the Pages build status: {err}") from err
+
+
+def wait_for_build(
+    commit: str,
+    read: collections.abc.Callable[[], dict],
+    sleep: collections.abc.Callable[[float], None] = time.sleep,
+    clock: collections.abc.Callable[[], float] = time.monotonic,
+    deadline: float = BUILD_DEADLINE,
+    poll: float = BUILD_POLL,
+) -> None:
+    """Return once the latest Pages build is "built" for commit; raise BuildError otherwise.
+
+    A latest build for another commit, or one still queued or building, means keep waiting.
+    An "errored" build for this commit raises BuildErrored at once. A transient read failure
+    counts as "not yet" until the deadline.
+    """
+    end = clock() + deadline
+    state = "no build seen"
+    while True:
+        try:
+            build = read()
+            state = f"status {build.get('status')} for commit {str(build.get('commit'))[:12]}"
+            if build.get("commit") == commit:
+                if build.get("status") == "built":
+                    return
+                if build.get("status") == "errored":
+                    message = (build.get("error") or {}).get("message")
+                    raise BuildErrored(f"Pages build errored for {commit}: {message}")
+        except BuildErrored:
+            raise
+        except BuildError as err:
+            state = str(err)
+        if clock() >= end:
+            raise BuildError(
+                f"Pages build did not finish for {commit} within {deadline:.0f} s (last seen: {state})"
+            )
+        sleep(poll)
 
 
 def fetch(url: str) -> tuple[int, bytes, str]:
@@ -89,7 +159,18 @@ def main() -> int:
     parser.add_argument("--tree", required=True, type=pathlib.Path)
     parser.add_argument("--sync", default="", help="cache-busting query value")
     parser.add_argument("--workers", type=int, default=16)
+    parser.add_argument("--repo", default="", help="owner/repo whose Pages build to wait for")
+    parser.add_argument("--build-deadline", type=float, default=BUILD_DEADLINE)
     args = parser.parse_args()
+    if args.repo:
+        if not args.sync:
+            print("FAIL --repo needs --sync, the pushed commit whose Pages build to wait for")
+            return 1
+        try:
+            wait_for_build(args.sync, lambda: latest_build(args.repo), deadline=args.build_deadline)
+        except BuildError as err:
+            print(f"FAIL {err}")
+            return 1
     for top in SERVED_DIRS:
         if not (args.tree / top).is_dir():
             print(f"FAIL the tree has no {top}/ directory; nothing was checked")
