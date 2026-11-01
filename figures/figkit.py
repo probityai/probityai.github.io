@@ -378,11 +378,8 @@ def sheet(
     outline = _eared(x, y, w, h, EAR)
     if state == "missing":
         if loud:
-            # the empty place in dark ink, with the same query mark the receipt prints, in the slot's
-            # upper half (the part an archive box leaves showing)
+            # the empty place in dark ink and nothing inside: a mark inside it read as a file of its own
             f.path(outline, stroke="fg", sw=3.5, dash="8 6")
-            g = min(w * 0.5, h * 0.42)
-            f.glyph("query", x + (w - g) / 2, y + h * 0.04, g, "fg", sw=max(3.0, g * 0.14))
         else:
             f.path(outline, stroke="rule", sw=2.5, dash="6 6")
         return w, h

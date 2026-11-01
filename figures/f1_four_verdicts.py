@@ -5,13 +5,12 @@ Panel 1 (arms 1 to 3 of demo/four-arms.sh): the archive, an archive box of three
 their digest, fans into three rows. Each row reads left to right: the archive as the verifier gets it, the
 verifier's lens (blue, its glass ground with one bar), and the receipt it prints with the verdict glyph.
 Loss ink is only for damage: in row 2 the changed byte is a larger tilted cell with a crack to the sprung
-shackle, and the receipt's cross takes the same ink. In row 3 the missing file is a dark dashed slot holding
-the query mark the receipt prints, so not-established never reads as failed.
-Panel 2 (arm 4) is a time strip, read left to right. First the archive is read by the verifier and its
-receipt is printed. Then the same archive (the two drawings are tied by an equals bracket underneath) is
-read by the same lens with its glass swapped: the old one-bar glass falls out below, dashed, and the lens
-now holds a two-bar glass. It prints a second receipt. One ring binder at the end of the strip takes both
-receipts: the first arrives by a long arc over the second reading, the second directly. Kept together.
+shackle, and the receipt's cross takes the same ink. In row 3 the missing file is a dark dashed empty
+place, so not-established never reads as failed.
+Panel 2 (arm 4) uses the same grammar: the same archive fans into two readings, the upper by the version 1
+lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is). Each
+lens has the verifier id its record carries printed under it, and one ring binder at the right holds both
+receipts. Kept together.
 Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
@@ -32,8 +31,9 @@ DESC = " ".join(
     ["One sealed archive of three files, checked four ways."]
     + [f"{a['caption']}: {a['verdict']}, exit {a['exit']}." for a in ARMS[:3]]
     + [
-        "Below, over time: the same archive is read by the verifier, then by the verifier with its lens glass "
-        f"swapped. Both print {ARMS[3]['verdict']}, exit {ARMS[3]['exit']}, and both receipts are kept in one binder."
+        f"Below: the same archive is read by verifier {ARMS[3]['verifier_ids'][0]} and by the changed verifier "
+        f"{ARMS[3]['verifier_ids'][1]}. Both print {ARMS[3]['verdict']}, exit {ARMS[3]['exit']}, and both "
+        "receipts are kept in one binder."
     ]
 )
 INK = {
@@ -90,74 +90,55 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
     return _verdict(f, arm, sx + round(sh * 0.74, 1) + 26, cy, stacked)
 
 
-def _swap(f: fk.Fig, x, cy, lr=LR) -> tuple[float, float]:
-    """The same route as _read, but the lens's glass has been swapped: the old one-bar glass lies below the
-    lens, dashed, with a curved arrow showing it came out; the lens holds a two-bar glass.
-    Returns (receipt x, lowest y drawn)."""
-    sx = _read(f, x, cy, 0, lr, version=2)
-    return sx, cy + lr * 1.8
-
-
-def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
-    """Panel 2, wide: the time strip. Returns the lowest y drawn."""
+def _pair(f: fk.Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float:
+    """Panel 2: one archive at x0 centred on cy fans, as in panel 1, into two readings: the version 1 lens on
+    the upper row, the version 2 lens (the same instrument made stronger) on the lower row. Both routes end
+    in one ring binder that holds both receipts. The verifier id each record carries (product text from
+    data/four-arms.toml) is printed after its receipt (ids="right"), or, where the line is too short, above
+    the upper reading and below the lower one, with the binder at the right edge (ids="outside").
+    Returns the lowest y drawn."""
     bw, bh = fk.box_size(3, geo, sgap)
     rw = round(SH * 0.74, 1)
-    top = cy - bh / 2 + 6
-    # first reading
-    fk.box(f, x0, top, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s1 = _read(f, x0 + bw, cy, 0, version=1)
-    fk.slip(f, s1, cy, SH, "check", "fg")
-    # then: a long dotted arrow on to the second reading of the same archive
-    bnw = 16 + 18 + 2 * rw + 14 + 16
-    x2 = right - bnw - 8 - (LR * 1.6 + 24 + 30 + LR) - bw  # the second archive, so the binder ends at right
-    t0 = s1 + rw + 22
-    f.line(t0, cy, x2 - 22, cy, "rule", sw=2.5, dash="2 9")
-    fk.arrow(f, x2 - 12, cy, "rule", size=7)
-    # between the readings, as its own step: the verifier changes. The version 1 lens, retired in grey, gives
-    # way to the version 2 lens, the same kind of instrument made stronger
-    cr = LR * 0.85
-    cmx = (t0 + x2 - 22) / 2
-    c1, c2 = cmx - cr * 3.2, cmx + cr * 2.2
-    f.rect(c1 - cr * 2.0, cy - cr * 1.9, (c2 - c1) + cr * 4.4, cr * 4.3, fill="card")
-    fk.lens_version(f, c1, cy, cr, 1, stroke="rule")
-    f.line(c1 + cr * 1.9, cy, c2 - cr * 1.75, cy, "fg", sw=3)
-    fk.arrow(f, c2 - cr * 1.4, cy, "fg", size=7)
-    fk.lens_version(f, c2, cy, cr, 2)
-    fk.box(f, x2, top, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s2, low = _swap(f, x2 + bw, cy)
-    # the binder takes both receipts: the second straight on, the first by an arc over the second reading
-    bnx = s2 + 8
-    bny, bnh = cy - SH / 2 - 14, SH + 28
-    fk.binder(f, bnx, bny, bnw, bnh)
-    k1 = bnx + 34
-    fk.slip(f, k1, cy, SH, "check", "fg")
-    fk.slip(f, k1 + rw + 14, cy, SH, "check", "fg")
-    ay = cy - LR * 5.9 - 10
-    ex = k1 + rw / 2
-    f.path(
-        f"M{s1 + rw / 2:.1f} {cy - SH / 2 - 6:.1f} Q{s1 + rw / 2:.1f} {ay:.1f} {s1 + rw / 2 + 40:.1f} {ay:.1f} "
-        f"L{ex - 40:.1f} {ay:.1f} Q{ex:.1f} {ay:.1f} {ex:.1f} {bny - 14:.1f}",
-        stroke="rule",
-        sw=2.5,
-    )
-    fk.arrow(f, ex, bny - 4, "rule", size=7, direction="down")
-    # the two drawings are one archive: an equals bracket ties their feet
-    by = top + bh + 12
-    m1, m2 = x0 + bw / 2, x2 + bw / 2
-    mid = (m1 + m2) / 2
-    f.path(f"M{m1:.1f} {by:.1f} L{m1:.1f} {by + 14:.1f} L{mid - 18:.1f} {by + 14:.1f}", stroke="rule", sw=2.5)
-    f.path(f"M{m2:.1f} {by:.1f} L{m2:.1f} {by + 14:.1f} L{mid + 18:.1f} {by + 14:.1f}", stroke="rule", sw=2.5)
-    f.line(mid - 9, by + 9, mid + 9, by + 9, "fg", sw=3.5)
-    f.line(mid - 9, by + 19, mid + 9, by + 19, "fg", sw=3.5)
-    # each record's own verifier id, as the record carries it: under the first receipt, and under the binder
-    # for the second reading's receipt (product text from data/four-arms.toml, not a label)
+    fk.box(f, x0, cy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8)
+    rows = (cy - pitch / 2, cy + pitch / 2)
+    rx = x0 + bw + fan
+    fx = x0 + bw + 10
+    for ry in rows:
+        f.path(
+            f"M{fx:.1f} {cy:.1f} C{fx + 50:.1f} {cy:.1f} {rx - 70:.1f} {ry:.1f} {rx - 16:.1f} {ry:.1f}",
+            stroke="rule",
+            sw=2.5,
+        )
+        fk.arrow(f, rx - 6, ry, "rule", size=7)
+    ends = []
+    for k, ry in enumerate(rows):
+        f.line(rx - 4, ry, rx + 6, ry, "accent", sw=3)
+        ends.append(_read(f, rx, ry, 0, lr, version=k + 1))
+    bnw = 16 + 18 + rw + 16
+    bnx = max(ends) + 8
+    if ids == "outside":
+        bnx = f.width - fk.PAD - bnw - 6
+        for e, ry in zip(ends, rows):
+            f.line(e - 12, ry, bnx + 22, ry, "accent", sw=3)
+            fk.arrow(f, bnx + 30, ry, size=7)
+    bny = rows[0] - SH / 2 - 14
+    fk.binder(f, bnx, bny, bnw, rows[1] - rows[0] + SH + 28)
+    for ry in rows:
+        fk.slip(f, bnx + 34, ry, SH, "check", "fg")
+    # the verifier id each record carries, printed after its receipt as panel 1 prints the verdict
     sz = f.text_size
-    iy = by + 22 + sz * 1.3
+    cap = fk.cap_height(sz, "mono", 500)
     v1, v2 = ARMS[3]["verifier_ids"]
-    w1 = fk.text_width(v1, sz, "mono", 500)
-    f.text(max(x0, s1 + rw / 2 - w1 / 2), iy, v1, "fg", "mono", 500)
-    f.text(right - fk.text_width(v2, sz, "mono", 500), iy, v2, "fg", "mono", 500)
-    return max(low, iy + sz * 0.4)
+    low = rows[1] + SH / 2 + 20
+    if ids == "outside":
+        f.text(x0, rows[0] - lr * 1.3 - 18, v1, "fg", "mono", 500)
+        f.text(x0, rows[1] + lr * 1.3 + 18 + cap, v2, "fg", "mono", 500)
+        return max(low, rows[1] + lr * 1.3 + 18 + cap + sz * 0.3)
+    tx = bnx + bnw + 26
+    for ry, vid in zip(rows, (v1, v2)):
+        f.text(tx, ry + cap / 2, vid, "fg", "mono", 500)
+        assert tx + fk.text_width(vid, sz, "mono", 500) <= f.width - fk.PAD, vid
+    return low
 
 
 def wide() -> fk.Fig:
@@ -184,8 +165,9 @@ def wide() -> fk.Fig:
         assert right <= W - pad, (k, right)
     rule_y = centres[-1] + bh / 2 + 30
     f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
-    c2 = rule_y + 140
-    low = _strip(f, pad, c2, geo, sgap, W - pad)
+    pitch2 = SH + 40
+    c2 = rule_y + 30 + pitch2 / 2 + SH / 2 + 14
+    low = _pair(f, pad, c2, geo, sgap, pitch2, fan=96 + bw)
     f.height = round(low + 24)
     return f
 
@@ -203,27 +185,11 @@ def narrow() -> fk.Fig:
         assert right <= W - pad, (k, right)
     rule_y = centres[-1] + bh / 2 + 30
     f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
-    # panel 2 stacked: the first reading, then below it the same archive read with the swapped glass;
-    # one binder at the right takes both receipts
-    rw = round(SH * 0.74, 1)
-    a = rule_y + 40 + bh / 2
-    b = a + bh + 70 + f.text_size
-    fk.box(f, pad, a - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s1 = _read(f, pad + bw, a, 0)
-    fk.box(f, pad, b - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s2, low = _swap(f, pad + bw, b)
-    bnx = max(s1, s2) + 8
-    bnw = 16 + 18 + rw + 16
-    fk.binder(f, bnx, a - SH / 2 - 14, bnw, b - a + SH + 28)
-    for y in (a, b):
-        fk.slip(f, bnx + 34, y, SH, "check", "fg")
-    # each record's own verifier id under its reading (product text from data/four-arms.toml)
-    sz = f.text_size
-    for y, vid in zip((a, b), ARMS[3]["verifier_ids"]):
-        f.text(pad, y + bh / 2 + sz * 1.15, vid, "fg", "mono", 500)
-    low = max(low, b + bh / 2 + sz * 1.5)
-    assert bnx + bnw + 6 <= W - pad
-    f.height = round(max(low, b + SH / 2 + 20) + 24)
+    # panel 2: the same archive fans into the version 1 and version 2 readings, one binder keeps both
+    pitch2 = bh + 2 * f.text_size + 40
+    c2 = rule_y + 30 + f.text_size + 18 + 18 * 1.3 + pitch2 / 2
+    low = _pair(f, pad, c2, geo, sgap, pitch2, 18, fan=70, ids="outside")
+    f.height = round(low + 24)
     return f
 
 
