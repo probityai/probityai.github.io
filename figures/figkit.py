@@ -623,22 +623,24 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
     return x + w
 
 
-def binder(f: Fig, x, y, w, h, ink="rule", rings=True):
-    """Where records are kept: an open ring binder with its spine at the left. Things drawn inside it after
-    this call sit on its page; pass rings=False and call binder_rings after them, so the closed rings run
-    over the pages they hold."""
-    f.rect(x + 6, y + 6, w, h, fill="tile", stroke=ink, rx=6, sw=2.5)  # the back cover, offset
-    f.rect(x, y, w, h, fill="tile", stroke=ink, rx=6, sw=3)
-    f.line(x + 16, y + 4, x + 16, y + h - 4, ink, sw=2)
-    if rings:
-        binder_rings(f, x, y, h)
-
-
-def binder_rings(f: Fig, x, y, h):
-    """The binder's three closed rings, each through the spine and the left edge of the pages it holds."""
-    for k in range(3):
-        ry = y + h * (0.2 + 0.3 * k)
-        f.circle(x + 26, ry, 11, stroke="fg", sw=3)
+def paperclip(f: Fig, cx, top, bottom, w, ink="fg"):
+    """Records kept as one: a wire paperclip standing upright from top to bottom, w wide, centred on cx.
+    Draw it after the slips it holds, so its wire runs over their edges; a halo in the card colour keeps the
+    wire readable where it crosses a slip's outline."""
+    r1 = w / 2
+    rb, rt = r1 * 0.8, r1 * 0.5
+    l1, r1x = cx - r1, cx + r1
+    l2 = r1x - 2 * rb
+    r2 = l2 + 2 * rt
+    h = bottom - top
+    d = (
+        f"M{l1:.1f} {bottom - h * 0.3:.1f} L{l1:.1f} {top + r1:.1f} A{r1:.1f} {r1:.1f} 0 0 1 {r1x:.1f} {top + r1:.1f} "
+        f"L{r1x:.1f} {bottom - rb:.1f} A{rb:.1f} {rb:.1f} 0 0 1 {l2:.1f} {bottom - rb:.1f} "
+        f"L{l2:.1f} {top + h * 0.22 + rt:.1f} A{rt:.1f} {rt:.1f} 0 0 1 {r2:.1f} {top + h * 0.22 + rt:.1f} "
+        f"L{r2:.1f} {bottom - h * 0.24:.1f}"
+    )
+    f.path(d, stroke="tile", sw=8)
+    f.path(d, stroke=ink, sw=3)
 
 
 def thought(f: Fig, cx, cy, w, h, toward, ink="fg"):

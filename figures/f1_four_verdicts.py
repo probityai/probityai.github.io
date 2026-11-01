@@ -9,8 +9,8 @@ shackle, and the receipt's cross takes the same ink. In row 3 the missing file i
 place, so not-established never reads as failed.
 Panel 2 (arm 4) uses the same grammar: the same archive fans into two readings, the upper by the version 1
 lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is). Each
-lens has the verifier id its record carries printed under it, and one ring binder at the right holds both
-receipts. Kept together.
+reading's route bends onto its own receipt, the two receipts overlap, and one paperclip holds both: kept
+together. Each receipt has the verifier id its record carries printed after it.
 Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
@@ -33,7 +33,7 @@ DESC = " ".join(
     + [
         f"Below: the same archive is read by verifier {ARMS[3]['verifier_ids'][0]} and by the changed verifier "
         f"{ARMS[3]['verifier_ids'][1]}. Both print {ARMS[3]['verdict']}, exit {ARMS[3]['exit']}, and both "
-        "receipts are kept in one binder."
+        "receipts are clipped together."
     ]
 )
 INK = {
@@ -90,12 +90,13 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
     return _verdict(f, arm, sx + round(sh * 0.74, 1) + 26, cy, stacked)
 
 
-def _pair(f: fk.Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float:
+def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float:
     """Panel 2: one archive at x0 centred on cy fans, as in panel 1, into two readings: the version 1 lens on
-    the upper row, the version 2 lens (the same instrument made stronger) on the lower row. Both routes end
-    in one ring binder that holds both receipts. The verifier id each record carries (product text from
-    data/four-arms.toml) is printed after its receipt (ids="right"), or, where the line is too short, above
-    the upper reading and below the lower one, with the binder at the right edge (ids="outside").
+    the upper row, the version 2 lens (the same instrument made stronger) on the lower row. Both routes run
+    into one pair of receipts held by a paperclip: the version 1 receipt behind, the version 2 receipt in
+    front, below it, the clip over the right edges of both. The verifier id each record carries (product text
+    from data/four-arms.toml) is printed after its receipt (ids="right"), or, where the line is too short,
+    above the upper reading and below the lower one, with the pair at the right edge (ids="outside").
     Returns the lowest y drawn."""
     bw, bh = fk.box_size(3, geo, sgap)
     rw = round(SH * 0.74, 1)
@@ -114,31 +115,41 @@ def _pair(f: fk.Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> fl
     for k, ry in enumerate(rows):
         f.line(rx - 4, ry, rx + 6, ry, "accent", sw=3)
         ends.append(_read(f, rx, ry, 0, lr, version=k + 1))
-    bnw = 16 + 18 + rw + 16
-    bnx = max(ends) + 8
+    # the receipts' place: the two slips stand one over the other, the lower one's top over the upper one's
+    # torn foot, so one paperclip on their right edges can hold both;
+    # torn foot; the lower one sits a little to the right, so both slips' edges show
+    sh2 = SH + 10
+    rw = round(sh2 * 0.74, 1)
+    dy, dx = sh2 - 10, 16
+    px = max(ends) + 30
     if ids == "outside":
-        bnx = f.width - fk.PAD - bnw - 6
-        for e, ry in zip(ends, rows):
-            f.line(e - 12, ry, bnx + 22, ry, "accent", sw=3)
-            fk.arrow(f, bnx + 30, ry, size=7)
-    bny = rows[0] - SH / 2 - 14
-    bnh = rows[1] - rows[0] + SH + 28
-    fk.binder(f, bnx, bny, bnw, bnh, rings=False)
-    for ry in rows:
-        fk.slip(f, bnx + 34, ry, SH, "check", "fg")
-    fk.binder_rings(f, bnx, bny, bnh)
+        px = f.width - fk.PAD - rw - dx - 18
+    slips = ((px, cy - dy / 2), (px + dx, cy + dy / 2))
+    for e, ry, (sx, sy) in zip(ends, rows, slips):
+        # each route leaves its lens level and bends onto its own receipt
+        x1 = sx - 12
+        f.path(
+            f"M{e - 12:.1f} {ry:.1f} C{(e + x1) / 2:.1f} {ry:.1f} {(e + x1) / 2:.1f} {sy:.1f} {x1:.1f} {sy:.1f}",
+            stroke="accent",
+            sw=3,
+        )
+        fk.arrow(f, sx - 4, sy, size=7)
+    for sx, sy in slips:
+        fk.slip(f, sx, sy, sh2, "check", "fg")
+    # the clip straddles the slips' right edges from the upper slip's middle to the lower one's
+    fk.paperclip(f, px + rw + dx / 2, slips[0][1] - 10, slips[1][1] + 10, 20)
     # the verifier id each record carries, printed after its receipt as panel 1 prints the verdict
     sz = f.text_size
     cap = fk.cap_height(sz, "mono", 500)
     v1, v2 = ARMS[3]["verifier_ids"]
-    low = rows[1] + SH / 2 + 20
+    low = max(rows[1] + lr * 1.3, slips[1][1] + sh2 / 2) + 20
     if ids == "outside":
         f.text(x0, rows[0] - lr * 1.3 - 18, v1, "fg", "mono", 500)
         f.text(x0, rows[1] + lr * 1.3 + 18 + cap, v2, "fg", "mono", 500)
         return max(low, rows[1] + lr * 1.3 + 18 + cap + sz * 0.3)
-    tx = bnx + bnw + 26
-    for ry, vid in zip(rows, (v1, v2)):
-        f.text(tx, ry + cap / 2, vid, "fg", "mono", 500)
+    tx = px + dx + rw + 30
+    for (sx, sy), vid in zip(slips, (v1, v2)):
+        f.text(tx, sy + cap / 2, vid, "fg", "mono", 500)
         assert tx + fk.text_width(vid, sz, "mono", 500) <= f.width - fk.PAD, vid
     return low
 
@@ -187,7 +198,7 @@ def narrow() -> fk.Fig:
         assert right <= W - pad, (k, right)
     rule_y = centres[-1] + bh / 2 + 30
     f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
-    # panel 2: the same archive fans into the version 1 and version 2 readings, one binder keeps both
+    # panel 2: the same archive fans into the version 1 and version 2 readings, one paperclip keeps both
     pitch2 = bh + 2 * f.text_size + 40
     c2 = rule_y + 30 + f.text_size + 18 + 18 * 1.3 + pitch2 / 2
     low = _pair(f, pad, c2, geo, sgap, pitch2, 18, fan=70, ids="outside")
