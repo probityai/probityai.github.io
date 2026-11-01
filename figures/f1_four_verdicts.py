@@ -120,7 +120,7 @@ def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float
     # torn foot; the lower one sits a little to the right, so both slips' edges show
     sh2 = SH + 10
     rw = round(sh2 * 0.74, 1)
-    dy, dx = sh2 - 10, 16
+    dy, dx = sh2 - 10, 10
     px = max(ends) + 30
     if ids == "outside":
         px = f.width - fk.PAD - rw - dx - 18
@@ -136,8 +136,9 @@ def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float
         fk.arrow(f, sx - 4, sy, size=7)
     for sx, sy in slips:
         fk.slip(f, sx, sy, sh2, "check", "fg")
-    # the clip straddles the slips' right edges from the upper slip's middle to the lower one's
-    fk.paperclip(f, px + rw + dx / 2, slips[0][1] - 10, slips[1][1] + 10, 20)
+    # one long clip over both slips' right edges, from near the upper slip's top to near the lower one's foot:
+    # it holds the pile, not one slip
+    fk.paperclip(f, px + rw + dx / 2, slips[0][1] - sh2 / 2 + 8, slips[1][1] + sh2 / 2 - 12, 22)
     # the verifier id each record carries, printed after its receipt as panel 1 prints the verdict
     sz = f.text_size
     cap = fk.cap_height(sz, "mono", 500)
