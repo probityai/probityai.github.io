@@ -29,7 +29,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 NS = "{http://www.w3.org/2000/svg}"
 TEXT_ROLES = ("fg", "muted", "accent")
-MARK_ROLES = ("rule", "byte", "loss", "self")
+MARK_ROLES = ("rule", "byte", "loss", "absent", "self")
 
 
 def _lum(h: str) -> float:

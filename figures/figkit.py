@@ -274,8 +274,9 @@ def write(figs: list[Fig], root: Path, rev: int) -> list[Path]:
 
 # --- Shared motifs -------------------------------------------------------------------------------------
 # An artifact is a file sheet with a dog-eared corner holding a grid of byte cells; an archive is a row of
-# sheets in one outline closed by a wax seal that straddles its top-right corner; the verifier is a lens
-# on its route; a kept verdict is a receipt (a small dog-eared slip with a check).
+# sheets in one outline, tied by a cord into a padlock whose body carries a digest mark (#): a signature
+# over the files' digest; the verifier is a lens on its route; a kept verdict is a receipt (a small
+# dog-eared slip with a check), and kept receipts sit side by side in one folder.
 
 CELL, GAP, SPAD, EAR = 12, 5, 11, 12
 
@@ -289,12 +290,13 @@ def _eared(x, y, w, h, ear):
 
 
 def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="present", mark=None):
-    """A file sheet. state "missing" draws a dashed hollow outline in loss ink. mark (col, row) is the
-    one byte cell drawn in loss ink, enlarged: the changed byte."""
+    """A file sheet. state "missing" draws a dashed hollow outline in absent ink (not there, not failed).
+    mark (col, row) is the one byte cell drawn in loss ink, enlarged well past its neighbours and ringed
+    in the card colour so it reads at thumbnail size: the changed byte."""
     w, h = sheet_size(cols, rows, cell, gap, pad)
     outline = _eared(x, y, w, h, EAR)
     if state == "missing":
-        f.path(outline, stroke="loss", sw=3, dash="8 5")
+        f.path(outline, stroke="absent", sw=3.5, dash="8 5")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
     f.path(f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}", stroke="rule", sw=2)
@@ -302,47 +304,50 @@ def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="pre
     for r in range(rows):
         for c in range(cols):
             cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
-            if mark == (c, r):
-                f.rect(cx - 4, cy - 4, cell + 8, cell + 8, fill="loss", rx=3)
-            else:
+            if mark != (c, r):
                 f.rect(cx, cy, cell, cell, fill="byte", rx=2)
+    if mark:
+        c, r = mark
+        cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
+        g = cell * 0.9
+        f.rect(cx - g - 2, cy - g - 2, cell + 2 * g + 4, cell + 2 * g + 4, fill="card", rx=5)
+        f.rect(cx - g, cy - g, cell + 2 * g, cell + 2 * g, fill="loss", rx=4)
     return w, h
 
 
-def seal(f: Fig, cx, cy, r=12, broken=False):
-    """The archive's wax seal: a solid fg disc with two ribbon tails hanging below it. Placed on the
-    archive's top-right corner it straddles the outline and visibly closes it. broken splits the disc on
-    a 30-degree line, pushes the halves 3 units apart and strokes the gap in loss ink."""
-    import math
+def lock(f: Fig, cx, cy, r=12, broken=False):
+    """The archive's signature: a padlock centred on (cx, cy) whose solid body carries a digest mark (#)
+    knocked out in the card colour, so it reads as a lock over a digest, not an award. r is half the body
+    width. broken swings the shackle open off its right post and strikes the whole lock through with a
+    heavy loss-ink slash."""
+    bw, bh = 2 * r, 1.6 * r
+    bx, by = cx - r, cy - bh * 0.3
+    sr = r * 0.62                                 # shackle radius
+    sw = max(3.0, r * 0.32)
+    f.circle(cx, cy, r * 1.9, fill="card")
+    if broken:
+        # the shackle swung up and open: its left post leaves the body
+        f.path(f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 0.9:.1f} A{sr:.1f} {sr:.1f} 0 0 0 {cx - sr * 0.9:.1f} {by - sr * 2.1:.1f}",
+               stroke="fg", sw=sw)
+    else:
+        f.path(f"M{cx - sr:.1f} {by:.1f} L{cx - sr:.1f} {by - sr * 0.6:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr:.1f} {by - sr * 0.6:.1f} L{cx + sr:.1f} {by:.1f}",
+               stroke="fg", sw=sw)
+    f.rect(bx, by, bw, bh, fill="fg", rx=r * 0.25)
+    # the digest mark: two uprights and two bars, in the card colour
+    hw, hs = r * 0.62, max(1.6, r * 0.13)
+    hy = by + bh / 2
+    for d in (-1, 1):
+        f.line(cx + d * hw * 0.28 + hw * 0.08, hy - hw * 0.55, cx + d * hw * 0.28 - hw * 0.08, hy + hw * 0.55, "card", sw=hs)
+        f.line(cx - hw * 0.5, hy + d * hw * 0.22, cx + hw * 0.5, hy + d * hw * 0.22, "card", sw=hs)
+    if broken:
+        k = r * 1.7
+        f.line(cx - k, cy + k * 0.75, cx + k, cy - k * 0.95, "card", sw=sw + 6)
+        f.line(cx - k, cy + k * 0.75, cx + k, cy - k * 0.95, "loss", sw=sw + 1.5)
 
-    for side in (-1, 1):
-        x = cx + side * r * 0.45
-        y0 = cy + r * 0.5
-        L = r * 1.6
-        f.path(f"M{x - 3.5:.1f} {y0:.1f} L{x + 3.5:.1f} {y0:.1f} L{x + 3.5 + side * 2:.1f} {y0 + L:.1f} "
-               f"L{x + side * 2:.1f} {y0 + L - 5:.1f} L{x - 3.5 + side * 2:.1f} {y0 + L:.1f} Z",
-               fill="fg", stroke="fg", sw=1)
-    if not broken:
-        f.circle(cx, cy, r + 2, fill="card")
-        f.path(f"M{cx - r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx + r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx - r:.1f} {cy:.1f} Z",
-               fill="fg")
-        return
-    t = math.radians(30)
-    ux, uy = math.sin(t), -math.cos(t)          # along the cut, 30 degrees off vertical
-    nx, ny = -uy, ux                            # normal to the cut
-    f.circle(cx, cy, r + 4, fill="card")
-    for side in (-1, 1):
-        ox, oy = cx + side * nx * 1.5, cy + side * ny * 1.5
-        ax, ay = ox + ux * r, oy + uy * r
-        bx, by = ox - ux * r, oy - uy * r
-        sweep = 1 if side > 0 else 0
-        f.path(f"M{ax:.1f} {ay:.1f} A{r} {r} 0 0 {sweep} {bx:.1f} {by:.1f} Z", fill="fg")
-    f.line(cx + ux * (r + 3), cy + uy * (r + 3), cx - ux * (r + 3), cy - uy * (r + 3), "loss", sw=2)
 
-
-def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, seal_r=12):
-    """n sheets in one outline, bound by a band that runs across every sheet into a seal on the right edge.
-    Returns (width, height)."""
+def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, lock_r=12):
+    """n sheets in one outline, tied by a thin cord that runs across every sheet into the padlock on the
+    right edge. Returns (width, height)."""
     sw_, sh_ = sheet_size(*geo)
     m = 12
     w = 2 * m + n * sw_ + (n - 1) * sgap
@@ -351,20 +356,18 @@ def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SP
     for i in range(n):
         sheet(f, x + m + i * (sw_ + sgap), y + m, *geo, state="missing" if missing == i else "present",
               mark=mark[1] if mark and mark[0] == i else None)
-    # the seal's band: one strap across every sheet into the seal, so the seal reads as binding the files;
-    # broken cuts the strap over the changed sheet (loss-ink ends) and splits the seal
-    by, bh = y + m + EAR / 2 + 1, 6
+    # the lock's cord: one thin strap across every sheet into the lock, so the lock reads as binding the
+    # files; broken cuts a gap in the cord over the changed sheet and breaks the lock
+    by, bh = y + m + EAR / 2 + 2, 3
     x0, x1 = x + m - 4, x + w - 2
     if broken and mark:
-        c0 = x + m + mark[0] * (sw_ + sgap) + sw_ * 0.3
-        c1 = c0 + sw_ * 0.4
+        c0 = x + m + mark[0] * (sw_ + sgap) + sw_ * 0.2
+        c1 = c0 + sw_ * 0.6
         f.rect(x0, by, c0 - x0, bh, fill="fg")
         f.rect(c1, by, x1 - c1, bh, fill="fg")
-        for cx_ in (c0, c1):
-            f.line(cx_, by - 4, cx_, by + bh + 4, "loss", sw=2.5)
     else:
         f.rect(x0, by, x1 - x0, bh, fill="fg")
-    seal(f, x1, by + bh / 2, r=seal_r, broken=broken)
+    lock(f, x1, by + bh / 2 + lock_r * 0.2, r=lock_r * 0.8, broken=broken)
     return w, h
 
 
@@ -385,19 +388,28 @@ def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
     return cx + r
 
 
-def receipt(f: Fig, x, cy, h=48):
-    """A kept record of a verdict: a dog-eared slip (tile fill, rule outline) with two lines of text
+def receipt(f: Fig, x, cy, h=48, ink="rule"):
+    """A kept record of a verdict: a dog-eared slip (tile fill, outline in ink) with two lines of text
     strokes and a check in its lower half."""
     w = round(h * 0.78, 1)
     ear = h * 0.26
     y = cy - h / 2
-    f.path(_eared(x, y, w, h, ear), fill="tile", stroke="rule", sw=2)
-    f.path(f"M{x + w - ear:.1f} {y:.1f} L{x + w - ear:.1f} {y + ear:.1f} L{x + w:.1f} {y + ear:.1f}", stroke="rule", sw=2)
+    f.path(_eared(x, y, w, h, ear), fill="tile", stroke=ink, sw=2.5)
+    f.path(f"M{x + w - ear:.1f} {y:.1f} L{x + w - ear:.1f} {y + ear:.1f} L{x + w:.1f} {y + ear:.1f}", stroke=ink, sw=2.5)
     for k, right in ((0, w - ear - 4), (1, w - 6)):
         f.line(x + 6, y + ear * 0.55 + 4 + k * 8, x + right, y + ear * 0.55 + 4 + k * 8, "rule", sw=2.5)
     g = w * 0.5
     f.glyph("check", x + (w - g) / 2, y + h - g - 4, g, "fg", sw=2.5)
     return x + w
+
+
+def folder(f: Fig, x, y, w, h, ink="fg"):
+    """A filing folder: a rounded pocket with a tab on its top-left edge. What sits inside is kept."""
+    tw, th = min(56, w * 0.4), 9
+    f.path(f"M{x:.1f} {y + 6:.1f} Q{x:.1f} {y:.1f} {x + 6:.1f} {y:.1f} L{x + tw:.1f} {y:.1f} L{x + tw + th:.1f} {y + th:.1f} "
+           f"L{x + w - 6:.1f} {y + th:.1f} Q{x + w:.1f} {y + th:.1f} {x + w:.1f} {y + th + 6:.1f} L{x + w:.1f} {y + h - 6:.1f} "
+           f"Q{x + w:.1f} {y + h:.1f} {x + w - 6:.1f} {y + h:.1f} L{x + 6:.1f} {y + h:.1f} Q{x:.1f} {y + h:.1f} {x:.1f} {y + h - 6:.1f} Z",
+           stroke=ink, sw=2.5)
 
 
 def arrow(f: Fig, x, y, ink="accent", size=9, direction="right"):
@@ -409,7 +421,7 @@ def arrow(f: Fig, x, y, ink="accent", size=9, direction="right"):
     f.path(d, fill=ink, stroke=ink, sw=1)
 
 
-def strike(f: Fig, x, y, r=7):
-    """Where a fault strikes the route: a loss-ink dot ringed in the card colour."""
+def strike(f: Fig, x, y, r=7, ink="loss"):
+    """Where a fault strikes the route: a dot in the fault's ink ringed in the card colour."""
     f.circle(x, y, r + 3, fill="card")
-    f.circle(x, y, r, fill="loss")
+    f.circle(x, y, r, fill=ink)

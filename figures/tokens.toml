@@ -11,7 +11,8 @@ muted   = "#59636e"   # secondary text, weight 500 only
 rule    = "#858e98"   # outlines, the log reader's dotted route
 byte    = "#6e7781"   # a byte cell at rest
 accent  = "#156d9e"   # the verifier and its route
-loss    = "#a94b00"   # a changed, missing or refused element (marks only)
+loss    = "#a94b00"   # a changed or refused element (marks only)
+absent  = "#9e3f86"   # a required element that is not there: not established, never failed (marks only)
 self    = "#007555"   # the producer's own view of itself (marks only)
 
 [dark]
@@ -23,6 +24,7 @@ rule    = "#7d8590"
 byte    = "#8b949e"
 accent  = "#56b4e9"
 loss    = "#f1772e"
+absent  = "#d685c0"
 self    = "#2fbf8f"
 
 [type]

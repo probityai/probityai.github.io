@@ -2,9 +2,9 @@
  "name": "f1-four-verdicts",
  "layout": "narrow",
  "width": 720,
- "height": 1224.0,
+ "height": 1384,
  "text_size": 34,
- "alt": "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed on the way breaks the seal: failed, exit 2. A required file lost on the way: not-established, exit 3. A changed verifier: the old verifier (v1) and the changed one (v2) both read the archive and both print verified, exit 0, and both records are kept.",
+ "alt": "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed on the way breaks the seal: failed, exit 2. A required file lost on the way: not-established, exit 3. A changed verifier: the old verifier (v1) and the changed one (v2) both read the archive and both print verified, exit 0, and both receipts are filed side by side in one folder: both records are kept. Exit codes: 0 verified, 2 failed, 3 not-established.",
  "words": [
   "v1",
   "v2",
@@ -23,6 +23,13 @@
   "v2",
   "Intact archive",
   "verified",
-  "exit 0"
+  "exit 0",
+  "exit code:",
+  "0",
+  "verified",
+  "2",
+  "failed",
+  "3",
+  "not-established"
  ]
 }
