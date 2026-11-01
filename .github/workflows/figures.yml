@@ -1,0 +1,37 @@
+name: Figures
+
+on:
+  pull_request:
+    paths: ["figures/**", ".github/workflows/figures.yml"]
+  push:
+    branches: [main]
+    paths: ["figures/**", ".github/workflows/figures.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: figures-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Figures are fresh, append-only and legible
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+      - name: Rebuild, compare and lint every published figure
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            uv run --script figures/check.py --base "$BASE"
+          else
+            uv run --script figures/check.py
+          fi

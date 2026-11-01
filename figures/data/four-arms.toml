@@ -1,0 +1,31 @@
+# Produced by: uv run --no-project --with cryptography bash demo/four-arms.sh
+# in probityai/agent-evidence-vectors at commit 18d07998b9f583660983a1f189dd7d6dc323c449 (Sun 1 Nov 2026).
+# verdict is the script's "verdict:" line for the arm's verify step; exit is its "ARM RESULT ... exit N".
+# Captions are the figure's row labels (RULING section 9); header is the arm's own "=== ... ===" line.
+[[arm]]
+header = "ARM 1: intact archive reproduces"
+caption = "Intact archive"
+verdict = "verified"
+exit = 0
+glyph = "check"
+
+[[arm]]
+header = "ARM 2: one byte changed in a covered artifact, before any grading"
+caption = "One byte changed"
+verdict = "failed"
+exit = 2
+glyph = "cross"
+
+[[arm]]
+header = "ARM 3: a required-role artifact is missing"
+caption = "Required artifact missing"
+verdict = "not-established"
+exit = 3
+glyph = "query"
+
+[[arm]]
+header = "ARM 4: the same archive, a changed verifier, both outcomes preserved"
+caption = "Verifier changed"
+verdict = "verified"
+exit = 0
+glyph = "check"
