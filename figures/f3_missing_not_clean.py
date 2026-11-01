@@ -68,7 +68,8 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason_below, hop_r=13, lr=2
     for x in xs[:HOLE]:
         f.line(x + sw_ / 2, yl, x + sw_ / 2, top + sh_ + 14, "accent", sw=3)
     fk.lens(f, hx, yl, lr, found="hole")
-    f.text(fk.PAD, yl + 26 + fk.cap_height(sz, "mono", 500), CASE["tool"], "fg", "mono", 500)
+    label_y = yl + max(26, lr * 1.5 + 14) + fk.cap_height(sz, "mono", 500)   # clear of the lens handle
+    f.text(fk.PAD, label_y, CASE["tool"], "fg", "mono", 500)
     # the route halts at the gap: a stop bar right of the lens, the verdict straight after it
     bx = hx + lr + 14
     f.line(bx, yl - lr, bx, yl + lr, "loss", sw=5)
@@ -79,7 +80,7 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason_below, hop_r=13, lr=2
     f.text(tx, base, CASE["decision"], "fg", "sans", 600)
     # below (narrow): the reason identifier is 673 units in a 720 card, so it starts 1.5 units inside the pad
     rx_ = fk.PAD - 1.5 if reason_below else tx
-    ry = base + sz * (2.6 if reason_below else 1.35)
+    ry = label_y + sz * 1.5 if reason_below else base + sz * 1.35
     f.text(rx_, ry, CASE["reason"], "muted", "mono", 500)
     f.text(rx_, ry + sz * 1.35, GLOSS, "fg")
     return max(tx + fk.text_width(CASE["decision"], sz, "sans", 600),
@@ -87,7 +88,7 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason_below, hop_r=13, lr=2
 
 
 def wide() -> fk.Fig:
-    f = fk.Fig(NAME, "wide", 1280, 410, TITLE, DESC)
+    f = fk.Fig(NAME, "wide", 1280, 350, TITLE, DESC)
     sz = f.text_size
     col_x = 1280 - fk.PAD - 34
     assert _draw(f, (3, 3, 12, 5, 11), 14, 80, 124, col_x, 34, False) <= 1280 - fk.PAD
@@ -95,7 +96,7 @@ def wide() -> fk.Fig:
 
 
 def narrow() -> fk.Fig:
-    f = fk.Fig(NAME, "narrow", 720, 500, TITLE, DESC)
+    f = fk.Fig(NAME, "narrow", 720, 470, TITLE, DESC)
     col_x = 720 - fk.PAD - 40
     assert _draw(f, (2, 3, 9, 4, 7), 8, 60, 140, col_x, 40, True, hop_r=18, lr=26) <= 720 - fk.PAD
     return f
