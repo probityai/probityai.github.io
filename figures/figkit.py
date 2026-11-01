@@ -557,6 +557,31 @@ def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False, bar
         f.circle(cx, cy, r * 0.18, fill=stroke)
 
 
+def wrench(f: Fig, cx, cy, r, angle_deg=-135.0, ink="fg"):
+    """An open-ended wrench clamped on the rim of the lens of radius r centred on (cx, cy), from the side at
+    angle_deg: its jaw grips the rim and its handle points away. The lens is being changed."""
+    import math
+
+    a = math.radians(angle_deg)
+    ux, uy = math.cos(a), math.sin(a)
+    jx, jy = cx + ux * r * 1.12, cy + uy * r * 1.12  # the jaw's centre, just outside the rim
+    jr = r * 0.62
+
+    def jaw(x, y, toward):
+        # a C open in the direction toward
+        p0 = (x + jr * math.cos(toward + 0.9), y + jr * math.sin(toward + 0.9))
+        p1 = (x + jr * math.cos(toward - 0.9), y + jr * math.sin(toward - 0.9))
+        f.path(f"M{p0[0]:.1f} {p0[1]:.1f} A{jr:.1f} {jr:.1f} 0 1 1 {p1[0]:.1f} {p1[1]:.1f}", stroke=ink, sw=7)
+
+    jaw(jx, jy, a + math.pi)
+    far = r * 3.6
+    kx, ky = jx + ux * far, jy + uy * far
+    h0 = (jx + ux * jr, jy + uy * jr)
+    h1 = (kx - ux * jr, ky - uy * jr)
+    f.line(h0[0], h0[1], h1[0], h1[1], ink, sw=9)
+    jaw(kx, ky, a)  # the wrench's other end, open away
+
+
 def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
     """What a verifier prints: a till receipt with its left edge at x, centred on cy, a straight top and a
     torn zigzag foot, two printed lines and the verdict glyph. Returns the right edge."""

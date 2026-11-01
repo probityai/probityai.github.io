@@ -102,28 +102,25 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
         fk.sheet(f, x, ys, *geo)
         if i != HOLE:
             fk.sheet(f, x, yr, *geo)
-    # the eye at the right looks at the record alone: a cone of sight covers the whole record, the stitched
-    # pinch with the rest; its belief is a check in the thought cloud above it
-    ey = yr - 10 + fh / 2
+    # the eye hangs over the middle of the record and looks down at it alone: a beam of sight like a lamp's
+    # covers the whole record, the stitched pinch with the rest; its belief is a check in the cloud beside it
     er = lr * 1.25
+    ecx, ey = (xs[0] - 10 + rx1) / 2, yr - 10 - er - 52
+    bl, br, bt, bb = xs[0] - 16, rx1 + 6, yr - 16, yr - 4 + fh
     f.path(
-        f"M{gx - er - 4:.1f} {ey:.1f} L{xs[0] - 14:.1f} {yr - 16:.1f} L{xs[0] - 14:.1f} {yr - 4 + fh:.1f} Z",
+        f"M{ecx:.1f} {ey + er * 0.5:.1f} L{br:.1f} {bt:.1f} L{br:.1f} {bb:.1f} L{bl:.1f} {bb:.1f} L{bl:.1f} {bt:.1f} Z",
         fill="rule",
-        opacity=0.16,
+        opacity=0.18,
     )
-    f.path(
-        f"M{xs[0] - 14:.1f} {yr - 16:.1f} L{gx - er - 4:.1f} {ey:.1f} L{xs[0] - 14:.1f} {yr - 4 + fh:.1f}",
-        stroke="rule",
-        sw=2,
-        dash="2 7",
-    )
-    fk.eye(f, gx, ey, er)
+    for x_ in (bl, br):
+        f.line(ecx, ey + er * 0.5, x_, bt, "rule", sw=2, dash="2 7")
+    fk.eye(f, ecx, ey, er)
     cw, ch = gsize * 2.3, gsize * 1.7
-    ccx, ccy = mx + rw / 2, ey - er - ch * 0.35
-    fk.thought(f, ccx, ccy, cw, ch, (gx + er * 0.5, ey - er * 0.6))
+    ccx, ccy = ecx + er + 26 + cw / 2, ey - ch * 0.25
+    fk.thought(f, ccx, ccy, cw, ch, (ecx + er * 0.7, ey - er * 0.3))
     g = gsize * 0.9
     f.glyph("check", ccx - g / 2, ccy - g / 2, g, "fg")
-    f.text(tx + cw / 2 - rw / 2, ccy + cap / 2, FINE, "fg", "sans", 600)
+    f.text(ccx + cw / 2 + 14, ccy + cap / 2, FINE, "fg", "sans", 600)
     # probity-verify pairs each source passage with its record passage, one straight rung per pair
     for i, x in enumerate(mid):
         if i == HOLE:
@@ -152,14 +149,14 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
 
 def wide() -> fk.Fig:
     f = fk.Fig(NAME, "wide", 1280, 0, TITLE, DESC)
-    f.height = round(_draw(f, (3, 3, 12, 5, 11), 14, 56, 34, False, 18) + 26)
+    f.height = round(_draw(f, (3, 3, 12, 5, 11), 14, 150, 34, False, 18) + 26)
     return f
 
 
 def narrow() -> fk.Fig:
     f = fk.Fig(NAME, "narrow", 720, 0, TITLE, DESC)
     # one cell column per page: seven portrait pages leave room for the verdict column in 720 units
-    f.height = round(_draw(f, (1, 3, 12, 4, 7), 10, 70, 40, True, 20) + 30)
+    f.height = round(_draw(f, (1, 3, 12, 4, 7), 10, 168, 40, True, 20) + 30)
     return f
 
 

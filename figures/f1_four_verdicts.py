@@ -81,7 +81,7 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
     arm = ARMS[k]
     bw, bh = fk.box_size(3, geo, sgap)
     fk.box(f, bx, cy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8, **STATE[k])
-    sx = _read(f, bx + bw, cy, 1, lr)
+    sx = _read(f, bx + bw, cy, 0, lr)
     fk.slip(f, sx, cy, sh, arm["glyph"], INK[arm["glyph"]])
     return _verdict(f, arm, sx + round(sh * 0.74, 1) + 26, cy, stacked)
 
@@ -91,16 +91,9 @@ def _swap(f: fk.Fig, x, cy, lr=LR) -> tuple[float, float]:
     lens, dashed, with a curved arrow showing it came out; the lens holds a two-bar glass.
     Returns (receipt x, lowest y drawn)."""
     lx = x + 30 + lr
-    sx = _read(f, x, cy, 2, lr)
-    ox, oy = lx + lr * 0.4, cy + lr * 3.4
-    fk.glass(f, ox, oy, lr, 1, dash="5 4")
-    f.path(
-        f"M{lx - lr * 0.95:.1f} {cy + lr * 0.5:.1f} Q{lx - lr * 1.6:.1f} {oy:.1f} {ox - lr - 13:.1f} {oy:.1f}",
-        stroke="rule",
-        sw=2.5,
-    )
-    fk.arrow(f, ox - lr - 5, oy, "rule", size=6, direction="right")
-    return sx, oy + lr
+    sx = _read(f, x, cy, 0, lr)
+    fk.wrench(f, lx, cy, lr, angle_deg=-75.0)
+    return sx, cy + lr * 1.6
 
 
 def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
@@ -110,7 +103,7 @@ def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
     top = cy - bh / 2 + 6
     # first reading
     fk.box(f, x0, top, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s1 = _read(f, x0 + bw, cy, 1)
+    s1 = _read(f, x0 + bw, cy, 0)
     fk.slip(f, s1, cy, SH, "check", "fg")
     # then: a long dotted arrow on to the second reading of the same archive
     bnw = 16 + 18 + 2 * rw + 14 + 16
@@ -127,7 +120,7 @@ def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
     k1 = bnx + 34
     fk.slip(f, k1, cy, SH, "check", "fg")
     fk.slip(f, k1 + rw + 14, cy, SH, "check", "fg")
-    ay = top - 36
+    ay = cy - LR * 5.9 - 10
     ex = k1 + rw / 2
     f.path(
         f"M{s1 + rw / 2:.1f} {cy - SH / 2 - 6:.1f} Q{s1 + rw / 2:.1f} {ay:.1f} {s1 + rw / 2 + 40:.1f} {ay:.1f} "
@@ -171,7 +164,7 @@ def wide() -> fk.Fig:
         assert right <= W - pad, (k, right)
     rule_y = centres[-1] + bh / 2 + 30
     f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
-    c2 = rule_y + 66 + bh / 2
+    c2 = rule_y + 140
     low = _strip(f, pad, c2, geo, sgap, W - pad)
     f.height = round(low + 24)
     return f
@@ -196,7 +189,7 @@ def narrow() -> fk.Fig:
     a = rule_y + 40 + bh / 2
     b = a + bh + 70
     fk.box(f, pad, a - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=LR * 0.8)
-    s1 = _read(f, pad + bw, a, 1)
+    s1 = _read(f, pad + bw, a, 0)
     fk.box(f, pad, b - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=LR * 0.8)
     s2, low = _swap(f, pad + bw, b)
     bnx = max(s1, s2) + 8
