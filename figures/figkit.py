@@ -369,6 +369,7 @@ def sheet(
     state="present",
     mark=None,
     loud=False,
+    mark_k=0.7,
 ):
     """A file sheet. state "missing" draws only the empty place a sheet would stand in: a thin dashed
     outline in rule ink with nothing inside. It carries no signal colour, because a coloured slot reads as a
@@ -397,11 +398,12 @@ def sheet(
                 continue
             f.rect(cx, cy, cell, cell, fill="byte", rx=2)
     if mark is not None:
-        # the changed byte: one grid cell in loss ink, a little larger than its neighbours
+        # the changed byte: one grid cell in loss ink, larger than its neighbours (mark_k is half its side,
+        # in cells)
         c, r = mark
         ccx = x + pad + c * (cell + gap) + cell / 2
         ccy = top + r * (cell + gap) + cell / 2
-        k = cell * 0.7
+        k = cell * mark_k
         f.rect(ccx - k, ccy - k, 2 * k, 2 * k, fill="loss", rx=2)
     return w, h
 
@@ -472,11 +474,14 @@ def box(
     broken=False,
     lock_r=14,
     loud=False,
+    mark_k=0.7,
 ):
     """An archive box with its top-left at (x, y), the files' tops: n files stand in it, the front panel
     covers their lower half, and the padlock sits on the panel's top edge. missing is the index of a file
     that is not there (a dashed slot); mark is (index, (col, row)) for a changed byte, drawn in the files'
-    top row so it shows over the panel. Returns (width, height)."""
+    top row so it shows over the panel. With a mark on a broken box, a thin arrow in loss ink arcs from the
+    changed byte over the files to the sprung shackle: that byte is what opened the seal. Returns (width,
+    height)."""
     sw_, sh_ = sheet_size(*geo)
     w, h = box_size(n, geo, sgap)
     panel = y + sh_ * 0.55
@@ -496,6 +501,7 @@ def box(
             state="missing" if missing == i else "present",
             mark=mark[1] if mark and mark[0] == i else None,
             loud=loud,
+            mark_k=mark_k,
         )
     f.rect(x, panel, w, y + h - panel, fill="tile", stroke="rule", rx=5, sw=2.5)
     # the box's hand hole, low on the panel
@@ -503,6 +509,23 @@ def box(
     hy = panel + (y + h - panel) * 0.62
     f.rect(x + w / 2 - hw / 2, hy - 5, hw, 10, fill="card", stroke="rule", rx=5, sw=2)
     lock(f, x + w - BOX_M - lock_r, panel, r=lock_r, broken=broken)
+    if mark is not None and broken:
+        i, (c, r) = mark
+        cols, _rows, cell, gap, pad = geo
+        ccx = x + BOX_M + i * (sw_ + sgap) + pad + c * (cell + gap) + cell / 2
+        k = cell * mark_k
+        top = y + pad + EAR / 2 + r * (cell + gap) + cell / 2 - k
+        lcx = x + w - BOX_M - lock_r
+        sr = lock_r * 0.62
+        ty = panel - 1.6 * lock_r * 0.3 - sr * 2.1 - 6
+        tx = lcx - sr * 0.9
+        peak = y - 22
+        f.path(
+            f"M{ccx:.1f} {top - 3:.1f} C{ccx:.1f} {peak:.1f} {tx:.1f} {peak:.1f} {tx:.1f} {ty - 12:.1f}",
+            stroke="loss",
+            sw=3,
+        )
+        arrow(f, tx, ty, "loss", size=6, direction="down")
     return w, h
 
 

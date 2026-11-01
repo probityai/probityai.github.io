@@ -4,12 +4,14 @@ Two panels, one above the other, divided by a thin rule.
 Panel 1 (arms 1 to 3 of demo/four-arms.sh): the archive, an archive box of three files with a padlock over
 their digest, fans into three rows. Each row reads left to right: the archive as the verifier gets it, the
 verifier's lens (blue, its glass ground with one bar), and the receipt it prints with the verdict glyph.
-Loss ink is only for damage: in row 2 the changed byte is one byte cell in loss ink and the padlock's
-shackle springs open in the same ink, and the receipt's cross takes it too. In row 3 the missing file is a dark dashed empty
+Loss ink is only for damage: in row 2 the changed byte is one byte cell in loss ink, larger than its
+neighbours, a thin arrow in the same ink arcs from it to the padlock's shackle, which springs open, and the
+receipt's cross takes it too. In row 3 the missing file is a dark dashed empty
 place, so not-established never reads as failed.
 Panel 2 (arm 4) uses the same grammar: the same archive fans into two readings, the upper by the version 1
 lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is). Each
-reading's route runs into one open file folder, and both receipts stand in it: kept together. Each lens has
+reading's route runs into one open file folder, and both receipts stand in it, torn feet showing over its low
+front flap: kept together. Each lens has
 the verifier id its record carries printed beside it.
 Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
@@ -43,7 +45,7 @@ INK = {
 }  # the cross takes the changed byte's ink: that byte is why the verifier refused
 STATE = (
     {},
-    {"mark": (1, (2, 0)), "broken": True},
+    {"mark": (1, (1, 0)), "broken": True, "mark_k": 1.1},
     {"missing": 1, "loud": True},
 )
 LR, SH = 20, 62  # lens radius, receipt height
@@ -133,9 +135,12 @@ def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float
         )
         fk.arrow(f, px - 4, ty, size=7)
     fk.folder_back(f, px, top - 8, fw, fh)
+    # both receipts stand in the folder raised so their torn feet show over the low front flap: printed
+    # receipts, the same as the ones the panel above prints, not plain pages
+    lift = 10
     for k in range(2):
-        fk.slip(f, px + g + k * (rw + g), cy, sh2, "check", "fg")
-    fk.folder_front(f, px, top - 8, fw, fh, fh - 8 - sh2 * 0.87)  # below the checks: only the feet hide
+        fk.slip(f, px + g + k * (rw + g), cy - lift, sh2, "check", "fg")
+    fk.folder_front(f, px, top - 8, fw, fh, lift + 11)  # its top edge sits just over the receipts' feet
     # the verifier id each reading's record carries, by its own lens: above the upper, below the lower
     sz = f.text_size
     cap = fk.cap_height(sz, "mono", 500)
