@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#eef4ff">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#eef4ff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1117">
+  <meta name="color-scheme" content="light dark">
   <title>Probity - check what your agent evidence proves</title>
   <meta name="description" content="Open tools to test an agent-evidence verifier, replay a saved decision, and inspect the evidence behind a claim. Start with one check.">
   <meta property="og:type" content="website">
@@ -15,18 +17,34 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23214fe5'/%3E%3Cpath d='M19 17h18l9 9v21H19z' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M27 33h12M27 40h8' stroke='white' stroke-width='4'/%3E%3C/svg%3E">
   <style>
     :root {
-      color-scheme: light;
+      color-scheme: light dark;
       --page: #eef4ff;
       --surface: #fff;
       --ink: #142d4e;
       --body: #344b65;
       --action: #214fe5;
       --rule: #c2d0e6;
+      --on-action: #ffffff;
+      --action-hover: #153bbf;
+      --focus: #142d4e;
       --type: "Avenir Next", "Segoe UI", sans-serif;
       --code: ui-monospace, "SFMono-Regular", Consolas, monospace;
       font-family: var(--type);
       color: var(--ink);
       background: var(--page);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #0d1117;
+        --surface: #151b23;
+        --ink: #e6edf3;
+        --body: #c3ccd5;
+        --action: #56b4e9;
+        --rule: #3d444d;
+        --on-action: #0d1117;
+        --action-hover: #82c8f0;
+        --focus: #e6edf3;
+      }
     }
     * { box-sizing: border-box; }
     body { margin: 0; }
@@ -40,7 +58,7 @@
     h1, h2, h3, p, figure, dl, dd { margin: 0; }
     a { color: var(--action); text-underline-offset: .22em; text-decoration-thickness: .07em; }
     a:hover { text-decoration-thickness: .13em; }
-    a:focus-visible { outline: 3px solid #142d4e; outline-offset: 5px; border-radius: 2px; }
+    a:focus-visible { outline: 3px solid var(--focus); outline-offset: 5px; border-radius: 2px; }
     .shell { max-width: 76rem; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 4rem); }
     .masthead { display: flex; align-items: center; gap: 1rem; padding-block: 2.25rem; }
     .brand { display: flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -.04em; }
@@ -49,27 +67,13 @@
     .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); padding-block: 3rem 5rem; }
     .intro h1 { max-width: 10ch; }
     .intro > p { color: var(--body); max-width: 39ch; margin-top: 1.75rem; }
-    .primary { display: inline-flex; justify-content: center; align-items: center; gap: 1.25rem; min-height: 3.5rem; margin-top: 2rem; padding: .75rem 1.25rem; border-radius: .375rem; background: var(--action); color: white; font-weight: 700; text-decoration: none; }
-    .primary:hover { background: #153bbf; }
-    .primary:focus-visible { outline: 3px solid white; outline-offset: 3px; box-shadow: 0 0 0 7px #142d4e; }
+    .primary { display: inline-flex; justify-content: center; align-items: center; gap: 1.25rem; min-height: 3.5rem; margin-top: 2rem; padding: .75rem 1.25rem; border-radius: .375rem; background: var(--action); color: var(--on-action); font-weight: 700; text-decoration: none; }
+    .primary:hover { background: var(--action-hover); }
+    .primary:focus-visible { outline: 3px solid var(--page); outline-offset: 3px; box-shadow: 0 0 0 7px var(--focus); }
     .primary svg { width: 1.25rem; height: 1.25rem; }
     .intro .install-note { margin-top: .875rem; max-width: 36ch; }
-    .packet { position: relative; isolation: isolate; background: var(--surface); border: 1px solid #aebed6; border-radius: .75rem; box-shadow: 0 1.5rem 3rem -2rem #496b9f66; }
-    .packet::before { content: ""; position: absolute; z-index: -1; inset: -10px 10px 10px -10px; border: 1px solid #aebed6; border-radius: .75rem; }
-    .packet-caption { padding: 1.125rem 1.5rem; border-bottom: 1px solid var(--rule); color: var(--body); display: flex; gap: .75rem; align-items: center; }
-    .packet-caption svg { width: 1.125rem; height: 1.125rem; flex: none; }
-    .packet dl { padding: .25rem 1.5rem; }
-    .packet .field { padding-block: 1.25rem; }
-    .packet .field + .field { border-top: 1px solid #e0e7f2; }
-    .packet dt { color: var(--body); margin-bottom: .5rem; }
-    .packet dd { font-size: 1.125rem; line-height: 1.5; }
-    .packet code { overflow-wrap: anywhere; }
-    .evidence-list { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }
-    .evidence-list li { padding: .25rem .625rem; border: 1px solid var(--rule); border-radius: .25rem; font-size: .875rem; color: var(--body); }
-    .verdict { display: inline-flex; align-items: center; gap: .5rem; color: #833006; background: #fff0e5; border-radius: .25rem; padding: .25rem .625rem; font-weight: 700; }
-    .verdict svg { height: 1rem; width: 1rem; flex: none; }
-    .reason { display: block; margin-top: .625rem; color: var(--body); }
-    .packet-note { background: #f6f8fc; padding: 1rem 1.5rem; border-top: 1px solid var(--rule); border-radius: 0 0 .75rem .75rem; color: var(--body); }
+    .hero-figure { margin: 0; }
+    .hero-figure img { display: block; width: 100%; max-width: 30rem; height: auto; margin-inline: auto; }
     .routes { border-top: 1px solid var(--rule); padding-block: 3rem 4rem; }
     .routes > h2 { max-width: 22ch; }
     .route-list { margin: 2rem 0 0; padding: 0; list-style: none; }
@@ -82,13 +86,11 @@
     footer { background: var(--surface); border-top: 1px solid var(--rule); }
     .footer-inner { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; padding-block: 1.5rem; color: var(--body); }
     .footer-inner a { display: inline-block; padding-block: .25rem; }
-    .skip { position: absolute; top: -6rem; left: 1rem; background: white; padding: .75rem 1rem; z-index: 2; }
+    .skip { position: absolute; top: -6rem; left: 1rem; background: var(--surface); padding: .75rem 1rem; z-index: 2; }
     .skip:focus { top: .5rem; }
     @media (max-width: 56rem) {
       .hero { gap: 2rem; }
       .intro h1 { max-width: 12ch; }
-      .packet-caption, .packet-note { padding-inline: 1.125rem; }
-      .packet dl { padding-inline: 1.125rem; }
     }
     @media (max-width: 43rem) {
       .masthead { padding-block: 1.5rem; }
@@ -97,7 +99,6 @@
       .intro h1 { max-width: 13ch; }
       .intro > p { max-width: 42ch; margin-top: 1.25rem; }
       .primary { margin-top: 1.5rem; }
-      .packet { margin-left: .625rem; }
       .routes { padding-block: 2.5rem 3rem; }
       .route { grid-template-columns: 1fr; gap: .75rem; padding-block: 1.5rem; }
       .source-note { grid-template-columns: 1fr; gap: 1rem; padding-block: 1.5rem 2rem; }
@@ -106,8 +107,6 @@
     @media print {
       :root { background: white; }
       .hero { padding-block: 1rem; }
-      .packet { box-shadow: none; }
-      .packet::before { display: none; }
       .skip { display: none; }
       a { color: inherit; }
     }
@@ -130,14 +129,8 @@
         <a class="primary t-body" href="https://probityai.github.io/agent-evidence-vectors/start.html">Test a verifier<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <p class="install-note t-small">Pinned Python and Go commands, conformance cases, and expected outcomes.</p>
       </div>
-      <figure class="packet" aria-labelledby="packet-title">
-        <figcaption id="packet-title" class="packet-caption t-small"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2h7l4 4v12H5zM12 2v5h4M8 11h5m-5 3h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>A published Verify example</figcaption>
-        <dl>
-          <div class="field"><dt class="t-small">The claim</dt><dd>The report includes every selected source passage.</dd></div>
-          <div class="field"><dt class="t-small">The supplied evidence</dt><dd><ul class="evidence-list"><li>Source capture</li><li>Report</li><li>Consumer policy</li></ul></dd></div>
-          <div class="field"><dt class="t-small">The decision</dt><dd><span class="verdict"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>contradicted</span><code class="reason t-code">selected_span_missing_from_record</code></dd></div>
-        </dl>
-        <p class="packet-note t-small">The check completes. A selected passage is missing from the report. Read the decision before you approve an action.</p>
+      <figure class="hero-figure">
+        <img src="figures/f1-four-verdicts/1/narrow-auto.svg" width="720" height="808" alt="The same sealed archive of three files passes a verifier four times. Intact: verified, exit 0. One byte changed: the seal breaks and the verifier stops it: failed, exit 2. A required file missing: not-established, exit 3. A changed verifier: both the old and the changed verifier say verified, exit 0, and both records are kept.">
       </figure>
     </section>
     <section class="routes" aria-labelledby="next-task">
@@ -150,7 +143,7 @@
     </section>
     <aside class="source-note t-small" aria-label="Sources and versions">
       <p>Project status and install routes live in the <a href="https://probityai.github.io/agent-evidence-atlas/start.html">Atlas catalog</a>. Historical runs keep the versions used for that run.</p>
-      <p>The example above comes from the <a href="https://github.com/probityai/probity-verify/blob/b920366397cb131232163706864a70723b867367/README.md">pinned Verify quickstart</a>. It checks supplied evidence; the example is not a live verification widget.</p>
+      <p>The figure above draws the four arms of the <a href="https://github.com/probityai/agent-evidence-vectors/blob/18d07998b9f583660983a1f189dd7d6dc323c449/demo/four-arms.sh">artifact-binding demo</a>; each verdict and exit code is the one the script prints. It is a picture of a run, not a live verification widget.</p>
     </aside>
   </main>
   <footer><div class="shell footer-inner t-small"><span>Probity - open agent evidence tools</span><a href="https://github.com/probityai">Source repositories</a></div></footer>
