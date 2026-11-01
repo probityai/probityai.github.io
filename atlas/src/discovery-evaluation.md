@@ -12,7 +12,7 @@ The local checker validates their retained bytes and reports declared outcomes.
 From a new checkout, with Python 3.11 or later:
 
 ```sh
-git clone https://github.com/probityai/agent-evidence-vectors/tree/main/site
+git clone https://github.com/probityai-archive/agent-evidence-atlas.git
 cd agent-evidence-atlas
 git checkout 753a60ccd3ec84a80fd8ca84da283d8ec09a60fa
 python3 -m venv .venv
