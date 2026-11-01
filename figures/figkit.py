@@ -529,10 +529,24 @@ def box(
     return w, h
 
 
-def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False):
+def glass(f: Fig, cx, cy, r, bars, stroke="accent", dash=None):
+    """A lens's glass: a disc with `bars` level bars across it. The bars are the glass's grind, so a lens
+    whose glass was swapped shows a different count while its rim and handle stay the same."""
+    f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4 if dash is None else 2.5, dash=dash)
+    offs = {1: (0.0,), 2: (-0.28, 0.28), 3: (-0.4, 0.0, 0.4)}[bars]
+    for o in offs:
+        half = r * 0.62 * (1 - abs(o) * 0.6)
+        f.line(cx - half, cy + o * r, cx + half, cy + o * r, stroke, sw=3, dash=dash)
+
+
+def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False, bars=0):
     """A verifier: a magnifying lens, handle down-right. double rings the rim twice: a different verifier.
-    reticle draws fine cross hairs in the glass: the same lens made stricter."""
+    reticle draws fine cross hairs in the glass: the same lens made stricter. bars grinds the glass with
+    that many level bars (see glass)."""
     f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, stroke, sw=6)
+    if bars:
+        glass(f, cx, cy, r, bars, stroke)
+        return
     f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4)
     if double:
         f.circle(cx, cy, r * 0.6, stroke=stroke, sw=3)
