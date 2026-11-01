@@ -26,7 +26,7 @@ The Open Evidence Lab helps teams test a specific question like this. A useful r
 | Which NIST AI 300-1 structural and mutation checks actually ran? | [Read the retained case](runs.md#record-nist-ai300-1-checker-2026-10-13). |
 | Can genuine signatures survive a broken or rolled-back stored history? | [Read the retained case](runs.md#record-signed-history-boundaries-2026-10-13). |
 | Did the guard distinguish a benign document from an actual force push? | [Read the retained case](runs.md#record-ratchet-benign-heredoc-2026-10-15). |
-| How do I check approval, retries, and a missing acknowledgement? | [Read the refund example](https://github.com/probityai/probity/blob/main/packages/observer/docs/APS-REFUND-RETRIES.md). |
+| How do I check approval, retries, and a missing acknowledgement? | [Read the refund example](https://github.com/probityai/probity/blob/main/packages/agent-evidence-observer/docs/reference/APS-REFUND-RETRIES.md). |
 | Did a database write match its approval, even if the state changed later? | [Try the SQL example](approved-sql.md) and bring a native audit pair. |
 | Did the agent change the call after approval, or did the resource change later? | [Compare the request/effect cases](request-effect-join.md) and bring a reader or retained run. |
 | Did an agent purchase that was approved get charged, ordered and delivered as approved? | [Read the checkout assessment](agent-checkout-assessment.md) and run the public refund-handoff cases. |
@@ -265,10 +265,10 @@ The first register entry is [E6: observer declaration, admission and replay](exp
 On Linux, use the actual checked-in runner and retained bytes:
 
 ``` sh
-git clone https://github.com/probityai/agent-evidence-vectors/tree/main/site atlas
+git clone https://github.com/probityai-archive/agent-evidence-atlas.git atlas
 cd atlas
 git checkout --detach 91a0759e459acee8355e2f9aba34f8e80d19e038
-git clone https://github.com/probityai/probity/tree/main/packages/observer .observer-source
+git clone https://github.com/probityai-archive/agent-evidence-observer.git .observer-source
 git -C .observer-source checkout --detach 8562c25fb7ec97596ea9d0297c495340298914b6
 uv venv --python 3.12.14 .venv
 UV_LINK_MODE=copy uv pip install --python .venv/bin/python cryptography==46.0.7

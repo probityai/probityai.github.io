@@ -95,7 +95,7 @@
 </tr>
 <tr>
 <td>How do I check approval, retries, and a missing acknowledgement?</td>
-<td><a href="https://github.com/probityai/probity/blob/main/packages/observer/docs/APS-REFUND-RETRIES.md">Read the refund example</a>.</td>
+<td><a href="https://github.com/probityai/probity/blob/main/packages/agent-evidence-observer/docs/reference/APS-REFUND-RETRIES.md">Read the refund example</a>.</td>
 </tr>
 <tr>
 <td>Did a database write match its approval, even if the state changed later?</td>
@@ -466,10 +466,10 @@ Open the protocol, replay commands, and detailed evidence limits
 </div>
 <p>On Linux, use the actual checked-in runner and retained bytes:</p>
 <div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/probityai/agent-evidence-vectors/tree/main/site atlas</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/probityai-archive/agent-evidence-atlas.git atlas</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> atlas</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">--detach</span> 91a0759e459acee8355e2f9aba34f8e80d19e038</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/probityai/probity/tree/main/packages/observer .observer-source</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/probityai-archive/agent-evidence-observer.git .observer-source</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> .observer-source checkout <span class="at">--detach</span> 8562c25fb7ec97596ea9d0297c495340298914b6</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--python</span> 3.12.14 .venv</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">UV_LINK_MODE</span><span class="op">=</span>copy <span class="ex">uv</span> pip install <span class="at">--python</span> .venv/bin/python cryptography==46.0.7</span>
