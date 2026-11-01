@@ -83,6 +83,8 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     rx1 = xs[0] - 10 + fw
     assert rx1 + 40 <= gx - lr * 1.25, "the rows run into the readers' column"
     # the record: six passages over the source passages they came from, the fifth place pinched shut
+    # where the fifth passage stood, only its dashed empty place is left, under the stitches: a passage cut out
+    fk.sheet(f, xs[HOLE], yr, *geo, state="missing")
     _record_frame(f, xs[0] - 10, rx1, yr - 10, yr - 10 + fh, xs[HOLE] - sgap / 2, xs[HOLE] + sw_ + sgap / 2)
     f.rect(xs[0] - 10, ys - 10, fw, fh, stroke="rule", rx=8, sw=2.5)
     # the source is a capture: viewfinder corners just outside its frame
@@ -128,7 +130,7 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
             stop = under + 14
             f.line(x, ys - 12, x, stop + 10, "accent", sw=3)
             f.line(x, stop + 10, x, stop, "absent", sw=3.5)
-            f.line(x - 14, stop, x + 14, stop, "absent", sw=4)
+            f.line(x - 22, stop, x + 22, stop, "absent", sw=5.5)
         else:
             f.line(x, ys - 12, x, under + 2, "accent", sw=3)
     # a brace gathers both rows and their rungs into the lens: it reads the two rows side by side
