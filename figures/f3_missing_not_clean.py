@@ -6,12 +6,13 @@ contradicted, selected_span_missing_from_record). The picture shows why the two 
 
 Top row: the record, seven passage slots in one frame, the fifth only the grey dashed place where a passage
 would stand. An eye reads the record alone: its line runs along the top and looks down, one arrow each, at
-every passage the record holds. Nothing in the record tells it a passage is gone, so its line runs straight
-past the empty place, with no arrow, to a check: fine.
-Bottom row: the source capture, all seven passages in one frame. probity-verify's lens runs between the two
-rows and pairs every source passage with its record passage, one rung per pair. At the fifth the rung from
-the source finds no passage above it: it turns to loss ink and breaks off short of the empty place, with a
-cross on its broken end.
+every place in the record, the empty one too. Nothing in the record tells it a passage is gone, so its line
+runs on to a check: fine.
+Bottom row: the source capture, all seven passages in a frame with viewfinder corners, so it reads as the
+capture the record came from and not as a second record. probity-verify's lens runs between the two rows,
+nearer the source, and pairs every source passage with its record passage, one rung per pair. At the fifth
+the rung from the source finds no passage above it: it turns to loss ink and breaks off well short of the
+empty place, with a cross on its broken end.
 The lens's line ends at a cross, contradicted, over the packet's reason line. The two verdicts sit in one
 column. The only words are what the readers print.
 """
@@ -56,28 +57,35 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     cap = fk.cap_height(sz, "sans", 600)
     yr = top  # the record's top
     ys = (
-        yr + sh_ + 10 + 2 * (lr + 32)
+        yr + sh_ + 10 + 2 * (lr + 40)
     )  # the source's top, far enough below for the broken rung
-    yv = (yr + sh_ + 10 + ys - 10) / 2  # probity-verify's line, between the two frames
+    under = yr + sh_ + 10  # the record frame's foot
+    yv = under + 0.62 * (ys - 10 - under)  # probity-verify's line, nearer the source
     yu = yr - 10 - lr - 14  # the eye's line, above the record
+    fw, fh = xs[-1] + sw_ - xs[0] + 20, sh_ + 20
     for y in (yr, ys):
-        f.rect(
-            xs[0] - 10,
-            y - 10,
-            xs[-1] + sw_ - xs[0] + 20,
-            sh_ + 20,
-            stroke="rule",
-            rx=8,
-            sw=2.5,
+        f.rect(xs[0] - 10, y - 10, fw, fh, stroke="rule", rx=8, sw=2.5)
+    # the source is a capture: viewfinder corners just outside its frame
+    cl, fx0, fy0 = 16, xs[0] - 16, ys - 16
+    for cx, cy, dx, dy in (
+        (fx0, fy0, 1, 1),
+        (fx0 + fw + 12, fy0, -1, 1),
+        (fx0, fy0 + fh + 12, 1, -1),
+        (fx0 + fw + 12, fy0 + fh + 12, -1, -1),
+    ):
+        f.path(
+            f"M{cx:.1f} {cy + dy * cl:.1f} L{cx:.1f} {cy:.1f} L{cx + dx * cl:.1f} {cy:.1f}",
+            stroke="fg",
+            sw=3,
         )
     for i, x in enumerate(xs):
         fk.sheet(f, x, ys, *geo)
         fk.sheet(f, x, yr, *geo, state="missing" if i == HOLE else "present")
-    # the eye reads the record alone: down to each passage it holds, straight past the empty slot
-    for i, x in enumerate(mid):
-        if i != HOLE:
-            f.line(x, yu + 4, x, yr - 22, "fg", sw=3)
-            fk.arrow(f, x, yr - 14, "fg", size=6, direction="down")
+    # the eye reads the record alone: it looks down at every place in the record, the empty one too, and
+    # nothing there tells it a passage is gone
+    for x in mid:
+        f.line(x, yu + 4, x, yr - 22, "fg", sw=3)
+        fk.arrow(f, x, yr - 14, "fg", size=6, direction="down")
     fk.eye(f, gx, yu, lr)
     f.line(gx + lr + 6, yu, vx - 16, yu, "fg", sw=3)
     f.glyph("check", vx, yu - gsize / 2, gsize, "fg")
@@ -87,9 +95,9 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
         if i == HOLE:
             # the rung rises from the source passage, finds nothing above it, and breaks off short of the
             # empty slot: the cross sits on the broken end, never inside the slot
-            gap = yv - (yr + sh_ + 10)
-            g = gap * 0.7
-            end = yv - gap * 0.14
+            gap = yv - under
+            g = min(gap * 0.36, 22)
+            end = yv - gap * 0.46
             f.line(x, ys - 12, x, yv, "accent", sw=3)
             f.line(x, yv, x, end, "loss", sw=3.5)
             f.glyph("cross", x - g / 2, end - g - 3, g, "loss", sw=4)
@@ -100,12 +108,12 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     f.glyph(CASE["glyph"], vx, yv - gsize / 2, gsize, "fg")
     f.text(tx, yv + cap / 2, CASE["decision"], "fg", "sans", 600)
     if reason_below:
-        ry = ys + sh_ + 10 + sz * 1.9
+        ry = ys + sh_ + 16 + sz * 1.9
         f.text(fk.PAD - 1.5, ry, CASE["reason"], "muted", "mono", 500)
         return ry + sz * 0.6
     ry = yv + cap / 2 + sz * 1.45
     f.text(vx, ry, CASE["reason"], "muted", "mono", 500)
-    return max(ry, ys + sh_ + 10)
+    return max(ry, ys + sh_ + 16)
 
 
 def wide() -> fk.Fig:

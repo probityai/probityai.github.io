@@ -529,32 +529,6 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
     return x + w
 
 
-def wrench(f: Fig, hx, hy, s=36, ink="loss"):
-    """A spanner whose open jaw is centred on (hx, hy), the handle running down-left and the jaw opening
-    up-right: put (hx, hy) on a rim and the rim runs through the jaw, so the spanner grips that part. s is
-    the handle's length. The caller redraws the gripped rim afterwards so it shows inside the jaw."""
-    u = 0.7071
-    hr = s * 0.26
-    f.line(
-        hx - u * hr * 0.6,
-        hy + u * hr * 0.6,
-        hx - u * s,
-        hy + u * s,
-        ink,
-        sw=max(5.0, s * 0.2),
-    )
-    f.circle(hx - u * hr * 0.35, hy + u * hr * 0.35, hr, fill=ink)
-    # the jaw: a card-coloured slot from the head's centre out through its up-right side
-    f.line(
-        hx - u * hr * 0.2,
-        hy + u * hr * 0.2,
-        hx + u * hr * 1.4,
-        hy - u * hr * 1.4,
-        "card",
-        sw=hr * 0.9,
-    )
-
-
 def eye(f: Fig, cx, cy, r=18, ink="fg"):
     """A reader that only looks: an open eye, an almond outline round a solid iris."""
     f.path(

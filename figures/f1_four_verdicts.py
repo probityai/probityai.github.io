@@ -5,10 +5,11 @@ It is copied into four rows, one per arm of demo/four-arms.sh, and every row rea
 right: the archive as the verifier gets it, the verifier's lens, the receipt it prints with the verdict
 glyph on it, and the verdict word and exit code it prints. Loss ink marks the one thing changed in a row.
 In row 2 it is one byte cell, the same size as its neighbours, and the padlock snapped open. In row 4 it is
-the verifier: the same lens with a spanner gripping its rim. A missing file (row 3) is only the grey dashed
-place where it would stand, so not-established never reads as a bad file or as failed. Row 4 reads the
-untouched archive twice, with the old verifier and the adjusted one; both lines merge into one arrow and
-both receipts are filed side by side in one tray drawn like the archive box. Words and exit codes come from
+the verifier: an arrow in loss ink runs from the old lens down into the changed one, the same lens drawn in
+loss ink with a second ring in its rim. A missing file (row 3) is only the grey dashed place where it would
+stand, so not-established never reads as a bad file or as failed. Row 4 reads the untouched archive twice,
+with the old verifier and the changed one; both lines merge into one arrow, and both receipts, whole with
+their torn feet, stand side by side in one open tray: kept together. Words and exit codes come from
 data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
@@ -80,17 +81,18 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, lr, sh, stacked, split) -> float:
         fk.arrow(f, sx - 4, cy, size=7)
         fk.slip(f, sx, cy, sh, arm["glyph"], ink)
         return _verdict(f, arm, tx, cy, stacked)
-    # the same archive read by the old verifier (above) and the same verifier adjusted (below, a spanner on
-    # it); both lines merge into one arrow, and both receipts are filed side by side in one tray
+    # the same archive read by the old verifier (above) and by the changed verifier (below): an arrow in
+    # loss ink runs from the old lens down into the changed one, which is the same lens in loss ink with a
+    # second ring in its rim. Both lines merge into one arrow, and both receipts stand in one open tray.
     sz = f.text_size
     rw = round(sh * 0.74, 1)
-    tm, tg = 9, 8  # the tray's margin round its receipts; the gap between them
-    tx0 = (
-        sx + 22
-    )  # the tray sits a step further right, so the merging lines clear the lens handles
+    tm, tg = 10, 10  # the tray's margin round its receipts; the gap between them
+    tx0 = sx + 22
     tray_w = 2 * tm + 2 * rw + tg
+    rxs = (tx0 + tm, tx0 + tm + rw + tg)  # the two receipts' left edges
     mx = tx0 - 30  # where the two lines meet
-    for d, v_ink in ((-1, "accent"), (1, "loss")):
+    rcy = cy - 4  # the receipts' centre
+    for k2, (d, v_ink) in enumerate(((-1, "accent"), (1, "loss"))):
         y = cy + d * split
         f.path(
             f"M{x + 6:.1f} {cy:.1f} L{x + 14:.1f} {cy:.1f} Q{x + 22:.1f} {cy:.1f} {x + 22:.1f} {cy + d * 8:.1f} "
@@ -98,42 +100,28 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, lr, sh, stacked, split) -> float:
             stroke=v_ink,
             sw=3,
         )
-        fk.lens(f, lx, y, lr, stroke=v_ink)
+        fk.lens(f, lx, y, lr, stroke=v_ink, double=d == 1)
+        # both lines run on and merge into one arrow into the tray
         f.path(
             f"M{lx + lr + 2:.1f} {y:.1f} L{mx - 22:.1f} {y:.1f} Q{mx:.1f} {y:.1f} {mx:.1f} {cy - d * 2:.1f}",
             stroke=v_ink,
             sw=3,
         )
-    # the spanner grips the changed verifier's rim at its lower left; the rim shows through the jaw
-    yb = cy + split
-    fk.wrench(f, lx - lr * 0.7071, yb + lr * 0.7071, s=lr * 2.1)
-    f.circle(lx, yb, lr, stroke="loss", sw=4)
     f.line(mx, cy, tx0 - 12, cy, "fg", sw=3)
     fk.arrow(f, tx0 - 4, cy, "fg", size=7)
-    # the tray: a back wall behind the receipts, a front panel over their feet with a hand hole
-    top = cy - sh / 2
-    panel = cy + sh / 2 - 12
-    foot = cy + sh / 2 + 8
-    f.path(
-        f"M{tx0:.1f} {panel:.1f} L{tx0:.1f} {top + sh * 0.35:.1f} L{tx0 + tray_w:.1f} {top + sh * 0.35:.1f} "
-        f"L{tx0 + tray_w:.1f} {panel:.1f}",
-        stroke="rule",
-        sw=2.5,
-        join="round",
-    )
+    # the old lens becomes the changed one
+    ax = lx - lr * 0.15
+    f.line(ax, cy - split + lr + 5, ax, cy + split - lr - 14, "loss", sw=3)
+    fk.arrow(f, ax, cy + split - lr - 5, "loss", size=6, direction="down")
+    # the open tray under both receipts: a shallow base with low sides, the receipts whole above it
+    base = rcy + sh / 2 + 7
     for k2, r_ink in ((0, "accent"), (1, "loss")):
-        fk.slip(f, tx0 + tm + k2 * (rw + tg), cy - 4, sh, arm["glyph"], ink, ink=r_ink)
-    f.rect(tx0, panel, tray_w, foot - panel, fill="tile", stroke="rule", rx=5, sw=2.5)
-    hw = min(40, tray_w * 0.3)
-    f.rect(
-        tx0 + tray_w / 2 - hw / 2,
-        (panel + foot) / 2 - 4,
-        hw,
-        8,
-        fill="card",
+        fk.slip(f, rxs[k2], rcy, sh, arm["glyph"], ink, ink=r_ink)
+    f.path(
+        f"M{tx0:.1f} {base - 16:.1f} L{tx0:.1f} {base:.1f} L{tx0 + tray_w:.1f} {base:.1f} L{tx0 + tray_w:.1f} {base - 16:.1f}",
         stroke="rule",
-        rx=4,
-        sw=2,
+        sw=3,
+        join="round",
     )
     vx = tx0 + tray_w + 26
     if (
