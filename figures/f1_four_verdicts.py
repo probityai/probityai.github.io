@@ -149,7 +149,15 @@ def _strip(f: fk.Fig, x0, cy, geo, sgap, right) -> float:
     f.path(f"M{m2:.1f} {by:.1f} L{m2:.1f} {by + 14:.1f} L{mid + 18:.1f} {by + 14:.1f}", stroke="rule", sw=2.5)
     f.line(mid - 9, by + 9, mid + 9, by + 9, "fg", sw=3.5)
     f.line(mid - 9, by + 19, mid + 9, by + 19, "fg", sw=3.5)
-    return max(low, by + 22)
+    # each record's own verifier id, as the record carries it: under the first receipt, and under the binder
+    # for the second reading's receipt (product text from data/four-arms.toml, not a label)
+    sz = f.text_size
+    iy = by + 22 + sz * 1.3
+    v1, v2 = ARMS[3]["verifier_ids"]
+    w1 = fk.text_width(v1, sz, "mono", 500)
+    f.text(max(x0, s1 + rw / 2 - w1 / 2), iy, v1, "fg", "mono", 500)
+    f.text(right - fk.text_width(v2, sz, "mono", 500), iy, v2, "fg", "mono", 500)
+    return max(low, iy + sz * 0.4)
 
 
 def wide() -> fk.Fig:
@@ -199,7 +207,7 @@ def narrow() -> fk.Fig:
     # one binder at the right takes both receipts
     rw = round(SH * 0.74, 1)
     a = rule_y + 40 + bh / 2
-    b = a + bh + 70
+    b = a + bh + 70 + f.text_size
     fk.box(f, pad, a - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=LR * 0.8)
     s1 = _read(f, pad + bw, a, 0)
     fk.box(f, pad, b - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=LR * 0.8)
@@ -209,6 +217,11 @@ def narrow() -> fk.Fig:
     fk.binder(f, bnx, a - SH / 2 - 14, bnw, b - a + SH + 28)
     for y in (a, b):
         fk.slip(f, bnx + 34, y, SH, "check", "fg")
+    # each record's own verifier id under its reading (product text from data/four-arms.toml)
+    sz = f.text_size
+    for y, vid in zip((a, b), ARMS[3]["verifier_ids"]):
+        f.text(pad, y + bh / 2 + sz * 1.15, vid, "fg", "mono", 500)
+    low = max(low, b + bh / 2 + sz * 1.5)
     assert bnx + bnw + 6 <= W - pad
     f.height = round(max(low, b + SH / 2 + 20) + 24)
     return f

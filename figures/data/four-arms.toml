@@ -29,3 +29,6 @@ caption = "Verifier changed"
 verdict = "verified"
 exit = 0
 glyph = "check"
+# the --verifier-id each record carries: the first build's (four-arms.sh, build --verifier-id) and arm 4's
+# regrade (four-arms.sh line 120, regrade --verifier-id). Printed on the figure as product text.
+verifier_ids = ["demo/tests@v1", "demo/tests@v2-stricter"]
