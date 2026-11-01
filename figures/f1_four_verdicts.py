@@ -40,25 +40,27 @@ def _row(f, i, arm, cy, ax, geo, gx, vx, layout):
     x0 = ax + aw
     gsize = 40 if layout == "wide" else 46
     gy = cy - gsize / 2
+    r = 20 if layout == "wide" else 22
+    lx = gx + r
     if i in (1, 2):
-        # stopped at the gate: route runs to a T-bar in front of the first post
-        f.line(x0, cy, gx - 14, cy, "accent", sw=3)
-        f.line(gx - 12, cy - 15, gx - 12, cy + 15, "loss", sw=4)
-        fk.gate(f, gx, cy, h=56, stroke="accent")
+        # the lens catches the fault: the route ends at the lens, which shows what it found
+        f.line(x0, cy, lx - r, cy, "accent", sw=3)
+        fk.lens(f, lx, cy, r, found="byte" if i == 1 else "hole")
         f.glyph(arm["glyph"], vx, gy, gsize, "fg")
     elif i == 3:
+        # the old verifier (grey) and the changed one (accent) both read the archive; each keeps a receipt
         dy = 30 if layout == "wide" else 34
-        fx = x0 + (gx - x0) * 0.35
+        fx = x0 + 14
         f.line(x0, cy, fx, cy, "accent", sw=3)
-        for k, sgn in enumerate((-1, 1)):
+        for sgn, ink in ((-1, "rule"), (1, "accent")):
             y = cy + sgn * dy
-            f.path(f"M{fx:.1f} {cy:.1f} C{fx + 18:.1f} {cy:.1f} {fx + 6:.1f} {y:.1f} {fx + 26:.1f} {y:.1f} L{vx - 14:.1f} {y:.1f}",
-                   stroke="accent", sw=3)
-            fk.gate(f, gx, y, h=40, stroke="accent", notched=(k == 1))
-            f.glyph("check", vx, y - gsize / 2 + (2 if k else -2), gsize * 0.85, "fg")
+            f.path(f"M{fx:.1f} {cy:.1f} C{fx + 18:.1f} {cy:.1f} {fx + 6:.1f} {y:.1f} {fx + 26:.1f} {y:.1f} L{vx - 6:.1f} {y:.1f}",
+                   stroke=ink, sw=3)
+            fk.lens(f, lx, y, r * 0.75, stroke=ink)
+            fk.receipt(f, vx, y, h=34 if layout == "wide" else 38, stroke="fg")
     else:
         f.line(x0, cy, vx - 14, cy, "accent", sw=3)
-        fk.gate(f, gx, cy, h=56, stroke="accent")
+        fk.lens(f, lx, cy, r)
         f.glyph(arm["glyph"], vx, gy, gsize, "fg")
     base = cy + fk.cap_height(sz, "sans", 600) / 2
     wx = vx + gsize + 12

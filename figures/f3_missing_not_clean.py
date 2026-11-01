@@ -1,7 +1,7 @@
 """F3 Missing is not clean: a report with one passage missing (RULING section 9, verdict from probity-verify).
 
 Top: the log reader reads every passage the report holds, passes over the gap and ends in a check.
-Bottom: probity-verify reads the report against the source capture, stops at the gap (a T-bar), and its
+Bottom: probity-verify's lens reads the report against the source capture and stops under the gap; its
 verdict sits in the right-hand column: contradicted, with the packet's own reason line in the wide layout.
 """
 
@@ -43,14 +43,13 @@ def _draw(f, geo, sgap, x_strip, top, col_x, gsize, reason):
         if i != HOLE:
             f.line(x + sw_ / 2, yu, x + sw_ / 2, top - 4, "rule", sw=2.5, dash="3 6")
     f.glyph("check", col_x, yu - gsize / 2, gsize, "self")
-    # probity-verify: gate glyph, solid accent route, T-bar under the hole
-    yl = top + sh_ + 40
+    # probity-verify: a lens on the accent route reads each passage and stops under the gap, showing it
+    yl = top + sh_ + 44
+    f.line(fk.PAD + 6, yl, hx - 20, yl, "accent", sw=3)
     f.circle(fk.PAD + 6, yl, 7, fill="accent")
-    f.line(fk.PAD + 6, yl, hx, yl, "accent", sw=3)
     for x in xs[:HOLE]:
         f.line(x + sw_ / 2, yl, x + sw_ / 2, top + sh_ + 4, "accent", sw=3)
-    f.line(hx, yl, hx, top + sh_ + 8, "accent", sw=3)
-    f.line(hx - 15, top + sh_ + 8, hx + 15, top + sh_ + 8, "loss", sw=4)
+    fk.lens(f, hx, yl, 20, found="hole")
     f.text(fk.PAD, yl + 22 + sz, CASE["tool"], "fg", "mono", 500)
     f.glyph(CASE["glyph"], col_x, yl - gsize / 2, gsize, "fg")
     base = yl + fk.cap_height(sz, "sans", 600) / 2

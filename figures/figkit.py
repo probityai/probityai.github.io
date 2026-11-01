@@ -330,14 +330,22 @@ def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SP
     return w, h
 
 
-def gate(f: Fig, x, cy, h=56, stroke="fg", notched=False):
-    """A checker: a gateway of two posts under a lintel that the route passes through. notched cuts a
-    V into the lintel: a changed checker. Returns the x of the far post."""
-    top = cy - h / 2
-    for px in (x, x + 22):
-        f.line(px, top, px, cy + h / 2, stroke, sw=4)
-    if notched:
-        f.path(f"M{x - 4:.1f} {top:.1f} L{x + 6:.1f} {top:.1f} L{x + 11:.1f} {top + 7:.1f} L{x + 16:.1f} {top:.1f} L{x + 26:.1f} {top:.1f}", stroke=stroke, sw=4, join="miter")
-    else:
-        f.line(x - 4, top, x + 26, top, stroke, sw=4)
-    return x + 22
+def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
+    """The verifier: a magnifying lens on the route. found draws what it caught inside the lens in loss
+    ink ("byte": one changed cell, "hole": a dashed empty sheet) and turns the rim to loss ink."""
+    rim = "loss" if found else stroke
+    f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, rim, sw=6)
+    f.circle(cx, cy, r, fill="card", stroke=rim, sw=4)
+    if found == "byte":
+        f.rect(cx - 7, cy - 7, 14, 14, fill="loss", rx=3)
+    elif found == "hole":
+        f.rect(cx - 7, cy - 9, 14, 18, stroke="loss", rx=2, sw=2.5, dash="4 3")
+    return cx + r
+
+
+def receipt(f: Fig, x, cy, h=34, stroke="fg"):
+    """A kept record of a verdict: a slip with a check on it. Returns its right edge."""
+    w = h * 0.8
+    f.rect(x, cy - h / 2, w, h, fill="tile", stroke=stroke, rx=3, sw=2.5)
+    f.glyph("check", x + w * 0.14, cy - w * 0.36, w * 0.72, stroke, sw=3)
+    return x + w
