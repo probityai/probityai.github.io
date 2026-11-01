@@ -79,3 +79,30 @@ class WaitForBuild(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+RUNNING = ({"id": 1, "name": "pages-build-deployment", "status": "in_progress"},)
+
+
+class WaitForIdle(unittest.TestCase):
+    """A push to pages-live waits until no Pages deploy is in flight (runs 41289027907 and 41290076112)."""
+
+    def test_returns_at_once_when_nothing_is_in_flight(self):
+        clock = Clock()
+        mod.wait_for_idle(reader([[]]), clock.sleep, clock, 100.0, 10.0)
+        self.assertEqual(clock.sleeps, 0)
+
+    def test_waits_while_a_deploy_runs(self):
+        clock = Clock()
+        mod.wait_for_idle(reader([list(RUNNING), list(RUNNING), []]), clock.sleep, clock, 100.0, 10.0)
+        self.assertEqual(clock.sleeps, 2)
+
+    def test_an_unreadable_run_list_is_never_idle(self):
+        clock = Clock()
+        with self.assertRaises(mod.BuildError):
+            mod.wait_for_idle(reader([mod.BuildError("down")]), clock.sleep, clock, 30.0, 10.0)
+
+    def test_a_deploy_still_running_at_the_deadline_fails(self):
+        clock = Clock()
+        with self.assertRaisesRegex(mod.BuildError, "still in flight"):
+            mod.wait_for_idle(reader([list(RUNNING)]), clock.sleep, clock, 30.0, 10.0)

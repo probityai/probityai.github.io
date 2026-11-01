@@ -102,6 +102,53 @@ def wait_for_build(
         sleep(poll)
 
 
+DEPLOY_WORKFLOW = "pages-build-deployment"
+
+
+def deploys_in_flight(repo: str) -> list[dict]:
+    """GitHub's own Pages deploy runs that are queued or in progress; raises BuildError when unreadable."""
+    headers = {"User-Agent": "probityai-served-check", "Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    runs: list[dict] = []
+    for status in ("queued", "in_progress"):
+        url = f"{API}/repos/{repo}/actions/runs?status={status}&per_page=100"
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=60) as resp:
+                runs += json.loads(resp.read()).get("workflow_runs", [])
+        except (urllib.error.URLError, TimeoutError, ConnectionError, ValueError) as err:
+            raise BuildError(f"could not read the workflow runs: {err}") from err
+    return [r for r in runs if r.get("name") == DEPLOY_WORKFLOW]
+
+
+def wait_for_idle(
+    read: collections.abc.Callable[[], list[dict]],
+    sleep: collections.abc.Callable[[float], None] = time.sleep,
+    clock: collections.abc.Callable[[], float] = time.monotonic,
+    deadline: float = BUILD_DEADLINE,
+    poll: float = BUILD_POLL,
+) -> None:
+    """Return once no Pages deploy is queued or running; raise BuildError at the deadline.
+
+    Pages refuses a deploy while another is in progress, so a push to the served branch waits here
+    first. An unreadable run list counts as "not yet", never as idle.
+    """
+    end = clock() + deadline
+    state = "nothing read"
+    while True:
+        try:
+            runs = read()
+            if not runs:
+                return
+            state = ", ".join(f"run {r.get('id')} {r.get('status')}" for r in runs)
+        except BuildError as err:
+            state = str(err)
+        if clock() >= end:
+            raise BuildError(f"a Pages deploy was still in flight after {deadline:.0f} s ({state})")
+        sleep(poll)
+
+
 def fetch(url: str) -> tuple[int, bytes, str]:
     """Return (status, body, final URL) after redirects; status 0 means no answer."""
     last: tuple[int, bytes, str] = (0, b"", url)
@@ -154,14 +201,35 @@ def check(target: tuple[str, str, str]) -> str | None:
     return None
 
 
+def idle_main(repo: str, deadline: float) -> int:
+    """--wait-idle: exit 0 once no Pages deploy of repo is queued or running, else 1."""
+    if not repo:
+        print("FAIL --wait-idle needs --repo")
+        return 1
+    try:
+        wait_for_idle(lambda: deploys_in_flight(repo), deadline=deadline)
+    except BuildError as err:
+        print(f"FAIL {err}")
+        return 1
+    print("no Pages deploy in flight")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument("--tree", required=True, type=pathlib.Path)
+    parser.add_argument("--tree", type=pathlib.Path)
+    parser.add_argument("--wait-idle", action="store_true",
+                        help="only wait until no Pages deploy of --repo is queued or running")
     parser.add_argument("--sync", default="", help="cache-busting query value")
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument("--repo", default="", help="owner/repo whose Pages build to wait for")
     parser.add_argument("--build-deadline", type=float, default=BUILD_DEADLINE)
     args = parser.parse_args()
+    if args.wait_idle:
+        return idle_main(args.repo, args.build_deadline)
+    if args.tree is None:
+        print("FAIL --tree is required")
+        return 1
     if args.repo:
         if not args.sync:
             print("FAIL --repo needs --sync, the pushed commit whose Pages build to wait for")
