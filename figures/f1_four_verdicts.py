@@ -3,12 +3,13 @@
 At the left (wide layout) stands the archive: an archive box of three files with a padlock over their digest.
 It is copied into four rows, one per arm of demo/four-arms.sh, and every row reads the same way, left to
 right: the archive as the verifier gets it, the verifier's lens, the receipt it prints with the verdict
-glyph on it, and the verdict word and exit code it prints. Loss ink marks the one thing changed in a row:
-the byte (row 2, whose padlock is snapped open) or the verifier (row 4, a double-rimmed lens). A missing
-file is a dashed slot in absent ink, and its question mark takes the same ink, so not-established never
-reads as failed. Row 4 reads the untouched archive twice, with the old verifier and the changed one, and
-both receipts are kept side by side in one tray. Words and exit codes come from data/four-arms.toml; the
-row captions are the alt text, not words on the picture.
+glyph on it, and the verdict word and exit code it prints. Loss ink marks the one thing changed in a row.
+In row 2 it is one byte cell, the same size as its neighbours, and the padlock snapped open. In row 4 it is
+the verifier: the same lens with a spanner gripping its rim. A missing file (row 3) is only the grey dashed
+place where it would stand, so not-established never reads as a bad file or as failed. Row 4 reads the
+untouched archive twice, with the old verifier and the adjusted one; both lines merge into one arrow and
+both receipts are filed side by side in one tray drawn like the archive box. Words and exit codes come from
+data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
 from __future__ import annotations
@@ -24,17 +25,19 @@ REV = 3
 ARMS = tomllib.loads((HERE / "data/four-arms.toml").read_text())["arm"]
 INTACT, BYTE, MISSING, CHANGED = ARMS
 TITLE = "Four verdicts from one evidence archive"
-DESC = (
-    "One sealed archive of three files, checked four ways. Intact: verified, exit 0. One byte changed, which "
-    "breaks the seal: failed, exit 2. A required file missing: not-established, exit 3. The same archive "
-    "read by the old verifier and by a changed verifier: both print verified, exit 0, and both receipts are "
-    "kept."
+# the alt text: each row's caption with what the verifier prints for it, from data/four-arms.toml
+DESC = " ".join(
+    ["One sealed archive of three files, checked four ways."]
+    + [f"{a['caption']}: {a['verdict']}, exit {a['exit']}." for a in ARMS]
+    + [
+        "The last row reads the same archive with the old verifier and the changed one; both receipts are kept."
+    ]
 )
 INK = {
     "check": "fg",
     "cross": "fg",
-    "query": "absent",
-}  # not-established shares the missing file's ink
+    "query": "fg",
+}  # one ink for every verdict glyph: the mark's shape carries the verdict
 STATE = (
     {},
     {"mark": (1, (1, 0)), "broken": True},
@@ -77,9 +80,17 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, lr, sh, stacked, split) -> float:
         fk.arrow(f, sx - 4, cy, size=7)
         fk.slip(f, sx, cy, sh, arm["glyph"], ink)
         return _verdict(f, arm, tx, cy, stacked)
-    # the same archive read by the old verifier (above) and the changed one (below); both receipts kept
-    right = 0.0
-    for d, v_ink, double in ((-1, "accent", False), (1, "loss", True)):
+    # the same archive read by the old verifier (above) and the same verifier adjusted (below, a spanner on
+    # it); both lines merge into one arrow, and both receipts are filed side by side in one tray
+    sz = f.text_size
+    rw = round(sh * 0.74, 1)
+    tm, tg = 9, 8  # the tray's margin round its receipts; the gap between them
+    tx0 = (
+        sx + 22
+    )  # the tray sits a step further right, so the merging lines clear the lens handles
+    tray_w = 2 * tm + 2 * rw + tg
+    mx = tx0 - 30  # where the two lines meet
+    for d, v_ink in ((-1, "accent"), (1, "loss")):
         y = cy + d * split
         f.path(
             f"M{x + 6:.1f} {cy:.1f} L{x + 14:.1f} {cy:.1f} Q{x + 22:.1f} {cy:.1f} {x + 22:.1f} {cy + d * 8:.1f} "
@@ -87,20 +98,51 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, lr, sh, stacked, split) -> float:
             stroke=v_ink,
             sw=3,
         )
-        fk.lens(f, lx, y, lr, stroke=v_ink, double=double)
-        f.line(lx + lr + 2, y, sx - 12, y, v_ink, sw=3)
-        fk.arrow(f, sx - 4, y, v_ink, size=7)
-        fk.slip(f, sx, y, sh, arm["glyph"], ink, ink=v_ink)
-        right = max(right, _verdict(f, arm, tx, y, stacked))
-    # the tray both receipts sit in: kept together
-    tw = sh * 0.74
-    t0, t1 = cy - split - sh / 2 - 8, cy + split + sh / 2 + 8
+        fk.lens(f, lx, y, lr, stroke=v_ink)
+        f.path(
+            f"M{lx + lr + 2:.1f} {y:.1f} L{mx - 22:.1f} {y:.1f} Q{mx:.1f} {y:.1f} {mx:.1f} {cy - d * 2:.1f}",
+            stroke=v_ink,
+            sw=3,
+        )
+    # the spanner grips the changed verifier's rim at its lower left; the rim shows through the jaw
+    yb = cy + split
+    fk.wrench(f, lx - lr * 0.7071, yb + lr * 0.7071, s=lr * 2.1)
+    f.circle(lx, yb, lr, stroke="loss", sw=4)
+    f.line(mx, cy, tx0 - 12, cy, "fg", sw=3)
+    fk.arrow(f, tx0 - 4, cy, "fg", size=7)
+    # the tray: a back wall behind the receipts, a front panel over their feet with a hand hole
+    top = cy - sh / 2
+    panel = cy + sh / 2 - 12
+    foot = cy + sh / 2 + 8
     f.path(
-        f"M{sx - 9:.1f} {t0:.1f} L{sx - 9:.1f} {t1 - 6:.1f} Q{sx - 9:.1f} {t1:.1f} {sx - 3:.1f} {t1:.1f} "
-        f"L{sx + tw + 3:.1f} {t1:.1f} Q{sx + tw + 9:.1f} {t1:.1f} {sx + tw + 9:.1f} {t1 - 6:.1f} L{sx + tw + 9:.1f} {t0:.1f}",
-        stroke="fg",
-        sw=3,
+        f"M{tx0:.1f} {panel:.1f} L{tx0:.1f} {top + sh * 0.35:.1f} L{tx0 + tray_w:.1f} {top + sh * 0.35:.1f} "
+        f"L{tx0 + tray_w:.1f} {panel:.1f}",
+        stroke="rule",
+        sw=2.5,
+        join="round",
     )
+    for k2, r_ink in ((0, "accent"), (1, "loss")):
+        fk.slip(f, tx0 + tm + k2 * (rw + tg), cy - 4, sh, arm["glyph"], ink, ink=r_ink)
+    f.rect(tx0, panel, tray_w, foot - panel, fill="tile", stroke="rule", rx=5, sw=2.5)
+    hw = min(40, tray_w * 0.3)
+    f.rect(
+        tx0 + tray_w / 2 - hw / 2,
+        (panel + foot) / 2 - 4,
+        hw,
+        8,
+        fill="card",
+        stroke="rule",
+        rx=4,
+        sw=2,
+    )
+    vx = tx0 + tray_w + 26
+    if (
+        stacked
+    ):  # narrow: one block, since both receipts print the same verdict and exit code
+        return _verdict(f, arm, vx, cy, True)
+    right = 0.0
+    for d in (-1, 1):
+        right = max(right, _verdict(f, arm, vx, cy + d * sz * 0.75, False))
     return right
 
 

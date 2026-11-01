@@ -4,7 +4,7 @@
  "width": 720,
  "height": 635,
  "text_size": 34,
- "alt": "One sealed archive of three files, checked four ways. Intact: verified, exit 0. One byte changed, which breaks the seal: failed, exit 2. A required file missing: not-established, exit 3. The same archive read by the old verifier and by a changed verifier: both print verified, exit 0, and both receipts are kept.",
+ "alt": "One sealed archive of three files, checked four ways. Intact archive: verified, exit 0. One byte changed: failed, exit 2. Required artifact missing: not-established, exit 3. Verifier changed: verified, exit 0. The last row reads the same archive with the old verifier and the changed one; both receipts are kept.",
  "words": [
   "verified",
   "exit 0",
@@ -12,8 +12,6 @@
   "exit 2",
   "not-established",
   "exit 3",
-  "verified",
-  "exit 0",
   "verified",
   "exit 0"
  ]

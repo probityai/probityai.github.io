@@ -369,13 +369,14 @@ def sheet(
     state="present",
     mark=None,
 ):
-    """A file sheet. state "missing" draws a dashed hollow outline in absent ink (not there, not failed).
-    mark (col, row) is the one byte cell drawn in loss ink, enlarged well past its neighbours and ringed
-    in the card colour so it reads at thumbnail size: the changed byte."""
+    """A file sheet. state "missing" draws only the empty place a sheet would stand in: a thin dashed
+    outline in rule ink with nothing inside. It carries no signal colour, because a coloured slot reads as a
+    bad sheet rather than an absent one. mark (col, row) is the one byte cell drawn in loss ink at the same
+    size as its neighbours: one changed byte, not a different kind of object."""
     w, h = sheet_size(cols, rows, cell, gap, pad)
     outline = _eared(x, y, w, h, EAR)
     if state == "missing":
-        f.path(outline, stroke="absent", sw=4.5, dash="9 5")
+        f.path(outline, stroke="rule", sw=2.5, dash="6 6")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
     f.path(
@@ -387,21 +388,7 @@ def sheet(
     for r in range(rows):
         for c in range(cols):
             cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
-            if mark != (c, r):
-                f.rect(cx, cy, cell, cell, fill="byte", rx=2)
-    if mark:
-        c, r = mark
-        cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
-        g = cell * 0.9
-        f.rect(
-            cx - g - 2,
-            cy - g - 2,
-            cell + 2 * g + 4,
-            cell + 2 * g + 4,
-            fill="card",
-            rx=5,
-        )
-        f.rect(cx - g, cy - g, cell + 2 * g, cell + 2 * g, fill="loss", rx=4)
+            f.rect(cx, cy, cell, cell, fill="loss" if mark == (c, r) else "byte", rx=2)
     return w, h
 
 
@@ -540,6 +527,32 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
         sw=max(3.0, g * 0.13),
     )
     return x + w
+
+
+def wrench(f: Fig, hx, hy, s=36, ink="loss"):
+    """A spanner whose open jaw is centred on (hx, hy), the handle running down-left and the jaw opening
+    up-right: put (hx, hy) on a rim and the rim runs through the jaw, so the spanner grips that part. s is
+    the handle's length. The caller redraws the gripped rim afterwards so it shows inside the jaw."""
+    u = 0.7071
+    hr = s * 0.26
+    f.line(
+        hx - u * hr * 0.6,
+        hy + u * hr * 0.6,
+        hx - u * s,
+        hy + u * s,
+        ink,
+        sw=max(5.0, s * 0.2),
+    )
+    f.circle(hx - u * hr * 0.35, hy + u * hr * 0.35, hr, fill=ink)
+    # the jaw: a card-coloured slot from the head's centre out through its up-right side
+    f.line(
+        hx - u * hr * 0.2,
+        hy + u * hr * 0.2,
+        hx + u * hr * 1.4,
+        hy - u * hr * 1.4,
+        "card",
+        sw=hr * 0.9,
+    )
 
 
 def eye(f: Fig, cx, cy, r=18, ink="fg"):

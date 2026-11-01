@@ -4,12 +4,14 @@
 (adapters/source_coverage.py: a selected span found in the source and not in the record returns
 contradicted, selected_span_missing_from_record). The picture shows why the two readers disagree:
 
-Top row: the record, seven passage slots in one frame, the fifth an empty dashed slot. An eye reads the
-record alone: its line runs along the top and looks down at every passage the record holds. Nothing in the
-record tells it a passage is gone, so its line runs straight past the empty slot to a check: fine.
+Top row: the record, seven passage slots in one frame, the fifth only the grey dashed place where a passage
+would stand. An eye reads the record alone: its line runs along the top and looks down, one arrow each, at
+every passage the record holds. Nothing in the record tells it a passage is gone, so its line runs straight
+past the empty place, with no arrow, to a check: fine.
 Bottom row: the source capture, all seven passages in one frame. probity-verify's lens runs between the two
 rows and pairs every source passage with its record passage, one rung per pair. At the fifth the rung from
-the source finds no passage above it: the rung turns to loss ink and ends in a cross inside the empty slot.
+the source finds no passage above it: it turns to loss ink and breaks off short of the empty place, with a
+cross on its broken end.
 The lens's line ends at a cross, contradicted, over the packet's reason line. The two verdicts sit in one
 column. The only words are what the readers print.
 """
@@ -53,7 +55,9 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     assert xs[-1] + sw_ + 30 <= vx, "the rows run into the verdict column"
     cap = fk.cap_height(sz, "sans", 600)
     yr = top  # the record's top
-    ys = yr + sh_ + 10 + 2 * (lr + 20)  # the source's top
+    ys = (
+        yr + sh_ + 10 + 2 * (lr + 32)
+    )  # the source's top, far enough below for the broken rung
     yv = (yr + sh_ + 10 + ys - 10) / 2  # probity-verify's line, between the two frames
     yu = yr - 10 - lr - 14  # the eye's line, above the record
     for y in (yr, ys):
@@ -72,7 +76,8 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     # the eye reads the record alone: down to each passage it holds, straight past the empty slot
     for i, x in enumerate(mid):
         if i != HOLE:
-            f.line(x, yu + 4, x, yr - 14, "fg", sw=2.5, dash="2 6")
+            f.line(x, yu + 4, x, yr - 22, "fg", sw=3)
+            fk.arrow(f, x, yr - 14, "fg", size=6, direction="down")
     fk.eye(f, gx, yu, lr)
     f.line(gx + lr + 6, yu, vx - 16, yu, "fg", sw=3)
     f.glyph("check", vx, yu - gsize / 2, gsize, "fg")
@@ -80,10 +85,14 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     # probity-verify pairs each source passage with its record passage, one rung per pair
     for i, x in enumerate(mid):
         if i == HOLE:
+            # the rung rises from the source passage, finds nothing above it, and breaks off short of the
+            # empty slot: the cross sits on the broken end, never inside the slot
+            gap = yv - (yr + sh_ + 10)
+            g = gap * 0.7
+            end = yv - gap * 0.14
             f.line(x, ys - 12, x, yv, "accent", sw=3)
-            f.line(x, yv, x, yr + sh_ - 4, "loss", sw=3.5)
-            g = sw_ * 0.62
-            f.glyph("cross", x - g / 2, yr + sh_ / 2 - g / 2 - 4, g, "loss", sw=5)
+            f.line(x, yv, x, end, "loss", sw=3.5)
+            f.glyph("cross", x - g / 2, end - g - 3, g, "loss", sw=4)
         else:
             f.line(x, ys - 12, x, yr + sh_ + 12, "accent", sw=3)
     f.line(gx + lr + 4, yv, vx - 16, yv, "accent", sw=3)
