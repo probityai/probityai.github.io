@@ -1,16 +1,15 @@
 """F1 Four verdicts: one sealed archive, checked four ways, and what the verifier prints each time.
 
 At the left (wide layout) stands the archive: an archive box of three files with a padlock over their digest.
-It is copied into four rows, one per arm of demo/four-arms.sh, and every row reads the same way, left to
-right: the archive as the verifier gets it, the verifier's lens, the receipt it prints with the verdict
-glyph on it, and the verdict word and exit code it prints. Loss ink marks the one thing changed in a row.
-In row 2 it is one byte cell, the same size as its neighbours, and the padlock snapped open. In row 4 it is
-the verifier: an arrow in loss ink runs from the old lens down into the changed one, the same lens drawn in
-loss ink with a second ring in its rim. A missing file (row 3) is only the grey dashed place where it would
-stand, so not-established never reads as a bad file or as failed. Row 4 reads the untouched archive twice,
-with the old verifier and the changed one; both lines merge into one arrow, and both receipts, whole with
-their torn feet, stand side by side in one open tray: kept together. Words and exit codes come from
-data/four-arms.toml; the row captions are the alt text, not words on the picture.
+It is copied into three rows, and every row reads left to right: the archive as the verifier gets it, the
+verifier's lens, the receipt it prints with the verdict glyph on it, and the verdict word and exit code.
+Row 1 (arms 1 and 4 of demo/four-arms.sh) is the intact archive, read twice from the same box: by the
+verifier (blue lens) and by the changed verifier (the same lens in dark ink with cross hairs, a dashed ghost
+of the old lens behind it). Each lens prints its own receipt, and both receipts are filed in one ring binder:
+kept together. Loss ink is only for damage: in row 2 (arm 2) the changed byte is a larger tilted cell with a
+crack to the sprung shackle, and the receipt's cross takes the same ink. In row 3 (arm 3) the missing file is
+a dark dashed slot holding the query mark the receipt prints, so not-established never reads as failed.
+Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
 from __future__ import annotations
