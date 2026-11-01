@@ -1,17 +1,21 @@
 name: Publish the Atlas and the identifier pages
 
-# The Agent Evidence Atlas is built in probityai/agent-evidence-vectors under site/ and served here at
-# https://probityai.github.io/agent-evidence-atlas/. The pages behind the persistent identifiers under
-# https://w3id.org/agent-evidence/ are built in the same repository under pages/ and served here at
-# https://probityai.github.io/agent-evidence/. This workflow lays agent-evidence-vectors main's
-# site/docs and pages/ over this repository's main and publishes the result to the pages-live
-# branch, which GitHub Pages serves. main is the source of the root site and is never written by the workflow:
-# its ruleset declines pushes from the workflow token even when the required check has passed on
-# the commit, and the organisation does not let Actions open pull requests or use deploy keys.
+# The Agent Evidence Atlas is built in this repository under atlas/ and served at
+# https://probityai.github.io/agent-evidence-atlas/ from atlas/docs. Its experiment archives are
+# assets of the release that atlas/ARCHIVES.json names, restored and digest-checked before publish.
+# The pages behind the persistent identifiers under https://w3id.org/agent-evidence/ are built in
+# probityai/agent-evidence-vectors under pages/ and served here at
+# https://probityai.github.io/agent-evidence/. This workflow lays atlas/docs and that pages/ over
+# this repository's main, drops the atlas/ source from the published tree, and publishes the result
+# to the pages-live branch, which GitHub Pages serves. main is never written by the workflow: its
+# ruleset declines pushes from the workflow token, and the organisation does not let Actions open
+# pull requests or use deploy keys.
 #
-# It pulls, because a push from agent-evidence-vectors would need a stored personal token. The schedule
-# bounds the delay at about fifteen minutes after a merge; a push to main also runs it, and it can be
-# run by hand from the Actions tab. A run whose result matches pages-live stops after the comparison.
+# It pulls pages/, because a push from agent-evidence-vectors would need a stored personal token.
+# The schedule bounds the delay at about fifteen minutes after a merge there; a push to main here
+# also runs it, and it can be run by hand from the Actions tab. A run whose result matches
+# pages-live stops after the comparison. After a publish, scripts/check_served.py requires every
+# published file and every w3id identifier to answer 200 with the published bytes.
 
 on:
   schedule:
@@ -43,15 +47,20 @@ jobs:
           path: source
           persist-credentials: false
           sparse-checkout: |
-            site
             pages
             scripts/check_predicate_pages.py
+      - name: Restore the experiment archives from their release
+        working-directory: pages/atlas
+        run: python3 tools/archives.py fetch
       - name: Compare the combined site with pages-live
         id: diff
         run: |
           set -euo pipefail
-          rsync -rc --delete source/site/docs/ pages/agent-evidence-atlas/
+          rsync -rc --delete pages/atlas/docs/ pages/agent-evidence-atlas/
           rsync -rc --delete source/pages/ pages/agent-evidence/
+          # The source tree is checked from its own copy; only its built docs/ are served.
+          rsync -a pages/atlas/ atlas-src/
+          rm -rf pages/atlas
           cd pages
           git add -A
           want_tree="$(git write-tree)"
@@ -77,7 +86,7 @@ jobs:
           sudo dpkg -i pandoc.deb
       - name: Require docs/ to match its sources
         if: steps.diff.outputs.changes != '0'
-        working-directory: source/site
+        working-directory: atlas-src
         run: |
           python3 -m pip install -r requirements/discoverability-test.txt
           python3 tools/build.py --check
@@ -88,18 +97,18 @@ jobs:
         if: steps.diff.outputs.changes != '0'
         run: |
           set -euo pipefail
-          sha="$(git -C source rev-parse HEAD)"
+          sha="$(git -C pages rev-parse HEAD) and agent-evidence-vectors $(git -C source rev-parse HEAD)"
           cd pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Publish the Atlas and the identifier pages from agent-evidence-vectors ${sha}"
+          git commit -m "Publish the Atlas and the identifier pages from ${sha}"
           git push --force origin HEAD:refs/heads/pages-live
-          echo "published=${sha}" >> "$GITHUB_ENV"
+          echo "published=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
       - name: Read the served register back
         if: steps.diff.outputs.changes != '0'
         run: |
           set -euo pipefail
-          want="$(sha256sum source/site/docs/lab/register.json | cut -d' ' -f1)"
+          want="$(sha256sum atlas-src/docs/lab/register.json | cut -d' ' -f1)"
           for _ in $(seq 1 45); do
             got="$(curl -fsSL "https://probityai.github.io/agent-evidence-atlas/lab/register.json?sync=${published}" | sha256sum | cut -d' ' -f1 || true)"
             if [ "${got}" = "${want}" ]; then
@@ -125,3 +134,6 @@ jobs:
           done
           echo "::error::the served agent-evidence/predicate/v1/PAGES.sha256 is ${got}, expected ${want}"
           exit 1
+      - name: Require every published file and w3id identifier to serve its published bytes
+        if: steps.diff.outputs.changes != '0'
+        run: python3 pages/scripts/check_served.py --tree pages --sync "${published}"

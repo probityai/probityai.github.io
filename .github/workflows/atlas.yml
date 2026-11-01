@@ -35,6 +35,9 @@ jobs:
       - name: Restore the experiment archives from their release
         working-directory: atlas
         run: python3 tools/archives.py fetch
+      - name: Refuse an experiment archive tracked in git or missing from the manifest
+        working-directory: atlas
+        run: python3 tools/archives.py check
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.12"

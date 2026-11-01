@@ -25,6 +25,7 @@ import sys
 import time
 import urllib.request
 
+DESCRIPTION = "Restore or check the Atlas experiment archives listed in ARCHIVES.json."
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "ARCHIVES.json"
 RELEASES = "https://github.com/probityai/probityai.github.io/releases/download"
@@ -85,7 +86,7 @@ def check() -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=DESCRIPTION)
     sub = parser.add_subparsers(dest="cmd", required=True)
     f = sub.add_parser("fetch")
     f.add_argument("--from", dest="source", type=pathlib.Path)
