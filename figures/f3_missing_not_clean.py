@@ -65,8 +65,11 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     yv = under + 0.62 * (ys - 10 - under)  # probity-verify's line, nearer the source
     yu = yr - 10 - 22  # the eye's sight line, just above the record
     fw, fh = xs[-1] + sw_ - xs[0] + 20, sh_ + 20
-    for y in (yr, ys):
-        f.rect(xs[0] - 10, y - 10, fw, fh, stroke="rule", rx=8, sw=2.5)
+    # the record holds six passages packed edge to edge: read alone, nothing in it shows a gap
+    rec = [xs[i] for i in range(N - 1)]
+    rmid = [x + sw_ / 2 for x in rec]
+    f.rect(xs[0] - 10, yr - 10, rec[-1] + sw_ - xs[0] + 20, fh, stroke="rule", rx=8, sw=2.5)
+    f.rect(xs[0] - 10, ys - 10, fw, fh, stroke="rule", rx=8, sw=2.5)
     # the source is a capture: viewfinder corners just outside its frame
     cl, fx0, fy0 = 16, xs[0] - 16, ys - 16
     for cx, cy, dx, dy in (
@@ -82,11 +85,12 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
         )
     for i, x in enumerate(xs):
         fk.sheet(f, x, ys, *geo)
-        fk.sheet(f, x, yr, *geo, state="missing" if i == HOLE else "present")
+        if i < N - 1:
+            fk.sheet(f, x, yr, *geo)
     # the eye reads the record alone: one unbroken sight line sweeps the whole record, over the empty place
     # as over every other, and nothing there stops it; what it concludes is a check in its thought cloud
     fk.eye(f, gx, yu, lr * 1.25)
-    f.line(gx - lr - 8, yu, xs[0] + 4, yu, "fg", sw=3, dash="2 9")
+    f.line(gx - lr * 1.25 - 8, yu, xs[0] + 4, yu, "fg", sw=3, dash="2 9")
     fk.arrow(f, xs[0] - 6, yu, "fg", size=7, direction="left")
     cy_ = yu - ch * 0.42
     fk.thought(f, gcx, cy_, cw, ch, (gx + lr * 0.9, yu - lr * 0.5))
@@ -105,10 +109,13 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
             f.line(x, yv, x, end, "loss", sw=3.5)
             f.glyph("cross", x - gg / 2, end - gg - 3, gg, "loss", sw=4)
         else:
-            f.line(x, ys - 12, x, yr + sh_ + 12, "accent", sw=3)
+            # each other source passage climbs to its own passage in the record, which sits one place left
+            # once the record has closed up over the lost one
+            j = i if i < HOLE else i - 1
+            f.line(x, ys - 12, rmid[j], yr + sh_ + 12, "accent", sw=3)
     f.line(xs[0] - 4, yv, gx - lr - 4, yv, "accent", sw=3)
     fk.lens(f, gx, yv, lr * 0.85)
-    f.glyph(CASE["glyph"], gcx - gsize / 2, yv - gsize / 2, gsize, "fg")
+    f.glyph(CASE["glyph"], gcx - gsize / 2, yv - gsize / 2, gsize, "loss")
     f.text(tx, yv + cap / 2, CASE["decision"], "fg", "sans", 600)
     if reason_below:
         ry = ys + sh_ + 16 + sz * 1.9

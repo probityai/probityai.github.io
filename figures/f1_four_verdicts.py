@@ -91,11 +91,11 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, lr, sh, stacked, split) -> float:
         sw=3,
     )
     fk.lens(f, lx, cy, lr)
+    # the changed verifier: the old lens, ghosted in dashes just behind, and the new one in front of it
+    gxo, gyo = -15, -13
+    f.line(lx + gxo + lr * 0.72, y2 + gyo + lr * 0.72, lx + gxo + lr * 1.5, y2 + gyo + lr * 1.5, "accent", sw=3, dash="4 5")
+    f.circle(lx + gxo, y2 + gyo, lr, stroke="accent", sw=2.5, dash="4 5")
     fk.lens(f, lx, y2, lr, stroke="fg", reticle=True)
-    # the old verifier becomes the changed one
-    ax = lx
-    f.line(ax, cy + lr + 6, ax, y2 - lr - 12, "fg", sw=3)
-    fk.arrow(f, ax, y2 - lr - 3, "fg", size=6, direction="down")
     # one ring binder holds both receipts, each fed by its own lens
     bnx = lx + lr * 1.6 + 30
     bnw = rw + 2 * 16 + 18
