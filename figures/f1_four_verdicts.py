@@ -17,15 +17,15 @@ import figkit as fk
 
 HERE = Path(__file__).resolve().parent
 NAME = "f1-four-verdicts"
-REV = 1
+REV = 2
 ARMS = tomllib.loads((HERE / "data/four-arms.toml").read_text())["arm"]
 INTACT, BYTE, MISSING, CHANGED = ARMS
 TITLE = "Four verdicts from one evidence archive"
 DESC = (
     "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed "
     "on the way breaks the seal: failed, exit 2. A required file lost on the way: not-established, exit 3. "
-    "A changed verifier: the old and the changed verifier both read the archive and both say verified, "
-    "exit 0, and both receipts are kept."
+    "A changed verifier: the old verifier (v1) and the changed one (v2) both read the archive and both print "
+    "verified, exit 0, and both records are kept."
 )
 
 
@@ -35,28 +35,43 @@ def _verdict(f, arm, x, cy, gsize, exit_inline=True):
     f.glyph(arm["glyph"], x - gsize * 0.12, cy - gsize / 2, gsize, "fg")   # the glyph box pads its stroke
     base = cy + fk.cap_height(sz, "sans", 600) / 2
     wx = x + gsize + 12
-    f.text(wx, base, arm["verdict"], "fg", "sans", 600)
+    f.text(wx, base, arm["verdict"], "fg", "mono", 500)   # printed as the verifier prints it
     ex = f"exit {arm['exit']}"
     if exit_inline:
-        ex_x = wx + fk.text_width(arm["verdict"], sz, "sans", 600) + 14
+        ex_x = wx + fk.text_width(arm["verdict"], sz, "mono", 500) + 14
         f.text(ex_x, base, ex, "muted", "mono", 500)
         return ex_x + fk.text_width(ex, sz, "mono", 500)
     f.text(wx, base + sz * 1.3, ex, "muted", "mono", 500)
-    return wx + fk.text_width(arm["verdict"], sz, "sans", 600)
+    return wx + fk.text_width(arm["verdict"], sz, "mono", 500)
 
 
 def _verdict_width(f, arm, gsize):
     sz = f.text_size
-    return gsize + 12 + fk.text_width(arm["verdict"], sz, "sans", 600) + 14 + fk.text_width(f"exit {arm['exit']}", sz, "mono", 500)
+    return gsize + 12 + fk.text_width(arm["verdict"], sz, "mono", 500) + 14 + fk.text_width(f"exit {arm['exit']}", sz, "mono", 500)
+
+
+TAGS = ("v1", "v2")
+
+
+def _kept(f, arm, x, cy, gsize, dy):
+    """The changed verifier's two kept records: one printed verdict line per verifier, tagged v1 and v2."""
+    sz = f.text_size
+    for k, tag in enumerate(TAGS):
+        right = _verdict(f, arm, x, cy + k * dy, gsize)
+        f.text(right + 18, cy + k * dy + fk.cap_height(sz, "mono", 500) / 2, tag, "muted", "mono", 500)
+    return right + 18 + fk.text_width(TAGS[1], sz, "mono", 500)
 
 
 def _two_readers(f, x, cy, r, dy, rh):
     """The changed-verifier picture: the old lens (rule) above the changed lens (accent), each followed by
     its receipt. x is the left edge; returns the right edge."""
     right = x
-    for sgn, ink in ((-1, "rule"), (1, "accent")):
+    sz = f.text_size
+    tw = fk.text_width(TAGS[0], sz, "mono", 500) + 10
+    for tag, sgn, ink in zip(TAGS, (-1, 1), ("rule", "accent"), strict=True):
         y = cy + sgn * dy
-        lx = x + r
+        f.text(x, y + fk.cap_height(sz, "mono", 500) / 2, tag, "fg", "mono", 500)
+        lx = x + tw + r
         fk.lens(f, lx, y, r, stroke=ink)
         right = fk.receipt(f, lx + r * 1.5 + 18, y, h=rh)
     return right
@@ -66,7 +81,7 @@ def wide() -> fk.Fig:
     W, pad = 1280, fk.PAD
     geo, sgap = (3, 3, 10, 4, 9), 12
     aw, ah = fk.archive_size(3, geo, sgap)
-    f = fk.Fig(NAME, "wide", W, 446, TITLE, DESC)
+    f = fk.Fig(NAME, "wide", W, 486, TITLE, DESC)
     sz = f.text_size
     gs = 34
     # the route: archive -> strikes -> lens -> verdict
@@ -111,6 +126,9 @@ def wide() -> fk.Fig:
     cap_y = pic_y + ah + 44
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
         f.text(cols[k], cap_y, arm["caption"], "fg")
+        if arm is CHANGED:
+            assert _kept(f, arm, cols[k], cap_y + 40, gs, 40) <= cols[k] + colw, arm
+            continue
         _verdict(f, arm, cols[k], cap_y + 40, gs)
         assert cols[k] + _verdict_width(f, arm, gs) <= cols[k] + colw, arm
     return f
@@ -122,7 +140,7 @@ def narrow() -> fk.Fig:
     aw, ah = fk.archive_size(3, geo, sgap)
     gs = 40
     blk = ah + 160
-    H = 44 + ah + 50 + 3 * blk + 216
+    H = 44 + ah + 50 + 3 * blk + 266
     f = fk.Fig(NAME, "narrow", W, H, TITLE, DESC)
     sz = f.text_size
     sx = pad + 34                     # the spine
@@ -135,7 +153,7 @@ def narrow() -> fk.Fig:
         blocks.append(y)
         y += blk
     ly = blocks[2] + ah / 2           # the lens sits beside the changed-verifier picture
-    end_y = y + 150                   # the intact verdict's centre line
+    end_y = y + 200                   # the intact verdict's centre line (below the two kept lines)
     f.path(f"M{sx:.1f} {ay + ah:.1f} L{sx:.1f} {ly - lr:.1f}", stroke="accent", sw=3)
     f.path(f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 24:.1f} {end_y:.1f}",
            stroke="accent", sw=3)
@@ -156,6 +174,9 @@ def narrow() -> fk.Fig:
     for k, arm in enumerate((BYTE, MISSING, CHANGED)):
         cap = blocks[k] + ah + (52 if k < 2 else 74)   # the receipts reach lower than an archive
         f.text(cx, cap, arm["caption"], "fg")
+        if arm is CHANGED:
+            assert _kept(f, arm, cx, cap + 50, gs, 52) <= W - pad, arm
+            continue
         _verdict(f, arm, cx, cap + 50, gs)
         assert cx + _verdict_width(f, arm, gs) <= W - pad, arm
     f.text(cx, end_y - 44, INTACT["caption"], "fg")

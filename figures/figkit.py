@@ -341,7 +341,8 @@ def seal(f: Fig, cx, cy, r=12, broken=False):
 
 
 def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, seal_r=12):
-    """n sheets in one outline with a seal on its top-right corner. Returns (width, height)."""
+    """n sheets in one outline, bound by a band that runs across every sheet into a seal on the right edge.
+    Returns (width, height)."""
     sw_, sh_ = sheet_size(*geo)
     m = 12
     w = 2 * m + n * sw_ + (n - 1) * sgap
@@ -350,7 +351,20 @@ def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SP
     for i in range(n):
         sheet(f, x + m + i * (sw_ + sgap), y + m, *geo, state="missing" if missing == i else "present",
               mark=mark[1] if mark and mark[0] == i else None)
-    seal(f, x + w - 2, y + 2, r=seal_r, broken=broken)
+    # the seal's band: one strap across every sheet into the seal, so the seal reads as binding the files;
+    # broken cuts the strap over the changed sheet (loss-ink ends) and splits the seal
+    by, bh = y + m + EAR / 2 + 1, 6
+    x0, x1 = x + m - 4, x + w - 2
+    if broken and mark:
+        c0 = x + m + mark[0] * (sw_ + sgap) + sw_ * 0.3
+        c1 = c0 + sw_ * 0.4
+        f.rect(x0, by, c0 - x0, bh, fill="fg")
+        f.rect(c1, by, x1 - c1, bh, fill="fg")
+        for cx_ in (c0, c1):
+            f.line(cx_, by - 4, cx_, by + bh + 4, "loss", sw=2.5)
+    else:
+        f.rect(x0, by, x1 - x0, bh, fill="fg")
+    seal(f, x1, by + bh / 2, r=seal_r, broken=broken)
     return w, h
 
 
