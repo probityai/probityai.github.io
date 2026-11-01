@@ -1,0 +1,28 @@
+{
+ "name": "f1-four-verdicts",
+ "layout": "wide",
+ "width": 1280,
+ "height": 486,
+ "text_size": 26,
+ "alt": "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed on the way breaks the seal: failed, exit 2. A required file lost on the way: not-established, exit 3. A changed verifier: the old verifier (v1) and the changed one (v2) both read the archive and both print verified, exit 0, and both records are kept.",
+ "words": [
+  "Intact archive",
+  "verified",
+  "exit 0",
+  "v1",
+  "v2",
+  "One byte changed",
+  "failed",
+  "exit 2",
+  "Required artifact missing",
+  "not-established",
+  "exit 3",
+  "Verifier changed",
+  "verified",
+  "exit 0",
+  "v1",
+  "verified",
+  "exit 0",
+  "v2"
+ ]
+}
