@@ -66,11 +66,11 @@ def wide() -> fk.Fig:
     W, pad = 1280, fk.PAD
     geo, sgap = (3, 3, 10, 4, 9), 12
     aw, ah = fk.archive_size(3, geo, sgap)
-    f = fk.Fig(NAME, "wide", W, 438, TITLE, DESC)
+    f = fk.Fig(NAME, "wide", W, 446, TITLE, DESC)
     sz = f.text_size
     gs = 34
     # the route: archive -> strikes -> lens -> verdict
-    ty = 30 + ah / 2 + 6
+    ty = 30 + ah / 2 + 14
     ax, ay = pad, ty - ah / 2
     vw = _verdict_width(f, INTACT, gs)
     vx = W - pad - vw
@@ -122,11 +122,11 @@ def narrow() -> fk.Fig:
     aw, ah = fk.archive_size(3, geo, sgap)
     gs = 40
     blk = ah + 160
-    H = 36 + ah + 50 + 3 * blk + 216
+    H = 44 + ah + 50 + 3 * blk + 216
     f = fk.Fig(NAME, "narrow", W, H, TITLE, DESC)
     sz = f.text_size
     sx = pad + 34                     # the spine
-    ay = 36
+    ay = 44
     cx = sx + 72                      # left edge of every block
     y = ay + ah + 50                  # top of the first block
     lr = 26

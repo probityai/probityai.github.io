@@ -77,11 +77,11 @@ def wide() -> fk.Fig:
 
 
 def narrow() -> fk.Fig:
-    f = fk.Fig(NAME, "narrow", 720, 372, TITLE, DESC)
+    f = fk.Fig(NAME, "narrow", 720, 376, TITLE, DESC)
     sz = f.text_size
     colw = 40 + 12 + fk.text_width(CASE["decision"], sz, "sans", 600)
     col_x = 720 - fk.PAD - colw
-    _draw(f, (2, 3, 9, 4, 7), 8, 60, 136, col_x, 40, False, hop_r=18, lr=26)
+    _draw(f, (2, 3, 9, 4, 7), 8, 60, 140, col_x, 40, False, hop_r=18, lr=26)
     return f
 
 
