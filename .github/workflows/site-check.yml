@@ -45,3 +45,5 @@ jobs:
           persist-credentials: false
       - name: Test the Pages build wait
         run: python3 -m unittest discover -s tests -v
+      - name: README keeps its one-screen shape
+        run: python3 scripts/readme-lint.py README.md
