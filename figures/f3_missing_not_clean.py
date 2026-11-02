@@ -13,7 +13,8 @@ path the packet binds for the capture.
 probity-verify pairs every source passage with its record passage, one straight rung per pair, and a rail
 runs through the rungs into its lens. The source's fifth passage is ringed in loss ink; its rung climbs in the
 same ink and stops at the pinch under a stop bar: the source has the passage, the record has none to pair
-with. The lens prints a receipt with a cross in the same ink: contradicted, over the packet's reason line.
+with. The record's empty place is ringed in the same ink, dashed: the hole is the record's. A dot marks
+where each other rung meets the rail. The lens prints a receipt with a cross in the same ink: contradicted, with the packet's reason line hung under it.
 The readers' column at the right: the eye, level with the record, in the trusting reader's own ink (self),
 looks left at the record alone through a cone of sight in that ink that covers the whole record, the dark
 dashed cut place too, and prints a slip with a check in the same ink: fine. The lens and its contradicted
@@ -48,7 +49,7 @@ def _record_frame(f: fk.Fig, x0, x1, y0, y1, hx0, hx1) -> None:
     passage was cut out): its top dips and its foot rises to meet in a narrow waist, with no mark in it."""
     r = 8
     mid = (y0 + y1) / 2
-    neck = (y1 - y0) * 0.22  # half the waist's height: the frame stays one open piece through the waist
+    neck = (y1 - y0) * 0.12  # half the waist's height: the frame stays one open piece through the waist
     cx = (hx0 + hx1) / 2
     d = (
         f"M{x0 + r:.1f} {y0:.1f} L{hx0:.1f} {y0:.1f} Q{cx:.1f} {y0:.1f} {cx:.1f} {mid - neck:.1f} "
@@ -102,13 +103,15 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     f.path(
         f"M{gx - er:.1f} {ey:.1f} L{br:.1f} {bt:.1f} L{bl:.1f} {bt:.1f} L{bl:.1f} {bb:.1f} L{br:.1f} {bb:.1f} Z",
         fill="self",
-        opacity=0.16,
+        opacity=0.22,
     )
     for edge in (bt, bb):
         f.line(gx - er - 4, ey, br, edge, "self", sw=2.5)
     # the record: six passages over the source passages they came from, the fifth place pinched shut
     # where the fifth passage stood, only its dashed empty place is left inside the waist: a passage cut out
     fk.sheet(f, xs[HOLE], yr, *geo, state="missing", loud=True)
+    hw5, hh5 = fk.sheet_size(*geo)
+    f.rect(xs[HOLE] - 7, yr - 7, hw5 + 14, hh5 + 14, stroke="loss", rx=6, sw=3.5, dash="7 5")
     _record_frame(f, xs[0] - 10, rx1, yr - 10, yr - 10 + fh, xs[HOLE] - sgap / 2, xs[HOLE] + sw_ + sgap / 2)
     f.rect(xs[0] - 10, ys - 10, fw, fh, stroke="rule", rx=8, sw=2.5)
     # the source is a capture: viewfinder corners just outside its frame
@@ -155,6 +158,9 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
     # a rail runs through every rung and on into the lens: the lens reads the pairs the rungs make
     yv = (under + ys - 10) / 2
     f.line(mid[0], yv, gx - lr - 14, yv, "accent", sw=3)
+    for i, x in enumerate(mid):
+        if i != HOLE:
+            f.circle(x, yv, 5, fill="accent")
     fk.arrow(f, gx - lr - 4, yv, size=7)
     fk.lens(f, gx, yv, lr)
     f.line(gx + lr + 2, yv, mx - 12, yv, "accent", sw=3)
@@ -165,10 +171,11 @@ def _draw(f: fk.Fig, geo, sgap, top, gsize, reason_below, lr) -> float:
         ry = src_foot + 14 + sz
         f.text(fk.PAD - 1.5, ry, CASE["reason"], "muted", "mono", 500)
         return ry + sz * 0.6
-    ry = max(ys + sh_ + 16 + sz * 1.6, src_foot)
+    ry = yv + gsize * 0.95 + 14 + sz
     rx = f.width - fk.PAD - fk.text_width(CASE["reason"], sz, "mono", 500)
+    assert rx > rx1 + 16, "the reason runs into the source row"
     f.text(rx, ry, CASE["reason"], "muted", "mono", 500)
-    return ry + sz * 0.4
+    return max(ry + sz * 0.4, src_foot)
 
 
 def wide() -> fk.Fig:
