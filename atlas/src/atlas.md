@@ -286,5 +286,5 @@ These are my contributions to other bodies' work, listed where the repository me
 ## Checking this page
 
 - A "cannot establish" line is the limit of its family. The projects listed under a family are measured against that line alone.
-- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/agent-evidence-vectors/tree/main/site) re-reads each count, and the [claim ledger](claims.html) gives the time of each read.
+- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/probityai.github.io/blob/main/atlas/tools/rederive.py) re-reads each count, and the [claim ledger](claims.html) gives the time of each read.
 - The atlas data is published as `data/atlas.toml` in the same repository, one node per project, mechanism and artifact with its link and measurement, so any source that emits the same shape can regenerate the page.

@@ -242,7 +242,7 @@ Provides a source-tagged agent guard harness, signed admission records and publi
 
 Released. [Reviewed guide and source](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/ratchet/README.md)
 
-Harness source: source tag [0.1.2](https://github.com/probityai/probity/tree/probity-ratchet-v0.1.2), source [`e2daf77f75e9`](https://github.com/probityai/probity/tree/e2daf77f75e92aa961cf184084335b67aaae7581), read 2026-10-15. Annotated harness tag, peeled to its source commit. It is separate from the public case package.
+Harness source: source tag [0.1.2](https://github.com/probityai/probity/tree/probity-ratchet-v0.1.2), source [`9c904ec9dc51`](https://github.com/probityai/probity/tree/9c904ec9dc51915b17e1ece4a5e25219e0f134dc), read 2026-11-02. Annotated harness tag, peeled to its source commit. It is separate from the public case package.
 
 <div>
 
@@ -258,7 +258,7 @@ Harness source
 
 </div>
 
-Public case suite: published release [0.2.0](https://github.com/probityai/probity/releases/tag/probity-ratchet-cases-v0.2.0), source [`b6504260db8a`](https://github.com/probityai/probity/tree/b6504260db8af7d3746e9ac87740430dd988e8d9), read 2026-10-15. The case package has its own release. All shipped splits are public.
+Public case suite: published release [0.2.0](https://github.com/probityai/probity/releases/tag/probity-ratchet-cases-v0.2.0), source [`a89eecb334bc`](https://github.com/probityai/probity/tree/a89eecb334bc7289d776e7cfe57b618b2fc614e4), read 2026-11-02. The case package has its own release. All shipped splits are public.
 
 <a id="ratchet-cases"></a>
 
