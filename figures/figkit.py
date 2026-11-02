@@ -411,14 +411,15 @@ def sheet(
 def lock(f: Fig, cx, cy, r: float = 12, broken=False):
     """The archive's signature: a padlock centred on (cx, cy) whose solid body carries a digest mark (#)
     knocked out in the card colour, so it reads as a lock over a digest, not an award. r is half the body
-    width. broken swings the shackle open off its right post, in loss ink: the seal no longer holds."""
+    width. broken fills the body with loss ink and flings the shackle wide open off its right post: the seal no
+    longer holds."""
     bw, bh = 2 * r, 1.6 * r
     bx, by = cx - r, cy - bh * 0.3
     sr = r * 0.62  # shackle radius
     sw = max(3.0, r * 0.32)
     if broken:
         f.path(
-            f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 0.9:.1f} A{sr:.1f} {sr:.1f} 0 0 0 {cx - sr * 0.9:.1f} {by - sr * 2.1:.1f}",
+            f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 1.4:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr * 2.9:.1f} {by - sr * 0.9:.1f}",
             stroke="loss",
             sw=sw,
         )
@@ -428,7 +429,7 @@ def lock(f: Fig, cx, cy, r: float = 12, broken=False):
             stroke="fg",
             sw=sw,
         )
-    f.rect(bx, by, bw, bh, fill="fg", rx=r * 0.25)
+    f.rect(bx, by, bw, bh, fill="loss" if broken else "fg", rx=r * 0.25)
     hw, hs = r * 0.62, max(1.6, r * 0.13)
     hy = by + bh / 2
     for d in (-1, 1):
@@ -517,8 +518,8 @@ def box(
         top = y + pad + EAR / 2 + r * (cell + gap) + cell / 2 - k
         lcx = x + w - BOX_M - lock_r
         sr = lock_r * 0.62
-        ty = panel - 1.6 * lock_r * 0.3 - sr * 2.1 - 6
-        tx = lcx - sr * 0.9
+        ty = panel - 1.6 * lock_r * 0.3 - 6
+        tx = lcx - lock_r * 0.4
         peak = y - 22
         f.path(
             f"M{ccx:.1f} {top - 3:.1f} C{ccx:.1f} {peak:.1f} {tx:.1f} {peak:.1f} {tx:.1f} {ty - 12:.1f}",
@@ -595,9 +596,11 @@ def wrench(f: Fig, cx, cy, r, angle_deg=-135.0, ink="fg"):
     jaw(kx, ky, a)  # the wrench's other end, open away
 
 
-def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
+def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule", stamp=0):
     """What a verifier prints: a till receipt with its left edge at x, centred on cy, a straight top and a
-    torn zigzag foot, two printed lines and the verdict glyph. Returns the right edge."""
+    torn zigzag foot, two printed lines and the verdict glyph. stamp=1 or 2 prints the small lens of the
+    verifier version that made it (a later version carries a second ring), so the record says who read it.
+    Returns the right edge."""
     w = round(h * 0.74, 1)
     y = cy - h / 2
     teeth = 4
@@ -612,8 +615,17 @@ def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule"):
         stroke=ink,
         sw=2.5,
     )
-    for k, right in ((0, w - 7), (1, w * 0.6)):
-        f.line(x + 7, y + 9 + k * 7, x + right, y + 9 + k * 7, "rule", sw=2.5)
+    if stamp:
+        sr = 5.5
+        scx, scy = x + 7 + sr, y + 13
+        f.circle(scx, scy, sr, stroke="accent", sw=2.5)
+        if stamp > 1:
+            f.circle(scx, scy, sr + 3.5, stroke="accent", sw=2)
+        f.line(scx + sr * 0.7, scy + sr * 0.7, scx + sr * 1.7, scy + sr * 1.7, "accent", sw=2.5)
+        f.line(scx + sr + 8, y + 12, x + w - 7, y + 12, "rule", sw=2.5)
+    else:
+        for k, right in ((0, w - 7), (1, w * 0.6)):
+            f.line(x + 7, y + 9 + k * 7, x + right, y + 9 + k * 7, "rule", sw=2.5)
     g = w * 0.62
     f.glyph(
         glyph,
@@ -630,7 +642,7 @@ def folder_back(f: Fig, x, y, w, h, ink="rule"):
     """Where records are kept: an open file folder seen from the front, x, y its back panel's top-left (under
     the tab), w by h. Draw its back with this call, then what it holds, then folder_front, so the front flap
     covers the lower part of what stands in it."""
-    tw, th = w * 0.38, 14
+    tw, th = w * 0.42, 20
     f.path(
         f"M{x:.1f} {y + h:.1f} L{x:.1f} {y + 5:.1f} Q{x:.1f} {y:.1f} {x + 5:.1f} {y:.1f} "
         f"L{x + 8:.1f} {y:.1f} L{x + 14:.1f} {y - th:.1f} L{x + tw:.1f} {y - th:.1f} L{x + tw + 6:.1f} {y:.1f} "

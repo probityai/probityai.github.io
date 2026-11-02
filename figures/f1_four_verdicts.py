@@ -9,9 +9,10 @@ neighbours, a thin arrow in the same ink arcs from it to the padlock's shackle, 
 receipt's cross takes it too. In row 3 the missing file is a dark dashed empty
 place, so not-established never reads as failed.
 Panel 2 (arm 4) uses the same grammar: the same archive fans into two readings, the upper by the version 1
-lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is). Each
+lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is), and
+in the wide layout a copy of the archive stands on each route before its lens, as on each row above. Each
 reading's route runs into one open file folder, and both receipts stand in it, torn feet showing over its low
-front flap: kept together. Each lens has
+front flap: kept together. Each receipt carries the small lens of the version that printed it. Each lens has
 the verifier id its record carries printed beside it.
 Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
@@ -92,7 +93,7 @@ def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
     return _verdict(f, arm, sx + round(sh * 0.74, 1) + 26, cy, stacked)
 
 
-def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float:
+def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right", copies=False) -> float:
     """Panel 2: one archive at x0 centred on cy fans, as in panel 1, into two readings: the version 1 lens on
     the upper row, the version 2 lens (the same instrument made stronger) on the lower row. Both routes run
     into one open file folder, and both receipts stand in it. The verifier id each reading's record carries
@@ -114,8 +115,12 @@ def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float
         fk.arrow(f, rx - 6, ry, "rule", size=7)
     ends = []
     for k, ry in enumerate(rows):
-        f.line(rx - 4, ry, rx + 6, ry, "accent", sw=3)
-        ends.append(_read(f, rx, ry, 0, lr, version=k + 1))
+        if copies:
+            fk.box(f, rx, ry - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8)
+            ends.append(_read(f, rx + bw, ry, 0, lr, version=k + 1))
+        else:
+            f.line(rx - 4, ry, rx + 6, ry, "accent", sw=3)
+            ends.append(_read(f, rx, ry, 0, lr, version=k + 1))
     # the receipts' place: one open folder; both routes run into it and both receipts stand in it
     sh2 = SH + 10
     rw = round(sh2 * 0.74, 1)
@@ -139,13 +144,13 @@ def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right") -> float
     # receipts, the same as the ones the panel above prints, not plain pages
     lift = 10
     for k in range(2):
-        fk.slip(f, px + g + k * (rw + g), cy - lift, sh2, "check", "fg")
+        fk.slip(f, px + g + k * (rw + g), cy - lift, sh2, "check", "fg", stamp=k + 1)
     fk.folder_front(f, px, top - 8, fw, fh, lift + 11)  # its top edge sits just over the receipts' feet
     # the verifier id each reading's record carries, by its own lens: above the upper, below the lower
     sz = f.text_size
     cap = fk.cap_height(sz, "mono", 500)
     v1, v2 = ARMS[3]["verifier_ids"]
-    tx = x0 if ids == "outside" else rx - 4
+    tx = x0 if ids == "outside" else (rx + bw + 6 if copies else rx - 4)
     y1 = rows[0] - lr * 1.3 - 16
     y2 = rows[1] + lr * 1.3 + 16 + cap
     f.text(tx, y1, v1, "fg", "mono", 500)
@@ -182,7 +187,8 @@ def wide() -> fk.Fig:
     f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
     pitch2 = SH + 40
     c2 = rule_y + 30 + pitch2 / 2 + SH / 2 + 14
-    low = _pair(f, pad, c2, geo, sgap, pitch2, fan=96 + bw)
+    pitch2 = max(pitch2, bh + 30)
+    low = _pair(f, pad, c2, geo, sgap, pitch2, fan=96, copies=True)
     f.height = round(low + 24)
     return f
 

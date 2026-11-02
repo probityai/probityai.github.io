@@ -2,7 +2,7 @@
  "name": "f1-four-verdicts",
  "layout": "wide",
  "width": 1280,
- "height": 678,
+ "height": 683,
  "text_size": 26,
  "alt": "One sealed archive of three files, checked four ways. Intact archive: verified, exit 0. One byte changed: failed, exit 2. Required artifact missing: not-established, exit 3. Below: the same archive is read by verifier demo/tests@v1 and by the changed verifier demo/tests@v2-stricter. Both print verified, exit 0, and both receipts are kept in one folder.",
  "words": [
