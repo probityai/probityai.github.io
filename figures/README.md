@@ -11,7 +11,7 @@ The figures every probityai README and the site show. One source per figure, one
 Each figure is published at `figures/<figure>/<rev>/<layout>-<theme>.svg`, where layout is `wide` (1280 units)
 or `narrow` (720) and theme is `auto` (follows the reader's colour scheme), `light` or `dark`. A published
 revision is never rewritten: change a figure by raising `REV` in its source. Embed by absolute URL, for
-example `https://raw.githubusercontent.com/probityai/probityai.github.io/main/figures/f1-four-verdicts/1/narrow-auto.svg`.
+example `https://raw.githubusercontent.com/probityai/probityai.github.io/main/figures/f1-four-verdicts/3/narrow-auto.svg`.
 
 ```sh
 uv run --script figures/build.py   # write the current revision of every figure
