@@ -21,6 +21,7 @@ import json
 import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 from xml.sax.saxutils import escape
 
 from fontTools import subset
@@ -61,18 +62,21 @@ def _font(key: tuple[str, int]) -> TTFont:
 def text_width(s: str, size: float, font: str = "sans", weight: int = 400) -> float:
     """Advance width of s in user units, from the font's own hmtx table (no kerning)."""
     f = _font((font, weight))
-    cmap = f.getBestCmap()
-    hmtx = f["hmtx"]
-    return sum(hmtx[cmap[ord(c)]][0] for c in s) * size / f["head"].unitsPerEm
+    cmap: Any = f.getBestCmap()
+    hmtx: Any = f["hmtx"]
+    head: Any = f["head"]
+    return sum(hmtx[cmap[ord(c)]][0] for c in s) * size / head.unitsPerEm
 
 
 def cap_height(size: float, font: str = "sans", weight: int = 400) -> float:
     f = _font((font, weight))
-    return f["OS/2"].sCapHeight * size / f["head"].unitsPerEm
+    os2: Any = f["OS/2"]
+    head: Any = f["head"]
+    return os2.sCapHeight * size / head.unitsPerEm
 
 
 def _woff_b64(key: tuple[str, int], chars: set[str]) -> str:
-    opts = subset.Options()
+    opts: Any = subset.Options()
     opts.flavor = "woff"
     opts.layout_features = ["kern", "liga", "tnum"]
     opts.name_IDs = [1, 2]  # Chrome's font sanitizer rejects an empty name table
@@ -97,7 +101,9 @@ class Fig:
     height: float
     title: str
     desc: str
-    els: list[tuple[str, dict[str, str], dict[str, str], str]] = field(default_factory=list)
+    els: list[tuple[str, dict[str, str], dict[str, str], str]] = field(
+        default_factory=list
+    )
     chars: dict[tuple[str, int], set[str]] = field(default_factory=dict)
     sizes: list[float] = field(default_factory=list)
     words: list[str] = field(default_factory=list)
@@ -106,7 +112,14 @@ class Fig:
     def text_size(self) -> int:
         return int(TOKENS["type"]["text_" + self.layout])
 
-    def _add(self, tag: str, attrs: dict[str, object], fill: str | None, stroke: str | None, body: str = "") -> None:
+    def _add(
+        self,
+        tag: str,
+        attrs: dict[str, object],
+        fill: str | None,
+        stroke: str | None,
+        body: str = "",
+    ) -> None:
         for role in (fill, stroke):
             if role is not None and role not in ROLES:
                 raise ValueError(f"unknown colour role {role!r}")
@@ -116,7 +129,18 @@ class Fig:
             paint["stroke"] = stroke
         self.els.append((tag, {k: _fmt(v) for k, v in attrs.items()}, paint, body))
 
-    def rect(self, x, y, w, h, fill=None, stroke=None, rx=0, sw=2, dash=None):
+    def rect(
+        self,
+        x,
+        y,
+        w,
+        h,
+        fill=None,
+        stroke=None,
+        rx: float = 0,
+        sw: float = 2,
+        dash=None,
+    ):
         a = {"x": x, "y": y, "width": w, "height": h, "rx": rx}
         if stroke:
             a["stroke-width"] = sw
@@ -124,7 +148,7 @@ class Fig:
             a["stroke-dasharray"] = dash
         self._add("rect", a, fill, stroke)
 
-    def circle(self, cx, cy, r, fill=None, stroke=None, sw=2, dash=None):
+    def circle(self, cx, cy, r, fill=None, stroke=None, sw: float = 2, dash=None):
         a = {"cx": cx, "cy": cy, "r": r}
         if stroke:
             a["stroke-width"] = sw
@@ -132,18 +156,36 @@ class Fig:
             a["stroke-dasharray"] = dash
         self._add("circle", a, fill, stroke)
 
-    def line(self, x1, y1, x2, y2, stroke, sw=2, dash=None):
-        a = {"x1": x1, "y1": y1, "x2": x2, "y2": y2, "stroke-width": sw, "stroke-linecap": "round"}
+    def line(self, x1, y1, x2, y2, stroke, sw: float = 2, dash=None):
+        a = {
+            "x1": x1,
+            "y1": y1,
+            "x2": x2,
+            "y2": y2,
+            "stroke-width": sw,
+            "stroke-linecap": "round",
+        }
         if dash:
             a["stroke-dasharray"] = dash
         self._add("line", a, None, stroke)
 
-    def path(self, d, fill=None, stroke=None, sw=2, dash=None, join="round", opacity=None):
+    def path(
+        self,
+        d,
+        fill=None,
+        stroke=None,
+        sw: float = 2,
+        dash=None,
+        join="round",
+        opacity=None,
+    ):
         a = {"d": d}
         if opacity is not None:
             a["opacity"] = opacity
         if stroke:
-            a.update({"stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": join})
+            a.update(
+                {"stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": join}
+            )
         if dash:
             a["stroke-dasharray"] = dash
         self._add("path", a, fill, stroke)
@@ -165,12 +207,18 @@ class Fig:
             stroke,
         )
 
-    def text(self, x, y, s, fill="fg", font="sans", weight=400, anchor="start", size=None):
+    def text(
+        self, x, y, s, fill="fg", font="sans", weight=400, anchor="start", size=None
+    ):
         size = size or self.text_size
         if size < self.text_size:
-            raise ValueError(f"{self.name}/{self.layout}: {s!r} at {size} is under {self.text_size}")
+            raise ValueError(
+                f"{self.name}/{self.layout}: {s!r} at {size} is under {self.text_size}"
+            )
         if fill == "accent":
-            raise ValueError("accent is for marks only (the verifier and its route), never text")
+            raise ValueError(
+                "accent is for marks only (the verifier and its route), never text"
+            )
         if fill == "muted" and weight < 500:
             raise ValueError("muted text is weight 500 or more")
         bad = [c for c in s if not 0x20 <= ord(c) < 0x7F]
@@ -206,7 +254,18 @@ class Fig:
         used: set[tuple[str, str]] = set()
         body = []
         r = 6 if self.layout == "wide" else 12
-        card = ("rect", {"x": "0", "y": "0", "width": _fmt(self.width), "height": _fmt(self.height), "rx": str(r)}, {"fill": "card"}, "")
+        card = (
+            "rect",
+            {
+                "x": "0",
+                "y": "0",
+                "width": _fmt(self.width),
+                "height": _fmt(self.height),
+                "rx": str(r),
+            },
+            {"fill": "card"},
+            "",
+        )
         for tag, attrs, paint, text in [card, *self.els]:
             if tag == "text" and not words:
                 continue
@@ -225,7 +284,9 @@ class Fig:
             body.append(f"<{tag} {attr}>{text}</{tag}>" if text else f"<{tag} {attr}/>")
         if theme == "auto":
             dark = TOKENS["dark"]
-            rules = "".join(f".{p[0]}-{role}{{{p}:{dark[role]}}}" for p, role in sorted(used))
+            rules = "".join(
+                f".{p[0]}-{role}{{{p}:{dark[role]}}}" for p, role in sorted(used)
+            )
             css.append(f"@media (prefers-color-scheme:dark){{{rules}}}")
         style = f"<style>{''.join(css)}</style>" if css else ""
         head = (
@@ -250,7 +311,7 @@ class Fig:
 def _fmt(v: object) -> str:
     if isinstance(v, float):
         s = f"{v:.1f}"
-        return s[:-2] if s.endswith(".0") else s
+        return s.removesuffix(".0")
     return str(v)
 
 
@@ -265,137 +326,383 @@ def write(figs: list[Fig], root: Path, rev: int) -> list[Path]:
             p = out / f"{fig.layout}-{theme}.svg"
             p.write_text(fig.render(theme))
             paths.append(p)
-        (out / f"{fig.layout}.meta.json").write_text(json.dumps(fig.meta(), indent=1) + "\n")
+        (out / f"{fig.layout}.meta.json").write_text(
+            json.dumps(fig.meta(), indent=1) + "\n"
+        )
         mute = root / "_mute"
         mute.mkdir(exist_ok=True)
-        (mute / f"{fig.name}-{fig.layout}.svg").write_text(fig.render("light", words=False))
+        (mute / f"{fig.name}-{fig.layout}.svg").write_text(
+            fig.render("light", words=False)
+        )
     return paths
 
 
 # --- Shared motifs -------------------------------------------------------------------------------------
-# An artifact is a file sheet with a dog-eared corner holding a grid of byte cells; an archive is a row of
-# sheets in one outline closed by a wax seal that straddles its top-right corner; the verifier is a lens
-# on its route; a kept verdict is a receipt (a small dog-eared slip with a check).
+# A file is a dog-eared sheet holding a grid of byte cells. An evidence archive is an archive box: its files
+# stand in it side by side, the box's front panel covers their lower half, and a padlock whose body carries
+# a digest mark (#) sits on the panel's top edge: a signature over the files' digest. A verifier is a lens;
+# what it prints is a till receipt (straight top, torn zigzag foot) with the verdict glyph on it. A reader
+# that only looks is an eye.
 
 CELL, GAP, SPAD, EAR = 12, 5, 11, 12
 
 
 def sheet_size(cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD):
-    return cols * cell + (cols - 1) * gap + 2 * pad, rows * cell + (rows - 1) * gap + 2 * pad + EAR / 2
+    return cols * cell + (cols - 1) * gap + 2 * pad, rows * cell + (
+        rows - 1
+    ) * gap + 2 * pad + EAR / 2
 
 
 def _eared(x, y, w, h, ear):
     return f"M{x:.1f} {y:.1f} L{x + w - ear:.1f} {y:.1f} L{x + w:.1f} {y + ear:.1f} L{x + w:.1f} {y + h:.1f} L{x:.1f} {y + h:.1f} Z"
 
 
-def sheet(f: Fig, x, y, cols=4, rows=3, cell=CELL, gap=GAP, pad=SPAD, state="present", mark=None):
-    """A file sheet. state "missing" draws a dashed hollow outline in loss ink. mark (col, row) is the
-    one byte cell drawn in loss ink, enlarged: the changed byte."""
+def sheet(
+    f: Fig,
+    x,
+    y,
+    cols=4,
+    rows=3,
+    cell=CELL,
+    gap=GAP,
+    pad=SPAD,
+    state="present",
+    mark=None,
+    loud=False,
+    mark_k=0.7,
+):
+    """A file sheet. state "missing" draws only the empty place a sheet would stand in: a thin dashed
+    outline in rule ink with nothing inside. It carries no signal colour, because a coloured slot reads as a
+    bad sheet rather than an absent one. mark (col, row) is the one byte cell drawn in loss ink at the same
+    size as its neighbours: one changed byte, not a different kind of object."""
     w, h = sheet_size(cols, rows, cell, gap, pad)
     outline = _eared(x, y, w, h, EAR)
     if state == "missing":
-        f.path(outline, stroke="loss", sw=3, dash="8 5")
+        if loud:
+            # the empty place in dark ink and nothing inside: a mark inside it read as a file of its own
+            f.path(outline, fill="tile", stroke="fg", sw=4, dash="8 6")
+        else:
+            f.path(outline, stroke="rule", sw=2.5, dash="6 6")
         return w, h
     f.path(outline, fill="tile", stroke="rule", sw=2, join="round")
-    f.path(f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}", stroke="rule", sw=2)
+    f.path(
+        f"M{x + w - EAR:.1f} {y:.1f} L{x + w - EAR:.1f} {y + EAR:.1f} L{x + w:.1f} {y + EAR:.1f}",
+        stroke="rule",
+        sw=2,
+    )
     top = y + pad + EAR / 2
     for r in range(rows):
         for c in range(cols):
             cx, cy = x + pad + c * (cell + gap), top + r * (cell + gap)
             if mark == (c, r):
-                f.rect(cx - 4, cy - 4, cell + 8, cell + 8, fill="loss", rx=3)
-            else:
-                f.rect(cx, cy, cell, cell, fill="byte", rx=2)
+                continue
+            f.rect(cx, cy, cell, cell, fill="byte", rx=2)
+    if mark is not None:
+        # the changed byte: one grid cell in loss ink, larger than its neighbours (mark_k is half its side,
+        # in cells)
+        c, r = mark
+        ccx = x + pad + c * (cell + gap) + cell / 2
+        ccy = top + r * (cell + gap) + cell / 2
+        k = cell * mark_k
+        f.rect(ccx - k, ccy - k, 2 * k, 2 * k, fill="loss", rx=2)
     return w, h
 
 
-def seal(f: Fig, cx, cy, r=12, broken=False):
-    """The archive's wax seal: a solid fg disc with two ribbon tails hanging below it. Placed on the
-    archive's top-right corner it straddles the outline and visibly closes it. broken splits the disc on
-    a 30-degree line, pushes the halves 3 units apart and strokes the gap in loss ink."""
+def lock(f: Fig, cx, cy, r: float = 12, broken=False):
+    """The archive's signature: a padlock centred on (cx, cy) whose solid body carries a digest mark (#)
+    knocked out in the card colour, so it reads as a lock over a digest, not an award. r is half the body
+    width. broken fills the body with loss ink and flings the shackle wide open off its right post: the seal no
+    longer holds."""
+    bw, bh = 2 * r, 1.6 * r
+    bx, by = cx - r, cy - bh * 0.3
+    sr = r * 0.62  # shackle radius
+    sw = max(3.0, r * 0.32)
+    if broken:
+        f.path(
+            f"M{cx + sr:.1f} {by:.1f} L{cx + sr:.1f} {by - sr * 1.4:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr * 2.9:.1f} {by - sr * 0.9:.1f}",
+            stroke="loss",
+            sw=sw,
+        )
+    else:
+        f.path(
+            f"M{cx - sr:.1f} {by:.1f} L{cx - sr:.1f} {by - sr * 0.6:.1f} A{sr:.1f} {sr:.1f} 0 0 1 {cx + sr:.1f} {by - sr * 0.6:.1f} L{cx + sr:.1f} {by:.1f}",
+            stroke="fg",
+            sw=sw,
+        )
+    f.rect(bx, by, bw, bh, fill="loss" if broken else "fg", rx=r * 0.25)
+    hw, hs = r * 0.62, max(1.6, r * 0.13)
+    hy = by + bh / 2
+    for d in (-1, 1):
+        f.line(
+            cx + d * hw * 0.28 + hw * 0.08,
+            hy - hw * 0.55,
+            cx + d * hw * 0.28 - hw * 0.08,
+            hy + hw * 0.55,
+            "card",
+            sw=hs,
+        )
+        f.line(
+            cx - hw * 0.5,
+            hy + d * hw * 0.22,
+            cx + hw * 0.5,
+            hy + d * hw * 0.22,
+            "card",
+            sw=hs,
+        )
+
+
+BOX_M, BOX_FOOT = (
+    12,
+    16,
+)  # the box's side margin round its files; the panel's depth under them
+
+
+def box_size(n=3, geo=(4, 3, CELL, GAP, SPAD), sgap=14):
+    """(width, height) of an archive box of n files, from the files' tops to the box's foot."""
+    sw_, sh_ = sheet_size(*geo)
+    return 2 * BOX_M + n * sw_ + (n - 1) * sgap, sh_ + BOX_FOOT
+
+
+def box(
+    f: Fig,
+    x,
+    y,
+    n=3,
+    missing=None,
+    mark=None,
+    geo=(4, 3, CELL, GAP, SPAD),
+    sgap=14,
+    broken=False,
+    lock_r=14,
+    loud=False,
+    mark_k=0.7,
+):
+    """An archive box with its top-left at (x, y), the files' tops: n files stand in it, the front panel
+    covers their lower half, and the padlock sits on the panel's top edge. missing is the index of a file
+    that is not there (a dashed slot); mark is (index, (col, row)) for a changed byte, drawn in the files'
+    top row so it shows over the panel. With a mark on a broken box, a thin arrow in loss ink arcs from the
+    changed byte over the files to the sprung shackle: that byte is what opened the seal. Returns (width,
+    height)."""
+    sw_, sh_ = sheet_size(*geo)
+    w, h = box_size(n, geo, sgap)
+    panel = y + sh_ * 0.55
+    # the back wall, lower than the files so they stand up out of the box
+    f.path(
+        f"M{x:.1f} {panel:.1f} L{x:.1f} {y + sh_ * 0.3:.1f} L{x + w:.1f} {y + sh_ * 0.3:.1f} L{x + w:.1f} {panel:.1f}",
+        stroke="rule",
+        sw=2.5,
+        join="round",
+    )
+    for i in range(n):
+        sheet(
+            f,
+            x + BOX_M + i * (sw_ + sgap),
+            y,
+            *geo,
+            state="missing" if missing == i else "present",
+            mark=mark[1] if mark and mark[0] == i else None,
+            loud=loud,
+            mark_k=mark_k,
+        )
+    f.rect(x, panel, w, y + h - panel, fill="tile", stroke="rule", rx=5, sw=2.5)
+    # the box's hand hole, low on the panel
+    hw = min(46, w * 0.22)
+    hy = panel + (y + h - panel) * 0.62
+    f.rect(x + w / 2 - hw / 2, hy - 5, hw, 10, fill="card", stroke="rule", rx=5, sw=2)
+    lock(f, x + w - BOX_M - lock_r, panel, r=lock_r, broken=broken)
+    if mark is not None and broken:
+        i, (c, r) = mark
+        cols, _rows, cell, gap, pad = geo
+        ccx = x + BOX_M + i * (sw_ + sgap) + pad + c * (cell + gap) + cell / 2
+        k = cell * mark_k
+        top = y + pad + EAR / 2 + r * (cell + gap) + cell / 2 - k
+        lcx = x + w - BOX_M - lock_r
+        sr = lock_r * 0.62
+        ty = panel - 1.6 * lock_r * 0.3 - 6
+        tx = lcx - lock_r * 0.4
+        peak = y - 22
+        f.path(
+            f"M{ccx:.1f} {top - 3:.1f} C{ccx:.1f} {peak:.1f} {tx:.1f} {peak:.1f} {tx:.1f} {ty - 12:.1f}",
+            stroke="loss",
+            sw=3,
+        )
+        arrow(f, tx, ty, "loss", size=6, direction="down")
+    return w, h
+
+
+def glass(f: Fig, cx, cy, r, bars, stroke="accent", dash=None):
+    """A lens's glass: a disc with `bars` level bars across it. The bars are the glass's grind, so a lens
+    whose glass was swapped shows a different count while its rim and handle stay the same."""
+    f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4 if dash is None else 2.5, dash=dash)
+    offs = {1: (0.0,), 2: (-0.28, 0.28), 3: (-0.4, 0.0, 0.4)}[bars]
+    for o in offs:
+        half = r * 0.62 * (1 - abs(o) * 0.6)
+        f.line(cx - half, cy + o * r, cx + half, cy + o * r, stroke, sw=3, dash=dash)
+
+
+def lens(f: Fig, cx, cy, r=20, stroke="accent", double=False, reticle=False, bars=0):
+    """A verifier: a magnifying lens, handle down-right. double rings the rim twice: a different verifier.
+    reticle draws fine cross hairs in the glass: the same lens made stricter. bars grinds the glass with
+    that many level bars (see glass)."""
+    f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, stroke, sw=6)
+    if bars:
+        glass(f, cx, cy, r, bars, stroke)
+        return
+    f.circle(cx, cy, r, fill="card", stroke=stroke, sw=4)
+    if double:
+        f.circle(cx, cy, r * 0.6, stroke=stroke, sw=3)
+    if reticle:
+        # cross hairs with an open centre and a small aiming ring
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            f.line(cx + dx * r * 0.3, cy + dy * r * 0.3, cx + dx * r * 0.85, cy + dy * r * 0.85, stroke, sw=2.4)
+        f.circle(cx, cy, r * 0.18, fill=stroke)
+
+
+def lens_version(f: Fig, cx, cy, r=20, version=1, stroke="accent"):
+    """A verifier at a given version. Version 1 is the plain round lens. A later version is the same kind of
+    instrument made stronger, as a stricter verifier is: a larger lens with a second glass set inside the rim.
+    It stays a magnifier at a glance (a square rim and handle notches were read as a crossed-out square)."""
+    if version == 1:
+        lens(f, cx, cy, r, stroke=stroke)
+        return
+    R = r * 1.3
+    f.line(cx + R * 0.72, cy + R * 0.72, cx + R * 1.5, cy + R * 1.5, stroke, sw=7)
+    f.circle(cx, cy, R, fill="card", stroke=stroke, sw=5)
+    f.circle(cx, cy, R * 0.62, fill="tile", stroke=stroke, sw=3)
+
+
+def wrench(f: Fig, cx, cy, r, angle_deg=-135.0, ink="fg"):
+    """An open-ended wrench clamped on the rim of the lens of radius r centred on (cx, cy), from the side at
+    angle_deg: its jaw grips the rim and its handle points away. The lens is being changed."""
     import math
 
-    for side in (-1, 1):
-        x = cx + side * r * 0.45
-        y0 = cy + r * 0.5
-        L = r * 1.6
-        f.path(f"M{x - 3.5:.1f} {y0:.1f} L{x + 3.5:.1f} {y0:.1f} L{x + 3.5 + side * 2:.1f} {y0 + L:.1f} "
-               f"L{x + side * 2:.1f} {y0 + L - 5:.1f} L{x - 3.5 + side * 2:.1f} {y0 + L:.1f} Z",
-               fill="fg", stroke="fg", sw=1)
-    if not broken:
-        f.circle(cx, cy, r + 2, fill="card")
-        f.path(f"M{cx - r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx + r:.1f} {cy:.1f} A{r} {r} 0 1 0 {cx - r:.1f} {cy:.1f} Z",
-               fill="fg")
-        return
-    t = math.radians(30)
-    ux, uy = math.sin(t), -math.cos(t)          # along the cut, 30 degrees off vertical
-    nx, ny = -uy, ux                            # normal to the cut
-    f.circle(cx, cy, r + 4, fill="card")
-    for side in (-1, 1):
-        ox, oy = cx + side * nx * 1.5, cy + side * ny * 1.5
-        ax, ay = ox + ux * r, oy + uy * r
-        bx, by = ox - ux * r, oy - uy * r
-        sweep = 1 if side > 0 else 0
-        f.path(f"M{ax:.1f} {ay:.1f} A{r} {r} 0 0 {sweep} {bx:.1f} {by:.1f} Z", fill="fg")
-    f.line(cx + ux * (r + 3), cy + uy * (r + 3), cx - ux * (r + 3), cy - uy * (r + 3), "loss", sw=2)
+    a = math.radians(angle_deg)
+    ux, uy = math.cos(a), math.sin(a)
+    jx, jy = cx + ux * r * 1.12, cy + uy * r * 1.12  # the jaw's centre, just outside the rim
+    jr = r * 0.62
+
+    def jaw(x, y, toward):
+        # a C open in the direction toward
+        p0 = (x + jr * math.cos(toward + 0.9), y + jr * math.sin(toward + 0.9))
+        p1 = (x + jr * math.cos(toward - 0.9), y + jr * math.sin(toward - 0.9))
+        f.path(f"M{p0[0]:.1f} {p0[1]:.1f} A{jr:.1f} {jr:.1f} 0 1 1 {p1[0]:.1f} {p1[1]:.1f}", stroke=ink, sw=7)
+
+    jaw(jx, jy, a + math.pi)
+    far = r * 3.6
+    kx, ky = jx + ux * far, jy + uy * far
+    h0 = (jx + ux * jr, jy + uy * jr)
+    h1 = (kx - ux * jr, ky - uy * jr)
+    f.line(h0[0], h0[1], h1[0], h1[1], ink, sw=9)
+    jaw(kx, ky, a)  # the wrench's other end, open away
 
 
-def archive(f: Fig, x, y, n=3, missing=None, mark=None, geo=(4, 3, CELL, GAP, SPAD), sgap=14, broken=False, seal_r=12):
-    """n sheets in one outline with a seal on its top-right corner. Returns (width, height)."""
-    sw_, sh_ = sheet_size(*geo)
-    m = 12
-    w = 2 * m + n * sw_ + (n - 1) * sgap
-    h = 2 * m + sh_
-    f.rect(x, y, w, h, stroke="rule", rx=10, sw=2)
-    for i in range(n):
-        sheet(f, x + m + i * (sw_ + sgap), y + m, *geo, state="missing" if missing == i else "present",
-              mark=mark[1] if mark and mark[0] == i else None)
-    seal(f, x + w - 2, y + 2, r=seal_r, broken=broken)
-    return w, h
-
-
-def archive_size(n=3, geo=(4, 3, CELL, GAP, SPAD), sgap=14):
-    sw_, sh_ = sheet_size(*geo)
-    return 24 + n * sw_ + (n - 1) * sgap, 24 + sh_
-
-
-def lens(f: Fig, cx, cy, r=20, stroke="accent", found=None):
-    """The verifier: a magnifying lens on the route, handle down-right. found draws what it caught inside
-    the glass and turns the rim to loss ink: "hole" is the missing sheet's dashed dog-eared outline."""
-    rim = "loss" if found else stroke
-    f.line(cx + r * 0.72, cy + r * 0.72, cx + r * 1.5, cy + r * 1.5, rim, sw=6)
-    f.circle(cx, cy, r, fill="card", stroke=rim, sw=4)
-    if found == "hole":
-        hw, hh = r * 0.76, r * 0.96
-        f.path(_eared(cx - hw / 2, cy - hh / 2, hw, hh, hw / 3), stroke="loss", sw=2.5, dash="4 3")
-    return cx + r
-
-
-def receipt(f: Fig, x, cy, h=48):
-    """A kept record of a verdict: a dog-eared slip (tile fill, rule outline) with two lines of text
-    strokes and a check in its lower half."""
-    w = round(h * 0.78, 1)
-    ear = h * 0.26
+def slip(f: Fig, x, cy, h, glyph, gink="fg", ink="rule", stamp=0):
+    """What a verifier prints: a till receipt with its left edge at x, centred on cy, a straight top and a
+    torn zigzag foot, two printed lines and the verdict glyph. stamp=1 or 2 prints the small lens of the
+    verifier version that made it (a later version carries a second ring), so the record says who read it.
+    Returns the right edge."""
+    w = round(h * 0.74, 1)
     y = cy - h / 2
-    f.path(_eared(x, y, w, h, ear), fill="tile", stroke="rule", sw=2)
-    f.path(f"M{x + w - ear:.1f} {y:.1f} L{x + w - ear:.1f} {y + ear:.1f} L{x + w:.1f} {y + ear:.1f}", stroke="rule", sw=2)
-    for k, right in ((0, w - ear - 4), (1, w - 6)):
-        f.line(x + 6, y + ear * 0.55 + 4 + k * 8, x + right, y + ear * 0.55 + 4 + k * 8, "rule", sw=2.5)
-    g = w * 0.5
-    f.glyph("check", x + (w - g) / 2, y + h - g - 4, g, "fg", sw=2.5)
+    teeth = 4
+    tw = w / teeth
+    foot = " ".join(
+        f"L{x + w - (k + 0.5) * tw:.1f} {y + h - 6:.1f} L{x + w - (k + 1) * tw:.1f} {y + h:.1f}"
+        for k in range(teeth)
+    )
+    f.path(
+        f"M{x:.1f} {y:.1f} L{x + w:.1f} {y:.1f} L{x + w:.1f} {y + h:.1f} {foot} Z",
+        fill="tile",
+        stroke=ink,
+        sw=2.5,
+    )
+    if stamp:
+        sr = 5.5
+        scx, scy = x + 7 + sr, y + 13
+        f.circle(scx, scy, sr, stroke="accent", sw=2.5)
+        if stamp > 1:
+            f.circle(scx, scy, sr + 3.5, stroke="accent", sw=2)
+        f.line(scx + sr * 0.7, scy + sr * 0.7, scx + sr * 1.7, scy + sr * 1.7, "accent", sw=2.5)
+        f.line(scx + sr + 8, y + 12, x + w - 7, y + 12, "rule", sw=2.5)
+    else:
+        for k, right in ((0, w - 7), (1, w * 0.6)):
+            f.line(x + 7, y + 9 + k * 7, x + right, y + 9 + k * 7, "rule", sw=2.5)
+    g = w * 0.62
+    f.glyph(
+        glyph,
+        x + (w - g) / 2,
+        y + 22 + (h - 28 - g) / 2,
+        g,
+        gink,
+        sw=max(3.0, g * 0.13),
+    )
     return x + w
 
 
+def folder_back(f: Fig, x, y, w, h, ink="rule"):
+    """Where records are kept: an open file folder seen from the front, x, y its back panel's top-left (under
+    the tab), w by h. Draw its back with this call, then what it holds, then folder_front, so the front flap
+    covers the lower part of what stands in it."""
+    tw, th = w * 0.42, 20
+    f.path(
+        f"M{x:.1f} {y + h:.1f} L{x:.1f} {y + 5:.1f} Q{x:.1f} {y:.1f} {x + 5:.1f} {y:.1f} "
+        f"L{x + 8:.1f} {y:.1f} L{x + 14:.1f} {y - th:.1f} L{x + tw:.1f} {y - th:.1f} L{x + tw + 6:.1f} {y:.1f} "
+        f"L{x + w - 5:.1f} {y:.1f} Q{x + w:.1f} {y:.1f} {x + w:.1f} {y + 5:.1f} L{x + w:.1f} {y + h:.1f} Z",
+        fill="tile",
+        stroke=ink,
+        sw=2.5,
+    )
+
+
+def folder_front(f: Fig, x, y, w, h, flap, ink="rule"):
+    """The folder's front flap: the lower `flap` of the back panel at (x, y, w, h), drawn over what it holds."""
+    f.rect(x - 3, y + h - flap, w + 6, flap, fill="tile", stroke=ink, rx=5, sw=2.5)
+
+
+def thought(f: Fig, cx, cy, w, h, toward, ink="fg"):
+    """A thought cloud centred on (cx, cy), w by h, with a trail of shrinking bubbles running to the point
+    toward (the thinker). What is drawn inside it after this call is what the thinker believes."""
+    import math
+
+    n = 9
+    pts = []
+    for k in range(n):
+        a = 2 * math.pi * k / n
+        pts.append((cx + w / 2 * math.cos(a), cy + h / 2 * math.sin(a)))
+    d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f} "
+    bump = min(w, h) * 0.26
+    for k in range(n):
+        p0, p1 = pts[k], pts[(k + 1) % n]
+        d += f"A{bump:.1f} {bump:.1f} 0 0 1 {p1[0]:.1f} {p1[1]:.1f} "
+    f.path(d + "Z", fill="tile", stroke=ink, sw=2.5)
+    tx, ty = toward
+    dx, dy = tx - cx, ty - cy
+    dist = math.hypot(dx, dy)
+    a = math.atan2(dy, dx)
+    edge = math.hypot(w / 2 * math.cos(a), h / 2 * math.sin(a)) + bump * 0.35
+    for k, rr in enumerate((6, 4.5, 3)):
+        t = (edge + (dist - edge) * (0.2 + 0.32 * k)) / dist
+        f.circle(cx + dx * t, cy + dy * t, rr, fill="tile", stroke=ink, sw=2)
+
+
+def eye(f: Fig, cx, cy, r=18, ink="fg"):
+    """A reader that only looks: an open eye, an almond outline round a solid iris."""
+    f.path(
+        f"M{cx - r:.1f} {cy:.1f} Q{cx:.1f} {cy - r * 1.05:.1f} {cx + r:.1f} {cy:.1f} Q{cx:.1f} {cy + r * 1.05:.1f} {cx - r:.1f} {cy:.1f} Z",
+        fill="tile",
+        stroke=ink,
+        sw=3,
+    )
+    f.circle(cx, cy, r * 0.36, fill=ink)
+
+
 def arrow(f: Fig, x, y, ink="accent", size=9, direction="right"):
-    """A solid arrowhead with its tip at (x, y), pointing right or down."""
-    if direction == "right":
+    """A solid arrowhead with its tip at (x, y), pointing right, left, up or down."""
+    if direction == "left":
+        d = f"M{x:.1f} {y:.1f} L{x + size * 1.2:.1f} {y - size * 0.75:.1f} L{x + size * 1.2:.1f} {y + size * 0.75:.1f} Z"
+    elif direction == "right":
         d = f"M{x:.1f} {y:.1f} L{x - size * 1.2:.1f} {y - size * 0.75:.1f} L{x - size * 1.2:.1f} {y + size * 0.75:.1f} Z"
+    elif direction == "up":
+        d = f"M{x:.1f} {y:.1f} L{x - size * 0.75:.1f} {y + size * 1.2:.1f} L{x + size * 0.75:.1f} {y + size * 1.2:.1f} Z"
     else:
         d = f"M{x:.1f} {y:.1f} L{x - size * 0.75:.1f} {y - size * 1.2:.1f} L{x + size * 0.75:.1f} {y - size * 1.2:.1f} Z"
     f.path(d, fill=ink, stroke=ink, sw=1)
-
-
-def strike(f: Fig, x, y, r=7):
-    """Where a fault strikes the route: a loss-ink dot ringed in the card colour."""
-    f.circle(x, y, r + 3, fill="card")
-    f.circle(x, y, r, fill="loss")

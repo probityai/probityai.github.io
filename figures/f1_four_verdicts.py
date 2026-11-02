@@ -1,11 +1,20 @@
-"""F1 Four verdicts: one sealed archive travels to the verifier; each fault is drawn where it strikes
-(RULING section 9).
+"""F1 Four verdicts: one sealed archive, checked four ways, and what the verifier prints each time.
 
-One route carries the archive left to right (top to bottom in the narrow layout) through the verifier's
-lens to its verdict: verified, exit 0. A changed byte and a missing artifact strike the archive on its
-way to the verifier; each strike drops to the archive as it then arrives and to the verdict the verifier
-prints for it. The changed verifier strikes at the lens: the old lens (rule ink) and the changed one
-(accent) each read the archive and each keeps a receipt. Words and exit codes come from data/four-arms.toml.
+Two panels, one above the other, divided by a thin rule.
+Panel 1 (arms 1 to 3 of demo/four-arms.sh): the archive, an archive box of three files with a padlock over
+their digest, fans into three rows. Each row reads left to right: the archive as the verifier gets it, the
+verifier's lens (blue, its glass ground with one bar), and the receipt it prints with the verdict glyph.
+Loss ink is only for damage: in row 2 the changed byte is one byte cell in loss ink, larger than its
+neighbours, a thin arrow in the same ink arcs from it to the padlock's shackle, which springs open, and the
+receipt's cross takes it too. In row 3 the missing file is a dark dashed empty
+place, so not-established never reads as failed.
+Panel 2 (arm 4) uses the same grammar: the same archive fans into two readings, the upper by the version 1
+lens, the lower by the version 2 lens (the same instrument made stronger, as the stricter verifier is), and
+in the wide layout a copy of the archive stands on each route before its lens, as on each row above. Each
+reading's route runs into one open file folder, and both receipts stand in it, torn feet showing over its low
+front flap: kept together. Each receipt carries the small lens of the version that printed it. Each lens has
+the verifier id its record carries printed beside it.
+Words and exit codes come from data/four-arms.toml; the row captions are the alt text, not words on the picture.
 """
 
 from __future__ import annotations
@@ -17,149 +26,191 @@ import figkit as fk
 
 HERE = Path(__file__).resolve().parent
 NAME = "f1-four-verdicts"
-REV = 1
+REV = 3
 ARMS = tomllib.loads((HERE / "data/four-arms.toml").read_text())["arm"]
-INTACT, BYTE, MISSING, CHANGED = ARMS
 TITLE = "Four verdicts from one evidence archive"
-DESC = (
-    "A sealed archive of three files travels to a verifier. Intact, it is verified, exit 0. A byte changed "
-    "on the way breaks the seal: failed, exit 2. A required file lost on the way: not-established, exit 3. "
-    "A changed verifier: the old and the changed verifier both read the archive and both say verified, "
-    "exit 0, and both receipts are kept."
+# the alt text: each row's caption with what the verifier prints for it, from data/four-arms.toml
+DESC = " ".join(
+    ["One sealed archive of three files, checked four ways."]
+    + [f"{a['caption']}: {a['verdict']}, exit {a['exit']}." for a in ARMS[:3]]
+    + [
+        f"Below: the same archive is read by verifier {ARMS[3]['verifier_ids'][0]} and by the changed verifier "
+        f"{ARMS[3]['verifier_ids'][1]}. Both print {ARMS[3]['verdict']}, exit {ARMS[3]['exit']}, and both "
+        "receipts are kept in one folder."
+    ]
 )
+INK = {
+    "check": "fg",
+    "cross": "loss",
+    "query": "fg",
+}  # the cross takes the changed byte's ink: that byte is why the verifier refused
+STATE = (
+    {},
+    {"mark": (1, (1, 0)), "broken": True, "mark_k": 1.1},
+    {"missing": 1, "loud": True},
+)
+LR, SH = 20, 62  # lens radius, receipt height
 
 
-def _verdict(f, arm, x, cy, gsize, exit_inline=True):
-    """Glyph, verdict word and exit code with the glyph's centre at (x + gsize/2, cy). Returns the right edge."""
+def _verdict(f: fk.Fig, arm, x, cy, stacked: bool) -> float:
+    """The verdict word and exit code as the verifier prints them, from x, centred on cy. Returns the right edge."""
     sz = f.text_size
-    f.glyph(arm["glyph"], x - gsize * 0.12, cy - gsize / 2, gsize, "fg")   # the glyph box pads its stroke
-    base = cy + fk.cap_height(sz, "sans", 600) / 2
-    wx = x + gsize + 12
-    f.text(wx, base, arm["verdict"], "fg", "sans", 600)
+    cap = fk.cap_height(sz, "mono", 500)
     ex = f"exit {arm['exit']}"
-    if exit_inline:
-        ex_x = wx + fk.text_width(arm["verdict"], sz, "sans", 600) + 14
-        f.text(ex_x, base, ex, "muted", "mono", 500)
-        return ex_x + fk.text_width(ex, sz, "mono", 500)
-    f.text(wx, base + sz * 1.3, ex, "muted", "mono", 500)
-    return wx + fk.text_width(arm["verdict"], sz, "sans", 600)
+    if stacked:
+        f.text(x, cy - sz * 0.2, arm["verdict"], "fg", "mono", 500)
+        f.text(x, cy - sz * 0.2 + sz * 1.2, ex, "muted", "mono", 500)
+        return x + fk.text_width(arm["verdict"], sz, "mono", 500)
+    f.text(x, cy + cap / 2, arm["verdict"], "fg", "mono", 500)
+    ex_x = x + fk.text_width(arm["verdict"] + " ", sz, "mono", 500)
+    f.text(ex_x, cy + cap / 2, ex, "muted", "mono", 500)
+    return ex_x + fk.text_width(ex, sz, "mono", 500)
 
 
-def _verdict_width(f, arm, gsize):
+def _read(f: fk.Fig, x, cy, bars, lr=LR, version=0) -> float:
+    """The route from an archive's right edge x through a lens with `bars` glass to a receipt's arrow tip.
+    Returns the x where the receipt's left edge goes."""
+    lx = x + 30 + lr
+    sx = lx + lr * 1.6 + 24
+    f.line(x + 6, cy, lx - lr * (1.3 if version > 1 else 1.0) - 2, cy, "accent", sw=3)
+    rim = lr * (1.3 if version > 1 else 1.0)  # a later version is drawn larger (fk.lens_version)
+    if version:
+        fk.lens_version(f, lx, cy, lr, version)
+    else:
+        fk.lens(f, lx, cy, lr, bars=bars)
+    f.line(lx + rim + 2, cy, sx - 12, cy, "accent", sw=3)
+    fk.arrow(f, sx - 4, cy, size=7)
+    return sx
+
+
+def _row(f: fk.Fig, k, bx, cy, geo, sgap, stacked, lr=LR, sh=SH) -> float:
+    """Panel 1: one archive at bx centred on cy, read by the verifier, which prints a receipt. Returns the right edge."""
+    arm = ARMS[k]
+    bw, bh = fk.box_size(3, geo, sgap)
+    fk.box(f, bx, cy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8, **STATE[k])
+    sx = _read(f, bx + bw, cy, 0, lr, version=1)
+    fk.slip(f, sx, cy, sh, arm["glyph"], INK[arm["glyph"]])
+    return _verdict(f, arm, sx + round(sh * 0.74, 1) + 26, cy, stacked)
+
+
+def _pair(f: Fig, x0, cy, geo, sgap, pitch, lr=LR, fan=96, ids="right", copies=False) -> float:
+    """Panel 2: one archive at x0 centred on cy fans, as in panel 1, into two readings: the version 1 lens on
+    the upper row, the version 2 lens (the same instrument made stronger) on the lower row. Both routes run
+    into one open file folder, and both receipts stand in it. The verifier id each reading's record carries
+    (product text from data/four-arms.toml) is printed above the upper lens and below the lower one; where
+    the line is too short (ids="outside") the ids start at the archive and the folder sits at the right edge.
+    Returns the lowest y drawn."""
+    bw, bh = fk.box_size(3, geo, sgap)
+    rw = round(SH * 0.74, 1)
+    fk.box(f, x0, cy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8)
+    rows = (cy - pitch / 2, cy + pitch / 2)
+    rx = x0 + bw + fan
+    fx = x0 + bw + 10
+    for ry in rows:
+        f.path(
+            f"M{fx:.1f} {cy:.1f} C{fx + 50:.1f} {cy:.1f} {rx - 70:.1f} {ry:.1f} {rx - 16:.1f} {ry:.1f}",
+            stroke="rule",
+            sw=2.5,
+        )
+        fk.arrow(f, rx - 6, ry, "rule", size=7)
+    ends = []
+    for k, ry in enumerate(rows):
+        if copies:
+            fk.box(f, rx, ry - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=lr * 0.8)
+            ends.append(_read(f, rx + bw, ry, 0, lr, version=k + 1))
+        else:
+            f.line(rx - 4, ry, rx + 6, ry, "accent", sw=3)
+            ends.append(_read(f, rx, ry, 0, lr, version=k + 1))
+    # the receipts' place: one open folder; both routes run into it and both receipts stand in it
+    sh2 = SH + 10
+    rw = round(sh2 * 0.74, 1)
+    g = 12
+    fw = 2 * rw + 3 * g
+    px = max(ends) + 34
+    if ids == "outside":
+        px = f.width - fk.PAD - fw - 6
+    top = cy - sh2 / 2
+    fh = sh2 + 18
+    for e, ry, ty in zip(ends, rows, (cy - 12, cy + 12)):
+        x1 = px - 12
+        f.path(
+            f"M{e - 12:.1f} {ry:.1f} C{(e + x1) / 2:.1f} {ry:.1f} {(e + x1) / 2:.1f} {ty:.1f} {x1:.1f} {ty:.1f}",
+            stroke="accent",
+            sw=3,
+        )
+        fk.arrow(f, px - 4, ty, size=7)
+    fk.folder_back(f, px, top - 8, fw, fh)
+    # both receipts stand in the folder raised so their torn feet show over the low front flap: printed
+    # receipts, the same as the ones the panel above prints, not plain pages
+    lift = 10
+    for k in range(2):
+        fk.slip(f, px + g + k * (rw + g), cy - lift, sh2, "check", "fg", stamp=k + 1)
+    fk.folder_front(f, px, top - 8, fw, fh, lift + 11)  # its top edge sits just over the receipts' feet
+    # the verifier id each reading's record carries, by its own lens: above the upper, below the lower
     sz = f.text_size
-    return gsize + 12 + fk.text_width(arm["verdict"], sz, "sans", 600) + 14 + fk.text_width(f"exit {arm['exit']}", sz, "mono", 500)
-
-
-def _two_readers(f, x, cy, r, dy, rh):
-    """The changed-verifier picture: the old lens (rule) above the changed lens (accent), each followed by
-    its receipt. x is the left edge; returns the right edge."""
-    right = x
-    for sgn, ink in ((-1, "rule"), (1, "accent")):
-        y = cy + sgn * dy
-        lx = x + r
-        fk.lens(f, lx, y, r, stroke=ink)
-        right = fk.receipt(f, lx + r * 1.5 + 18, y, h=rh)
-    return right
+    cap = fk.cap_height(sz, "mono", 500)
+    v1, v2 = ARMS[3]["verifier_ids"]
+    tx = x0 if ids == "outside" else (rx + bw + 6 if copies else rx - 4)
+    y1 = rows[0] - lr * 1.3 - 16
+    y2 = rows[1] + lr * 1.3 + 16 + cap
+    f.text(tx, y1, v1, "fg", "mono", 500)
+    f.text(tx, y2, v2, "fg", "mono", 500)
+    for vid in (v1, v2):
+        assert tx + fk.text_width(vid, sz, "mono", 500) <= f.width - fk.PAD, vid
+    low = max(y2 + sz * 0.3, top - 8 + fh) + 20
+    return low
 
 
 def wide() -> fk.Fig:
     W, pad = 1280, fk.PAD
-    geo, sgap = (3, 3, 10, 4, 9), 12
-    aw, ah = fk.archive_size(3, geo, sgap)
-    f = fk.Fig(NAME, "wide", W, 446, TITLE, DESC)
-    sz = f.text_size
-    gs = 34
-    # the route: archive -> strikes -> lens -> verdict
-    ty = 30 + ah / 2 + 14
-    ax, ay = pad, ty - ah / 2
-    vw = _verdict_width(f, INTACT, gs)
-    vx = W - pad - vw
-    lr = 22
-    lx = vx - 30 - lr * 1.6
-    f.line(ax + aw, ty, lx - lr, ty, "accent", sw=3)
-    fk.lens(f, lx, ty, lr)
-    f.line(lx + lr, ty, vx - 22, ty, "accent", sw=3)
-    fk.arrow(f, vx - 12, ty)
-    fk.archive(f, ax, ay, geo=geo, sgap=sgap, seal_r=16)
-    f.text(vx + gs + 12, ty - 30, INTACT["caption"], "fg")
-    _verdict(f, INTACT, vx, ty, gs)
-    # three columns below; each strike drops to its column
-    colw = (W - 2 * pad - 2 * 28) / 3
-    cols = [pad + k * (colw + 28) for k in range(3)]
-    pic_y = ty + ah / 2 + 86
-    bus = ty + ah / 2 + 42
-    rr, rdy = 18, 30
-    pics = [cols[0] + aw / 2, cols[1] + aw / 2, cols[2] + rr]
-    strikes = [ax + aw + 70, cols[1] + aw / 2, lx]
-    for k in range(3):
-        sx, px = strikes[k], pics[k]
-        top = pic_y - 16 if k < 2 else pic_y + ah / 2 - rdy - rr - 6
-        y0 = ty + (lr + 10 if k == 2 else 0)
-        if abs(sx - px) < 1:
-            d = f"M{sx:.1f} {y0:.1f} L{px:.1f} {top:.1f}"
-        else:
-            d = f"M{sx:.1f} {y0:.1f} L{sx:.1f} {bus - 10:.1f} Q{sx:.1f} {bus:.1f} {sx + (10 if px > sx else -10):.1f} {bus:.1f} " \
-                f"L{px + (-10 if px > sx else 10):.1f} {bus:.1f} Q{px:.1f} {bus:.1f} {px:.1f} {bus + 10:.1f} L{px:.1f} {top:.1f}"
-        f.path(d, stroke="loss", sw=2.5, dash="6 6")
-    for sx in strikes[:2]:
-        fk.strike(f, sx, ty)
-    fk.strike(f, lx, ty + lr + 10, r=6)
-    # the archive as it arrives after each transit fault
-    fk.archive(f, cols[0], pic_y, mark=(1, (1, 1)), geo=geo, sgap=sgap, broken=True, seal_r=16)
-    fk.archive(f, cols[1], pic_y, missing=1, geo=geo, sgap=sgap, seal_r=16)
-    _two_readers(f, cols[2], pic_y + ah / 2, rr, rdy, 48)
-    cap_y = pic_y + ah + 44
-    for k, arm in enumerate((BYTE, MISSING, CHANGED)):
-        f.text(cols[k], cap_y, arm["caption"], "fg")
-        _verdict(f, arm, cols[k], cap_y + 40, gs)
-        assert cols[k] + _verdict_width(f, arm, gs) <= cols[k] + colw, arm
+    geo, sgap = (3, 3, 11, 4, 10), 10
+    bw, bh = fk.box_size(3, geo, sgap)
+    f = fk.Fig(NAME, "wide", W, 0, TITLE, DESC)
+    pitch = bh + 40
+    c0 = 30 + bh / 2
+    centres = [c0, c0 + pitch, c0 + 2 * pitch]
+    sy = centres[1]
+    fk.box(f, pad, sy - bh / 2 + 6, geo=geo, sgap=sgap, lock_r=16)
+    rx = pad + bw + 96
+    fx = pad + bw + 10
+    for cy in centres:
+        f.path(
+            f"M{fx:.1f} {sy:.1f} C{fx + 50:.1f} {sy:.1f} {rx - 70:.1f} {cy:.1f} {rx - 16:.1f} {cy:.1f}",
+            stroke="rule",
+            sw=2.5,
+        )
+        fk.arrow(f, rx - 6, cy, "rule", size=7)
+    for k, cy in enumerate(centres):
+        right = _row(f, k, rx, cy, geo, sgap, False)
+        assert right <= W - pad, (k, right)
+    rule_y = centres[-1] + bh / 2 + 30
+    f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
+    pitch2 = SH + 40
+    c2 = rule_y + 30 + pitch2 / 2 + SH / 2 + 14
+    pitch2 = max(pitch2, bh + 30)
+    low = _pair(f, pad, c2, geo, sgap, pitch2, fan=96, copies=True)
+    f.height = round(low + 24)
     return f
 
 
 def narrow() -> fk.Fig:
     W, pad = 720, fk.PAD
-    geo, sgap = (3, 3, 12, 5, 10), 12
-    aw, ah = fk.archive_size(3, geo, sgap)
-    gs = 40
-    blk = ah + 160
-    H = 44 + ah + 50 + 3 * blk + 216
-    f = fk.Fig(NAME, "narrow", W, H, TITLE, DESC)
-    sz = f.text_size
-    sx = pad + 34                     # the spine
-    ay = 44
-    cx = sx + 72                      # left edge of every block
-    y = ay + ah + 50                  # top of the first block
-    lr = 26
-    blocks = []
-    for k in range(3):
-        blocks.append(y)
-        y += blk
-    ly = blocks[2] + ah / 2           # the lens sits beside the changed-verifier picture
-    end_y = y + 150                   # the intact verdict's centre line
-    f.path(f"M{sx:.1f} {ay + ah:.1f} L{sx:.1f} {ly - lr:.1f}", stroke="accent", sw=3)
-    f.path(f"M{sx:.1f} {ly + lr:.1f} L{sx:.1f} {end_y - 14:.1f} Q{sx:.1f} {end_y:.1f} {sx + 14:.1f} {end_y:.1f} L{cx - 24:.1f} {end_y:.1f}",
-           stroke="accent", sw=3)
-    fk.arrow(f, cx - 12, end_y, size=11)
-    fk.archive(f, pad, ay, geo=geo, sgap=sgap, seal_r=20)
-    # transit faults: strike on the spine, drop right to the archive as it arrives
-    for k, kw in enumerate(({"mark": (1, (1, 1)), "broken": True}, {"missing": 1})):
-        by = blocks[k]
-        cy = by + ah / 2
-        f.line(sx, cy, cx - 10, cy, "loss", sw=2.5, dash="6 6")
-        fk.strike(f, sx, cy)
-        fk.archive(f, cx, by, geo=geo, sgap=sgap, seal_r=20, **kw)
-    # the changed verifier strikes at the lens
-    fk.lens(f, sx, ly, lr)
-    f.line(sx + lr + 12, ly, cx - 10, ly, "loss", sw=2.5, dash="6 6")
-    fk.strike(f, sx + lr + 12, ly, r=6)
-    _two_readers(f, cx, ly, 22, 38, 58)
-    for k, arm in enumerate((BYTE, MISSING, CHANGED)):
-        cap = blocks[k] + ah + (52 if k < 2 else 74)   # the receipts reach lower than an archive
-        f.text(cx, cap, arm["caption"], "fg")
-        _verdict(f, arm, cx, cap + 50, gs)
-        assert cx + _verdict_width(f, arm, gs) <= W - pad, arm
-    f.text(cx, end_y - 44, INTACT["caption"], "fg")
-    _verdict(f, INTACT, cx, end_y, gs)
+    geo, sgap = (3, 3, 9, 4, 8), 8
+    bw, bh = fk.box_size(3, geo, sgap)
+    f = fk.Fig(NAME, "narrow", W, 0, TITLE, DESC)
+    pitch = max(bh, 2 * f.text_size * 1.3) + 46
+    c0 = 30 + bh / 2
+    centres = [c0, c0 + pitch, c0 + 2 * pitch]
+    for k, cy in enumerate(centres):
+        right = _row(f, k, pad, cy, geo, sgap, True, 18, 58)
+        assert right <= W - pad, (k, right)
+    rule_y = centres[-1] + bh / 2 + 30
+    f.line(pad, rule_y, W - pad, rule_y, "rule", sw=1.5)
+    # panel 2: the same archive fans into the version 1 and version 2 readings, one folder keeps both
+    pitch2 = bh + 2 * f.text_size + 40
+    c2 = rule_y + 30 + f.text_size + 18 + 18 * 1.3 + pitch2 / 2
+    low = _pair(f, pad, c2, geo, sgap, pitch2, 18, fan=70, ids="outside")
+    f.height = round(low + 24)
     return f
 
 

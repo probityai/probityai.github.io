@@ -18,13 +18,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import figkit as fk  # noqa: E402
+import figkit as fk
 
 MODULES = ("f1_four_verdicts", "f3_missing_not_clean")
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Build the current revision of every figure.")
+    ap = argparse.ArgumentParser(
+        description="Build the current revision of every figure."
+    )
     ap.add_argument("--out", type=Path, default=HERE)
     args = ap.parse_args()
     for name in MODULES:
