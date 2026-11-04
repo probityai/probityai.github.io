@@ -106,3 +106,17 @@ class WaitForIdle(unittest.TestCase):
         clock = Clock()
         with self.assertRaisesRegex(mod.BuildError, "still in flight"):
             mod.wait_for_idle(reader([list(RUNNING)]), clock.sleep, clock, 30.0, 10.0)
+
+
+class RootFilesTest(unittest.TestCase):
+    def test_root_files_and_the_key_file_are_checked_beside_the_served_dirs(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            tree = pathlib.Path(raw)
+            for name in ("robots.txt", "sitemap.xml", "0123456789abcdef0123456789abcdef.txt", "README.md"):
+                (tree / name).write_text("x")
+            for top in mod.SERVED_DIRS:
+                (tree / top).mkdir()
+            labels = [label for label, _, _ in mod.targets(tree, "")]
+        self.assertEqual(labels, ["0123456789abcdef0123456789abcdef.txt", "robots.txt", "sitemap.xml"])

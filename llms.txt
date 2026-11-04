@@ -1,0 +1,18 @@
+# Probity AI
+
+> Open tools, public conformance cases and replayable evidence for checking what agent evidence proves.
+
+## Guides for agents
+
+- [Atlas guide](https://probityai.github.io/agent-evidence-atlas/llms.txt): Tools grouped by task, retained runs, claim ledger and pinned releases.
+- [Vectors guide](https://probityai.github.io/agent-evidence-vectors/llms.txt): Saved records with known outcomes for testing an agent-evidence verifier.
+
+## Persistent identifiers
+
+- [Predicate types and vocabulary](https://w3id.org/agent-evidence/): Stable URLs for the predicate types and vocabulary terms that records carry.
+
+## Source
+
+- [Organization](https://github.com/probityai): Repositories, releases and issues.
+- [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors): The conformance corpora, the harness and the GitHub Action.
+- [probity](https://github.com/probityai/probity): The verifier, the observer and the MCP server.
