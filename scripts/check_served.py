@@ -28,6 +28,7 @@ import hashlib
 import json
 import os
 import pathlib
+import re
 import sys
 import time
 import urllib.error
@@ -37,6 +38,10 @@ DESCRIPTION = "Check that GitHub Pages serves every published file with the byte
 HOST = "https://probityai.github.io"
 W3ID = "https://w3id.org/agent-evidence"
 SERVED_DIRS = ("agent-evidence-atlas", "agent-evidence")
+# Root files search engines and answer engines fetch: crawl rules, the sitemap and its ledger, the
+# agent guide, and the IndexNow key file (a 32-hex-digit name), which must serve its own key.
+ROOT_FILES = ("robots.txt", "sitemap.xml", "sitemap-ledger.json", "llms.txt")
+ROOT_KEY_FILE = re.compile(r"^[0-9a-f]{32}\.txt$")
 TRIES = 4
 API = "https://api.github.com"
 BUILD_DEADLINE = 600.0
@@ -171,6 +176,10 @@ def targets(tree: pathlib.Path, sync: str) -> list[tuple[str, str, str]]:
     """(label, url, expected sha256) for every served file and every w3id identifier."""
     out: list[tuple[str, str, str]] = []
     suffix = f"?sync={sync}" if sync else ""
+    for path in sorted(tree.iterdir()):
+        if path.is_file() and (path.name in ROOT_FILES or ROOT_KEY_FILE.match(path.name)):
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            out.append((path.name, f"{HOST}/{path.name}{suffix}", digest))
     for top in SERVED_DIRS:
         for path in sorted((tree / top).rglob("*")):
             if not path.is_file():

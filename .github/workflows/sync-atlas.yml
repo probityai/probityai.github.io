@@ -71,12 +71,20 @@ jobs:
           rsync -a pages/atlas/ atlas-src/
           rm -rf pages/atlas
           cd pages
-          git add -A
-          want_tree="$(git write-tree)"
           have_tree=""
+          prior="${RUNNER_TEMP}/prior-ledger.json"
           if git fetch --depth 1 origin pages-live; then
             have_tree="$(git rev-parse "FETCH_HEAD^{tree}")"
+            git show FETCH_HEAD:sitemap-ledger.json > "${prior}" 2>/dev/null || rm -f "${prior}"
           fi
+          # Dates each page by when its bytes last changed. The previous ledger comes from pages-live;
+          # the first run falls back to the seed committed on main.
+          prior_arg=()
+          if [ -s "${prior}" ]; then prior_arg=(--prior "${prior}"); fi
+          python3 scripts/sitemap.py --tree . "${prior_arg[@]}" --today "$(date -u +%F)" \
+            --changed-out "${RUNNER_TEMP}/changed-urls.txt"
+          git add -A
+          want_tree="$(git write-tree)"
           echo "combined tree ${want_tree}, pages-live tree ${have_tree:-none}"
           if [ "${want_tree}" = "${have_tree}" ]; then
             echo "changes=0" >> "$GITHUB_OUTPUT"
@@ -153,3 +161,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python3 pages/scripts/check_served.py --tree pages --sync "${published}" --repo "${{ github.repository }}"
+      - name: Tell IndexNow which pages changed
+        if: steps.diff.outputs.changes != '0'
+        env:
+          INDEXNOW_KEY: 847739edee69b30609e04164f4cd9877
+        run: |
+          set -euo pipefail
+          echo "https://probityai.github.io/sitemap.xml" >> "${RUNNER_TEMP}/changed-urls.txt"
+          python3 pages/scripts/indexnow.py --key "${INDEXNOW_KEY}" --urls-file "${RUNNER_TEMP}/changed-urls.txt" \
+            --receipt "${RUNNER_TEMP}/indexnow-receipt.json" | tee -a "${GITHUB_STEP_SUMMARY}"

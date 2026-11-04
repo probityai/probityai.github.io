@@ -1,0 +1,30 @@
+name: Submit the live sitemaps to IndexNow
+
+# Sends every URL of the two live sitemaps, plus the sitemap URLs themselves, to IndexNow. The
+# publish workflow already sends the pages that changed; run this by hand after a key change, after
+# a rate-limited publish, or to resubmit the whole site. The key file is public by design: the
+# script proves that https://probityai.github.io/<key>.txt serves the key before it sends anything.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    if: github.repository == 'probityai/probityai.github.io'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Submit both sitemaps
+        env:
+          INDEXNOW_KEY: 847739edee69b30609e04164f4cd9877
+        run: |
+          set -euo pipefail
+          python3 scripts/indexnow.py --key "${INDEXNOW_KEY}" \
+            --sitemap https://probityai.github.io/sitemap.xml \
+            --sitemap https://probityai.github.io/agent-evidence-vectors/sitemap.xml | tee -a "${GITHUB_STEP_SUMMARY}"
