@@ -9,15 +9,16 @@ python3 run_contract.py          # one line per case, then the comparison
 python3 -m unittest discover -s tests -v
 ```
 
-The output ends with `10/10 cases match expected.json`. Each line is a `case_id`, a classification
+The output ends with `11/11 cases match expected.json`. Each line is a `case_id`, a classification
 (`established`, `refused`, `not_established`, `invalid_input`) and the findings behind it.
 
-The three seams the corpus freezes:
+The four seams the corpus freezes:
 
 | Seam | Case pair | What a reader must not do |
 |---|---|---|
 | Missing evidence versus absent key | `S-05` (null) and `S-06` (key absent) | Treat an absent key as an empty read. `S-05` is `established`; `S-06` is `invalid_input`. |
 | A refusal versus an untouched store | `S-09` | Report `later_state_unchanged` because a decision denied. A denial is observable; an unwritten file is not. |
+| A dispatch versus a completed effect | `S-10` | Treat a dispatched attempt whose result is not `completed` as established. An interrupted result is `not_established` with `result_not_completed`. |
 | Semantic comparability versus provenance equivalence | `S-00`, `S-04` | Treat a row that is comparable to another project's case as the same evidence. Every case here is `provenance_equivalent: false`. |
 
 Version 0.1. The vectors are synthetic and were written for this contract; no producer verifier is run here,

@@ -636,6 +636,68 @@
       "attempt": null,
       "result": null,
       "later_observation": null
+    },
+    {
+      "case_id": "S-10",
+      "contract": "request-effect-join-fixture/v1",
+      "source": {
+        "producer_vector": null,
+        "frequency_row": "AR-01 to AR-04 (dispatch rows; nearest, not equivalent)",
+        "note": "The identical guardrail permits, the call is dispatched, and the terminal outcome is not completed. The situation is an interrupted refund: a committed effect whose completion was never recorded, so output_hash carries a sentinel rather than a committed output. Nothing is rewritten, so no covering decision is needed."
+      },
+      "approved": {
+        "ref": "sha256:7821927e8e64a2b7405f12317946044ce89139ab8e0064d3ec6fa28da28107b5",
+        "preimage": {
+          "actor_id": "svc-payments",
+          "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "scope": "transfer_funds:/work/acct-2.txt",
+          "ts_ms": 1791557046000,
+          "version": "request-effect-fixture-v1"
+        }
+      },
+      "effective": {
+        "ref": "sha256:7821927e8e64a2b7405f12317946044ce89139ab8e0064d3ec6fa28da28107b5",
+        "preimage": {
+          "actor_id": "svc-payments",
+          "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "scope": "transfer_funds:/work/acct-2.txt",
+          "ts_ms": 1791557046000,
+          "version": "request-effect-fixture-v1"
+        }
+      },
+      "decision": {
+        "ref": "sha256:7f1829c30d34a1aa3550444a856c4f949a777b03d3cff9e1da5006799ee4eec1",
+        "preimage": {
+          "action_ref": "sha256:7821927e8e64a2b7405f12317946044ce89139ab8e0064d3ec6fa28da28107b5",
+          "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+          "outcome": "permit",
+          "policy_id": "fixture-policy-A",
+          "ts_ms": 1791557046000,
+          "version": "request-effect-fixture-v1"
+        }
+      },
+      "covering_decision": null,
+      "attempt": {
+        "ref": "sha256:4e7c7239d61e7bbda8a8bcf16e8d5f20b61145d0616bf0b5f121e62e142cd026",
+        "preimage": {
+          "action_ref": "sha256:7821927e8e64a2b7405f12317946044ce89139ab8e0064d3ec6fa28da28107b5",
+          "attempt_seq": 1,
+          "executor_id": "fixture-dispatcher",
+          "ts_ms": 1791557046500,
+          "version": "request-effect-fixture-v1"
+        }
+      },
+      "result": {
+        "ref": "sha256:caa0b2f6415544a5d47aab8602bd9e62b31fdb1892cc6689db110ae10f4d6a93",
+        "preimage": {
+          "attempt_id": "sha256:4e7c7239d61e7bbda8a8bcf16e8d5f20b61145d0616bf0b5f121e62e142cd026",
+          "outcome": "interrupted",
+          "output_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "ts_ms": 1791557047000,
+          "version": "request-effect-fixture-v1"
+        }
+      },
+      "later_observation": null
     }
   ]
 }

@@ -143,6 +143,26 @@
         "semantic_comparable": false,
         "provenance_equivalent": false
       }
+    },
+    {
+      "case_id": "S-10",
+      "classification": "not_established",
+      "findings": [
+        "result_not_completed"
+      ],
+      "must_not_claim": [
+        "established",
+        "join_established",
+        "later_state_unchanged",
+        "store_mutation_not_established",
+        "refusal_observed"
+      ],
+      "equivalence": {
+        "producer_vector": null,
+        "frequency_row": null,
+        "semantic_comparable": false,
+        "provenance_equivalent": false
+      }
     }
   ]
 }

@@ -15,7 +15,7 @@ records the correspondence as a mapping and nothing more.
 
 | Field | Meaning in this fixture |
 |---|---|
-| `case_id` | `S-00` … `S-09`. The only identifier the expected file joins on. |
+| `case_id` | `S-00` … `S-10`. The only identifier the expected file joins on. |
 | `contract` | Always `request-effect-join-fixture/v1`. |
 | `source` | `producer_vector`, `frequency_row` and `note`. Free text; it carries no verdict. |
 | `approved` | The action ref the decision reviewed, with the preimage it recomputes from. |
@@ -119,7 +119,7 @@ is disagreeing with the case table, not with this contract.
 
 Run `python3 run_contract.py` in this directory. It prints one line per case and then the comparison against
 `expected.json`, exiting 0 when every case matches, 1 on a divergence and 2 when a manifest digest is stale.
-Report your reader's classifications and findings for all ten cases, the `native` code you mapped onto each finding,
+Report your reader's classifications and findings for all eleven cases, the `native` code you mapped onto each finding,
 and the count of divergences. A reader that reports additional findings has produced a divergence to report, not a
 pass with a note: the contract's contribution is that the set is comparable at all.
 

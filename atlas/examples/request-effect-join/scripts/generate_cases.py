@@ -132,7 +132,7 @@ def rewritten(case: dict) -> dict:
 
 
 def cases() -> list[dict]:
-    """Return the ten cases in the order the contract's table names them."""
+    """Return the eleven cases in the order the contract's table names them."""
     corpus: list[dict] = []
 
     corpus.append(joined(base("S-00", {
@@ -209,6 +209,17 @@ def cases() -> list[dict]:
         "note": "The decision denies, nothing is dispatched, and no later read is supplied.",
     })
     case["decision"] = decision(case["approved"]["ref"], "deny", T0)
+    corpus.append(case)
+
+    case = joined(base("S-10", {
+        "producer_vector": None,
+        "frequency_row": "AR-01 to AR-04 (dispatch rows; nearest, not equivalent)",
+        "note": "The identical guardrail permits, the call is dispatched, and the terminal outcome is "
+                "not completed. The situation is an interrupted refund: a committed effect whose "
+                "completion was never recorded, so output_hash carries a sentinel rather than a "
+                "committed output. Nothing is rewritten, so no covering decision is needed.",
+    }))
+    case["result"] = result(case["attempt"]["ref"], "sha256:" + "00" * 32, T2, "interrupted")
     corpus.append(case)
 
     return corpus
