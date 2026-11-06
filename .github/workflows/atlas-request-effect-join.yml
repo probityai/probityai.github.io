@@ -1,0 +1,81 @@
+# Runs the Atlas checks from atlas/ (moved from agent-evidence-vectors atlas/ on 2026-10-31).
+name: request-effect-join
+
+on:
+  push:
+    paths: ['atlas/**', '.github/workflows/atlas-request-effect-join.yml']
+    branches: [main]
+  pull_request:
+    paths: ['atlas/**', '.github/workflows/atlas-request-effect-join.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: atlas
+
+jobs:
+  contract-reader:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12.14"
+      # The fixtures are generated, never hand-edited: rebuild them and refuse any drift.
+      - name: Rebuild the corpus from its generator and refuse a stale fixture
+        working-directory: atlas/examples/request-effect-join
+        run: |
+          python scripts/generate_cases.py
+          git diff --exit-code -- fixtures expected.json
+      - name: Re-read the corpus against expected.json
+        working-directory: atlas/examples/request-effect-join
+        run: python run_contract.py | tee contract-run.txt
+      - name: Test the contract and its reference reader
+        working-directory: atlas/examples/request-effect-join
+        run: python tests/test_contract.py 2>&1 | tee contract-tests.txt
+      # A green job that read nothing is not evidence: require the tally and the test count.
+      - name: Refuse a failing, empty or unrelated run
+        working-directory: atlas/examples/request-effect-join
+        shell: python
+        run: |
+          import re
+          import sys
+          from pathlib import Path
+
+          reader = Path("contract-run.txt").read_text()
+          tests = Path("contract-tests.txt").read_text()
+          problems = []
+
+          tally = re.search(r"(\d+)/(\d+) cases match expected\.json", reader)
+          if tally is None:
+              problems.append("the reference reader printed no match tally")
+          else:
+              matched, total = int(tally[1]), int(tally[2])
+              if total < 10 or matched != total:
+                  problems.append(f"the reader matched {matched}/{total} cases")
+
+          count = re.search(r"Ran (\d+) tests", tests)
+          if count is None:
+              problems.append("the test run reported no count")
+          elif int(count[1]) < 22:
+              problems.append(f"only {count[1]} tests ran")
+
+          if re.search(r"^OK", tests, re.M) is None:
+              problems.append("the test run did not end OK")
+
+          if problems:
+              print("refused: " + "; ".join(problems))
+              sys.exit(1)
+          print(f"gate: {matched}/{total} cases, {count[1]} tests")
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: request-effect-join-contract
+          path: |
+            atlas/examples/request-effect-join/contract-run.txt
+            atlas/examples/request-effect-join/contract-tests.txt
