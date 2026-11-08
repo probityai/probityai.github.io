@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-A2A-EGRESS-UNATTESTED: Advisory inventory of a runtime A2A network egress observed with NO expected-egress allowlist declared. The OFF-GATE companion to RUNTIME-A2A-EGRESS-ALLOWLIST: where that detector is silent when no allowlist is supplied (nothing to conform against), this opt-in advisory inventories every observed non-infrastructure egress host as `unattested` so an operator can see what the agent contacts and seed an allowlist from the result. APS_COMPLETENESS normativity (advisory, never gates); the verdict is `unattested` (no allowlist was declared, so the toolkit cannot say whether the destination is in-scope), NEVER an authorization violation.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-A2A-EGRESS-UNATTESTED</code></h1>
+<p>Advisory inventory of a runtime A2A network egress observed with NO expected-egress allowlist declared. The OFF-GATE companion to RUNTIME-A2A-EGRESS-ALLOWLIST: where that detector is silent when no allowlist is supplied (nothing to conform against), this opt-in advisory inventories every observed non-infrastructure egress host as `unattested` so an operator can see what the agent contacts and seed an allowlist from the result. APS_COMPLETENESS normativity (advisory, never gates); the verdict is `unattested` (no allowlist was declared, so the toolkit cannot say whether the destination is in-scope), NEVER an authorization violation.</p>
+<div class="chips"><span>Security</span><span>severity INFO</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-A2A-EGRESS-UNATTESTED</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-918</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-A2A-EGRESS-UNATTESTED/</code></p>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CS-DELEGATED-SUBGRAPH: A delegation-event hop in a multi-hop A2A delegation DAG (a hop that declared it spawned a delegated task) declares a delegated sub-graph root that no hop in the ingested trace produced: the delegated sub-tree the check depends on is absent, so the composition-safety delegation check cannot soundly evaluate the delegated branch. A coverage-completeness gap (surfaced as a per-check notApplicable, never a silent clear) rather than a confirmed exploit: a masked delegated sub-tree may be a benign framework boundary or may mask a colluding delegator that withheld a child branch it spawned, so the missing delegated sub-graph is surfaced for investigation. The delegation twin of RUNTIME-CS-JOIN (a missing downstream sub-tree vs a missing upstream causal parent). The topology walk reads the delegator&#x27;s FORWARD delegated_task_ids declarations against the task_id set the chain produced. It deliberately does not key off upstream references: a whole-subtree mask erases the child, so nothing points back at it, and only the delegator&#x27;s surviving forward declaration can witness the mask.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CS-DELEGATED-SUBGRAPH</code></h1>
+<p>A delegation-event hop in a multi-hop A2A delegation DAG (a hop that declared it spawned a delegated task) declares a delegated sub-graph root that no hop in the ingested trace produced: the delegated sub-tree the check depends on is absent, so the composition-safety delegation check cannot soundly evaluate the delegated branch. A coverage-completeness gap (surfaced as a per-check notApplicable, never a silent clear) rather than a confirmed exploit: a masked delegated sub-tree may be a benign framework boundary or may mask a colluding delegator that withheld a child branch it spawned, so the missing delegated sub-graph is surfaced for investigation. The delegation twin of RUNTIME-CS-JOIN (a missing downstream sub-tree vs a missing upstream causal parent). The topology walk reads the delegator&#x27;s FORWARD delegated_task_ids declarations against the task_id set the chain produced. It deliberately does not key off upstream references: a whole-subtree mask erases the child, so nothing points back at it, and only the delegator&#x27;s surviving forward declaration can witness the mask.</p>
+<div class="chips"><span>Security</span><span>severity MEDIUM</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CS-DELEGATED-SUBGRAPH</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Identity, delegation and privilege abuse across agents</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI03:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-223 (sec: CWE-778)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CS-DELEGATED-SUBGRAPH/</code></p>
+
+</main>
+</body>
+</html>

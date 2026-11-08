@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-A2A-GRANT-CONFORMANCE: Runtime A2A network egress NONCONFORMING against a structured capability grant parsed off a real carrier — an RFC 9396 Rich Authorization Requests authorization_details body carried in the A2A AgentExtension.params / Message.metadata Struct. The Tier-2 parameter-bound WIRE-STANDARD slice of capability attestation: the observed egress host is checked against the grant&#x27;s own locations hosts (RFC 9396 §2.2), routed through the shared DefaultScopeLattice (one engine, reused). The RAR grant body is unsigned JSON, so the verdict is OBSERVE-ONLY conformance (nonconforming egress against a carrier-attested grant), NOT an authorization violation: an observe-only tester never sees the access-token signature, consent, or grant decision, so it cannot assert authorization.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-A2A-GRANT-CONFORMANCE</code></h1>
+<p>Runtime A2A network egress NONCONFORMING against a structured capability grant parsed off a real carrier — an RFC 9396 Rich Authorization Requests authorization_details body carried in the A2A AgentExtension.params / Message.metadata Struct. The Tier-2 parameter-bound WIRE-STANDARD slice of capability attestation: the observed egress host is checked against the grant&#x27;s own locations hosts (RFC 9396 §2.2), routed through the shared DefaultScopeLattice (one engine, reused). The RAR grant body is unsigned JSON, so the verdict is OBSERVE-ONLY conformance (nonconforming egress against a carrier-attested grant), NOT an authorization violation: an observe-only tester never sees the access-token signature, consent, or grant decision, so it cannot assert authorization.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-A2A-GRANT-CONFORMANCE</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-918</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>a2a-egress-outside-grant</code> (family <code>a2a-grant-conformance</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/201.html">CWE-201</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-A2A-GRANT-CONFORMANCE/</code></p>
+
+</main>
+</body>
+</html>

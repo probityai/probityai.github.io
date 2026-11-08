@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-A2A-CARD-IMPERSONATION: A Remote / Live target&#x27;s AgentCard cryptographically proves (proof-of-possession against the operator-pinned trust anchor) an identity that is not in the operator-declared expected_target_identities allow-set: a validly-signed card served for a target principal the operator never authorized (A2ASecBench AgentCard-Spoofing). Emitted inline from the scorecard security probe&#x27;s principal-binding evaluation; fires only when both a card trust anchor and an allow-set are configured and the proven identity falls outside it, so a card the operator never bound cannot launder its immunity onto an unauthorized target. Distinct from the STATIC-036 homoglyph heuristic and the CARD-SIGN signature-validity gate.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-A2A-CARD-IMPERSONATION</code></h1>
+<p>A Remote / Live target&#x27;s AgentCard cryptographically proves (proof-of-possession against the operator-pinned trust anchor) an identity that is not in the operator-declared expected_target_identities allow-set: a validly-signed card served for a target principal the operator never authorized (A2ASecBench AgentCard-Spoofing). Emitted inline from the scorecard security probe&#x27;s principal-binding evaluation; fires only when both a card trust anchor and an allow-set are configured and the proven identity falls outside it, so a card the operator never bound cannot launder its immunity onto an unauthorized target. Distinct from the STATIC-036 homoglyph heuristic and the CARD-SIGN signature-validity gate.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-A2A-CARD-IMPERSONATION</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool poisoning and impersonation</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">SAFE-T</th><td>SAFE-T1001</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP03:2025</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-290 (sec: CWE-345)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-A2A-CARD-IMPERSONATION/</code></p>
+
+</main>
+</body>
+</html>

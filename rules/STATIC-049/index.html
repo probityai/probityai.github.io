@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-049: Model file that can execute code on load or whose header is malformed: the opcode stream of a pickle, PyTorch or joblib file imports a process, code-evaluation, network or import callable (read opcode by opcode, never unpickled), or a SafeTensors or GGUF header does not describe the file</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-049</code></h1>
+<p>Model file that can execute code on load or whose header is malformed: the opcode stream of a pickle, PyTorch or joblib file imports a process, code-evaluation, network or import callable (read opcode by opcode, never unpickled), or a SafeTensors or GGUF header does not describe the file</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-049</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Supply chain and pinned-baseline drift</td></tr>
+<tr><th scope="row">Scanner</th><td>model-artifact</td></tr>
+<tr><th scope="row">SAFE-T</th><td>SAFE-T1002</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP04:2025</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-502 (sec: CWE-20)</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-049/</code></p>
+
+</main>
+</body>
+</html>

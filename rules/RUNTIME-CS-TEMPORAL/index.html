@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CS-TEMPORAL: A multi-hop A2A delegation chain exercised its root grant after the grant&#x27;s effective TTL had elapsed in transit: a provable expired-grant replay (temporal TOCTOU). The declared-TTL lattice check compares TTL values, so a token cached past its window verifies green there; the observed-timestamp check catches it. Skew-aware: an elapsed time inside the observed clock-skew band, or a downstream hop stamped before the root, is INDETERMINATE and surfaced as a per-check notApplicable rather than a false escalation. The mesh observer reads only the hop timestamps and the root-grant TTL off the chain; no live LLM.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CS-TEMPORAL</code></h1>
+<p>A multi-hop A2A delegation chain exercised its root grant after the grant&#x27;s effective TTL had elapsed in transit: a provable expired-grant replay (temporal TOCTOU). The declared-TTL lattice check compares TTL values, so a token cached past its window verifies green there; the observed-timestamp check catches it. Skew-aware: an elapsed time inside the observed clock-skew band, or a downstream hop stamped before the root, is INDETERMINATE and surfaced as a per-check notApplicable rather than a false escalation. The mesh observer reads only the hop timestamps and the root-grant TTL off the chain; no live LLM.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CS-TEMPORAL</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Identity, delegation and privilege abuse across agents</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI03:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-672 (sec: CWE-367)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mesh-temporal-expired-grant</code> (family <code>mesh-temporal</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/367.html">CWE-367</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CS-TEMPORAL/</code></p>
+
+</main>
+</body>
+</html>

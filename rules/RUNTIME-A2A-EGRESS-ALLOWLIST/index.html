@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-A2A-EGRESS-ALLOWLIST: Runtime A2A network egress to a host OUTSIDE the test-author-declared expected-egress allowlist (and outside the framework-infrastructure allowlist). The host-bound network PARAMETER conformance check that complements the capability-cloaking network LEVEL check: a declared network capability hijacked to an undeclared host reads as attenuated on the level axis but fails the parameter axis. Deterministic suffix-containment match (apex-excluding, Cilium toFQDNs semantics) at the observed NAME layer, reusing the SSRF host machinery; the IANA special-purpose IP-class deny is the separate SSRF pass. Observe-only conformance verdict (unattested egress against a declared allowlist), NOT an authorization violation. The Tier-1 fixture-attested slice of parameter-bound capability attestation.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-A2A-EGRESS-ALLOWLIST</code></h1>
+<p>Runtime A2A network egress to a host OUTSIDE the test-author-declared expected-egress allowlist (and outside the framework-infrastructure allowlist). The host-bound network PARAMETER conformance check that complements the capability-cloaking network LEVEL check: a declared network capability hijacked to an undeclared host reads as attenuated on the level axis but fails the parameter axis. Deterministic suffix-containment match (apex-excluding, Cilium toFQDNs semantics) at the observed NAME layer, reusing the SSRF host machinery; the IANA special-purpose IP-class deny is the separate SSRF pass. Observe-only conformance verdict (unattested egress against a declared allowlist), NOT an authorization violation. The Tier-1 fixture-attested slice of parameter-bound capability attestation.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-A2A-EGRESS-ALLOWLIST</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-918</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>a2a-egress-outside-allowlist</code> (family <code>a2a-egress-allowlist</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/201.html">CWE-201</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-A2A-EGRESS-ALLOWLIST/</code></p>
+
+</main>
+</body>
+</html>

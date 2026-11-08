@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CROSS-AGENT-TAINT-TAMPERED: An inbound cross-agent taint bundle was present on the A2A envelope but did not verify: forged or malformed (its MAC failed or the bundle was unparseable), attribution-forged (the declared sender did not match the verifying-key identity), or replayed (a valid blob lifted from another session or past its expiry). A present-but-invalid bundle is an active tamper of the value-taint wire, surfaced as a finding rather than silently dropped; an absent bundle maps to untainted with no finding. Carries the CWE-345 insufficient-verification-of-authenticity taxonomy (CWE-294 capture-replay for the replayed variant)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CROSS-AGENT-TAINT-TAMPERED</code></h1>
+<p>An inbound cross-agent taint bundle was present on the A2A envelope but did not verify: forged or malformed (its MAC failed or the bundle was unparseable), attribution-forged (the declared sender did not match the verifying-key identity), or replayed (a valid blob lifted from another session or past its expiry). A present-but-invalid bundle is an active tamper of the value-taint wire, surfaced as a finding rather than silently dropped; an absent bundle maps to untainted with no finding. Carries the CWE-345 insufficient-verification-of-authenticity taxonomy (CWE-294 capture-replay for the replayed variant)</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CROSS-AGENT-TAINT-TAMPERED</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-345 (sec: CWE-294)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CROSS-AGENT-TAINT-TAMPERED/</code></p>
+
+</main>
+</body>
+</html>

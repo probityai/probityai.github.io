@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CS-LAUNDERING: An upstream payload canary reached the downstream agent but its context_id was stripped or changed in transit: a black-box hop laundered an escalated delegation into a benign-looking new root (laundering-by-fragmentation). The payload-canary lineage correlator proves the A-&gt;C lineage the hidden metadata denied.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CS-LAUNDERING</code></h1>
+<p>An upstream payload canary reached the downstream agent but its context_id was stripped or changed in transit: a black-box hop laundered an escalated delegation into a benign-looking new root (laundering-by-fragmentation). The payload-canary lineage correlator proves the A-&gt;C lineage the hidden metadata denied.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CS-LAUNDERING</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Identity, delegation and privilege abuse across agents</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI03:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-441 (sec: CWE-863)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mesh-lineage-laundered</code> (family <code>mesh-lineage</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/441.html">CWE-441</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CS-LAUNDERING/</code></p>
+
+</main>
+</body>
+</html>

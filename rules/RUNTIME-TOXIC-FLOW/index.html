@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-TOXIC-FLOW: Runtime-confirmed toxic flow: a statically-reachable sensitive-read → external-egress flow (FLOW-001) whose value actually crossed at runtime — the read tool&#x27;s output value tokens were observed verbatim in a later egress tool&#x27;s arguments. Where FLOW-001 reports a flow as POSSIBLE over the declared toolset (advisory, over-approximate), RUNTIME-TOXIC-FLOW reports it as PROVEN over the observed tool calls (deterministic, evidence-backed: a composition-catch-v1 forensic record + an enforcement-policy artifact). Carries the CWE-200 data-exfiltration taxonomy provenance (mirroring FLOW-001 / STATIC-026)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-TOXIC-FLOW</code></h1>
+<p>Runtime-confirmed toxic flow: a statically-reachable sensitive-read → external-egress flow (FLOW-001) whose value actually crossed at runtime — the read tool&#x27;s output value tokens were observed verbatim in a later egress tool&#x27;s arguments. Where FLOW-001 reports a flow as POSSIBLE over the declared toolset (advisory, over-approximate), RUNTIME-TOXIC-FLOW reports it as PROVEN over the observed tool calls (deterministic, evidence-backed: a composition-catch-v1 forensic record + an enforcement-policy artifact). Carries the CWE-200 data-exfiltration taxonomy provenance (mirroring FLOW-001 / STATIC-026)</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-TOXIC-FLOW</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-200 (sec: CWE-201)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>flow-toxic-direct-exfil</code> (family <code>runtime-toxic-flow</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/201.html">CWE-201</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-TOXIC-FLOW/</code></p>
+
+</main>
+</body>
+</html>

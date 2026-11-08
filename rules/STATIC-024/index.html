@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-024: Command injection via unsanitised tool input — native port of agent-audit AGENT-001 (sharper variant of STATIC-003 dangerous-intent detection, carrying the AGENT-001 + CWE-78 taxonomy provenance)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-024</code></h1>
+<p>Command injection via unsanitised tool input — native port of agent-audit AGENT-001 (sharper variant of STATIC-003 dangerous-intent detection, carrying the AGENT-001 + CWE-78 taxonomy provenance)</p>
+<div class="chips"><span>Security</span><span>severity CRITICAL</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-024</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Unexpected code execution in agent tooling</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">SAFE-T</th><td>SAFE-T1102</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI05:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-78</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mcp-native-port-injection</code> (family <code>mcp-native-port</code>) trips this check. Independent definition of the attack: <a href="https://github.com/mcp-safety/agent-audit">agent-audit-AGENT-001..040</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-024/</code></p>
+
+</main>
+</body>
+</html>

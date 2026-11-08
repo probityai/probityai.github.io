@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-048: Untrusted value reaches a dangerous sink in the server&#x27;s Python source: a tool-handler parameter, a resource URI-template variable or the return value of a model-library call flows, with no neutralising step, into a shell or process call, eval or exec, an outbound HTTP request or a SQL string</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-048</code></h1>
+<p>Untrusted value reaches a dangerous sink in the server&#x27;s Python source: a tool-handler parameter, a resource URI-template variable or the return value of a model-library call flows, with no neutralising step, into a shell or process call, eval or exec, an outbound HTTP request or a SQL string</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-048</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Command and code execution</td></tr>
+<tr><th scope="row">Scanner</th><td>source-ast</td></tr>
+<tr><th scope="row">SAFE-T</th><td>SAFE-T1101</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP05:2025</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI05:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-78 (sec: CWE-918, CWE-95, CWE-89)</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-048/</code></p>
+
+</main>
+</body>
+</html>

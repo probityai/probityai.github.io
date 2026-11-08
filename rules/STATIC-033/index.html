@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-033: High-entropy credential detected in tool metadata via keyword-gated context-adaptive Shannon entropy (Layer-2 of the v2.a credential pipeline).  An Aho-Corasick keyword pre-gate (gitleaks tri-gate model) followed by a per-charset entropy threshold, with UUID / bcrypt / git-SHA banlist + charset-diversity false-positive reducers.  Deterministic + stdlib-only; calibrated against the credential_entropy corpus.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-033</code></h1>
+<p>High-entropy credential detected in tool metadata via keyword-gated context-adaptive Shannon entropy (Layer-2 of the v2.a credential pipeline).  An Aho-Corasick keyword pre-gate (gitleaks tri-gate model) followed by a per-charset entropy threshold, with UUID / bcrypt / git-SHA banlist + charset-diversity false-positive reducers.  Deterministic + stdlib-only; calibrated against the credential_entropy corpus.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-033</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Identity, delegation and privilege abuse across agents</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI03:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-798</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>585/623 (93.9%) [91.7%, 95.5%] over 623 attack cases in <code>a2a_card_credential</code>, <code>credential_entropy</code></td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-033/</code></p>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CS-JOIN: A join / fan-in hop in a multi-hop A2A delegation DAG references a causal-parent task that no hop in the ingested trace produced: one of the parents the join depends on is absent, so the composition-safety join check cannot soundly evaluate the fan-in. A coverage-completeness gap (surfaced as a per-check notApplicable, never a silent clear) rather than a confirmed exploit: a dropped parallel branch may be a benign framework boundary or may mask a colluding intermediary that erased a branch, so the missing causal parent is surfaced for investigation. The topology walk reads only the task_id / reference_task_ids DAG off the ExecutionResult chain.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CS-JOIN</code></h1>
+<p>A join / fan-in hop in a multi-hop A2A delegation DAG references a causal-parent task that no hop in the ingested trace produced: one of the parents the join depends on is absent, so the composition-safety join check cannot soundly evaluate the fan-in. A coverage-completeness gap (surfaced as a per-check notApplicable, never a silent clear) rather than a confirmed exploit: a dropped parallel branch may be a benign framework boundary or may mask a colluding intermediary that erased a branch, so the missing causal parent is surfaced for investigation. The topology walk reads only the task_id / reference_task_ids DAG off the ExecutionResult chain.</p>
+<div class="chips"><span>Security</span><span>severity MEDIUM</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CS-JOIN</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Identity, delegation and privilege abuse across agents</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI03:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-223 (sec: CWE-778)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CS-JOIN/</code></p>
+
+</main>
+</body>
+</html>

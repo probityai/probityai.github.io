@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-DRIFT-003: Tool input schema changed since last approved snapshot</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-DRIFT-003</code></h1>
+<p>Tool input schema changed since last approved snapshot</p>
+<div class="chips"><span>Security</span><span>severity LOW</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-DRIFT-003</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool poisoning and impersonation</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP03:2025</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry, runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mcp-drift-v1-to-v2</code> (family <code>mcp-drift</code>) trips this check. Independent definition of the attack: <a href="https://modelcontextprotocol.io/specification">MCP-supply-chain-tool-drift</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-DRIFT-003/</code></p>
+
+</main>
+</body>
+</html>

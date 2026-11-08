@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLOW-001: Static inter-procedural toxic flow across a declared MCP toolset — a sensitive-read tool&#x27;s output can reach an external-egress tool through the over-approximated cross-tool data-flow edges (the lethal-trifecta exfiltration chain, before the server is ever run). The inter-procedural successor to the single-tool co-occurrence detector STATIC-026: where STATIC-026 sees a source and a sink only when both are named in ONE tool&#x27;s description, FLOW-001 reasons over the whole toolset&#x27;s tag graph via the taint-reachability primitive. Carries the AGENT-003 + CWE-200 data-exfiltration-chain taxonomy provenance (mirroring STATIC-026)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>FLOW-001</code></h1>
+<p>Static inter-procedural toxic flow across a declared MCP toolset — a sensitive-read tool&#x27;s output can reach an external-egress tool through the over-approximated cross-tool data-flow edges (the lethal-trifecta exfiltration chain, before the server is ever run). The inter-procedural successor to the single-tool co-occurrence detector STATIC-026: where STATIC-026 sees a source and a sink only when both are named in ONE tool&#x27;s description, FLOW-001 reasons over the whole toolset&#x27;s tag graph via the taint-reachability primitive. Carries the AGENT-003 + CWE-200 data-exfiltration-chain taxonomy provenance (mirroring STATIC-026)</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>FLOW-001</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-200 (sec: CWE-201)</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mcp-toolset-toxic-flow</code> (family <code>mcp-toxic-flow</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/200.html">CWE-200</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/FLOW-001/</code></p>
+
+</main>
+</body>
+</html>

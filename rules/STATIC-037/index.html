@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-037: Weak signature-provenance posture on an A2A AgentCard — an alg of none or HS* (no provenance, provable from the header), a self-asserted embedded key (jwk / x5c) without an external trust anchor, or an unsigned card.  Advisory heuristic, strictly distinct from the deterministic CARD-SIGN signature-validity compliance gate (which resolves keys only by pinned kid and never consults jwk / x5c).</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-037</code></h1>
+<p>Weak signature-provenance posture on an A2A AgentCard — an alg of none or HS* (no provenance, provable from the header), a self-asserted embedded key (jwk / x5c) without an external trust anchor, or an unsigned card.  Advisory heuristic, strictly distinct from the deterministic CARD-SIGN signature-validity compliance gate (which resolves keys only by pinned kid and never consults jwk / x5c).</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-037</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025 (sec: MCP04:2025)</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-345 (sec: CWE-290)</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>40/40 (100.0%) [91.2%, 100.0%] over 40 attack cases in <code>a2a_card_signature</code></td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-037/</code></p>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,2212 @@
+{
+ "A2A-TCK-AUTH-INTASK-001": {
+  "path": "A2A-TCK-AUTH-INTASK-001/",
+  "severity": "HIGH",
+  "title": "Agent MUST use a Task to track operation requiring authorization"
+ },
+ "A2A-TCK-AUTH-INTASK-002": {
+  "path": "A2A-TCK-AUTH-INTASK-002/",
+  "severity": "HIGH",
+  "title": "Agent MUST transition to auth_required state"
+ },
+ "A2A-TCK-AUTH-INTASK-003": {
+  "path": "A2A-TCK-AUTH-INTASK-003/",
+  "severity": "HIGH",
+  "title": "Agent MUST include status message explaining authorization"
+ },
+ "A2A-TCK-AUTH-INTASK-004": {
+  "path": "A2A-TCK-AUTH-INTASK-004/",
+  "severity": "HIGH",
+  "title": "Agent MUST arrange to receive credentials out-of-band"
+ },
+ "A2A-TCK-AUTH-INTASK-005": {
+  "path": "A2A-TCK-AUTH-INTASK-005/",
+  "severity": "MEDIUM",
+  "title": "Agent SHOULD maintain active response streams during auth_required"
+ },
+ "A2A-TCK-AUTH-INTASK-006": {
+  "path": "A2A-TCK-AUTH-INTASK-006/",
+  "severity": "MEDIUM",
+  "title": "Agent SHOULD support receiving messages during auth_required"
+ },
+ "A2A-TCK-AUTH-SCOPE-001": {
+  "path": "A2A-TCK-AUTH-SCOPE-001/",
+  "severity": "HIGH",
+  "title": "Authorization checks on every operation request"
+ },
+ "A2A-TCK-AUTH-SCOPE-002": {
+  "path": "A2A-TCK-AUTH-SCOPE-002/",
+  "severity": "HIGH",
+  "title": "Results scoped to caller's authorization boundaries"
+ },
+ "A2A-TCK-AUTH-SCOPE-003": {
+  "path": "A2A-TCK-AUTH-SCOPE-003/",
+  "severity": "HIGH",
+  "title": "Server must not reveal existence of unauthorized resources"
+ },
+ "A2A-TCK-AUTH-SERVER-001": {
+  "path": "A2A-TCK-AUTH-SERVER-001/",
+  "severity": "MEDIUM",
+  "title": "Clients should verify server TLS certificates"
+ },
+ "A2A-TCK-AUTH-SERVER-002": {
+  "path": "A2A-TCK-AUTH-SERVER-002/",
+  "severity": "HIGH",
+  "title": "Server must authenticate every incoming request"
+ },
+ "A2A-TCK-AUTH-TLS-001": {
+  "path": "A2A-TCK-AUTH-TLS-001/",
+  "severity": "HIGH",
+  "title": "Production deployments must use encrypted communication"
+ },
+ "A2A-TCK-AUTH-TLS-002": {
+  "path": "A2A-TCK-AUTH-TLS-002/",
+  "severity": "MEDIUM",
+  "title": "Modern TLS configurations recommended"
+ },
+ "A2A-TCK-BIND-EQUIV-001": {
+  "path": "A2A-TCK-BIND-EQUIV-001/",
+  "severity": "HIGH",
+  "title": "All supported protocols provide identical functionality"
+ },
+ "A2A-TCK-BIND-EQUIV-002": {
+  "path": "A2A-TCK-BIND-EQUIV-002/",
+  "severity": "HIGH",
+  "title": "All bindings return semantically equivalent results"
+ },
+ "A2A-TCK-BIND-EQUIV-003": {
+  "path": "A2A-TCK-BIND-EQUIV-003/",
+  "severity": "HIGH",
+  "title": "All bindings map errors consistently"
+ },
+ "A2A-TCK-BIND-EQUIV-004": {
+  "path": "A2A-TCK-BIND-EQUIV-004/",
+  "severity": "HIGH",
+  "title": "All bindings support same authentication schemes"
+ },
+ "A2A-TCK-BIND-FIELD-001": {
+  "path": "A2A-TCK-BIND-FIELD-001/",
+  "severity": "HIGH",
+  "title": "Agents must declare all supported protocols in AgentCard"
+ },
+ "A2A-TCK-CARD-CACHE-001": {
+  "path": "A2A-TCK-CARD-CACHE-001/",
+  "severity": "MEDIUM",
+  "title": "Agent Card endpoint includes Cache-Control header"
+ },
+ "A2A-TCK-CARD-CACHE-002": {
+  "path": "A2A-TCK-CARD-CACHE-002/",
+  "severity": "MEDIUM",
+  "title": "Agent Card endpoint includes ETag header"
+ },
+ "A2A-TCK-CARD-CACHE-003": {
+  "path": "A2A-TCK-CARD-CACHE-003/",
+  "severity": "LOW",
+  "title": "Agent Card endpoint may include Last-Modified header"
+ },
+ "A2A-TCK-CARD-DISC-001": {
+  "path": "A2A-TCK-CARD-DISC-001/",
+  "severity": "HIGH",
+  "title": "Agent Card must be available"
+ },
+ "A2A-TCK-CARD-EXT-001": {
+  "path": "A2A-TCK-CARD-EXT-001/",
+  "severity": "HIGH",
+  "title": "Extended Agent Card requires authentication"
+ },
+ "A2A-TCK-CARD-EXT-002": {
+  "path": "A2A-TCK-CARD-EXT-002/",
+  "severity": "HIGH",
+  "title": "Extended card not configured returns specific error"
+ },
+ "A2A-TCK-CARD-PROTO-001": {
+  "path": "A2A-TCK-CARD-PROTO-001/",
+  "severity": "HIGH",
+  "title": "AgentCard must properly declare supported protocols"
+ },
+ "A2A-TCK-CARD-PROTO-002": {
+  "path": "A2A-TCK-CARD-PROTO-002/",
+  "severity": "HIGH",
+  "title": "Each interface must declare transport and URL"
+ },
+ "A2A-TCK-CARD-SIGN-001": {
+  "path": "A2A-TCK-CARD-SIGN-001/",
+  "severity": "HIGH",
+  "title": "Agent Card canonicalized with JCS before signing"
+ },
+ "A2A-TCK-CARD-SIGN-002": {
+  "path": "A2A-TCK-CARD-SIGN-002/",
+  "severity": "HIGH",
+  "title": "Signatures field excluded from signed content"
+ },
+ "A2A-TCK-CARD-SIGN-003": {
+  "path": "A2A-TCK-CARD-SIGN-003/",
+  "severity": "HIGH",
+  "title": "Signature protected header includes required parameters"
+ },
+ "A2A-TCK-CARD-SIGN-004": {
+  "path": "A2A-TCK-CARD-SIGN-004/",
+  "severity": "HIGH",
+  "title": "Expired or revoked keys must not be used for verification"
+ },
+ "A2A-TCK-CARD-STRUCT-001": {
+  "path": "A2A-TCK-CARD-STRUCT-001/",
+  "severity": "HIGH",
+  "title": "AgentCard contains required fields"
+ },
+ "A2A-TCK-CORE-CANCEL-001": {
+  "path": "A2A-TCK-CORE-CANCEL-001/",
+  "severity": "HIGH",
+  "title": "CancelTask returns updated task with cancellation status"
+ },
+ "A2A-TCK-CORE-CANCEL-002": {
+  "path": "A2A-TCK-CORE-CANCEL-002/",
+  "severity": "HIGH",
+  "title": "CancelTask returns TaskNotCancelableError for terminal tasks"
+ },
+ "A2A-TCK-CORE-CANCEL-003": {
+  "path": "A2A-TCK-CORE-CANCEL-003/",
+  "severity": "HIGH",
+  "title": "CancelTask returns TaskNotFoundError for invalid task ID"
+ },
+ "A2A-TCK-CORE-CAP-001": {
+  "path": "A2A-TCK-CORE-CAP-001/",
+  "severity": "HIGH",
+  "title": "Push notification operations return error when not supported"
+ },
+ "A2A-TCK-CORE-CAP-002": {
+  "path": "A2A-TCK-CORE-CAP-002/",
+  "severity": "HIGH",
+  "title": "Streaming operations return error when not supported"
+ },
+ "A2A-TCK-CORE-CAP-003": {
+  "path": "A2A-TCK-CORE-CAP-003/",
+  "severity": "HIGH",
+  "title": "Extended agent card operations return error when not supported"
+ },
+ "A2A-TCK-CORE-CAP-004": {
+  "path": "A2A-TCK-CORE-CAP-004/",
+  "severity": "HIGH",
+  "title": "Required extension missing returns ExtensionSupportRequiredError"
+ },
+ "A2A-TCK-CORE-ERR-001": {
+  "path": "A2A-TCK-CORE-ERR-001/",
+  "severity": "HIGH",
+  "title": "Server returns appropriate errors with actionable information"
+ },
+ "A2A-TCK-CORE-ERR-002": {
+  "path": "A2A-TCK-CORE-ERR-002/",
+  "severity": "HIGH",
+  "title": "Server validates all input parameters before processing"
+ },
+ "A2A-TCK-CORE-EXECUTION-MODE-001": {
+  "path": "A2A-TCK-CORE-EXECUTION-MODE-001/",
+  "severity": "HIGH",
+  "title": "Blocking mode waits for terminal or interrupted state"
+ },
+ "A2A-TCK-CORE-EXECUTION-MODE-002": {
+  "path": "A2A-TCK-CORE-EXECUTION-MODE-002/",
+  "severity": "HIGH",
+  "title": "Non-blocking mode returns immediately"
+ },
+ "A2A-TCK-CORE-GET-001": {
+  "path": "A2A-TCK-CORE-GET-001/",
+  "severity": "HIGH",
+  "title": "GetTask returns current task state"
+ },
+ "A2A-TCK-CORE-GET-002": {
+  "path": "A2A-TCK-CORE-GET-002/",
+  "severity": "HIGH",
+  "title": "GetTask returns TaskNotFoundError for invalid task ID"
+ },
+ "A2A-TCK-CORE-HIST-001": {
+  "path": "A2A-TCK-CORE-HIST-001/",
+  "severity": "MEDIUM",
+  "title": "historyLength=0 omits history from response"
+ },
+ "A2A-TCK-CORE-HIST-002": {
+  "path": "A2A-TCK-CORE-HIST-002/",
+  "severity": "HIGH",
+  "title": "History length does not exceed requested historyLength"
+ },
+ "A2A-TCK-CORE-HIST-003": {
+  "path": "A2A-TCK-CORE-HIST-003/",
+  "severity": "MEDIUM",
+  "title": "historyLength=0 on SendMessage omits history from response"
+ },
+ "A2A-TCK-CORE-HIST-004": {
+  "path": "A2A-TCK-CORE-HIST-004/",
+  "severity": "LOW",
+  "title": "Agents may persist messages in task history"
+ },
+ "A2A-TCK-CORE-HIST-005": {
+  "path": "A2A-TCK-CORE-HIST-005/",
+  "severity": "MEDIUM",
+  "title": "History messages are in chronological order"
+ },
+ "A2A-TCK-CORE-HIST-006": {
+  "path": "A2A-TCK-CORE-HIST-006/",
+  "severity": "MEDIUM",
+  "title": "History content matches exchanged messages"
+ },
+ "A2A-TCK-CORE-LIST-001": {
+  "path": "A2A-TCK-CORE-LIST-001/",
+  "severity": "HIGH",
+  "title": "ListTasks returns only authorized tasks"
+ },
+ "A2A-TCK-CORE-LIST-002": {
+  "path": "A2A-TCK-CORE-LIST-002/",
+  "severity": "HIGH",
+  "title": "ListTasks uses cursor-based pagination"
+ },
+ "A2A-TCK-CORE-LIST-003": {
+  "path": "A2A-TCK-CORE-LIST-003/",
+  "severity": "HIGH",
+  "title": "ListTasks sorts by status timestamp descending"
+ },
+ "A2A-TCK-CORE-LIST-004": {
+  "path": "A2A-TCK-CORE-LIST-004/",
+  "severity": "HIGH",
+  "title": "ListTasks nextPageToken empty string on final page"
+ },
+ "A2A-TCK-CORE-LIST-005": {
+  "path": "A2A-TCK-CORE-LIST-005/",
+  "severity": "HIGH",
+  "title": "ListTasks omits artifacts when includeArtifacts is false"
+ },
+ "A2A-TCK-CORE-MULTI-001": {
+  "path": "A2A-TCK-CORE-MULTI-001/",
+  "severity": "LOW",
+  "title": "Agent may generate contextId when not provided"
+ },
+ "A2A-TCK-CORE-MULTI-001a": {
+  "path": "A2A-TCK-CORE-MULTI-001a/",
+  "severity": "HIGH",
+  "title": "Generated contextId must be included in response"
+ },
+ "A2A-TCK-CORE-MULTI-002": {
+  "path": "A2A-TCK-CORE-MULTI-002/",
+  "severity": "LOW",
+  "title": "Agent may accept client-provided contextId"
+ },
+ "A2A-TCK-CORE-MULTI-002a": {
+  "path": "A2A-TCK-CORE-MULTI-002a/",
+  "severity": "HIGH",
+  "title": "Agent rejects unacceptable client-provided contextId"
+ },
+ "A2A-TCK-CORE-MULTI-003": {
+  "path": "A2A-TCK-CORE-MULTI-003/",
+  "severity": "HIGH",
+  "title": "Agent generates unique taskId for new tasks"
+ },
+ "A2A-TCK-CORE-MULTI-004": {
+  "path": "A2A-TCK-CORE-MULTI-004/",
+  "severity": "HIGH",
+  "title": "Agent returns TaskNotFoundError for invalid taskId in message"
+ },
+ "A2A-TCK-CORE-MULTI-005": {
+  "path": "A2A-TCK-CORE-MULTI-005/",
+  "severity": "HIGH",
+  "title": "Agent infers contextId from task when only taskId provided"
+ },
+ "A2A-TCK-CORE-MULTI-006": {
+  "path": "A2A-TCK-CORE-MULTI-006/",
+  "severity": "HIGH",
+  "title": "Agent rejects mismatching contextId and taskId"
+ },
+ "A2A-TCK-CORE-SEND-001": {
+  "path": "A2A-TCK-CORE-SEND-001/",
+  "severity": "HIGH",
+  "title": "SendMessage returns Task or Message"
+ },
+ "A2A-TCK-CORE-SEND-002": {
+  "path": "A2A-TCK-CORE-SEND-002/",
+  "severity": "HIGH",
+  "title": "SendMessage rejects messages to terminal tasks"
+ },
+ "A2A-TCK-CORE-SEND-003": {
+  "path": "A2A-TCK-CORE-SEND-003/",
+  "severity": "HIGH",
+  "title": "SendMessage returns ContentTypeNotSupportedError for unsupported media"
+ },
+ "A2A-TCK-CORE-STREAM-001": {
+  "path": "A2A-TCK-CORE-STREAM-001/",
+  "severity": "HIGH",
+  "title": "SendStreamingMessage establishes streaming connection"
+ },
+ "A2A-TCK-CORE-STREAM-002": {
+  "path": "A2A-TCK-CORE-STREAM-002/",
+  "severity": "HIGH",
+  "title": "Message-only stream contains exactly one Message then closes"
+ },
+ "A2A-TCK-CORE-STREAM-003": {
+  "path": "A2A-TCK-CORE-STREAM-003/",
+  "severity": "HIGH",
+  "title": "Task lifecycle stream begins with Task and closes at terminal state"
+ },
+ "A2A-TCK-DM-ART-001": {
+  "path": "A2A-TCK-DM-ART-001/",
+  "severity": "HIGH",
+  "title": "Artifact contains required fields"
+ },
+ "A2A-TCK-DM-MSG-001": {
+  "path": "A2A-TCK-DM-MSG-001/",
+  "severity": "HIGH",
+  "title": "Message contains required fields"
+ },
+ "A2A-TCK-DM-MSG-002": {
+  "path": "A2A-TCK-DM-MSG-002/",
+  "severity": "HIGH",
+  "title": "Role uses valid enumeration values"
+ },
+ "A2A-TCK-DM-PART-001": {
+  "path": "A2A-TCK-DM-PART-001/",
+  "severity": "HIGH",
+  "title": "Part uses oneof semantics"
+ },
+ "A2A-TCK-DM-SERIAL-001": {
+  "path": "A2A-TCK-DM-SERIAL-001/",
+  "severity": "HIGH",
+  "title": "JSON serialization uses camelCase field names"
+ },
+ "A2A-TCK-DM-SERIAL-002": {
+  "path": "A2A-TCK-DM-SERIAL-002/",
+  "severity": "HIGH",
+  "title": "Enum values use ProtoJSON string representation"
+ },
+ "A2A-TCK-DM-SERIAL-003": {
+  "path": "A2A-TCK-DM-SERIAL-003/",
+  "severity": "HIGH",
+  "title": "Timestamps use ISO 8601 format in UTC"
+ },
+ "A2A-TCK-DM-SERIAL-004": {
+  "path": "A2A-TCK-DM-SERIAL-004/",
+  "severity": "HIGH",
+  "title": "Required fields must be present in messages"
+ },
+ "A2A-TCK-DM-SERIAL-005": {
+  "path": "A2A-TCK-DM-SERIAL-005/",
+  "severity": "MEDIUM",
+  "title": "Implementations should ignore unrecognized fields"
+ },
+ "A2A-TCK-DM-STATUS-001": {
+  "path": "A2A-TCK-DM-STATUS-001/",
+  "severity": "HIGH",
+  "title": "TaskStatus contains required state field"
+ },
+ "A2A-TCK-DM-TASK-001": {
+  "path": "A2A-TCK-DM-TASK-001/",
+  "severity": "HIGH",
+  "title": "Task object contains required fields"
+ },
+ "A2A-TCK-DM-TASK-002": {
+  "path": "A2A-TCK-DM-TASK-002/",
+  "severity": "HIGH",
+  "title": "TaskState uses valid enumeration values"
+ },
+ "A2A-TCK-GRPC-ERR-001": {
+  "path": "A2A-TCK-GRPC-ERR-001/",
+  "severity": "HIGH",
+  "title": "A2A errors include ErrorInfo in status details"
+ },
+ "A2A-TCK-GRPC-ERR-002": {
+  "path": "A2A-TCK-GRPC-ERR-002/",
+  "severity": "HIGH",
+  "title": "A2A error types mapped to correct gRPC status codes"
+ },
+ "A2A-TCK-GRPC-ERR-003": {
+  "path": "A2A-TCK-GRPC-ERR-003/",
+  "severity": "HIGH",
+  "title": "gRPC streaming uses server streaming RPCs"
+ },
+ "A2A-TCK-GRPC-META-001": {
+  "path": "A2A-TCK-GRPC-META-001/",
+  "severity": "HIGH",
+  "title": "Service parameters transmitted as gRPC metadata"
+ },
+ "A2A-TCK-GRPC-SVC-001": {
+  "path": "A2A-TCK-GRPC-SVC-001/",
+  "severity": "HIGH",
+  "title": "Implement A2AService gRPC service"
+ },
+ "A2A-TCK-GRPC-SVC-002": {
+  "path": "A2A-TCK-GRPC-SVC-002/",
+  "severity": "HIGH",
+  "title": "Use Protocol Buffers version 3 serialization"
+ },
+ "A2A-TCK-GRPC-SVC-003": {
+  "path": "A2A-TCK-GRPC-SVC-003/",
+  "severity": "HIGH",
+  "title": "gRPC over HTTP/2 with TLS"
+ },
+ "A2A-TCK-HTTP_JSON-ERR-001": {
+  "path": "A2A-TCK-HTTP_JSON-ERR-001/",
+  "severity": "HIGH",
+  "title": "Error responses use AIP-193 format"
+ },
+ "A2A-TCK-HTTP_JSON-ERR-002": {
+  "path": "A2A-TCK-HTTP_JSON-ERR-002/",
+  "severity": "HIGH",
+  "title": "A2A errors include ErrorInfo in details array"
+ },
+ "A2A-TCK-HTTP_JSON-QP-001": {
+  "path": "A2A-TCK-HTTP_JSON-QP-001/",
+  "severity": "HIGH",
+  "title": "Query parameter names use camelCase"
+ },
+ "A2A-TCK-HTTP_JSON-SSE-001": {
+  "path": "A2A-TCK-HTTP_JSON-SSE-001/",
+  "severity": "HIGH",
+  "title": "REST streaming uses Server-Sent Events"
+ },
+ "A2A-TCK-HTTP_JSON-STATUS-001": {
+  "path": "A2A-TCK-HTTP_JSON-STATUS-001/",
+  "severity": "HIGH",
+  "title": "A2A errors map to correct HTTP status codes"
+ },
+ "A2A-TCK-HTTP_JSON-SVC-001": {
+  "path": "A2A-TCK-HTTP_JSON-SVC-001/",
+  "severity": "HIGH",
+  "title": "Content-Type is application/json"
+ },
+ "A2A-TCK-HTTP_JSON-SVC-002": {
+  "path": "A2A-TCK-HTTP_JSON-SVC-002/",
+  "severity": "HIGH",
+  "title": "Service parameters transmitted as HTTP headers"
+ },
+ "A2A-TCK-HTTP_JSON-URL-001": {
+  "path": "A2A-TCK-HTTP_JSON-URL-001/",
+  "severity": "HIGH",
+  "title": "RESTful resource-based URL patterns"
+ },
+ "A2A-TCK-HTTP_JSON-URL-002": {
+  "path": "A2A-TCK-HTTP_JSON-URL-002/",
+  "severity": "HIGH",
+  "title": "Standard HTTP methods for each operation"
+ },
+ "A2A-TCK-JSONRPC-ERR-001": {
+  "path": "A2A-TCK-JSONRPC-ERR-001/",
+  "severity": "HIGH",
+  "title": "Error responses use JSON-RPC 2.0 error object structure"
+ },
+ "A2A-TCK-JSONRPC-ERR-002": {
+  "path": "A2A-TCK-JSONRPC-ERR-002/",
+  "severity": "HIGH",
+  "title": "A2A-specific errors use codes -32001 to -32099"
+ },
+ "A2A-TCK-JSONRPC-ERR-003": {
+  "path": "A2A-TCK-JSONRPC-ERR-003/",
+  "severity": "HIGH",
+  "title": "A2A errors include ErrorInfo in data array"
+ },
+ "A2A-TCK-JSONRPC-FMT-001": {
+  "path": "A2A-TCK-JSONRPC-FMT-001/",
+  "severity": "HIGH",
+  "title": "Requests use JSON-RPC 2.0 format"
+ },
+ "A2A-TCK-JSONRPC-FMT-002": {
+  "path": "A2A-TCK-JSONRPC-FMT-002/",
+  "severity": "HIGH",
+  "title": "Content-Type is application/json"
+ },
+ "A2A-TCK-JSONRPC-SSE-001": {
+  "path": "A2A-TCK-JSONRPC-SSE-001/",
+  "severity": "HIGH",
+  "title": "Streaming uses Server-Sent Events with text/event-stream"
+ },
+ "A2A-TCK-JSONRPC-SSE-002": {
+  "path": "A2A-TCK-JSONRPC-SSE-002/",
+  "severity": "HIGH",
+  "title": "A2A error types mapped to correct JSON-RPC error codes"
+ },
+ "A2A-TCK-JSONRPC-SVC-001": {
+  "path": "A2A-TCK-JSONRPC-SVC-001/",
+  "severity": "HIGH",
+  "title": "Method names use PascalCase matching gRPC conventions"
+ },
+ "A2A-TCK-JSONRPC-SVC-002": {
+  "path": "A2A-TCK-JSONRPC-SVC-002/",
+  "severity": "HIGH",
+  "title": "Service parameters transmitted as HTTP headers"
+ },
+ "A2A-TCK-PUSH-CREATE-001": {
+  "path": "A2A-TCK-PUSH-CREATE-001/",
+  "severity": "HIGH",
+  "title": "CreatePushNotificationConfig establishes webhook endpoint"
+ },
+ "A2A-TCK-PUSH-CREATE-002": {
+  "path": "A2A-TCK-PUSH-CREATE-002/",
+  "severity": "HIGH",
+  "title": "Push config persists until task completion or deletion"
+ },
+ "A2A-TCK-PUSH-DEL-001": {
+  "path": "A2A-TCK-PUSH-DEL-001/",
+  "severity": "HIGH",
+  "title": "DeletePushNotificationConfig permanently removes config"
+ },
+ "A2A-TCK-PUSH-DEL-002": {
+  "path": "A2A-TCK-PUSH-DEL-002/",
+  "severity": "HIGH",
+  "title": "DeletePushNotificationConfig is idempotent"
+ },
+ "A2A-TCK-PUSH-DELIVER-001": {
+  "path": "A2A-TCK-PUSH-DELIVER-001/",
+  "severity": "HIGH",
+  "title": "Agent includes authentication in webhook requests"
+ },
+ "A2A-TCK-PUSH-DELIVER-002": {
+  "path": "A2A-TCK-PUSH-DELIVER-002/",
+  "severity": "HIGH",
+  "title": "Agent attempts delivery at least once per webhook"
+ },
+ "A2A-TCK-PUSH-DELIVER-003": {
+  "path": "A2A-TCK-PUSH-DELIVER-003/",
+  "severity": "HIGH",
+  "title": "Webhook payload uses StreamResponse format"
+ },
+ "A2A-TCK-PUSH-GET-001": {
+  "path": "A2A-TCK-PUSH-GET-001/",
+  "severity": "HIGH",
+  "title": "GetPushNotificationConfig returns configuration details"
+ },
+ "A2A-TCK-PUSH-GET-002": {
+  "path": "A2A-TCK-PUSH-GET-002/",
+  "severity": "HIGH",
+  "title": "GetPushNotificationConfig fails for nonexistent config"
+ },
+ "A2A-TCK-PUSH-LIST-001": {
+  "path": "A2A-TCK-PUSH-LIST-001/",
+  "severity": "HIGH",
+  "title": "ListPushNotificationConfigs returns all active configs"
+ },
+ "A2A-TCK-STREAM-ORDER-001": {
+  "path": "A2A-TCK-STREAM-ORDER-001/",
+  "severity": "HIGH",
+  "title": "Events delivered in generation order"
+ },
+ "A2A-TCK-STREAM-ORDER-002": {
+  "path": "A2A-TCK-STREAM-ORDER-002/",
+  "severity": "HIGH",
+  "title": "Events broadcast to all active streams"
+ },
+ "A2A-TCK-STREAM-ORDER-003": {
+  "path": "A2A-TCK-STREAM-ORDER-003/",
+  "severity": "HIGH",
+  "title": "Each stream receives same events in same order"
+ },
+ "A2A-TCK-STREAM-ORDER-004": {
+  "path": "A2A-TCK-STREAM-ORDER-004/",
+  "severity": "HIGH",
+  "title": "Closing one stream does not affect others"
+ },
+ "A2A-TCK-STREAM-SUB-001": {
+  "path": "A2A-TCK-STREAM-SUB-001/",
+  "severity": "HIGH",
+  "title": "SubscribeToTask returns Task as first event"
+ },
+ "A2A-TCK-STREAM-SUB-002": {
+  "path": "A2A-TCK-STREAM-SUB-002/",
+  "severity": "HIGH",
+  "title": "SubscribeToTask stream terminates at terminal state"
+ },
+ "A2A-TCK-STREAM-SUB-003": {
+  "path": "A2A-TCK-STREAM-SUB-003/",
+  "severity": "HIGH",
+  "title": "SubscribeToTask rejects terminal tasks"
+ },
+ "A2A-TCK-STREAM-SUB-004": {
+  "path": "A2A-TCK-STREAM-SUB-004/",
+  "severity": "HIGH",
+  "title": "SubscribeToTask returns TaskNotFoundError for invalid task"
+ },
+ "A2A-TCK-VER-CLIENT-001": {
+  "path": "A2A-TCK-VER-CLIENT-001/",
+  "severity": "HIGH",
+  "title": "Clients must send A2A-Version header with each request"
+ },
+ "A2A-TCK-VER-CLIENT-002": {
+  "path": "A2A-TCK-VER-CLIENT-002/",
+  "severity": "HIGH",
+  "title": "Patch version numbers must not affect negotiation"
+ },
+ "A2A-TCK-VER-SERVER-001": {
+  "path": "A2A-TCK-VER-SERVER-001/",
+  "severity": "HIGH",
+  "title": "Agent processes requests using requested version semantics"
+ },
+ "A2A-TCK-VER-SERVER-002": {
+  "path": "A2A-TCK-VER-SERVER-002/",
+  "severity": "HIGH",
+  "title": "Agent returns VersionNotSupportedError for unsupported version"
+ },
+ "A2A-TCK-VER-SERVER-003": {
+  "path": "A2A-TCK-VER-SERVER-003/",
+  "severity": "HIGH",
+  "title": "Agent interprets empty version header as 0.3"
+ },
+ "ANNOT-001": {
+  "path": "ANNOT-001/",
+  "severity": "HIGH",
+  "title": "readOnlyHint=True contradicts destructiveHint=True"
+ },
+ "ANNOT-002": {
+  "path": "ANNOT-002/",
+  "severity": "LOW",
+  "title": "destructiveHint meaningless when readOnlyHint=True"
+ },
+ "ANNOT-003": {
+  "path": "ANNOT-003/",
+  "severity": "LOW",
+  "title": "idempotentHint meaningless when readOnlyHint=True"
+ },
+ "ANNOT-004": {
+  "path": "ANNOT-004/",
+  "severity": "INFO",
+  "title": "Tool has no annotations"
+ },
+ "ANNOT-005": {
+  "path": "ANNOT-005/",
+  "severity": "INFO",
+  "title": "Advisory: a destructive or open-world tool declares no timeout"
+ },
+ "ANNOT-006": {
+  "path": "ANNOT-006/",
+  "severity": "INFO",
+  "title": "Advisory: a destructive or open-world tool gives no retry guidance"
+ },
+ "ANNOT-007": {
+  "path": "ANNOT-007/",
+  "severity": "INFO",
+  "title": "Advisory: a destructive or open-world tool declares no error contract"
+ },
+ "ANNOT-008": {
+  "path": "ANNOT-008/",
+  "severity": "HIGH",
+  "title": "A tool declared readOnlyHint=true was observed to write state or open an outbound connection"
+ },
+ "ANNOT-009": {
+  "path": "ANNOT-009/",
+  "severity": "MEDIUM",
+  "title": "A state-changing tool changed state without an elicitation request on a server that elicits"
+ },
+ "ANNOT-010": {
+  "path": "ANNOT-010/",
+  "severity": "INFO",
+  "title": "Advisory: a tool states a timeout over five minutes"
+ },
+ "ANNOT-011": {
+  "path": "ANNOT-011/",
+  "severity": "INFO",
+  "title": "Advisory: a tool takes a retry count with no maximum"
+ },
+ "ANNOT-012": {
+  "path": "ANNOT-012/",
+  "severity": "INFO",
+  "title": "Advisory: a tool allows unlimited or more than ten retries"
+ },
+ "ANNOT-013": {
+  "path": "ANNOT-013/",
+  "severity": "INFO",
+  "title": "Advisory: a tool retries and states no delay between attempts"
+ },
+ "ANNOT-014": {
+  "path": "ANNOT-014/",
+  "severity": "INFO",
+  "title": "Advisory: a tool declares an error schema with no code member"
+ },
+ "ANNOT-015": {
+  "path": "ANNOT-015/",
+  "severity": "INFO",
+  "title": "Advisory: a tool promises structured output and declares no result schema"
+ },
+ "ANNOT-016": {
+  "path": "ANNOT-016/",
+  "severity": "INFO",
+  "title": "Advisory: a tool claims an overloaded scope"
+ },
+ "ANNOT-017": {
+  "path": "ANNOT-017/",
+  "severity": "INFO",
+  "title": "Advisory: an exposed tool requires none of its arguments"
+ },
+ "ANNOT-018": {
+  "path": "ANNOT-018/",
+  "severity": "INFO",
+  "title": "Advisory: an exposed tool leaves its arguments unconstrained"
+ },
+ "ANNOT-019": {
+  "path": "ANNOT-019/",
+  "severity": "INFO",
+  "title": "Advisory: an open-world tool states no rate limit"
+ },
+ "ANNOT-020": {
+  "path": "ANNOT-020/",
+  "severity": "INFO",
+  "title": "Advisory: an exposed tool states no version"
+ },
+ "ANNOT-021": {
+  "path": "ANNOT-021/",
+  "severity": "INFO",
+  "title": "Advisory: an exposed tool states no logging or audit trail"
+ },
+ "ANNOT-022": {
+  "path": "ANNOT-022/",
+  "severity": "INFO",
+  "title": "Advisory: a tool acquires a resource and never says it is released"
+ },
+ "ANNOT-023": {
+  "path": "ANNOT-023/",
+  "severity": "INFO",
+  "title": "Advisory: an unexposed tool changes state and says nothing about repeating the call"
+ },
+ "ANNOT-024": {
+  "path": "ANNOT-024/",
+  "severity": "INFO",
+  "title": "Advisory: a tool named for a dangerous operation declares no safeguard"
+ },
+ "ANNOT-025": {
+  "path": "ANNOT-025/",
+  "severity": "INFO",
+  "title": "Advisory: an open-world tool states no authentication"
+ },
+ "ANNOT-026": {
+  "path": "ANNOT-026/",
+  "severity": "INFO",
+  "title": "Advisory: a tool repeats or calls itself with no stated bound"
+ },
+ "ANNOT-027": {
+  "path": "ANNOT-027/",
+  "severity": "INFO",
+  "title": "Advisory: a readiness policy the caller supplies reports a violation for a tool"
+ },
+ "BACKEND-COMPLIANCE-ERROR": {
+  "path": "BACKEND-COMPLIANCE-ERROR/",
+  "severity": "HIGH",
+  "title": "A backend's compliance suite produced no verdict: it raised, the backend failed to load, or no backend was active"
+ },
+ "COMPOSITION-COVERAGE": {
+  "path": "COMPOSITION-COVERAGE/",
+  "severity": "LOW",
+  "title": "Composition-coverage gap (advisory test-generation driver, NOT a security proof): a dangerous capability-class co-activation reachable by the declared toolset lacks a generated flow-test. The bounded-combinatorial damage-envelope driver (security._coverage_proof) lowers each tool to a fixed, small set of capability CLASSES, enumerates the 2^N-2 damage-envelope cells (N = the class count, a constant independent of toolset size \u2014 never the path-enumeration blow-up over tool subsets), keeps the dangerous co-activations the toolset can reach, and lists which lack a generated flow-test as test-generation targets. Coverage over capability classes does NOT imply a real exploitable flow exists; the finding is an advisory checklist gap, never a verdict. Emitted inline and off the default CI gate by construction (not a DetectorRule on iter_default_gate)"
+ },
+ "DIAG-CFG-001": {
+  "path": "DIAG-CFG-001/",
+  "severity": "fail",
+  "title": "Transport value is valid"
+ },
+ "DIAG-CFG-002": {
+  "path": "DIAG-CFG-002/",
+  "severity": "fail",
+  "title": "Cross-field consistency (URL/command for transport)"
+ },
+ "DIAG-CFG-003": {
+  "path": "DIAG-CFG-003/",
+  "severity": "fail",
+  "title": "URL scheme valid for transport"
+ },
+ "DIAG-CFG-005": {
+  "path": "DIAG-CFG-005/",
+  "severity": "fail",
+  "title": "Numeric config values requiring finite positive are valid"
+ },
+ "DIAG-CFG-006": {
+  "path": "DIAG-CFG-006/",
+  "severity": "warn",
+  "title": "MEMORY transport with server_command or server_url configured"
+ },
+ "DIAG-CFG-007": {
+  "path": "DIAG-CFG-007/",
+  "severity": "error",
+  "title": "pyproject.toml is parseable"
+ },
+ "DIAG-CFG-008": {
+  "path": "DIAG-CFG-008/",
+  "severity": "warn",
+  "title": "No unknown mcp_* config keys"
+ },
+ "DIAG-CFG-009": {
+  "path": "DIAG-CFG-009/",
+  "severity": "warn",
+  "title": "asyncio test and fixture loop scopes compatible with the session-scoped fixtures"
+ },
+ "DIAG-CFG-010": {
+  "path": "DIAG-CFG-010/",
+  "severity": "warn",
+  "title": "the plugin is auto-loaded via its entry point and NOT re-named with an explicit -p (which double-registers and crashes)"
+ },
+ "DIAG-CFG-011": {
+  "path": "DIAG-CFG-011/",
+  "severity": "warn",
+  "title": "every configured feature has its wheel or extra installed"
+ },
+ "DIAG-CFG-012": {
+  "path": "DIAG-CFG-012/",
+  "severity": "warn",
+  "title": "the configured eval model's provider credentials are in the environment"
+ },
+ "DIAG-CONN-001": {
+  "path": "DIAG-CONN-001/",
+  "severity": "fail",
+  "title": "Stdio binary exists and is executable"
+ },
+ "DIAG-CONN-002": {
+  "path": "DIAG-CONN-002/",
+  "severity": "fail",
+  "title": "HTTP server_url reachable"
+ },
+ "DIAG-CONN-003": {
+  "path": "DIAG-CONN-003/",
+  "severity": "warn",
+  "title": "Auth endpoints reachable"
+ },
+ "DIAG-DEP-001": {
+  "path": "DIAG-DEP-001/",
+  "severity": "warn",
+  "title": "jsonschema available (strict SARIF validation)"
+ },
+ "DIAG-DEP-002": {
+  "path": "DIAG-DEP-002/",
+  "severity": "warn",
+  "title": "syrupy available (snapshot testing)"
+ },
+ "DIAG-DEP-003": {
+  "path": "DIAG-DEP-003/",
+  "severity": "warn",
+  "title": "litellm available (live eval tier)"
+ },
+ "DIAG-DEP-004": {
+  "path": "DIAG-DEP-004/",
+  "severity": "warn",
+  "title": "hypothesis available (property-based testing)"
+ },
+ "DIAG-DEP-005": {
+  "path": "DIAG-DEP-005/",
+  "severity": "warn",
+  "title": "httpx available (HTTP connectivity checks)"
+ },
+ "DIAG-ENV-001": {
+  "path": "DIAG-ENV-001/",
+  "severity": "fail",
+  "title": "Python >= 3.12 required"
+ },
+ "DIAG-ENV-002": {
+  "path": "DIAG-ENV-002/",
+  "severity": "fail",
+  "title": "MCP SDK installed and within the supported range (>= 1.20, < 3.0)"
+ },
+ "DIAG-ENV-003": {
+  "path": "DIAG-ENV-003/",
+  "severity": "fail",
+  "title": "pytest-asyncio installed"
+ },
+ "DIAG-ENV-004": {
+  "path": "DIAG-ENV-004/",
+  "severity": "fail",
+  "title": "anyio installed"
+ },
+ "DIAG-ENV-005": {
+  "path": "DIAG-ENV-005/",
+  "severity": "fail",
+  "title": "Server module importable"
+ },
+ "DIAG-ENV-006": {
+  "path": "DIAG-ENV-006/",
+  "severity": "warn",
+  "title": "Server tools discovered"
+ },
+ "DIAG-EXTRA-001": {
+  "path": "DIAG-EXTRA-001/",
+  "severity": "error",
+  "title": "User-provided extra_check callable raised an exception"
+ },
+ "DIAG-EXTRA-002": {
+  "path": "DIAG-EXTRA-002/",
+  "severity": "error",
+  "title": "A doctor extension provider failed to load its checks"
+ },
+ "EVAL-CACHE-STALE": {
+  "path": "EVAL-CACHE-STALE/",
+  "severity": "MEDIUM",
+  "title": "JSONL cache schema hash mismatch"
+ },
+ "EVAL-DTRACE-ORPHAN": {
+  "path": "EVAL-DTRACE-ORPHAN/",
+  "severity": "MEDIUM",
+  "title": "Delegation trajectory references a task absent from the observed chain (orphan lineage)"
+ },
+ "EVAL-DTRACE-REDUNDANT": {
+  "path": "EVAL-DTRACE-REDUNDANT/",
+  "severity": "LOW",
+  "title": "Delegation trajectory produces the same task in more than one hop (redundant delegation)"
+ },
+ "EVAL-PASS-K": {
+  "path": "EVAL-PASS-K/",
+  "severity": "MEDIUM",
+  "title": "pass@k probability below threshold across N runs"
+ },
+ "EVAL-Q-PII": {
+  "path": "EVAL-Q-PII/",
+  "severity": "INFO",
+  "title": "PII pattern detected in tool output"
+ },
+ "EVAL-Q001": {
+  "path": "EVAL-Q001/",
+  "severity": "LOW",
+  "title": "Description too short (< 10 chars)"
+ },
+ "EVAL-Q002": {
+  "path": "EVAL-Q002/",
+  "severity": "INFO",
+  "title": "Description lacks action verb"
+ },
+ "EVAL-Q003": {
+  "path": "EVAL-Q003/",
+  "severity": "LOW",
+  "title": "Parameter descriptions missing on inputSchema properties"
+ },
+ "EVAL-Q004": {
+  "path": "EVAL-Q004/",
+  "severity": "MEDIUM",
+  "title": "Tool names not semantically differentiable (high n-gram similarity)"
+ },
+ "EVAL-Q005": {
+  "path": "EVAL-Q005/",
+  "severity": "INFO",
+  "title": "Description doesn't mention required parameters"
+ },
+ "EVAL-Q006": {
+  "path": "EVAL-Q006/",
+  "severity": "MEDIUM",
+  "title": "Description-schema inconsistency"
+ },
+ "EVAL-SKILL-F1": {
+  "path": "EVAL-SKILL-F1/",
+  "severity": "MEDIUM",
+  "title": "A2A skill-selection F1 below threshold: the agent routed the query to the wrong callee set (card-granularity routing accuracy)"
+ },
+ "EVAL-T001": {
+  "path": "EVAL-T001/",
+  "severity": "MEDIUM",
+  "title": "Repetition loop detected in tool call trace"
+ },
+ "EVAL-T002": {
+  "path": "EVAL-T002/",
+  "severity": "LOW",
+  "title": "Trace diverges significantly from golden path"
+ },
+ "EVAL-T003": {
+  "path": "EVAL-T003/",
+  "severity": "MEDIUM",
+  "title": "Unrecovered error in tool call trace"
+ },
+ "EVAL-TASK-COMPLETION": {
+  "path": "EVAL-TASK-COMPLETION/",
+  "severity": "MEDIUM",
+  "title": "LLM-judged task completion of one case"
+ },
+ "EXT-001": {
+  "path": "EXT-001/",
+  "severity": "MEDIUM",
+  "title": "Cacheable draft result omits ttlMs"
+ },
+ "EXT-002": {
+  "path": "EXT-002/",
+  "severity": "HIGH",
+  "title": "ttlMs is not an integer >= 0"
+ },
+ "EXT-003": {
+  "path": "EXT-003/",
+  "severity": "MEDIUM",
+  "title": "cacheScope absent or not public/private"
+ },
+ "EXT-004": {
+  "path": "EXT-004/",
+  "severity": "MEDIUM",
+  "title": "Multi round-trip result carries a positive ttlMs"
+ },
+ "EXT-010": {
+  "path": "EXT-010/",
+  "severity": "HIGH",
+  "title": "input_required result carries neither inputRequests nor requestState"
+ },
+ "EXT-011": {
+  "path": "EXT-011/",
+  "severity": "HIGH",
+  "title": "inputRequests on a result not typed input_required"
+ },
+ "EXT-012": {
+  "path": "EXT-012/",
+  "severity": "HIGH",
+  "title": "Input request is not elicitation, sampling or roots"
+ },
+ "EXT-013": {
+  "path": "EXT-013/",
+  "severity": "HIGH",
+  "title": "requestState is not a string"
+ },
+ "EXT-014": {
+  "path": "EXT-014/",
+  "severity": "HIGH",
+  "title": "Input requested for a capability the client did not declare"
+ },
+ "EXT-015": {
+  "path": "EXT-015/",
+  "severity": "MEDIUM",
+  "title": "Retry with an altered requestState completed"
+ },
+ "EXT-020": {
+  "path": "EXT-020/",
+  "severity": "MEDIUM",
+  "title": "inputSchema $ref or $anchor does not resolve"
+ },
+ "EXT-021": {
+  "path": "EXT-021/",
+  "severity": "LOW",
+  "title": "inputSchema $schema names an unrecognised dialect"
+ },
+ "EXT-030": {
+  "path": "EXT-030/",
+  "severity": "HIGH",
+  "title": "Elicitation requestedSchema is not a flat object of primitives"
+ },
+ "EXT-031": {
+  "path": "EXT-031/",
+  "severity": "MEDIUM",
+  "title": "Elicitation default does not fit its property"
+ },
+ "EXT-032": {
+  "path": "EXT-032/",
+  "severity": "MEDIUM",
+  "title": "Elicitation enum schema is malformed"
+ },
+ "EXT-040": {
+  "path": "EXT-040/",
+  "severity": "HIGH",
+  "title": "Skill entry is malformed"
+ },
+ "EXT-041": {
+  "path": "EXT-041/",
+  "severity": "HIGH",
+  "title": "Skill resource digest or size does not match the served bytes"
+ },
+ "EXT-042": {
+  "path": "EXT-042/",
+  "severity": "MEDIUM",
+  "title": "skills/get with an unknown URI is not -32602"
+ },
+ "EXT-043": {
+  "path": "EXT-043/",
+  "severity": "LOW",
+  "title": "SKILL.md is served with a media type other than text/markdown"
+ },
+ "EXT-044": {
+  "path": "EXT-044/",
+  "severity": "INFO",
+  "title": "Advisory: listed skills mark resources dynamic, so none of their files are digest-verified"
+ },
+ "EXT-050": {
+  "path": "EXT-050/",
+  "severity": "HIGH",
+  "title": "Task result is malformed"
+ },
+ "EXT-051": {
+  "path": "EXT-051/",
+  "severity": "MEDIUM",
+  "title": "tasks/get with an unknown taskId is not -32602"
+ },
+ "EXT-052": {
+  "path": "EXT-052/",
+  "severity": "MEDIUM",
+  "title": "Removed tasks/result is not -32601"
+ },
+ "FAMILY-001": {
+  "path": "FAMILY-001/",
+  "severity": "HIGH",
+  "title": "Inner payload checker shares a model family with the production payload checker"
+ },
+ "FAMILY-002": {
+  "path": "FAMILY-002/",
+  "severity": "HIGH",
+  "title": "Held-out reader shares a model family with a jury panel member"
+ },
+ "FAMILY-003": {
+  "path": "FAMILY-003/",
+  "severity": "HIGH",
+  "title": "Held-out reader shares a model family with an attacker generator"
+ },
+ "FAMILY-004": {
+  "path": "FAMILY-004/",
+  "severity": "HIGH",
+  "title": "Attacker generator shares a model family with a frontier-jury seat it transfers to (within-family transfer affinity, enforced ensemble-aware)"
+ },
+ "FAMILY-005": {
+  "path": "FAMILY-005/",
+  "severity": "HIGH",
+  "title": "Payload checker shares a model family with the frontier jury"
+ },
+ "FAMILY-006": {
+  "path": "FAMILY-006/",
+  "severity": "HIGH",
+  "title": "Attacker generator shares a model family with the surrogate jury it optimizes against (train-equals-test circularity)"
+ },
+ "FAMILY-007": {
+  "path": "FAMILY-007/",
+  "severity": "HIGH",
+  "title": "Corpus context generator shares a model family with a grader (a jury seat or the held-out reader) that scores responses against the context it authored (evaluation circularity)"
+ },
+ "FAMILY-008": {
+  "path": "FAMILY-008/",
+  "severity": "HIGH",
+  "title": "Corpus admission filter shares a model family with a grader (a jury seat or the held-out reader) or with the corpus context generator, so the eligible case population is defined by the same lineage that is later judged"
+ },
+ "FLOW-001": {
+  "path": "FLOW-001/",
+  "severity": "HIGH",
+  "title": "Static inter-procedural toxic flow across a declared MCP toolset \u2014 a sensitive-read tool's output can reach an external-egress tool through the over-approximated cross-tool data-flow edges (the lethal-trifecta exfiltration chain, before the server is ever run). The inter-procedural successor to the single-tool co-occurrence detector STATIC-026: where STATIC-026 sees a source and a sink only when both are named in ONE tool's description, FLOW-001 reasons over the whole toolset's tag graph via the taint-reachability primitive. Carries the AGENT-003 + CWE-200 data-exfiltration-chain taxonomy provenance (mirroring STATIC-026)"
+ },
+ "FLOW-002": {
+  "path": "FLOW-002/",
+  "severity": "HIGH",
+  "title": "Static integrity flow across a declared MCP toolset \u2014 a tool that returns text authored by third parties (asset descriptions, system prompts, readmes, comments) shares a toolset with a tool that writes a governance control (policy, rule, role, permission) or a shared workspace (issue, ticket, page) through a free-form parameter, so outsider-controlled text can steer a write other people trust. The integrity twin of FLOW-001, which reasons about secrets flowing out and sees nothing here"
+ },
+ "FUZZ-CRASH": {
+  "path": "FUZZ-CRASH/",
+  "severity": "CRITICAL",
+  "title": "Server crashed on fuzz input"
+ },
+ "FUZZ-INJECTION": {
+  "path": "FUZZ-INJECTION/",
+  "severity": "HIGH",
+  "title": "Prompt injection detected in tool response"
+ },
+ "FUZZ-LEAK": {
+  "path": "FUZZ-LEAK/",
+  "severity": "HIGH",
+  "title": "Information leakage detected in fuzz response"
+ },
+ "FUZZ-PATH-TRAVERSAL": {
+  "path": "FUZZ-PATH-TRAVERSAL/",
+  "severity": "HIGH",
+  "title": "Path traversal confirmed in tool output (containment escape)"
+ },
+ "FUZZ-TERMINAL-INJECTION": {
+  "path": "FUZZ-TERMINAL-INJECTION/",
+  "severity": "HIGH",
+  "title": "ANSI/terminal control sequence in tool response"
+ },
+ "LOAD-HOTF-001": {
+  "path": "LOAD-HOTF-001/",
+  "severity": "HIGH",
+  "title": "A benign canary principal was starved into non-termination by a half-open task flood (unbounded shared task-state slot exhaustion / availability DoS; CWE-400, OWASP API4:2023)"
+ },
+ "LOAD-INFRA-006": {
+  "path": "LOAD-INFRA-006/",
+  "severity": "HIGH",
+  "title": "A load run finished no operation inside its window, so every latency and rate is the default of an empty run and the run's green result carries no measurement"
+ },
+ "LOAD-LIFECYCLE-001": {
+  "path": "LOAD-LIFECYCLE-001/",
+  "severity": "HIGH",
+  "title": "Task did not reach a terminal state under load (non-termination / stream leak)"
+ },
+ "LOAD-LIFECYCLE-002": {
+  "path": "LOAD-LIFECYCLE-002/",
+  "severity": "HIGH",
+  "title": "Task context_id inconsistent across lifecycle events (routing-isolation break under load)"
+ },
+ "LOAD-LIFECYCLE-003": {
+  "path": "LOAD-LIFECYCLE-003/",
+  "severity": "HIGH",
+  "title": "Resubscribe stream ended non-terminal when drained to close (server drop or client stream cut)"
+ },
+ "LOAD-LIFECYCLE-004": {
+  "path": "LOAD-LIFECYCLE-004/",
+  "severity": "HIGH",
+  "title": "Server-reported error during a task-lifecycle drain under load (SUT actively errored, not a hang)"
+ },
+ "LOAD-MEASURE-001": {
+  "path": "LOAD-MEASURE-001/",
+  "severity": "MEDIUM",
+  "title": "Latency samples mix operations of differing wire round-trip cost, so the pooled percentiles and throughput describe no single population"
+ },
+ "LOAD-RUN-001": {
+  "path": "LOAD-RUN-001/",
+  "severity": "HIGH",
+  "title": "A load run could not be carried out, read or fully observed (the distributed runner failed, or a lifecycle drain was cut short by a harness defect), so the checks over it did not run"
+ },
+ "LOAD-SESSION-001": {
+  "path": "LOAD-SESSION-001/",
+  "severity": "HIGH",
+  "title": "Session initialization failure under load"
+ },
+ "LOAD-SESSION-002": {
+  "path": "LOAD-SESSION-002/",
+  "severity": "HIGH",
+  "title": "Session pool exhaustion (all sessions busy)"
+ },
+ "LOAD-SESSION-003": {
+  "path": "LOAD-SESSION-003/",
+  "severity": "MEDIUM",
+  "title": "Session churn recycling failure"
+ },
+ "LOAD-THRESH-001": {
+  "path": "LOAD-THRESH-001/",
+  "severity": "HIGH",
+  "title": "p99 latency exceeded threshold"
+ },
+ "LOAD-THRESH-002": {
+  "path": "LOAD-THRESH-002/",
+  "severity": "MEDIUM",
+  "title": "p95 latency exceeded threshold"
+ },
+ "LOAD-THRESH-003": {
+  "path": "LOAD-THRESH-003/",
+  "severity": "HIGH",
+  "title": "Error rate exceeded threshold"
+ },
+ "LOAD-THRESH-004": {
+  "path": "LOAD-THRESH-004/",
+  "severity": "MEDIUM",
+  "title": "Throughput below minimum requests per second"
+ },
+ "LOAD-THRESH-005": {
+  "path": "LOAD-THRESH-005/",
+  "severity": "HIGH",
+  "title": "Success rate below minimum threshold"
+ },
+ "LOAD-THRESH-006": {
+  "path": "LOAD-THRESH-006/",
+  "severity": "MEDIUM",
+  "title": "Connection p99 latency exceeded threshold"
+ },
+ "LOAD-WEBHOOK-001": {
+  "path": "LOAD-WEBHOOK-001/",
+  "severity": "HIGH",
+  "title": "A registered push webhook missed a task's terminal update (incomplete fan-out)"
+ },
+ "LOAD-WEBHOOK-002": {
+  "path": "LOAD-WEBHOOK-002/",
+  "severity": "HIGH",
+  "title": "A push webhook got repeat deliveries with differing payloads (non-idempotent)"
+ },
+ "PROTO-001": {
+  "path": "PROTO-001/",
+  "severity": "HIGH",
+  "title": "Protocol version not in SUPPORTED_PROTOCOL_VERSIONS"
+ },
+ "PROTO-002": {
+  "path": "PROTO-002/",
+  "severity": "MEDIUM",
+  "title": "Protocol version is not a string"
+ },
+ "PROTO-003": {
+  "path": "PROTO-003/",
+  "severity": "LOW",
+  "title": "Empty server name"
+ },
+ "PROTO-004": {
+  "path": "PROTO-004/",
+  "severity": "LOW",
+  "title": "Empty server version"
+ },
+ "PROTO-005": {
+  "path": "PROTO-005/",
+  "severity": "HIGH",
+  "title": "Capabilities is None"
+ },
+ "PROTO-006": {
+  "path": "PROTO-006/",
+  "severity": "LOW",
+  "title": "Protocol version format not YYYY-MM-DD or DRAFT-*"
+ },
+ "PROTO-010": {
+  "path": "PROTO-010/",
+  "severity": "HIGH",
+  "title": "Nonexistent tool call error handling"
+ },
+ "PROTO-011": {
+  "path": "PROTO-011/",
+  "severity": "MEDIUM",
+  "title": "Error response has empty content"
+ },
+ "PROTO-012": {
+  "path": "PROTO-012/",
+  "severity": "MEDIUM",
+  "title": "Ping support verification"
+ },
+ "PROTO-013": {
+  "path": "PROTO-013/",
+  "severity": "HIGH",
+  "title": "JSON-RPC 2.0 standard error codes for protocol violations (-32700, -32600 or -32602)"
+ },
+ "PROTO-020": {
+  "path": "PROTO-020/",
+  "severity": "HIGH",
+  "title": "Tools capability advertised but list_tools() failed"
+ },
+ "PROTO-021": {
+  "path": "PROTO-021/",
+  "severity": "HIGH",
+  "title": "Resources capability advertised but list_resources() failed"
+ },
+ "PROTO-022": {
+  "path": "PROTO-022/",
+  "severity": "HIGH",
+  "title": "Prompts capability advertised but list_prompts() failed"
+ },
+ "PROTO-023": {
+  "path": "PROTO-023/",
+  "severity": "HIGH",
+  "title": "Logging capability advertised but set_logging_level() failed"
+ },
+ "PROTO-024": {
+  "path": "PROTO-024/",
+  "severity": "LOW",
+  "title": "Logging capability advertised and level set but no log notifications received"
+ },
+ "PROTO-025": {
+  "path": "PROTO-025/",
+  "severity": "INFO",
+  "title": "Capability advertised that the negotiated protocol version deprecates"
+ },
+ "PROTO-030": {
+  "path": "PROTO-030/",
+  "severity": "LOW",
+  "title": "RFC 9728 Protected Resource Metadata endpoint validation"
+ },
+ "PROTO-031": {
+  "path": "PROTO-031/",
+  "severity": "HIGH",
+  "title": "RFC 8414 OAuth Authorization Server Metadata content"
+ },
+ "PROTO-032": {
+  "path": "PROTO-032/",
+  "severity": "LOW",
+  "title": "RFC 6750 WWW-Authenticate header compliance"
+ },
+ "PROTO-033": {
+  "path": "PROTO-033/",
+  "severity": "MEDIUM",
+  "title": "Auth configuration consistency validation"
+ },
+ "PROTO-034": {
+  "path": "PROTO-034/",
+  "severity": "HIGH",
+  "title": "Unauthenticated request accepted although auth is configured"
+ },
+ "PROTO-041": {
+  "path": "PROTO-041/",
+  "severity": "MEDIUM",
+  "title": "Server handles expired/terminated session IDs gracefully"
+ },
+ "PROTO-042": {
+  "path": "PROTO-042/",
+  "severity": "MEDIUM",
+  "title": "Mcp-Session-Id header format (visible ASCII 0x21-0x7E, cryptographically secure)"
+ },
+ "PROTO-043": {
+  "path": "PROTO-043/",
+  "severity": "MEDIUM",
+  "title": "JSON-RPC batch (JSON array POST body) rejected on 2025-06-18 and later"
+ },
+ "PROTO-044": {
+  "path": "PROTO-044/",
+  "severity": "HIGH",
+  "title": "Request with a foreign Origin header answered HTTP 403"
+ },
+ "PROTO-050": {
+  "path": "PROTO-050/",
+  "severity": "HIGH",
+  "title": "Discovery advertised no supported protocol versions"
+ },
+ "PROTO-051": {
+  "path": "PROTO-051/",
+  "severity": "MEDIUM",
+  "title": "Discovery advertised a protocol version this SDK does not recognize"
+ },
+ "PROTO-052": {
+  "path": "PROTO-052/",
+  "severity": "HIGH",
+  "title": "Discovery returned no capabilities"
+ },
+ "PROTO-060": {
+  "path": "PROTO-060/",
+  "severity": "MEDIUM",
+  "title": "A stream closed inside an SSE event that never got its terminating blank line"
+ },
+ "PROTO-061": {
+  "path": "PROTO-061/",
+  "severity": "MEDIUM",
+  "title": "An SSE data payload is not a JSON-RPC 2.0 message"
+ },
+ "PROTO-062": {
+  "path": "PROTO-062/",
+  "severity": "MEDIUM",
+  "title": "Messages travel on a named SSE event type instead of the default one"
+ },
+ "PROTO-063": {
+  "path": "PROTO-063/",
+  "severity": "LOW",
+  "title": "An SSE retry field is not an integer number of milliseconds"
+ },
+ "PROTO-064": {
+  "path": "PROTO-064/",
+  "severity": "MEDIUM",
+  "title": "An event id or response id repeats on one stream, or an event id repeats across the streams of a session"
+ },
+ "PROTO-065": {
+  "path": "PROTO-065/",
+  "severity": "LOW",
+  "title": "The server sends retry but attaches no event ids, so a client cannot resume"
+ },
+ "PROTO-066": {
+  "path": "PROTO-066/",
+  "severity": "HIGH",
+  "title": "A Last-Event-ID replay carried another stream's messages, re-sent the named event, or reordered messages"
+ },
+ "PROTO-067": {
+  "path": "PROTO-067/",
+  "severity": "MEDIUM",
+  "title": "A JSON-RPC batch was processed although batching was removed from the base protocol"
+ },
+ "PROTO-068": {
+  "path": "PROTO-068/",
+  "severity": "MEDIUM",
+  "title": "subscriptions/listen was not acknowledged first, named another subscription, or closed the stream"
+ },
+ "PROTO-069": {
+  "path": "PROTO-069/",
+  "severity": "MEDIUM",
+  "title": "A listen stream carried list-changed notifications outside the requested filter"
+ },
+ "PROTO-070": {
+  "path": "PROTO-070/",
+  "severity": "HIGH",
+  "title": "A listed resource could not be read or read back with no contents"
+ },
+ "PROTO-071": {
+  "path": "PROTO-071/",
+  "severity": "HIGH",
+  "title": "Resource contents lack a uri, carry both or neither of text and blob, or carry a non-base64 blob"
+ },
+ "PROTO-072": {
+  "path": "PROTO-072/",
+  "severity": "MEDIUM",
+  "title": "Reading a resource that was never listed succeeded instead of failing (SEP-2164)"
+ },
+ "PROTO-073": {
+  "path": "PROTO-073/",
+  "severity": "HIGH",
+  "title": "A listed prompt could not be got or its messages do not validate (role, content blocks)"
+ },
+ "PROTO-074": {
+  "path": "PROTO-074/",
+  "severity": "MEDIUM",
+  "title": "Getting a prompt that was never listed succeeded instead of failing"
+ },
+ "PROTO-075": {
+  "path": "PROTO-075/",
+  "severity": "HIGH",
+  "title": "completion/complete answered more than 100 values or an answer that does not validate"
+ },
+ "PROTO-076": {
+  "path": "PROTO-076/",
+  "severity": "HIGH",
+  "title": "resources.subscribe advertised but resources/subscribe or resources/unsubscribe failed"
+ },
+ "PROTO-077": {
+  "path": "PROTO-077/",
+  "severity": "HIGH",
+  "title": "A read-only, argument-free tool returned malformed content blocks"
+ },
+ "PROTO-078": {
+  "path": "PROTO-078/",
+  "severity": "LOW",
+  "title": "ping answered a non-empty result"
+ },
+ "PROTO-079": {
+  "path": "PROTO-079/",
+  "severity": "HIGH",
+  "title": "The server sent a request (roots/list, sampling/createMessage, elicitation/create) for a client capability the client did not declare, or other than a ping before initialized, or on a stateless connection; in client mode, a client requested a server capability the server did not advertise"
+ },
+ "PROTO-080": {
+  "path": "PROTO-080/",
+  "severity": "MEDIUM",
+  "title": "A progress notification did not increase (MCPCL-bda3ba1eba), named a token no request carried (MCPCL-2c4e7a3f7c), or arrived after the result (MCPCL-961da39658)"
+ },
+ "PROTO-081": {
+  "path": "PROTO-081/",
+  "severity": "MEDIUM",
+  "title": "An accepted notification was not answered with HTTP 202 and no body"
+ },
+ "PROTO-082": {
+  "path": "PROTO-082/",
+  "severity": "MEDIUM",
+  "title": "A request was answered with neither an event stream nor one JSON object"
+ },
+ "PROTO-083": {
+  "path": "PROTO-083/",
+  "severity": "MEDIUM",
+  "title": "The session id holds a character outside visible ASCII (0x21 to 0x7E)"
+ },
+ "PROTO-084": {
+  "path": "PROTO-084/",
+  "severity": "LOW",
+  "title": "The server kept a request stream open after it sent the response"
+ },
+ "PROTO-085": {
+  "path": "PROTO-085/",
+  "severity": "LOW",
+  "title": "A request stream closed without a response to its request, and a resume found none"
+ },
+ "PROTO-086": {
+  "path": "PROTO-086/",
+  "severity": "MEDIUM",
+  "title": "A GET answered 200 with something other than an event stream"
+ },
+ "PROTO-087": {
+  "path": "PROTO-087/",
+  "severity": "MEDIUM",
+  "title": "A GET stream that resumed nothing carried a JSON-RPC response"
+ },
+ "PROTO-088": {
+  "path": "PROTO-088/",
+  "severity": "MEDIUM",
+  "title": "A listen stream carried a server request or a notification that belongs to another request"
+ },
+ "PROTO-089": {
+  "path": "PROTO-089/",
+  "severity": "MEDIUM",
+  "title": "The server sent notifications/cancelled for a request the client made"
+ },
+ "PROTO-090": {
+  "path": "PROTO-090/",
+  "severity": "MEDIUM",
+  "title": "A server message went out on more than one stream, or a notification on a request stream did not relate to it"
+ },
+ "PROTO-091": {
+  "path": "PROTO-091/",
+  "severity": "HIGH",
+  "title": "A read-only tool that declares an outputSchema returned no structuredContent"
+ },
+ "PROTO-092": {
+  "path": "PROTO-092/",
+  "severity": "HIGH",
+  "title": "A read-only tool returned structuredContent that does not validate against its outputSchema"
+ },
+ "PROTO-093": {
+  "path": "PROTO-093/",
+  "severity": "MEDIUM",
+  "title": "An invalid Origin header was not refused with HTTP 403"
+ },
+ "PROTO-094": {
+  "path": "PROTO-094/",
+  "severity": "HIGH",
+  "title": "A write tool is listed to the read credential"
+ },
+ "PROTO-095": {
+  "path": "PROTO-095/",
+  "severity": "MEDIUM",
+  "title": "Write tools exist but scopes_supported has no scope separating writing from reading"
+ },
+ "PROTO-096": {
+  "path": "PROTO-096/",
+  "severity": "MEDIUM",
+  "title": "Open client registration with a public client and a consent page that omits the write tools"
+ },
+ "PROTO-097": {
+  "path": "PROTO-097/",
+  "severity": "MEDIUM",
+  "title": "Input the server could not accept was answered with a 2xx status and a JSON-RPC error"
+ },
+ "PROTO-098": {
+  "path": "PROTO-098/",
+  "severity": "MEDIUM",
+  "title": "An invalid MCP-Protocol-Version header was not refused with HTTP 400"
+ },
+ "PROTO-100": {
+  "path": "PROTO-100/",
+  "severity": "LOW",
+  "title": "A request without the session id was refused with a status other than HTTP 400"
+ },
+ "PROTO-101": {
+  "path": "PROTO-101/",
+  "severity": "MEDIUM",
+  "title": "A request with a terminated session id was not answered with HTTP 404"
+ },
+ "PROTO-102": {
+  "path": "PROTO-102/",
+  "severity": "LOW",
+  "title": "Session ids are not globally unique and cryptographically secure"
+ },
+ "PROTO-103": {
+  "path": "PROTO-103/",
+  "severity": "MEDIUM",
+  "title": "An error response did not carry the id of the request it answers"
+ },
+ "PROTO-104": {
+  "path": "PROTO-104/",
+  "severity": "MEDIUM",
+  "title": "An error code was not an integer"
+ },
+ "PROTO-105": {
+  "path": "PROTO-105/",
+  "severity": "MEDIUM",
+  "title": "A notification carried an id"
+ },
+ "PROTO-106": {
+  "path": "PROTO-106/",
+  "severity": "MEDIUM",
+  "title": "A progress notification did not increase the progress value"
+ },
+ "PROTO-107": {
+  "path": "PROTO-107/",
+  "severity": "MEDIUM",
+  "title": "A progress notification arrived after the response to its request"
+ },
+ "PROTO-108": {
+  "path": "PROTO-108/",
+  "severity": "MEDIUM",
+  "title": "A progress notification referenced a token the client never sent"
+ },
+ "PROTO-109": {
+  "path": "PROTO-109/",
+  "severity": "MEDIUM",
+  "title": "Log notifications came from a server that did not declare the logging capability"
+ },
+ "PROTO-110": {
+  "path": "PROTO-110/",
+  "severity": "LOW",
+  "title": "A request stream did not open with a priming event (an event id and empty data)"
+ },
+ "PROTO-111": {
+  "path": "PROTO-111/",
+  "severity": "MEDIUM",
+  "title": "A 2026-07-28 request whose version header differs from its _meta was not refused with HeaderMismatch"
+ },
+ "PROTO-112": {
+  "path": "PROTO-112/",
+  "severity": "MEDIUM",
+  "title": "A 2026-07-28 request whose Mcp-Method header differs from its body was not refused with HeaderMismatch"
+ },
+ "PROTO-113": {
+  "path": "PROTO-113/",
+  "severity": "MEDIUM",
+  "title": "An unimplemented 2026-07-28 method was not answered with HTTP 404 and error -32601"
+ },
+ "PROTO-114": {
+  "path": "PROTO-114/",
+  "severity": "MEDIUM",
+  "title": "A request for an unsupported protocol version was not refused with HTTP 400"
+ },
+ "PROTO-115": {
+  "path": "PROTO-115/",
+  "severity": "MEDIUM",
+  "title": "A result to a 2026-07-28 request carried no resultType"
+ },
+ "PROTO-116": {
+  "path": "PROTO-116/",
+  "severity": "MEDIUM",
+  "title": "A server request was sent on the response stream of a 2026-07-28 request"
+ },
+ "PROTO-117": {
+  "path": "PROTO-117/",
+  "severity": "LOW",
+  "title": "An SSE response to a 2026-07-28 request lacked the X-Accel-Buffering: no header"
+ },
+ "RUNTIME-A2A-ARTIFACT-INJECTION": {
+  "path": "RUNTIME-A2A-ARTIFACT-INJECTION/",
+  "severity": "HIGH",
+  "title": "A returned A2A artifact carries active content (script tag, on* event handler, javascript:/data: URI, or SVG/iframe payload) that executes when a frontend renders it: the Artifact-Triggered Script Injection attack, relayed through the host agent as a confused deputy. Detected deterministically by scanning the returned artifact text for active-content signatures."
+ },
+ "RUNTIME-A2A-CAPABILITY-CLOAKING": {
+  "path": "RUNTIME-A2A-CAPABILITY-CLOAKING/",
+  "severity": "HIGH",
+  "title": "The agent exercised authority beyond its declared AgentCard surface: the A2ASecBench Capability-Cloaking class (declared-vs-actual capability mismatch / hidden functionality). Detected as a deterministic capability-lattice diff (NONE<READ<WRITE<ADMIN per resource) over the boundary-observable network / client_ui / peer_agent channels the Tier-C harness drives: fires when the observed footprint is not attenuated under the card-declared footprint. An orthogonal peer of the SSRF / artifact-injection detectors (authorization drift, not payload malice)."
+ },
+ "RUNTIME-A2A-CARD-IMPERSONATION": {
+  "path": "RUNTIME-A2A-CARD-IMPERSONATION/",
+  "severity": "HIGH",
+  "title": "A Remote / Live target's AgentCard cryptographically proves (proof-of-possession against the operator-pinned trust anchor) an identity that is not in the operator-declared expected_target_identities allow-set: a validly-signed card served for a target principal the operator never authorized (A2ASecBench AgentCard-Spoofing). Emitted inline from the scorecard security probe's principal-binding evaluation; fires only when both a card trust anchor and an allow-set are configured and the proven identity falls outside it, so a card the operator never bound cannot launder its immunity onto an unauthorized target. Distinct from the STATIC-036 homoglyph heuristic and the CARD-SIGN signature-validity gate."
+ },
+ "RUNTIME-A2A-EGRESS-ALLOWLIST": {
+  "path": "RUNTIME-A2A-EGRESS-ALLOWLIST/",
+  "severity": "HIGH",
+  "title": "Runtime A2A network egress to a host OUTSIDE the test-author-declared expected-egress allowlist (and outside the framework-infrastructure allowlist). The host-bound network PARAMETER conformance check that complements the capability-cloaking network LEVEL check: a declared network capability hijacked to an undeclared host reads as attenuated on the level axis but fails the parameter axis. Deterministic suffix-containment match (apex-excluding, Cilium toFQDNs semantics) at the observed NAME layer, reusing the SSRF host machinery; the IANA special-purpose IP-class deny is the separate SSRF pass. Observe-only conformance verdict (unattested egress against a declared allowlist), NOT an authorization violation. The Tier-1 fixture-attested slice of parameter-bound capability attestation."
+ },
+ "RUNTIME-A2A-EGRESS-UNATTESTED": {
+  "path": "RUNTIME-A2A-EGRESS-UNATTESTED/",
+  "severity": "INFO",
+  "title": "Advisory inventory of a runtime A2A network egress observed with NO expected-egress allowlist declared. The OFF-GATE companion to RUNTIME-A2A-EGRESS-ALLOWLIST: where that detector is silent when no allowlist is supplied (nothing to conform against), this opt-in advisory inventories every observed non-infrastructure egress host as `unattested` so an operator can see what the agent contacts and seed an allowlist from the result. APS_COMPLETENESS normativity (advisory, never gates); the verdict is `unattested` (no allowlist was declared, so the toolkit cannot say whether the destination is in-scope), NEVER an authorization violation."
+ },
+ "RUNTIME-A2A-GRANT-CONFORMANCE": {
+  "path": "RUNTIME-A2A-GRANT-CONFORMANCE/",
+  "severity": "HIGH",
+  "title": "Runtime A2A network egress NONCONFORMING against a structured capability grant parsed off a real carrier \u2014 an RFC 9396 Rich Authorization Requests authorization_details body carried in the A2A AgentExtension.params / Message.metadata Struct. The Tier-2 parameter-bound WIRE-STANDARD slice of capability attestation: the observed egress host is checked against the grant's own locations hosts (RFC 9396 \u00a72.2), routed through the shared DefaultScopeLattice (one engine, reused). The RAR grant body is unsigned JSON, so the verdict is OBSERVE-ONLY conformance (nonconforming egress against a carrier-attested grant), NOT an authorization violation: an observe-only tester never sees the access-token signature, consent, or grant decision, so it cannot assert authorization."
+ },
+ "RUNTIME-A2A-PUSH-WEBHOOK-SSRF": {
+  "path": "RUNTIME-A2A-PUSH-WEBHOOK-SSRF/",
+  "severity": "HIGH",
+  "title": "Runtime A2A push-notification webhook URL points at an IANA Special-Purpose Address Registry range \u2014 loopback, private RFC 1918, link-local RFC 3927, CGNAT RFC 6598, RFC 5737 documentation, RFC 2544 benchmarking, RFC 3849 / RFC 9637 IPv6 documentation, or a cloud-metadata hostname (169.254.169.254, metadata.google.internal). Documentation + benchmarking ranges are first-class SSRF targets at runtime, distinct from the static-publish-time precision-HIGH suppression. The detector reads the URL out of the invoke args at the ``tasks/pushNotificationConfig/set`` chokepoint."
+ },
+ "RUNTIME-CROSS-AGENT-TAINT-TAMPERED": {
+  "path": "RUNTIME-CROSS-AGENT-TAINT-TAMPERED/",
+  "severity": "HIGH",
+  "title": "An inbound cross-agent taint bundle was present on the A2A envelope but did not verify: forged or malformed (its MAC failed or the bundle was unparseable), attribution-forged (the declared sender did not match the verifying-key identity), or replayed (a valid blob lifted from another session or past its expiry). A present-but-invalid bundle is an active tamper of the value-taint wire, surfaced as a finding rather than silently dropped; an absent bundle maps to untainted with no finding. Carries the CWE-345 insufficient-verification-of-authenticity taxonomy (CWE-294 capture-replay for the replayed variant)"
+ },
+ "RUNTIME-CROSS-AGENT-VALUE-TAINT": {
+  "path": "RUNTIME-CROSS-AGENT-VALUE-TAINT/",
+  "severity": "HIGH",
+  "title": "Runtime-confirmed cross-agent value taint: a sensitive value read in agent A, minted to a radioactive CSPRNG token and carried across the A\u2192B A2A wire in a MAC-authenticated metadata bundle, whose token re-attached at agent B's external-egress tool arguments \u2014 the multi-agent exfil the single-session value-taint engine is blind to (A's label sidecar dies at the wire boundary; B starts blank). Confirmed by the SAME deterministic verbatim minted-token match at B's sink, seeded from the verified inbound bundle, so it inherits RUNTIME-TOXIC-FLOW's zero-false-positive property. Sound only on an instrumented in-process mesh where the harness mediates both the tool calls and the A2A envelope. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW)"
+ },
+ "RUNTIME-CS-CYCLE": {
+  "path": "RUNTIME-CS-CYCLE/",
+  "severity": "HIGH",
+  "title": "A multi-hop A2A delegation chain contains a directed cycle \u2014 a task transitively references itself, so subtasks refine or forward one another forever without producing a final result, exhausting scheduler capacity. This is the structural signature of the A2ASecBench Cycle-Overflow availability attack. Detected deterministically by the delegation-DAG topology analyzer off the task_id / reference_task_ids chain; no live LLM."
+ },
+ "RUNTIME-CS-DELEGATED-SUBGRAPH": {
+  "path": "RUNTIME-CS-DELEGATED-SUBGRAPH/",
+  "severity": "MEDIUM",
+  "title": "A delegation-event hop in a multi-hop A2A delegation DAG (a hop that declared it spawned a delegated task) declares a delegated sub-graph root that no hop in the ingested trace produced: the delegated sub-tree the check depends on is absent, so the composition-safety delegation check cannot soundly evaluate the delegated branch. A coverage-completeness gap (surfaced as a per-check notApplicable, never a silent clear) rather than a confirmed exploit: a masked delegated sub-tree may be a benign framework boundary or may mask a colluding delegator that withheld a child branch it spawned, so the missing delegated sub-graph is surfaced for investigation. The delegation twin of RUNTIME-CS-JOIN (a missing downstream sub-tree vs a missing upstream causal parent). The topology walk reads the delegator's FORWARD delegated_task_ids declarations against the task_id set the chain produced. It deliberately does not key off upstream references: a whole-subtree mask erases the child, so nothing points back at it, and only the delegator's surviving forward declaration can witness the mask."
+ },
+ "RUNTIME-CS-DELEGATION": {
+  "path": "RUNTIME-CS-DELEGATION/",
+  "severity": "HIGH",
+  "title": "Runtime cross-protocol delegation violates AASM Composition Safety: an MCP-A2A bridge forwards one protocol's granted scope as the other protocol's requested scope without a benign principal-fresh / principal-original consent stamp, and the requested scope is not attenuated under the granted scope per the DefaultScopeLattice. The detector reads only the ExecutionResult pair the bridge interceptor emits."
+ },
+ "RUNTIME-CS-FAN-OUT": {
+  "path": "RUNTIME-CS-FAN-OUT/",
+  "severity": "HIGH",
+  "title": "A single task in a multi-hop A2A delegation chain is referenced by an unbounded number of downstream hops \u2014 fan-out amplification, where one delegation multiplies into many and exhausts downstream capacity or budget. The availability sibling of the delegation cycle: the cycle never terminates, the fan-out terminates but costs a multiple of what the root authorised. Detected deterministically by an in-degree scan over the task_id / reference_task_ids topology, with the threshold set above the benign tail; no live LLM."
+ },
+ "RUNTIME-CS-JOIN": {
+  "path": "RUNTIME-CS-JOIN/",
+  "severity": "MEDIUM",
+  "title": "A join / fan-in hop in a multi-hop A2A delegation DAG references a causal-parent task that no hop in the ingested trace produced: one of the parents the join depends on is absent, so the composition-safety join check cannot soundly evaluate the fan-in. A coverage-completeness gap (surfaced as a per-check notApplicable, never a silent clear) rather than a confirmed exploit: a dropped parallel branch may be a benign framework boundary or may mask a colluding intermediary that erased a branch, so the missing causal parent is surfaced for investigation. The topology walk reads only the task_id / reference_task_ids DAG off the ExecutionResult chain."
+ },
+ "RUNTIME-CS-LAUNDERING": {
+  "path": "RUNTIME-CS-LAUNDERING/",
+  "severity": "HIGH",
+  "title": "An upstream payload canary reached the downstream agent but its context_id was stripped or changed in transit: a black-box hop laundered an escalated delegation into a benign-looking new root (laundering-by-fragmentation). The payload-canary lineage correlator proves the A->C lineage the hidden metadata denied."
+ },
+ "RUNTIME-CS-TEMPORAL": {
+  "path": "RUNTIME-CS-TEMPORAL/",
+  "severity": "HIGH",
+  "title": "A multi-hop A2A delegation chain exercised its root grant after the grant's effective TTL had elapsed in transit: a provable expired-grant replay (temporal TOCTOU). The declared-TTL lattice check compares TTL values, so a token cached past its window verifies green there; the observed-timestamp check catches it. Skew-aware: an elapsed time inside the observed clock-skew band, or a downstream hop stamped before the root, is INDETERMINATE and surfaced as a per-check notApplicable rather than a false escalation. The mesh observer reads only the hop timestamps and the root-grant TTL off the chain; no live LLM."
+ },
+ "RUNTIME-CS-TRACE-CONTINUITY": {
+  "path": "RUNTIME-CS-TRACE-CONTINUITY/",
+  "severity": "MEDIUM",
+  "title": "A multi-hop A2A delegation chain failed to preserve its context_id across hops \u2014 a hop dropped (set null) or forked the conversation context, severing the delegation lineage the Composition-Safety scope-attenuation check depends on. Flagged as a mesh-hygiene advisory distinct from a confirmed confused-deputy attack: a severed lineage may be a benign framework boundary (a background queue or fresh thread that did not propagate the trace) or may mask a self-escalating hop, so it is surfaced for investigation rather than alarmed as a confirmed exploit. The mesh observer reads only the context_id / reference_task_ids topology off the ExecutionResult chain."
+ },
+ "RUNTIME-DENIAL-LAUNDERING": {
+  "path": "RUNTIME-DENIAL-LAUNDERING/",
+  "severity": "HIGH",
+  "title": "Runtime-confirmed denial laundering: a sensitive value read earlier was observed in the arguments of a later tool call that was DENIED (blocked / raised). The denied call produced no output, so an output-correlating detector misses it; the agent's ATTEMPT to exfil the value through the blocked path is the finding. The block prevented the leak, but the attempt itself is a strong compromise signal. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)"
+ },
+ "RUNTIME-EVAL-RCE-CONFIRMED": {
+  "path": "RUNTIME-EVAL-RCE-CONFIRMED/",
+  "severity": "CRITICAL",
+  "title": "Remote code execution confirmed by an out-of-band callback: a language-aware payload sent to a tool argument made the server request a unique token on a listener the scanner owns. A callback proves execution; a silent listener proves nothing"
+ },
+ "RUNTIME-FLOW-UNSCORABLE": {
+  "path": "RUNTIME-FLOW-UNSCORABLE/",
+  "severity": "HIGH",
+  "title": "Runtime toxic-flow analysis UNSCORABLE (fail-closed bound, not a confirmed leak): the tainted-value frontier (security._toxic_flow_runtime) exceeded its documented sound-analysis high-water bound in a single session \u2014 a count only reached under a hostile flood minting distinct secret-shaped strings to exhaust memory. The frontier is a monotone-join taint set with no sound eviction (evicting a tracked source would drop a later sink as a false negative), so the engine FAILS CLOSED rather than evicting or silently truncating: the batch driver marks the whole trace unscorable and the in-path streaming driver propagates the breach onto the denial channel. Gate-blocking (HIGH) so an unscorable trace can never pass silently"
+ },
+ "RUNTIME-INTEGRITY-FLOW": {
+  "path": "RUNTIME-INTEGRITY-FLOW/",
+  "severity": "MEDIUM",
+  "title": "Off-gate integrity / confused-deputy advisory: an UNTRUSTED_INPUT read whose content flowed into a dangerous-ACTION sink (write-to-trusted-store / shell-exec / money-move) \u2014 the INTEGRITY dual the value-preservation gate (RUNTIME-TOXIC-FLOW) is structurally blind to. RUNTIME-TOXIC-FLOW confirms only CONFIDENTIALITY (a sensitive VALUE reaching an external-EGRESS sink); here the oracle is STRUCTURAL TAINT into a dangerous-action PARAMETER (the damage is the ACTION, not a shared value): an untrusted read value re-attaching at a dangerous-action sink's carrier param confirms the flow. The dangerous integrity cells are the non-EXFIL effect pairs of the damage-envelope rule (READ_UNTRUSTED x {WRITE_TRUSTED, CODE_EXEC, MONEY_MOVER} and IDENTITY_ASSERT x MONEY_MOVER); EXFIL is the confidentiality lane and is never double-reported. ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001 / RUNTIME-REFERENCE-EXFIL) for a heuristic-classified sink \u2014 it surfaces for review but never blocks CI. The CI gate fires ONLY when the operator DECLARES the sink as a dangerous-action class (then emitted at Severity.HIGH onto the gate-blocking findings). Carries the CWE-441 confused-deputy taxonomy provenance"
+ },
+ "RUNTIME-MCP-STREAM-ANOMALY": {
+  "path": "RUNTIME-MCP-STREAM-ANOMALY/",
+  "severity": "LOW",
+  "title": "Off-gate streaming-anomaly advisory over the live MCP invocation stream (online-IDS lane). A standalone streaming adapter of Page's two-sided tabular CUSUM runs over a deterministic per-invocation risk scalar (canonical-JSON payload magnitude); a sustained shift past the CUSUM decision interval surfaces as an ADVISORY finding for operator review. Advisory only (Precision.LOW + APS_COMPLETENESS normativity, off the default gate) \u2014 a soft online signal, not a build gate and not a value-confirmed leak proof (RUNTIME-TOXIC-FLOW remains the gate-blocking exfiltration detector)"
+ },
+ "RUNTIME-MULTIMODAL-INJECTION": {
+  "path": "RUNTIME-MULTIMODAL-INJECTION/",
+  "severity": "HIGH",
+  "title": "An instruction rendered only into an image delivered in a tool result was acted on by the vision-capable agent under test: a code that existed only in the image's pixels reached one of the agent's tool calls."
+ },
+ "RUNTIME-OUTPUT-REFLECTION": {
+  "path": "RUNTIME-OUTPUT-REFLECTION/",
+  "severity": "MEDIUM",
+  "title": "Off-gate indirect-prompt-injection reflection advisory: an UNTRUSTED INPUT's value reappears INSIDE an ACTIVE output markup position (a markdown image src, a markdown link href, an HTML src=/href= attribute, or an injection-delimiter position). This is a PROVENANCE signal \u2014 untrusted data crossing into an active output slot \u2014 ORTHOGONAL to the presence-based markdown-exfil scan (INJECTION-MARKDOWN-EXFIL / assert_no_injection), which flags dangerous markup regardless of where the URL came from: a static safe ![x](http://cdn) produces nothing here, a reflected evil.example/{stolen} in an image src fires. The reflected value can arrive encoded, so each untrusted input is expanded via the value-preserving canonical_forms transcoder (base64/hex/URL/Unicode) before the active-markup substring test. Native + deterministic (regex + canonical_forms; no model, no LLM, no floating point). ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001 / RUNTIME-SEMANTIC-EXFIL) \u2014 a reflection signal for review, never a gate-blocking value-confirmed leak; gate-promotion needs a measured recall@FPR corpus first"
+ },
+ "RUNTIME-REFERENCE-EXFIL": {
+  "path": "RUNTIME-REFERENCE-EXFIL/",
+  "severity": "MEDIUM",
+  "title": "Off-gate reference-exfil advisory: a capability/handle leak the value-preservation gate (RUNTIME-TOXIC-FLOW) cannot prove. A carrier ingested the sensitive value and minted an UNRELATED high-entropy handle \u2014 a gist URL, a pastebin id, a vault reference \u2014 that reached an external-egress tool; the secret's VALUE is ABSENT from the handle, so no value scanner (the gate, or even an FPE canary) can see it. The reference-frontier tracks the new high-entropy tokens a carrier mints when its input carried the tainted value and reports the handle reaching a declared sink. ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001) \u2014 a capability exfil the deterministic value gate cannot PROVE, never a gate-blocking value-confirmed leak. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)"
+ },
+ "RUNTIME-RENDER-SINK": {
+  "path": "RUNTIME-RENDER-SINK/",
+  "severity": "HIGH",
+  "title": "Tool output or agent-card text carries a payload a chat interface renders as an active sink: a Mermaid click or link directive or init block, a markdown image or link whose URL carries a query string to another origin, or raw HTML with a script, frame or event handler. A plain diagram or a static link produces nothing"
+ },
+ "RUNTIME-SANITIZER-BYPASS": {
+  "path": "RUNTIME-SANITIZER-BYPASS/",
+  "severity": "HIGH",
+  "title": "Runtime-confirmed sanitizer bypass: a sensitive-read \u2192 external-egress flow that a DECLARED sanitizer statically suppressed (it dropped off the FLOW-001 watch list) but whose value STILL reached the egress at runtime \u2014 confirmed by the canonicalize-then-match refuter (base64 / hex / url / NFKC / invisible-strip / Unicode-Tag / confusable / rot13), so a secret the sanitizer claimed to strip was merely re-encoded or format-shifted past it. A NON-confirmation is not a certificate the sanitizer works (undecidable), only the absence of an observed bypass. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)"
+ },
+ "RUNTIME-SEMANTIC-EXFIL": {
+  "path": "RUNTIME-SEMANTIC-EXFIL/",
+  "severity": "MEDIUM",
+  "title": "Off-gate semantic-exfil advisory: a PARAPHRASE leak the byte/canonical value gate (RUNTIME-TOXIC-FLOW) cannot see. A carrier read a sensitive value and emitted text carrying the secret's MEANING in different words, so no byte \u2014 nor any value-preserving canonical form \u2014 of the secret reaches the egress. The detector embeds the read output and the egress carrier with a Model2Vec int8 STATIC lookup table (pinned HF revision) and decides cos >= T as a PURE-INTEGER cross-multiplication over Python bigints, so the verdict is bit-identical cross-architecture (zero floating point on the inference / decision path). ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001 / RUNTIME-REFERENCE-EXFIL) \u2014 a semantic leak the deterministic value gate cannot PROVE, never a gate-blocking value-confirmed leak; gate-promotion needs a measured recall@FPR corpus first. The model2vec dependency is an OPTIONAL [semantic] extra, lazy-imported and OFF by default. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)"
+ },
+ "RUNTIME-TOXIC-FLOW": {
+  "path": "RUNTIME-TOXIC-FLOW/",
+  "severity": "HIGH",
+  "title": "Runtime-confirmed toxic flow: a statically-reachable sensitive-read \u2192 external-egress flow (FLOW-001) whose value actually crossed at runtime \u2014 the read tool's output value tokens were observed verbatim in a later egress tool's arguments. Where FLOW-001 reports a flow as POSSIBLE over the declared toolset (advisory, over-approximate), RUNTIME-TOXIC-FLOW reports it as PROVEN over the observed tool calls (deterministic, evidence-backed: a composition-catch-v1 forensic record + an enforcement-policy artifact). Carries the CWE-200 data-exfiltration taxonomy provenance (mirroring FLOW-001 / STATIC-026)"
+ },
+ "RUNTIME-WITNESS-ENV-LEAK": {
+  "path": "RUNTIME-WITNESS-ENV-LEAK/",
+  "severity": "HIGH",
+  "title": "A canary seeded into the server's environment appeared in an LLM-visible tool result: the server reflects environment-held values (tokens, keys, configuration) into model context."
+ },
+ "RUNTIME-WITNESS-FILE-LEAK": {
+  "path": "RUNTIME-WITNESS-FILE-LEAK/",
+  "severity": "HIGH",
+  "title": "A canary seeded into a file of the server's workspace appeared in an LLM-visible tool result: the server reads local files and returns their contents into model context."
+ },
+ "RUNTIME-WITNESS-INPUT-REFLECTION": {
+  "path": "RUNTIME-WITNESS-INPUT-REFLECTION/",
+  "severity": "LOW",
+  "title": "A canary placed in a tool-call argument came back in an LLM-visible tool result. Not a vulnerability by itself: it is the channel through which attacker-controlled arguments reach the model, recorded as witness evidence."
+ },
+ "RUNTIME-XSESS-INSTRUCTION-PERSISTENCE": {
+  "path": "RUNTIME-XSESS-INSTRUCTION-PERSISTENCE/",
+  "severity": "HIGH",
+  "title": "An instruction planted in a shared vector or memory store in one session was obeyed in a later session: the instructed tool was called with the planted code. Retrieved store content is executed as instructions across the session boundary (persistent prompt injection through the store)."
+ },
+ "SCHEMA-001": {
+  "path": "SCHEMA-001/",
+  "severity": "HIGH",
+  "title": "inputSchema must declare type: \"object\""
+ },
+ "SCHEMA-002": {
+  "path": "SCHEMA-002/",
+  "severity": "HIGH",
+  "title": "inputSchema must be valid JSON Schema Draft 2020-12"
+ },
+ "SCHEMA-003": {
+  "path": "SCHEMA-003/",
+  "severity": "LOW",
+  "title": "Tool name does not match SEP-986 pattern"
+ },
+ "SCHEMA-004": {
+  "path": "SCHEMA-004/",
+  "severity": "INFO",
+  "title": "Tool has no description"
+ },
+ "SCHEMA-005": {
+  "path": "SCHEMA-005/",
+  "severity": "HIGH",
+  "title": "outputSchema is not valid JSON Schema when present"
+ },
+ "SCHEMA-006": {
+  "path": "SCHEMA-006/",
+  "severity": "INFO",
+  "title": "inputSchema has no \"properties\" key"
+ },
+ "SCHEMA-007": {
+  "path": "SCHEMA-007/",
+  "severity": "INFO",
+  "title": "inputSchema has no \"required\" key"
+ },
+ "SCHEMA-008": {
+  "path": "SCHEMA-008/",
+  "severity": "MEDIUM",
+  "title": "Duplicate tool name detected"
+ },
+ "SCHEMA-009": {
+  "path": "SCHEMA-009/",
+  "severity": "LOW",
+  "title": "x-mcp-header mirrors a credential-like parameter into an HTTP header"
+ },
+ "SCHEMA-010": {
+  "path": "SCHEMA-010/",
+  "severity": "MEDIUM",
+  "title": "A tool schema uses a bare true or false as a subschema, which strict clients refuse"
+ },
+ "SCHEMA-011": {
+  "path": "SCHEMA-011/",
+  "severity": "LOW",
+  "title": "A tool schema gives type as an array, which several clients read as one type"
+ },
+ "SCHEMA-012": {
+  "path": "SCHEMA-012/",
+  "severity": "LOW",
+  "title": "A tool schema has a subschema that constrains nothing"
+ },
+ "SCHEMA-013": {
+  "path": "SCHEMA-013/",
+  "severity": "LOW",
+  "title": "A tool schema has a $ref that leaves the document, which clients do not fetch"
+ },
+ "SECURITY-SCHEMA-PINNED": {
+  "path": "SECURITY-SCHEMA-PINNED/",
+  "severity": "MEDIUM",
+  "title": "Tool inputSchema hash differs from pinned TOFU baseline"
+ },
+ "SECURITY-SIGNATURE-PINNED": {
+  "path": "SECURITY-SIGNATURE-PINNED/",
+  "severity": "MEDIUM",
+  "title": "Tool wire signature hash differs from pinned TOFU baseline (rug-pull)"
+ },
+ "STATIC-001": {
+  "path": "STATIC-001/",
+  "severity": "HIGH",
+  "title": "Prompt injection patterns in tool descriptions"
+ },
+ "STATIC-002": {
+  "path": "STATIC-002/",
+  "severity": "HIGH",
+  "title": "Tool name shadowing / homoglyph detection"
+ },
+ "STATIC-003": {
+  "path": "STATIC-003/",
+  "severity": "INFO",
+  "title": "File/network-capable tool lacks MCP safety annotations (hygiene advisory)"
+ },
+ "STATIC-004": {
+  "path": "STATIC-004/",
+  "severity": "LOW",
+  "title": "Overly permissive input schemas (OWASP thresholds)"
+ },
+ "STATIC-005": {
+  "path": "STATIC-005/",
+  "severity": "HIGH",
+  "title": "Hardcoded credentials in descriptions or schemas"
+ },
+ "STATIC-006": {
+  "path": "STATIC-006/",
+  "severity": "INFO",
+  "title": "Missing security-relevant annotations"
+ },
+ "STATIC-007": {
+  "path": "STATIC-007/",
+  "severity": "MEDIUM",
+  "title": "Annotation-description mismatch"
+ },
+ "STATIC-008": {
+  "path": "STATIC-008/",
+  "severity": "HIGH",
+  "title": "ANSI/terminal control sequences in tool description"
+ },
+ "STATIC-010": {
+  "path": "STATIC-010/",
+  "severity": "HIGH",
+  "title": "Tier-1 injection pattern detected in a text-bearing schema field (parameter description / title / default / enum value / example / property name).  CyberArk full-schema scan."
+ },
+ "STATIC-011": {
+  "path": "STATIC-011/",
+  "severity": "MEDIUM",
+  "title": "SSRF / private-network / cloud-metadata literal detected in tool description or input schema text (canonicalised over obfuscated IP encodings)"
+ },
+ "STATIC-012": {
+  "path": "STATIC-012/",
+  "severity": "HIGH",
+  "title": "Direct instruction-override injection (ignore / disregard / forget / bypass previous instructions)"
+ },
+ "STATIC-013": {
+  "path": "STATIC-013/",
+  "severity": "HIGH",
+  "title": "Role / system-token impersonation (<system>, <\\|im_start\\|>, [INST], ### Instruction:, IMPORTANT/NOTE tag misuse)"
+ },
+ "STATIC-014": {
+  "path": "STATIC-014/",
+  "severity": "HIGH",
+  "title": "Zero-width invisible Unicode characters (U+200B / U+200C / U+200D / U+2060 / U+FEFF)"
+ },
+ "STATIC-015": {
+  "path": "STATIC-015/",
+  "severity": "HIGH",
+  "title": "Bidirectional Unicode control overrides (U+202A-U+202E / U+2066-U+2069)"
+ },
+ "STATIC-016": {
+  "path": "STATIC-016/",
+  "severity": "HIGH",
+  "title": "Sensitive-path reference (read/fetch/open of .ssh/id_rsa, /etc/passwd, .env, .aws/credentials, .kube/config, etc.)"
+ },
+ "STATIC-017": {
+  "path": "STATIC-017/",
+  "severity": "HIGH",
+  "title": "Embedded shell command (rm -rf / curl \\|bash / wget \\|sh / bash -c / eval(/exec(/nc -[lne] / chmod) in description"
+ },
+ "STATIC-018": {
+  "path": "STATIC-018/",
+  "severity": "MEDIUM",
+  "title": "Jailbreak persona invocation (developer mode / DAN / do anything now / jailbroken / root mode / god mode)"
+ },
+ "STATIC-019": {
+  "path": "STATIC-019/",
+  "severity": "MEDIUM",
+  "title": "System-prompt leakage probe (reveal / show / print / disclose system / initial / developer / original prompt)"
+ },
+ "STATIC-020": {
+  "path": "STATIC-020/",
+  "severity": "HIGH",
+  "title": "Auto-SPP score / rating / classification brute-force override (UPDATE: decrease/increase/change ALL final score)"
+ },
+ "STATIC-021": {
+  "path": "STATIC-021/",
+  "severity": "HIGH",
+  "title": "Parameter tampering \u2014 implicit-trigger change-recipient / destination / address (MCPTox \u00a73 largest paradigm)"
+ },
+ "STATIC-022": {
+  "path": "STATIC-022/",
+  "severity": "MEDIUM",
+  "title": "Markdown image exfiltration channel (![alt](https://...?key=${secret}) / data:image/...;base64,)"
+ },
+ "STATIC-023": {
+  "path": "STATIC-023/",
+  "severity": "HIGH",
+  "title": "MCPTox 3-component structural poisoning \u2014 co-occurrence of conditional/temporal trigger language, action verb, and justification rationale (trigger + action + justification phrase bags)"
+ },
+ "STATIC-024": {
+  "path": "STATIC-024/",
+  "severity": "CRITICAL",
+  "title": "Command injection via unsanitised tool input \u2014 native port of agent-audit AGENT-001 (sharper variant of STATIC-003 dangerous-intent detection, carrying the AGENT-001 + CWE-78 taxonomy provenance)"
+ },
+ "STATIC-025": {
+  "path": "STATIC-025/",
+  "severity": "MEDIUM",
+  "title": "Excessive agent permissions / privilege escalation \u2014 native port of agent-audit AGENT-002 (sharper variant of STATIC-003 unrestricted-access / bypass detection, carrying the AGENT-002 + CWE-250 taxonomy provenance)"
+ },
+ "STATIC-026": {
+  "path": "STATIC-026/",
+  "severity": "HIGH",
+  "title": "Potential data exfiltration chain (sensitive source + network egress) \u2014 native port of agent-audit AGENT-003 (sharper variant of STATIC-001 markdown-exfil detection, carrying the AGENT-003 + CWE-200 taxonomy provenance)"
+ },
+ "STATIC-027": {
+  "path": "STATIC-027/",
+  "severity": "CRITICAL",
+  "title": "Hardcoded credentials in agent configuration \u2014 native port of agent-audit AGENT-004 (sharper variant of STATIC-005 credential scan, carrying the AGENT-004 + CWE-798 taxonomy provenance)"
+ },
+ "STATIC-028": {
+  "path": "STATIC-028/",
+  "severity": "HIGH",
+  "title": "Unsanitised write to persistent agent memory \u2014 native port of agent-audit AGENT-018 (sharper variant of STATIC-003 dangerous-intent detection, carrying the AGENT-018 + CWE-20 memory-poisoning taxonomy provenance)"
+ },
+ "STATIC-029": {
+  "path": "STATIC-029/",
+  "severity": "MEDIUM",
+  "title": "Tool description advertises flexible / arbitrary schema accepting any property \u2014 native port of agent-audit AGENT-040 (sharper variant of STATIC-004 over-permissive-schema detection, carrying the AGENT-040 + CWE-20 schema-injection taxonomy provenance)"
+ },
+ "STATIC-030": {
+  "path": "STATIC-030/",
+  "severity": "HIGH",
+  "title": "Source-map / debug-artefact exposure in description \u2014 native port of agent-audit AGENT-110 (sharper variant of STATIC-003 dangerous-intent detection, carrying the AGENT-110 + CWE-540 information-disclosure taxonomy provenance)"
+ },
+ "STATIC-031": {
+  "path": "STATIC-031/",
+  "severity": "CRITICAL",
+  "title": "AI-tool-config hook poisoning \u2014 native port of agent-audit AGENT-120 (sharper variant of STATIC-003 dangerous-intent detection, carrying the AGENT-120 + CWE-78 ai-tool-config taxonomy provenance; CVE-2025-59536 reference)"
+ },
+ "STATIC-033": {
+  "path": "STATIC-033/",
+  "severity": "HIGH",
+  "title": "High-entropy credential detected in tool metadata via keyword-gated context-adaptive Shannon entropy (Layer-2 of the v2.a credential pipeline).  An Aho-Corasick keyword pre-gate (gitleaks tri-gate model) followed by a per-charset entropy threshold, with UUID / bcrypt / git-SHA banlist + charset-diversity false-positive reducers.  Deterministic + stdlib-only; calibrated against the credential_entropy corpus."
+ },
+ "STATIC-034": {
+  "path": "STATIC-034/",
+  "severity": "MEDIUM",
+  "title": "Layer-3 ML false-positive filter unavailable; Layer-2 credential findings passed through unfiltered.  Emitted when the configured ``mcp_security_layer3_filter`` hosted ML backend cannot be reached or infer (no endpoint configured, unreachable endpoint, inference error).  Degraded-coverage marker (tooling failure, NOT a vulnerability), a degraded-coverage marker; the DEC-316 Strategy-B SARIF baseline-diff consumer sees the degraded run rather than a silently weaker scan."
+ },
+ "STATIC-035": {
+  "path": "STATIC-035/",
+  "severity": "MEDIUM",
+  "title": "SSRF target in an A2A AgentCard declared URL (supported_interfaces[].url / provider.url / documentation_url / icon_url) resolving to a private / link-local / loopback / cloud-metadata address (canonicalised over obfuscated IP encodings).  Card-scoped sibling of STATIC-011."
+ },
+ "STATIC-036": {
+  "path": "STATIC-036/",
+  "severity": "MEDIUM",
+  "title": "Mixed-script confusable in an A2A AgentCard's agent identity (its name or a declared provenance host) \u2014 a homoglyph impersonation signal (e.g. a Cyrillic letter substituted into an otherwise-Latin name). Advisory heuristic, distinct from the deterministic CARD-SIGN signature gate."
+ },
+ "STATIC-037": {
+  "path": "STATIC-037/",
+  "severity": "HIGH",
+  "title": "Weak signature-provenance posture on an A2A AgentCard \u2014 an alg of none or HS* (no provenance, provable from the header), a self-asserted embedded key (jwk / x5c) without an external trust anchor, or an unsigned card.  Advisory heuristic, strictly distinct from the deterministic CARD-SIGN signature-validity compliance gate (which resolves keys only by pinned kid and never consults jwk / x5c)."
+ },
+ "STATIC-038": {
+  "path": "STATIC-038/",
+  "severity": "HIGH",
+  "title": "Cross-skill name shadowing within one A2A AgentCard \u2014 two declared skill ids that collide after homoglyph normalization (or literal duplicates), letting a malicious skill shadow a legitimate one when an orchestrator / LLM selects by the visible id. The A2A analogue of the MCP cross-tool STATIC-002."
+ },
+ "STATIC-039": {
+  "path": "STATIC-039/",
+  "severity": "HIGH",
+  "title": "Dangerous / non-network transport scheme in an A2A AgentCard declared interface URL (the dialed top-level url or an additionalInterfaces[].url): a scheme outside the legitimate A2A network-transport allowlist (http / https / ws / wss / grpc / grpcs) \u2014 file:// (local-file inclusion), gopher:// / dict:// / ldap:// / ftp:// (SSRF gadget), or data: / jar: (inline / archived payload).  Scheme-axis sibling of the host-classified STATIC-035."
+ },
+ "STATIC-040": {
+  "path": "STATIC-040/",
+  "severity": "LOW",
+  "title": "Off-gate advisory sibling of STATIC-039: a dangerous / non-network transport scheme (file:// local-file inclusion, gopher:// / dict:// / ldap:// / ftp:// SSRF gadget, data: / jar: inline payload) in an A2A AgentCard URL field that is NOT a dialed interface endpoint \u2014 a vendor extension or a future spec array (transport_url_role -> UNKNOWN). Not gate-blocking: the field is not a confirmed connection target, but it is surfaced so a dialed endpoint a newer spec version introduces is never silently ignored. Display URLs (iconUrl / documentationUrl / provider.url) are excluded. Carries the same CWE-610 taxonomy as STATIC-039 (CWE-22 for the file:// leg)."
+ },
+ "STATIC-041": {
+  "path": "STATIC-041/",
+  "severity": "MEDIUM",
+  "title": "Credential decode-lane budget exhausted mid-scan; some encoded credentials in oversized tool metadata were not decode-scanned by the STATIC-033 entropy detector.  Raw-text credential scanning was unaffected (plaintext secrets are always caught); split the oversized metadata to restore full encoded-credential coverage.  Degraded-coverage marker (tooling failure, NOT a vulnerability), parallel to STATIC-034; the DEC-316 Strategy-B SARIF baseline-diff consumer sees the degraded run rather than a silently weaker scan."
+ },
+ "STATIC-043": {
+  "path": "STATIC-043/",
+  "severity": "MEDIUM",
+  "title": "Capability understated by description: the input schema, output schema or annotations declare a capability class (shell, money, system services, private data, untrusted content, browser script, SaaS write, destructive action) that the tool description does not"
+ },
+ "STATIC-044": {
+  "path": "STATIC-044/",
+  "severity": "INFO",
+  "title": "Capability inventory: the capability classes the tool's input schema, output schema and annotations declare (money, shell, returned credentials, untrusted content, ...), MEDIUM when a class is a live risk as declared, INFO otherwise"
+ },
+ "STATIC-046": {
+  "path": "STATIC-046/",
+  "severity": "HIGH",
+  "title": "Tool parameter reaches a file operation with no path containment check: the server's Python source passes a tool argument, or a value built from it, to a call that opens, writes, deletes, lists or copies a file, and no resolved containment test covers the value that is used"
+ },
+ "STATIC-047": {
+  "path": "STATIC-047/",
+  "severity": "HIGH",
+  "title": "An A2A AgentCard contradicts the identity it claims: its extended card dials a host the public card does not name, changes the provider, or drops authentication the public card requires; or its provider organization is a known vendor and provider.url is on none of that vendor's domains; or a host is near an operator-trusted domain; or skills declare themselves numbered parts of one caller protocol. Deterministic: no model is consulted."
+ },
+ "STATIC-048": {
+  "path": "STATIC-048/",
+  "severity": "HIGH",
+  "title": "Untrusted value reaches a dangerous sink in the server's Python source: a tool-handler parameter, a resource URI-template variable or the return value of a model-library call flows, with no neutralising step, into a shell or process call, eval or exec, an outbound HTTP request or a SQL string"
+ },
+ "STATIC-049": {
+  "path": "STATIC-049/",
+  "severity": "HIGH",
+  "title": "Model file that can execute code on load or whose header is malformed: the opcode stream of a pickle, PyTorch or joblib file imports a process, code-evaluation, network or import callable (read opcode by opcode, never unpickled), or a SafeTensors or GGUF header does not describe the file"
+ },
+ "STATIC-DRIFT-001": {
+  "path": "STATIC-DRIFT-001/",
+  "severity": "MEDIUM",
+  "title": "New tool added since last approved snapshot"
+ },
+ "STATIC-DRIFT-002": {
+  "path": "STATIC-DRIFT-002/",
+  "severity": "HIGH",
+  "title": "Tool description changed since last approved snapshot"
+ },
+ "STATIC-DRIFT-003": {
+  "path": "STATIC-DRIFT-003/",
+  "severity": "LOW",
+  "title": "Tool input schema changed since last approved snapshot"
+ },
+ "STATIC-DRIFT-004": {
+  "path": "STATIC-DRIFT-004/",
+  "severity": "MEDIUM",
+  "title": "Security annotations weakened since last approved snapshot"
+ },
+ "STATIC-DRIFT-005": {
+  "path": "STATIC-DRIFT-005/",
+  "severity": "INFO",
+  "title": "Tool removed since last approved snapshot"
+ },
+ "STATIC-ERROR": {
+  "path": "STATIC-ERROR/",
+  "severity": "MEDIUM",
+  "title": "Static analysis failed (exception guard)"
+ }
+}

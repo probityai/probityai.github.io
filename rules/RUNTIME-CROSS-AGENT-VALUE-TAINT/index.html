@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CROSS-AGENT-VALUE-TAINT: Runtime-confirmed cross-agent value taint: a sensitive value read in agent A, minted to a radioactive CSPRNG token and carried across the A→B A2A wire in a MAC-authenticated metadata bundle, whose token re-attached at agent B&#x27;s external-egress tool arguments — the multi-agent exfil the single-session value-taint engine is blind to (A&#x27;s label sidecar dies at the wire boundary; B starts blank). Confirmed by the SAME deterministic verbatim minted-token match at B&#x27;s sink, seeded from the verified inbound bundle, so it inherits RUNTIME-TOXIC-FLOW&#x27;s zero-false-positive property. Sound only on an instrumented in-process mesh where the harness mediates both the tool calls and the A2A envelope. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CROSS-AGENT-VALUE-TAINT</code></h1>
+<p>Runtime-confirmed cross-agent value taint: a sensitive value read in agent A, minted to a radioactive CSPRNG token and carried across the A→B A2A wire in a MAC-authenticated metadata bundle, whose token re-attached at agent B&#x27;s external-egress tool arguments — the multi-agent exfil the single-session value-taint engine is blind to (A&#x27;s label sidecar dies at the wire boundary; B starts blank). Confirmed by the SAME deterministic verbatim minted-token match at B&#x27;s sink, seeded from the verified inbound bundle, so it inherits RUNTIME-TOXIC-FLOW&#x27;s zero-false-positive property. Sound only on an instrumented in-process mesh where the harness mediates both the tool calls and the A2A envelope. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW)</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CROSS-AGENT-VALUE-TAINT</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-200 (sec: CWE-201)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>flow-cross-agent-delegated-secret</code> (family <code>runtime-cross-agent-taint</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/201.html">CWE-201</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CROSS-AGENT-VALUE-TAINT/</code></p>
+
+</main>
+</body>
+</html>

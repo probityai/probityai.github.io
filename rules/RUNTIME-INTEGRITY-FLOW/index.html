@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-INTEGRITY-FLOW: Off-gate integrity / confused-deputy advisory: an UNTRUSTED_INPUT read whose content flowed into a dangerous-ACTION sink (write-to-trusted-store / shell-exec / money-move) — the INTEGRITY dual the value-preservation gate (RUNTIME-TOXIC-FLOW) is structurally blind to. RUNTIME-TOXIC-FLOW confirms only CONFIDENTIALITY (a sensitive VALUE reaching an external-EGRESS sink); here the oracle is STRUCTURAL TAINT into a dangerous-action PARAMETER (the damage is the ACTION, not a shared value): an untrusted read value re-attaching at a dangerous-action sink&#x27;s carrier param confirms the flow. The dangerous integrity cells are the non-EXFIL effect pairs of the damage-envelope rule (READ_UNTRUSTED x {WRITE_TRUSTED, CODE_EXEC, MONEY_MOVER} and IDENTITY_ASSERT x MONEY_MOVER); EXFIL is the confidentiality lane and is never double-reported. ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001 / RUNTIME-REFERENCE-EXFIL) for a heuristic-classified sink — it surfaces for review but never blocks CI. The CI gate fires ONLY when the operator DECLARES the sink as a dangerous-action class (then emitted at Severity.HIGH onto the gate-blocking findings). Carries the CWE-441 confused-deputy taxonomy provenance</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-INTEGRITY-FLOW</code></h1>
+<p>Off-gate integrity / confused-deputy advisory: an UNTRUSTED_INPUT read whose content flowed into a dangerous-ACTION sink (write-to-trusted-store / shell-exec / money-move) — the INTEGRITY dual the value-preservation gate (RUNTIME-TOXIC-FLOW) is structurally blind to. RUNTIME-TOXIC-FLOW confirms only CONFIDENTIALITY (a sensitive VALUE reaching an external-EGRESS sink); here the oracle is STRUCTURAL TAINT into a dangerous-action PARAMETER (the damage is the ACTION, not a shared value): an untrusted read value re-attaching at a dangerous-action sink&#x27;s carrier param confirms the flow. The dangerous integrity cells are the non-EXFIL effect pairs of the damage-envelope rule (READ_UNTRUSTED x {WRITE_TRUSTED, CODE_EXEC, MONEY_MOVER} and IDENTITY_ASSERT x MONEY_MOVER); EXFIL is the confidentiality lane and is never double-reported. ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001 / RUNTIME-REFERENCE-EXFIL) for a heuristic-classified sink — it surfaces for review but never blocks CI. The CI gate fires ONLY when the operator DECLARES the sink as a dangerous-action class (then emitted at Severity.HIGH onto the gate-blocking findings). Carries the CWE-441 confused-deputy taxonomy provenance</p>
+<div class="chips"><span>Security</span><span>severity MEDIUM</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-INTEGRITY-FLOW</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-441 (sec: CWE-20)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-INTEGRITY-FLOW/</code></p>
+
+</main>
+</body>
+</html>

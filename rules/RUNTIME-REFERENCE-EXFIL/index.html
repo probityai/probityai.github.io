@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-REFERENCE-EXFIL: Off-gate reference-exfil advisory: a capability/handle leak the value-preservation gate (RUNTIME-TOXIC-FLOW) cannot prove. A carrier ingested the sensitive value and minted an UNRELATED high-entropy handle — a gist URL, a pastebin id, a vault reference — that reached an external-egress tool; the secret&#x27;s VALUE is ABSENT from the handle, so no value scanner (the gate, or even an FPE canary) can see it. The reference-frontier tracks the new high-entropy tokens a carrier mints when its input carried the tainted value and reports the handle reaching a declared sink. ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001) — a capability exfil the deterministic value gate cannot PROVE, never a gate-blocking value-confirmed leak. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-REFERENCE-EXFIL</code></h1>
+<p>Off-gate reference-exfil advisory: a capability/handle leak the value-preservation gate (RUNTIME-TOXIC-FLOW) cannot prove. A carrier ingested the sensitive value and minted an UNRELATED high-entropy handle — a gist URL, a pastebin id, a vault reference — that reached an external-egress tool; the secret&#x27;s VALUE is ABSENT from the handle, so no value scanner (the gate, or even an FPE canary) can see it. The reference-frontier tracks the new high-entropy tokens a carrier mints when its input carried the tainted value and reports the handle reaching a declared sink. ADVISORY only (Precision.MEDIUM, off the default gate, mirroring the static FLOW-001) — a capability exfil the deterministic value gate cannot PROVE, never a gate-blocking value-confirmed leak. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)</p>
+<div class="chips"><span>Security</span><span>severity MEDIUM</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-REFERENCE-EXFIL</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-200 (sec: CWE-201)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-REFERENCE-EXFIL/</code></p>
+
+</main>
+</body>
+</html>

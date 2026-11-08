@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUZZ-INJECTION: Prompt injection detected in tool response</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>FUZZ-INJECTION</code></h1>
+<p>Prompt injection detected in tool response</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>FUZZ-INJECTION</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool poisoning and impersonation</td></tr>
+<tr><th scope="row">Scanner</th><td>fuzz</td></tr>
+<tr><th scope="row">SAFE-T</th><td>SAFE-T1001</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP03:2025</td></tr>
+<tr><th scope="row">Runs in</th><td>CI</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mcp-fuzz-injection-echo</code> (family <code>mcp-fuzz-output</code>) trips this check. Independent definition of the attack: <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP-LLM01-prompt-injection</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/FUZZ-INJECTION/</code></p>
+
+</main>
+</body>
+</html>

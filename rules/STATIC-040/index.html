@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-040: Off-gate advisory sibling of STATIC-039: a dangerous / non-network transport scheme (file:// local-file inclusion, gopher:// / dict:// / ldap:// / ftp:// SSRF gadget, data: / jar: inline payload) in an A2A AgentCard URL field that is NOT a dialed interface endpoint — a vendor extension or a future spec array (transport_url_role -&gt; UNKNOWN). Not gate-blocking: the field is not a confirmed connection target, but it is surfaced so a dialed endpoint a newer spec version introduces is never silently ignored. Display URLs (iconUrl / documentationUrl / provider.url) are excluded. Carries the same CWE-610 taxonomy as STATIC-039 (CWE-22 for the file:// leg).</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-040</code></h1>
+<p>Off-gate advisory sibling of STATIC-039: a dangerous / non-network transport scheme (file:// local-file inclusion, gopher:// / dict:// / ldap:// / ftp:// SSRF gadget, data: / jar: inline payload) in an A2A AgentCard URL field that is NOT a dialed interface endpoint — a vendor extension or a future spec array (transport_url_role -&gt; UNKNOWN). Not gate-blocking: the field is not a confirmed connection target, but it is surfaced so a dialed endpoint a newer spec version introduces is never silently ignored. Display URLs (iconUrl / documentationUrl / provider.url) are excluded. Carries the same CWE-610 taxonomy as STATIC-039 (CWE-22 for the file:// leg).</p>
+<div class="chips"><span>Security</span><span>severity LOW</span><span>default action: reports</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-040</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-610 (sec: CWE-22)</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-040/</code></p>
+
+</main>
+</body>
+</html>

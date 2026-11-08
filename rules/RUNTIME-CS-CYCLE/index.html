@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-CS-CYCLE: A multi-hop A2A delegation chain contains a directed cycle — a task transitively references itself, so subtasks refine or forward one another forever without producing a final result, exhausting scheduler capacity. This is the structural signature of the A2ASecBench Cycle-Overflow availability attack. Detected deterministically by the delegation-DAG topology analyzer off the task_id / reference_task_ids chain; no live LLM.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-CS-CYCLE</code></h1>
+<p>A multi-hop A2A delegation chain contains a directed cycle — a task transitively references itself, so subtasks refine or forward one another forever without producing a final result, exhausting scheduler capacity. This is the structural signature of the A2ASecBench Cycle-Overflow availability attack. Detected deterministically by the delegation-DAG topology analyzer off the task_id / reference_task_ids chain; no live LLM.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-CS-CYCLE</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Cascading failure in agent meshes</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI08:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-835 (sec: CWE-674)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>mesh-cycle-overflow</code> (family <code>mesh-cycle</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/835.html">CWE-835</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-CS-CYCLE/</code></p>
+
+</main>
+</body>
+</html>

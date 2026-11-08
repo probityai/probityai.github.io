@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-A2A-PUSH-WEBHOOK-SSRF: Runtime A2A push-notification webhook URL points at an IANA Special-Purpose Address Registry range — loopback, private RFC 1918, link-local RFC 3927, CGNAT RFC 6598, RFC 5737 documentation, RFC 2544 benchmarking, RFC 3849 / RFC 9637 IPv6 documentation, or a cloud-metadata hostname (169.254.169.254, metadata.google.internal). Documentation + benchmarking ranges are first-class SSRF targets at runtime, distinct from the static-publish-time precision-HIGH suppression. The detector reads the URL out of the invoke args at the ``tasks/pushNotificationConfig/set`` chokepoint.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-A2A-PUSH-WEBHOOK-SSRF</code></h1>
+<p>Runtime A2A push-notification webhook URL points at an IANA Special-Purpose Address Registry range — loopback, private RFC 1918, link-local RFC 3927, CGNAT RFC 6598, RFC 5737 documentation, RFC 2544 benchmarking, RFC 3849 / RFC 9637 IPv6 documentation, or a cloud-metadata hostname (169.254.169.254, metadata.google.internal). Documentation + benchmarking ranges are first-class SSRF targets at runtime, distinct from the static-publish-time precision-HIGH suppression. The detector reads the URL out of the invoke args at the ``tasks/pushNotificationConfig/set`` chokepoint.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-A2A-PUSH-WEBHOOK-SSRF</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-918</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>a2a-push-webhook-metadata-service</code> (family <code>a2a-push-webhook-ssrf</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/918.html">CWE-918</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-A2A-PUSH-WEBHOOK-SSRF/</code></p>
+
+</main>
+</body>
+</html>

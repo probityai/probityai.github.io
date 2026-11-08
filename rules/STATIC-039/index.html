@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATIC-039: Dangerous / non-network transport scheme in an A2A AgentCard declared interface URL (the dialed top-level url or an additionalInterfaces[].url): a scheme outside the legitimate A2A network-transport allowlist (http / https / ws / wss / grpc / grpcs) — file:// (local-file inclusion), gopher:// / dict:// / ldap:// / ftp:// (SSRF gadget), or data: / jar: (inline / archived payload).  Scheme-axis sibling of the host-classified STATIC-035.</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>STATIC-039</code></h1>
+<p>Dangerous / non-network transport scheme in an A2A AgentCard declared interface URL (the dialed top-level url or an additionalInterfaces[].url): a scheme outside the legitimate A2A network-transport allowlist (http / https / ws / wss / grpc / grpcs) — file:// (local-file inclusion), gopher:// / dict:// / ldap:// / ftp:// (SSRF gadget), or data: / jar: (inline / archived payload).  Scheme-axis sibling of the host-classified STATIC-035.</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>STATIC-039</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Network egress, SSRF and path access</td></tr>
+<tr><th scope="row">Scanner</th><td>static</td></tr>
+<tr><th scope="row">OWASP MCP</th><td>MCP07:2025</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-610 (sec: CWE-22)</td></tr>
+<tr><th scope="row">Runs in</th><td>CI, registry</td></tr>
+<tr><th scope="row">Measured recall</th><td>48/48 (100.0%) [92.6%, 100.0%] over 48 attack cases in <code>a2a_card_dangerous_transport</code></td></tr>
+</table>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/STATIC-039/</code></p>
+
+</main>
+</body>
+</html>

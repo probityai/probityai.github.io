@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUNTIME-DENIAL-LAUNDERING: Runtime-confirmed denial laundering: a sensitive value read earlier was observed in the arguments of a later tool call that was DENIED (blocked / raised). The denied call produced no output, so an output-correlating detector misses it; the agent&#x27;s ATTEMPT to exfil the value through the blocked path is the finding. The block prevented the leak, but the attempt itself is a strong compromise signal. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<p class="muted"><a href="../">Rule catalogue</a></p>
+<h1><code>RUNTIME-DENIAL-LAUNDERING</code></h1>
+<p>Runtime-confirmed denial laundering: a sensitive value read earlier was observed in the arguments of a later tool call that was DENIED (blocked / raised). The denied call produced no output, so an output-correlating detector misses it; the agent&#x27;s ATTEMPT to exfil the value through the blocked path is the finding. The block prevented the leak, but the attempt itself is a strong compromise signal. Carries the CWE-200 data-exfiltration taxonomy provenance (as RUNTIME-TOXIC-FLOW / FLOW-001)</p>
+<div class="chips"><span>Security</span><span>severity HIGH</span><span>default action: blocks</span></div>
+<h2>Facts</h2>
+<table>
+<tr><th scope="row">Check id</th><td><code>RUNTIME-DENIAL-LAUNDERING</code></td></tr>
+<tr><th scope="row">Threat class</th><td>Tool misuse and data-flow exfiltration</td></tr>
+<tr><th scope="row">Scanner</th><td>security</td></tr>
+<tr><th scope="row">OWASP Agentic</th><td>ASI02:2026</td></tr>
+<tr><th scope="row">CWE</th><td>CWE-200 (sec: CWE-201)</td></tr>
+<tr><th scope="row">Runs in</th><td>runtime</td></tr>
+<tr><th scope="row">Measured recall</th><td>not measured: no calibration corpus exercises this check</td></tr>
+</table>
+<h2>Worked example</h2>
+<p>The adversarial-fixture specimen <code>flow-denied-call-carries-secret</code> (family <code>runtime-denial-laundering</code>) trips this check. Independent definition of the attack: <a href="https://cwe.mitre.org/data/definitions/209.html">CWE-209</a>.</p>
+<h2>Stable address</h2>
+<p><code>https://probityai.github.io/rules/RUNTIME-DENIAL-LAUNDERING/</code></p>
+
+</main>
+</body>
+</html>
