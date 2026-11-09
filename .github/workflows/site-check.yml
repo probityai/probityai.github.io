@@ -15,6 +15,8 @@ concurrency:
 
 jobs:
   browser:
+    # Batch-only CI (2026-11-09): runs on the merge-train pull request and on main, never on a plain pull request.
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')
     name: Root task navigation
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -36,6 +38,8 @@ jobs:
           if-no-files-found: error
           retention-days: 14
   served-check:
+    # Batch-only CI (2026-11-09): runs on the merge-train pull request and on main, never on a plain pull request.
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')
     name: Served-check build wait
     runs-on: ubuntu-24.04
     timeout-minutes: 5

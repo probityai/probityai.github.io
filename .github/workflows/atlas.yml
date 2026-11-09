@@ -29,6 +29,8 @@ defaults:
 
 jobs:
   build:
+    # Batch-only CI (2026-11-09): runs on the merge-train pull request and on main, never on a plain pull request.
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -79,6 +81,8 @@ jobs:
           path: atlas/public-layout-evidence/
 
   observer-admission:
+    # Batch-only CI (2026-11-09): runs on the merge-train pull request and on main, never on a plain pull request.
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -130,7 +134,8 @@ jobs:
             atlas/vocabulary-installed-replay/
 
   links:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # Batch-only CI (2026-11-09): runs on the merge-train pull request and on main, never on a plain pull request.
+    if: (github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')) && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -152,7 +157,8 @@ jobs:
         run: python3 tools/check_links.py --external --live
 
   rederive:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # Batch-only CI (2026-11-09): runs on the merge-train pull request and on main, never on a plain pull request.
+    if: (github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')) && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
