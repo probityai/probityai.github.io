@@ -19,6 +19,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   changes:
+    if: ${{ github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     outputs:
@@ -454,7 +455,7 @@ jobs:
     needs:
     - changes
     - atlas_board__score
-    if: ${{ (always() && needs.atlas_board__score.result != 'skipped') && fromJSON(needs.changes.outputs.run).atlas_board }}
+    if: ${{ (github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')) && ((always() && needs.atlas_board__score.result != 'skipped') && fromJSON(needs.changes.outputs.run).atlas_board) }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -1233,7 +1234,7 @@ jobs:
     - name: README keeps its one-screen shape
       run: python3 scripts/readme-lint.py README.md
   ci-ok:
-    if: always()
+    if: ${{ (github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')) && (always()) }}
     needs:
     - changes
     - atlas_a2a_card_walk

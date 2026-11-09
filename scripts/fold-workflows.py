@@ -101,6 +101,11 @@ def strip_expr(cond: str) -> str:
     return m.group(1).strip() if m else cond
 
 
+# CI runs once per batch (a merge-train/* pull request, the queue, main, a schedule or by
+# hand); a plain pull request starts no job. Skipped jobs satisfy the required ci-ok.
+BATCH = "github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')"
+
+
 def main() -> int:
     dry = "--dry-run" in sys.argv
     groups: dict[str, dict] = {}
@@ -145,6 +150,9 @@ def main() -> int:
                 cond = f"({orig}) && {cond}"
             elif needs:
                 cond = f"{cond} && success()"
+            if re.search(r"\b(always|failure|cancelled)\s*\(", cond):
+                # A status function would run the job after a skipped need on a plain pull request.
+                cond = f"({BATCH}) && ({cond})"
             new["if"] = "${{ " + cond + " }}"
             if wf_perm is not None and "permissions" not in job:
                 new["permissions"] = wf_perm
@@ -162,6 +170,7 @@ def main() -> int:
         folded.append(path)
 
     changes = {
+        "if": "${{ " + BATCH + " }}",
         "runs-on": "ubuntu-24.04",
         "timeout-minutes": 5,
         "outputs": {"run": "${{ steps.select.outputs.run }}"},
@@ -178,7 +187,7 @@ def main() -> int:
         ],
     }
     ok = {
-        "if": "always()",
+        "if": "${{ (" + BATCH + ") && (always()) }}",
         "needs": ["changes", *jobs],
         "runs-on": "ubuntu-24.04",
         "timeout-minutes": 5,
