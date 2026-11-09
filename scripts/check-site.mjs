@@ -237,14 +237,23 @@ try {
   assert(receipt.network.every(url => url.startsWith(local)), 'Root entry loaded an external dependency');
   for (let index = 0; index < tasks.length; index++) {
     const [label, href] = tasks[index];
-    await navigate(local); await key('Tab', 9); await key('Enter', 13);
-    for (let tab = 0; tab <= index; tab++) await key('Tab', 9);
-    assert.equal((await focus()).text, label);
-    await key('Enter', 13);
-    await until(async () => {
-      const state = await evaluate('({url:location.href,ready:document.readyState})');
-      return state.url === href && state.ready === 'complete';
-    }, `keyboard destination ${label}`);
+    // The destinations are live pages on the public host, so a slow edge response is retried
+    // from a fresh navigation; the keyboard path itself is asserted again on every attempt.
+    for (let attempt = 1; ; attempt++) {
+      await navigate(local); await key('Tab', 9); await key('Enter', 13);
+      for (let tab = 0; tab <= index; tab++) await key('Tab', 9);
+      assert.equal((await focus()).text, label);
+      await key('Enter', 13);
+      try {
+        await until(async () => {
+          const state = await evaluate('({url:location.href,ready:document.readyState})');
+          return state.url === href && state.ready === 'complete';
+        }, `keyboard destination ${label}`);
+        break;
+      } catch (error) {
+        if (attempt >= 3) throw error;
+      }
+    }
     assert.equal(responses.get(href), 200, `Destination failed: ${href}`);
     const page = await evaluate('({url:location.href,title:document.title,text:document.body.innerText,commands:[...document.querySelectorAll("pre")].map(p=>p.textContent)})');
     assert(page.title.trim() && page.text.length > 200, `Task destination has no usable content: ${label}`);
