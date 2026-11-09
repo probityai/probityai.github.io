@@ -86,7 +86,7 @@ python3 tools/derive_boundary_findings.py --check
 python3 tools/build.py --check
 ```
 
-The selected reader in the original packet also reproduces the original report using separately selected manifest, protocol, declaration and terminal digests. The installed reader upgrade and its host policy belong to the separate consumer lane. That upgrade must continue refusing unsupported sources and hold policy/grounded pair failures even when evidence verification passes.
+The selected reader in the original packet also reproduces the original report using separately selected manifest, protocol, declaration and terminal digests. The installed reader upgrade and its host policy are covered separately, on the consumer side. That upgrade must continue refusing unsupported sources and hold policy/grounded pair failures even when evidence verification passes.
 
 The next research route is a preregistered policy vocabulary intervention with the same original cases and separately declared inference/resource budgets. Freeze the host's action vocabulary before inference, keep case-specific target constants out of the grammar, retain unrestricted schema decoding as a control, and score strict cases plus both members of every pair. Publish new outputs and resources under a new identity. The native runner and framework-free reader must first add explicit enum validation and an independently selected protocol pin; the original runner's syntax/type acceptance check does not validate enums. Until those source changes, peer review and a new freeze land, no new inference result or host acceptance is claimed. Earlier 48/96/192/384 scores stay intact.
 
