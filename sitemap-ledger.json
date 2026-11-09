@@ -25,20 +25,20 @@
    "sha256": "600eb44f252f77911f7ee5341ee18136e4a957a75adfece888971204dee8ba62"
   },
   "agent-evidence-atlas/board.html": {
-   "lastmod": "2026-10-31",
-   "sha256": "b0c11dbf0921cf3be494e7a3023e846bf42514e67379c77c8963d6263f1fb03b"
+   "lastmod": "2026-11-09",
+   "sha256": "a7330f62c1ebf6424ecc460eb0f5268990f8ac2c94d9860efdda84f2070fe9e7"
   },
   "agent-evidence-atlas/boundary-findings.html": {
-   "lastmod": "2026-10-31",
-   "sha256": "0085bb852f92cdebe313012624a2b6a321b10ef485dfc7c552e4623d4164b266"
+   "lastmod": "2026-11-09",
+   "sha256": "216fec3216bb70b8a69d3f782b8ab4ba4d45d44d1fbba519a26232694b4da5ac"
   },
   "agent-evidence-atlas/catalog.html": {
    "lastmod": "2026-10-31",
    "sha256": "4273e3ddb0f95c9ae4dcd14bea4fd5ffe03fc847dfdccba99d5123fab8b47a52"
   },
   "agent-evidence-atlas/claims.html": {
-   "lastmod": "2026-11-02",
-   "sha256": "69d67b3582225d3175a22b7b7683d3cac50b0f251e0c256a79c1e119977459bc"
+   "lastmod": "2026-11-09",
+   "sha256": "99bf6d5918e2480d740caa3ec92d597e8dc2ed07d3f8a6362b17bffbe1f9689a"
   },
   "agent-evidence-atlas/discovery-evaluation.html": {
    "lastmod": "2026-11-01",
@@ -117,8 +117,8 @@
    "sha256": "40892f1fe8550c2749351f42466fc4f42b0265634ee75b4c79038bd64b3e44cb"
   },
   "agent-evidence-atlas/versions.html": {
-   "lastmod": "2026-11-02",
-   "sha256": "a289a0194d5e8331f93b82e2f54eaa218e88aba5ec134b83da0962d3d2576194"
+   "lastmod": "2026-11-09",
+   "sha256": "14b630370ba352475a71a1b3f9fb67ffa7e6dab112ffd50dee8e6d1781fd4bc3"
   },
   "agent-evidence-atlas/vocabulary-findings.html": {
    "lastmod": "2026-10-31",
