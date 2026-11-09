@@ -144,8 +144,8 @@ python3 tools/build.py --check
 
 The selected reader in the original packet also reproduces the original report
 using separately selected manifest, protocol, declaration and terminal digests.
-The installed reader upgrade and its host policy belong to the separate
-consumer lane. That upgrade must continue refusing unsupported sources and
+The installed reader upgrade and its host policy are covered separately,
+on the consumer side. That upgrade must continue refusing unsupported sources and
 hold policy/grounded pair failures even when evidence verification passes.
 
 The next research route is a preregistered policy vocabulary intervention with
