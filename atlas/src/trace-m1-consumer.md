@@ -15,8 +15,8 @@ The [qualification record](interop/trace-m1/retained/QUALIFICATION.json) reports
 With [uv installed](https://docs.astral.sh/uv/getting-started/installation/), run the [reader and tests](https://github.com/probityai/probityai.github.io/tree/main/atlas/interop/trace-m1) from a fresh checkout:
 
 ```sh
-git clone https://github.com/probityai/agent-evidence-atlas.git
-cd agent-evidence-atlas/interop/trace-m1
+git clone https://github.com/probityai/probityai.github.io.git
+cd probityai.github.io/atlas/interop/trace-m1
 bash scripts/qualify.sh
 ```
 

@@ -10,7 +10,7 @@ mkdir joint-reader-smoke
 cd joint-reader-smoke
 uv venv --python 3.12 .venv
 curl --fail --location --output observer-source.tar.gz \
-  https://codeload.github.com/probityai/agent-evidence-observer/tar.gz/8cb4f8513cadb4c14a3c0a0a4526dea9c541a52d
+  https://codeload.github.com/probityai-archive/agent-evidence-observer/tar.gz/8cb4f8513cadb4c14a3c0a0a4526dea9c541a52d
 curl --fail --location --output verify-source.tar.gz \
   https://codeload.github.com/probityai/probity-verify/tar.gz/a2a7e23413be0ab0ad1001d60085a2ff21eaa907
 uv pip install --python .venv/bin/python ./observer-source.tar.gz ./verify-source.tar.gz

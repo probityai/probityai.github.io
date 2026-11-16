@@ -1,0 +1,30 @@
+# Files that may still name an archived probityai repository, each with its reason.
+# Read by scripts/archived-repo-gate.py. A line is `<path or dir/**>  # <reason>`.
+scripts/archived-repo-gate.py  # the gate itself
+scripts/archived-repo-gate-test.py  # the gate's tests
+scripts/archived-repo-allowlist.txt  # this list
+atlas/experiments/**  # retained experiment records: their provenance and custody files name the repository each run read, and recorded digests pin them
+atlas/docs/experiments/**  # the published copy of the retained experiment records
+atlas/examples/e030-corrected-wrapper/**  # a retained qualification record naming its historical baseline commit
+atlas/docs/examples/e030-corrected-wrapper/**  # the published copy of that record
+atlas/history/**  # snapshots of the catalog as it stood at a commit
+atlas/interop/a2a-card-walk/**  # the walker name is part of the signed records the retained walk produced
+atlas/IMPORTED-COMMITS.tsv  # history: the map of commits imported from the archived atlas repository
+atlas/tests/imported_commits.py  # history: reads that map
+atlas/tests/test_vocabulary_retention.py  # compares against retained records that name the repository by its old path
+atlas/tools/check_vocabulary_retention.py  # compares against retained records that name the repository by its old path
+atlas/tools/check_tool_argument_retention.py  # compares against retained records that name the repository by its old path
+atlas/tools/check_installed_boundary.py  # compares against a retained record that names the repository by its old path
+atlas/data/catalog-sources.json  # catalog rows that record the repository each release and tag was read from
+atlas/data/catalog.json  # built from the catalog sources
+atlas/docs/catalog.json  # the published catalog
+atlas/tools/discoverability/catalog.seed.json  # the catalog's seed rows
+atlas/tools/discoverability/test_catalog.py  # test inputs for the catalog's repository allowlist
+atlas/data/atlas.toml  # version_from and corpus rows read release tags and pinned commits from the archived repositories
+atlas/CLAIMS.md  # claims that record release readbacks and pinned commits of archived repositories
+atlas/docs/claims.md  # built from CLAIMS.md
+atlas/docs/claims.html  # built from CLAIMS.md
+atlas/docs/start.md  # built from the catalog: release records and pinned sources of archived repositories
+atlas/docs/start.html  # built from the catalog
+atlas/docs/versions.md  # built from the catalog
+atlas/docs/versions.html  # built from the catalog

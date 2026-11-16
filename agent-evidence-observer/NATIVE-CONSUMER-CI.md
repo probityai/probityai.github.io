@@ -5,8 +5,8 @@
 Use Python 3.12 on Linux. Install the root package normally from a reviewed immutable Git revision, or build and retain its wheel. Keep a separate checkout of that same revision for the profile readers: the root wheel supplies this wrapper and observer modules, while the profile scripts and common validator remain in the selected checkout. No editable install, Inspect installation or A2A SDK installation is needed for this offline step. The root package remains Apache-2.0; its `LICENSE` is in the selected source manifest. The retained producer packet separately contains its native source/runtime/license bytes.
 
 ```sh
-python -m pip install 'agent-evidence-observer @ git+https://github.com/probityai/agent-evidence-observer.git@REVIEWED_COMMIT'
-git clone https://github.com/probityai/agent-evidence-observer.git reader-source
+python -m pip install 'agent-evidence-observer @ git+https://github.com/probityai/probity.git@REVIEWED_COMMIT#subdirectory=packages/agent-evidence-observer'
+git clone https://github.com/probityai/probity.git reader-source
 git -C reader-source checkout REVIEWED_COMMIT
 agent-evidence-read-native --source-checkout "$PWD/reader-source" --packet /retained/native-run --selection /policy/selected-inputs.json --selection-sha256 SELECTED_MANIFEST_SHA256 --output /consumer/new-receipt
 ```
@@ -52,7 +52,7 @@ steps:
     with:
       python-version: '3.12'
   # Retrieve the retained packet and consumer-selected manifest here.
-  - uses: probityai/agent-evidence-observer@REVIEWED_40_CHARACTER_COMMIT
+  - uses: probityai/probity/actions/observer@REVIEWED_40_CHARACTER_COMMIT
     with:
       packet: /absolute/path/native-run
       selection: /absolute/path/operator-selected-inputs.json
