@@ -1208,6 +1208,8 @@ jobs:
         node-version: 24.19.0
     - name: Check task routes, keyboard access and mobile layout
       run: node scripts/check-site.mjs
+    - name: The in-browser record checker loads its pinned reader, admits the example and refuses two edits
+      run: node scripts/check-verify-page.mjs .
     - name: Retain browser evidence on success or failure
       if: always()
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

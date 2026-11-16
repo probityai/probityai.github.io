@@ -1,0 +1,109 @@
+{
+  "case_sets": [
+    {
+      "cases": [
+        {
+          "expect": "verified",
+          "id": "auth-code-binds-client",
+          "requirement": "required"
+        },
+        {
+          "expect": "verified",
+          "id": "refresh-token-rotates",
+          "requirement": "required"
+        },
+        {
+          "expect": "falsified",
+          "id": "token-replay-across-servers",
+          "requirement": "required"
+        },
+        {
+          "expect": "falsified",
+          "id": "consent-skipped-on-reauth",
+          "requirement": "optional"
+        }
+      ],
+      "name": "expectations",
+      "revision": "1",
+      "schema": "aev-claim-case-set/v1"
+    }
+  ],
+  "record": {
+    "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+    "coordinates": {
+      "applicability": {
+        "applicable": [
+          "auth-code-binds-client",
+          "refresh-token-rotates",
+          "token-replay-across-servers",
+          "consent-skipped-on-reauth"
+        ],
+        "case_set": {
+          "digest": "sha256:00a56ec5d8fbf6d44d440050bee458c5d94fd48b63cbf7072544627d8df69426",
+          "name": "expectations"
+        },
+        "excluded": [],
+        "state": "value"
+      },
+      "bytes": {
+        "case_set": {
+          "digest": "sha256:00a56ec5d8fbf6d44d440050bee458c5d94fd48b63cbf7072544627d8df69426",
+          "name": "expectations"
+        },
+        "implementation": {
+          "digest": "sha256:1c7fdaab46f24bdca7e48cd3a3723b0e6670e88de36a6bc45fe7d28b6b4a2e8a",
+          "name": "model.spthy"
+        },
+        "state": "value",
+        "verifier": {
+          "digest": "sha256:d1459a9aee772f69324c547318139488dddbd05aac661fa9c39468b8812b1457",
+          "name": "make_claim.py"
+        }
+      },
+      "epoch": {
+        "reason": "no_authority_exercised",
+        "state": "not_applicable"
+      },
+      "population": {
+        "coverage_denominator": 4,
+        "failed": [],
+        "not_run": [],
+        "passed": [
+          "auth-code-binds-client",
+          "refresh-token-rotates",
+          "token-replay-across-servers",
+          "consent-skipped-on-reauth"
+        ],
+        "state": "value"
+      },
+      "settlement": {
+        "reason": "no_side_effecting_actions",
+        "state": "not_applicable"
+      },
+      "vantage": {
+        "observation_vantage": "artifact",
+        "observer": "evidence-starter example",
+        "state": "value"
+      }
+    },
+    "profile": {
+      "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123",
+      "id": "conformance/v1"
+    },
+    "verdict": "pass"
+  },
+  "rule": {
+    "accept_vantage": [
+      "artifact"
+    ],
+    "case_sets": [
+      "sha256:00a56ec5d8fbf6d44d440050bee458c5d94fd48b63cbf7072544627d8df69426"
+    ],
+    "id": "browser-example",
+    "profile": {
+      "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123",
+      "id": "conformance/v1"
+    },
+    "schema": "aev-claim-acceptance-rule/v1"
+  }
+}
