@@ -34,7 +34,7 @@ bash <<'SH'
 set -euo pipefail
 mkdir aps-refund-demo
 cd aps-refund-demo
-git clone https://github.com/probityai/agent-evidence-observer.git source
+git clone https://github.com/probityai-archive/agent-evidence-observer.git source
 git -C source checkout d00e93c98290edb065a4b73a4f29e9983485fe18
 cd source
 bash interop/aps-durable-refund-2026-10-05/verify_install.sh ../capture
