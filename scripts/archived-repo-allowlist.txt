@@ -1,6 +1,6 @@
 # Files that may still name an archived probityai repository, each with its reason.
 # Read by scripts/archived-repo-gate.py. A line is `<path or dir/**>  # <reason>`.
-heavy-queue heavy-run --name archived-repo-gate --timeout 3600 -- scripts/archived-repo-gate.py  # the gate itself
+scripts/archived-repo-gate.py  # the gate itself
 scripts/archived-repo-gate-test.py  # the gate's tests
 scripts/archived-repo-allowlist.txt  # this list
 atlas/experiments/**  # retained experiment records: their provenance and custody files name the repository each run read, and recorded digests pin them
