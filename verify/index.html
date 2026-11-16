@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Check a record in your browser</title>
+  <meta name="description" content="Judge an evaluation-claim record under your own acceptance rule with the agent-evidence-vectors reader, running in your browser. Nothing is uploaded.">
+  <link rel="canonical" href="https://probityai.github.io/verify/">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #eef4ff; --surface: #fff; --ink: #142d4e; --body: #344b65;
+      --action: #214fe5; --on-action: #fff; --rule: #c2d0e6;
+      --ok: #0b6b3a; --bad: #a3261b;
+      --type: "Avenir Next", "Segoe UI", sans-serif;
+      --code: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-family: var(--type); color: var(--ink); background: var(--page);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --page: #0d1117; --surface: #151b23; --ink: #e6edf3; --body: #c3ccd5;
+        --action: #56b4e9; --on-action: #0d1117; --rule: #3d444d; --ok: #56d364; --bad: #ff7b72;
+      }
+    }
+    :root[data-theme="dark"] {
+      --page: #0d1117; --surface: #151b23; --ink: #e6edf3; --body: #c3ccd5;
+      --action: #56b4e9; --on-action: #0d1117; --rule: #3d444d; --ok: #56d364; --bad: #ff7b72;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--page); }
+    main { max-width: 60rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { font: 700 clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem)/1.15 var(--type); margin: 0 0 .75rem; }
+    p { color: var(--body); line-height: 1.6; margin: 0 0 1rem; }
+    a { color: var(--action); }
+    label { display: block; font-weight: 600; margin: 1.25rem 0 .4rem; }
+    textarea { width: 100%; min-height: 9rem; font: .8125rem/1.5 var(--code); color: var(--ink);
+      background: var(--surface); border: 1px solid var(--rule); border-radius: .5rem; padding: .75rem; }
+    .row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+    button { font: 600 1rem var(--type); padding: .65rem 1.1rem; border-radius: .5rem; cursor: pointer;
+      border: 1px solid var(--action); background: var(--action); color: var(--on-action); }
+    button.quiet { background: transparent; color: var(--action); }
+    button:disabled { opacity: .5; cursor: progress; }
+    button:focus-visible, textarea:focus-visible { outline: 3px solid var(--action); outline-offset: 2px; }
+    #status { margin-top: 1.25rem; font-weight: 600; }
+    #status[data-result="ADMITTED"] { color: var(--ok); }
+    #status[data-result="REFUSED"], #status[data-result="ERROR"] { color: var(--bad); }
+    pre { background: var(--surface); border: 1px solid var(--rule); border-radius: .5rem; padding: .75rem;
+      overflow-x: auto; font: .8125rem/1.5 var(--code); white-space: pre-wrap; word-break: break-word; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"
+          integrity="sha384-4X7gSPzQ4pHfjTE5aBEPJAQcHu55sciq+NWO3OUOZ3zHSJhn4te9CBjUyRSr+nei"
+          crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+  <h1>Check a record in your browser</h1>
+  <p>Paste an <code>evaluation-claim</code> record (bare or as an in-toto Statement), the acceptance
+    rule you hold, and the case sets you accept. The reader from
+    <a href="https://github.com/probityai/agent-evidence-vectors/tree/main/packaging/agent_evidence_vectors/claim_record">agent-evidence-vectors</a>
+    judges it here, in your browser: the wheel is fetched from PyPI, its SHA-256 is checked against
+    the digest pinned in this page, and nothing you paste leaves the page.</p>
+  <p>The rule is yours, never the producer's: it pins the profile and the case-set digests you
+    accept, so a record built from a reduced case set, or from a table with one expectation flipped,
+    is refused. The reader does not re-run the cases or check a signature over the record.</p>
+
+  <label for="record">Record</label>
+  <textarea id="record" spellcheck="false"></textarea>
+  <label for="rule">Your acceptance rule</label>
+  <textarea id="rule" spellcheck="false"></textarea>
+  <label for="case-sets">Case sets you hold (a JSON array)</label>
+  <textarea id="case-sets" spellcheck="false">[]</textarea>
+
+  <div class="row">
+    <button id="run" type="button" disabled>Loading the reader...</button>
+    <button id="example" class="quiet" type="button">Load the example</button>
+  </div>
+  <p id="status" role="status" aria-live="polite"></p>
+  <pre id="outcome" hidden></pre>
+  <p>Package <code id="package">agent-evidence-vectors 0.37.0</code>. To run the same check offline:
+    <code>pip install agent-evidence-vectors==0.37.0</code>, then
+    <code>agent-evidence-vectors claim verify --record R --rule RULE --case-set C</code>.</p>
+</main>
+<script>
+const WHEEL = {
+  name: "agent_evidence_vectors-0.37.0-py3-none-any.whl",
+  url: "https://files.pythonhosted.org/packages/91/97/44bf8002166e343b23268a1c0fb9629a9e99841dddb209014f5834b418d6/agent_evidence_vectors-0.37.0-py3-none-any.whl",
+  sha256: "0cb4e7219db714a0035a7481396f3967a0c8fb79ad67a47b8727039819b3c00f",
+};
+const READER = `
+import json
+from agent_evidence_vectors.claim_record.reader import check_case_set, index_by_digest, verify
+from agent_evidence_vectors.claim_record.run import packaged_profiles
+
+def judge(record_text, rule_text, case_sets_text):
+    case_sets = json.loads(case_sets_text)
+    if not isinstance(case_sets, list):
+        raise ValueError("case sets must be a JSON array")
+    held = index_by_digest(check_case_set(c) for c in case_sets)
+    outcome = verify(json.loads(record_text), json.loads(rule_text), packaged_profiles(), held)
+    return json.dumps(outcome, indent=2, sort_keys=True)
+`;
+const $ = id => document.getElementById(id);
+let judge;
+
+function hex(buffer) {
+  return [...new Uint8Array(buffer)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function boot() {
+  const pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/" });
+  await pyodide.loadPackage("micropip");
+  const response = await fetch(WHEEL.url);
+  if (!response.ok) throw new Error(`wheel download failed: HTTP ${response.status}`);
+  const bytes = await response.arrayBuffer();
+  const digest = hex(await crypto.subtle.digest("SHA-256", bytes));
+  if (digest !== WHEEL.sha256) throw new Error(`wheel digest ${digest} differs from the pinned ${WHEEL.sha256}`);
+  pyodide.FS.writeFile(`/tmp/${WHEEL.name}`, new Uint8Array(bytes));
+  await pyodide.pyimport("micropip").install(`emfs:/tmp/${WHEEL.name}`, { deps: false });
+  pyodide.runPython(READER);
+  judge = pyodide.globals.get("judge");
+  $("run").disabled = false;
+  $("run").textContent = "Check the record";
+  document.body.dataset.ready = "true";
+}
+
+$("run").addEventListener("click", () => {
+  const status = $("status"), outcome = $("outcome");
+  try {
+    const text = judge($("record").value, $("rule").value, $("case-sets").value);
+    const result = JSON.parse(text);
+    status.dataset.result = result.result;
+    status.textContent = result.result === "ADMITTED"
+      ? `ADMITTED, verdict ${result.verdict}`
+      : `REFUSED: ${(result.reasons || []).map(r => r.code).join(", ") || "see the outcome"}`;
+    outcome.textContent = text;
+    outcome.hidden = false;
+  } catch (error) {
+    status.dataset.result = "ERROR";
+    status.textContent = `Could not read the input: ${String(error.message || error).split("\n").filter(Boolean).pop()}`;
+    outcome.hidden = true;
+  }
+});
+
+$("example").addEventListener("click", async () => {
+  const example = await (await fetch("example.json")).json();
+  $("record").value = JSON.stringify(example.record, null, 2);
+  $("rule").value = JSON.stringify(example.rule, null, 2);
+  $("case-sets").value = JSON.stringify(example.case_sets, null, 2);
+});
+
+boot().catch(error => {
+  $("status").dataset.result = "ERROR";
+  $("status").textContent = `The reader did not load: ${error.message || error}`;
+  $("run").textContent = "Reader unavailable";
+});
+</script>
+</body>
+</html>
