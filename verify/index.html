@@ -51,6 +51,9 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"
           integrity="sha384-4X7gSPzQ4pHfjTE5aBEPJAQcHu55sciq+NWO3OUOZ3zHSJhn4te9CBjUyRSr+nei"
           crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.js"
+          integrity="sha384-r0/vSQNahhZUJBO7ne5kqeNO4O9xSg658nGR6cGiQtzyIYSOfY9J8JUwOUdUMEkd"
+          crossorigin="anonymous"></script>
 </head>
 <body>
 <main>
@@ -58,8 +61,9 @@
   <p>Paste an <code>evaluation-claim</code> record (bare or as an in-toto Statement), the acceptance
     rule you hold, and the case sets you accept. The reader from
     <a href="https://github.com/probityai/agent-evidence-vectors/tree/main/packaging/agent_evidence_vectors/claim_record">agent-evidence-vectors</a>
-    judges it here, in your browser: the wheel is fetched from PyPI, its SHA-256 is checked against
-    the digest pinned in this page, and nothing you paste leaves the page.</p>
+    judges it here, in your browser: the wheel is fetched from PyPI, its SHA-256 and those of the
+    Pyodide runtime files are checked against digests pinned in this page, and nothing you paste
+    leaves the page.</p>
   <p>The rule is yours, never the producer's: it pins the profile and the case-set digests you
     accept, so a record built from a reduced case set, or from a table with one expectation flipped,
     is refused. The reader does not re-run the cases or check a signature over the record.</p>
@@ -87,6 +91,28 @@ const WHEEL = {
   url: "https://files.pythonhosted.org/packages/91/97/44bf8002166e343b23268a1c0fb9629a9e99841dddb209014f5834b418d6/agent_evidence_vectors-0.37.0-py3-none-any.whl",
   sha256: "0cb4e7219db714a0035a7481396f3967a0c8fb79ad67a47b8727039819b3c00f",
 };
+// Pyodide fetches these three runtime files itself. pyodide.js and pyodide.asm.js carry SRI in their script tags;
+// these are checked here, and the reader stays unavailable unless every one of them passed through the check.
+const RUNTIME = "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/";
+const RUNTIME_PINS = {
+  "pyodide.asm.wasm": "5effb6a1a6cc4a1a85bec4622701aa797c031e1de923cbbaf2ad47abdc4ab325",
+  "python_stdlib.zip": "71fee17f88a6260ec8c9c7c063533ee59c021fdc88a1ce76247378d3c4a35f4c",
+  "pyodide-lock.json": "f6e6f42f451f42affbbcddb00e8c9a3278dcbf399f57aab9f3f568839a7ff4a6",
+};
+const runtimeChecked = new Set();
+const networkFetch = window.fetch.bind(window);
+window.fetch = async (input, init) => {
+  const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+  const name = url.startsWith(RUNTIME) ? url.slice(RUNTIME.length) : null;
+  const response = await networkFetch(input, init);
+  if (!name || !(name in RUNTIME_PINS)) return response;
+  if (!response.ok) throw new Error(`runtime file ${name}: HTTP ${response.status}`);
+  const bytes = await response.arrayBuffer();
+  const digest = hex(await crypto.subtle.digest("SHA-256", bytes));
+  if (digest !== RUNTIME_PINS[name]) throw new Error(`runtime file ${name} digest ${digest} differs from the pinned ${RUNTIME_PINS[name]}`);
+  runtimeChecked.add(name);
+  return new Response(bytes, { status: response.status, statusText: response.statusText, headers: response.headers });
+};
 const READER = `
 import json
 from agent_evidence_vectors.claim_record.reader import check_case_set, index_by_digest, parse_strict, verify
@@ -110,8 +136,12 @@ function hex(buffer) {
 }
 
 async function boot() {
-  const pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/" });
+  if (typeof globalThis._createPyodideModule !== "function") throw new Error("pyodide.asm.js did not load under its pinned digest");
+  const pyodide = await loadPyodide({ indexURL: RUNTIME });
   await pyodide.loadPackage("micropip");
+  const unchecked = Object.keys(RUNTIME_PINS).filter(name => !runtimeChecked.has(name));
+  if (unchecked.length) throw new Error(`runtime files loaded without a digest check: ${unchecked.join(", ")}`);
+  document.body.dataset.runtime = `${runtimeChecked.size} of ${Object.keys(RUNTIME_PINS).length} runtime files checked`;
   const response = await fetch(WHEEL.url);
   if (!response.ok) throw new Error(`wheel download failed: HTTP ${response.status}`);
   const bytes = await response.arrayBuffer();

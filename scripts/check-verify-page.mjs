@@ -1,6 +1,7 @@
 // Check the in-browser record checker at verify/ in a real headless Chrome, without a browser framework:
-// the pinned reader loads, the example record is ADMITTED with verdict pass, two edits are REFUSED, and a record
-// with a duplicate member is refused as the command line refuses it.
+// a page whose Pyodide lock file was altered in transit never loads the reader, the pinned reader loads with all
+// three runtime files checked, the example record is ADMITTED with verdict pass, two edits are REFUSED, and a
+// record with a duplicate member is refused as the command line refuses it.
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
@@ -41,6 +42,7 @@ async function until(check, label, milliseconds = 30_000) {
 
 let socket, sequence = 0;
 const pending = new Map();
+const listeners = new Map();
 function cdp(method, params = {}) {
   const id = ++sequence;
   return new Promise((done, fail) => {
@@ -73,19 +75,45 @@ try {
   await new Promise((done, fail) => { socket.onopen = done; socket.onerror = fail; });
   socket.onmessage = event => {
     const message = JSON.parse(event.data);
+    if (message.method) { listeners.get(message.method)?.(message.params); return; }
     const item = message.id && pending.get(message.id);
     if (!item) return;
     pending.delete(message.id); clearTimeout(item.timer);
     message.error ? item.fail(new Error(JSON.stringify(message.error))) : item.done(message.result);
   };
   await cdp('Page.enable');
+  // No cached runtime file may stand in for a network read, and the altered lock file must not be reused.
+  await cdp('Network.enable');
+  await cdp('Network.setCacheDisabled', { cacheDisabled: true });
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 900, deviceScaleFactor: 1, mobile: true });
+  const loaded = () => evaluate('document.body?.dataset.ready === "true" || document.getElementById("status")?.dataset.result === "ERROR"');
+
+  // Counter-example: one byte added to pyodide-lock.json on its way from the CDN. The page must refuse to load
+  // the reader rather than run a runtime its pins do not describe.
+  let tampered = 0;
+  listeners.set('Fetch.requestPaused', async ({ requestId, responseStatusCode, responseHeaders }) => {
+    const { body, base64Encoded } = await cdp('Fetch.getResponseBody', { requestId });
+    const bytes = Buffer.concat([Buffer.from(body, base64Encoded ? 'base64' : 'utf8'), Buffer.from(' ')]);
+    tampered += 1;
+    await cdp('Fetch.fulfillRequest', { requestId, responseCode: responseStatusCode, responseHeaders, body: bytes.toString('base64') });
+  });
+  await cdp('Fetch.enable', { patterns: [{ urlPattern: '*pyodide-lock.json', requestStage: 'Response' }] });
+  await cdp('Page.navigate', { url: page });
+  await until(loaded, 'tampered runtime refused', 180_000);
+  const refusal = await status();
+  console.log(`tampered pyodide-lock.json: ${refusal}`);
+  assert.equal(tampered, 1, 'the lock file request was not intercepted, so the counter-example tested nothing');
+  assert.match(refusal, /^The reader did not load: runtime file pyodide-lock\.json digest [0-9a-f]{64} differs/);
+  assert.equal(await evaluate('document.getElementById("run").disabled'), true);
+  await cdp('Fetch.disable');
+  listeners.delete('Fetch.requestPaused');
+
   await cdp('Page.navigate', { url: page });
   // Pyodide, its standard library and the 12 MB wheel come over the network: allow three minutes.
-  await until(() => evaluate(`location.href === ${JSON.stringify(page)} && document.readyState === "complete"`), 'page loaded');
-  await until(() => evaluate('document.body?.dataset.ready === "true" || document.getElementById("status")?.dataset.result === "ERROR"'),
-    'reader loaded', 180_000);
+  await until(() => evaluate(`location.href === ${JSON.stringify(page)} && document.readyState === "complete" && !document.getElementById("status").dataset.result`), 'page loaded');
+  await until(loaded, 'reader loaded', 180_000);
   assert.equal(await evaluate('document.body.dataset.ready'), 'true', `reader failed: ${await status()}`);
+  assert.equal(await evaluate('document.body.dataset.runtime'), '3 of 3 runtime files checked');
   const layout = await evaluate('({width: innerWidth, content: document.documentElement.scrollWidth})');
   assert(layout.content <= layout.width, `horizontal overflow at 390 px: ${JSON.stringify(layout)}`);
 
@@ -113,7 +141,7 @@ try {
 
   await evaluate('document.getElementById("record").value = "{not json"');
   assert.match(await run('malformed input'), /^Could not read the input/);
-  console.log('verify page: 5 of 5 checks passed');
+  console.log('verify page: 6 of 6 checks passed');
 } catch (error) {
   console.error(error.stack ?? error);
   process.exitCode = 1;
