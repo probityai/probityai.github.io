@@ -29,7 +29,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "atlas.toml"
 CLAIMS = ROOT / "CLAIMS.md"
-UA = "agent-evidence-atlas-claim-check (https://github.com/probityai/agent-evidence-atlas)"
+UA = "agent-evidence-atlas-claim-check (https://github.com/probityai/probityai.github.io)"
 
 # A table header line: `[meta]`, `[[entry]]`, `[[corpus]]` and so on.
 HEADER = re.compile(r"^\[\[?[A-Za-z_]+\]\]?\s*$", re.MULTILINE)
