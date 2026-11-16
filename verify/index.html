@@ -89,15 +89,17 @@ const WHEEL = {
 };
 const READER = `
 import json
-from agent_evidence_vectors.claim_record.reader import check_case_set, index_by_digest, verify
+from agent_evidence_vectors.claim_record.reader import check_case_set, index_by_digest, parse_strict, verify
 from agent_evidence_vectors.claim_record.run import packaged_profiles
 
 def judge(record_text, rule_text, case_sets_text):
-    case_sets = json.loads(case_sets_text)
+    # The same strict parse as the command line: a duplicate member, NaN or a non-integer number is refused,
+    # so the page and "claim verify" never read one record two ways.
+    case_sets = parse_strict(case_sets_text.encode())
     if not isinstance(case_sets, list):
         raise ValueError("case sets must be a JSON array")
     held = index_by_digest(check_case_set(c) for c in case_sets)
-    outcome = verify(json.loads(record_text), json.loads(rule_text), packaged_profiles(), held)
+    outcome = verify(parse_strict(record_text.encode()), parse_strict(rule_text.encode()), packaged_profiles(), held)
     return json.dumps(outcome, indent=2, sort_keys=True)
 `;
 const $ = id => document.getElementById(id);

@@ -1,5 +1,6 @@
 // Check the in-browser record checker at verify/ in a real headless Chrome, without a browser framework:
-// the pinned reader loads, the example record is ADMITTED with verdict pass, and two edits are REFUSED.
+// the pinned reader loads, the example record is ADMITTED with verdict pass, two edits are REFUSED, and a record
+// with a duplicate member is refused as the command line refuses it.
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
@@ -102,9 +103,17 @@ try {
     c[0].cases[2].expect = "verified"; document.getElementById("case-sets").value = JSON.stringify(c); })()`);
   assert.match(await run('expectation flipped in the held case set'), /^REFUSED: .*CASE_SET_UNRESOLVED/);
 
+  // Counter-example: a record whose first "verdict" says fail and whose last says pass. A last-wins parser
+  // admitted it with verdict pass while "agent-evidence-vectors claim verify" refuses the same bytes.
+  await evaluate('document.getElementById("example").click()');
+  await until(() => evaluate('document.getElementById("record").value.length > 100'), 'example reloaded');
+  await evaluate(`(() => { const box = document.getElementById("record");
+    box.value = box.value.replace('"verdict": "pass"', '"verdict": "fail", "verdict": "pass"'); })()`);
+  assert.match(await run('duplicate verdict member'), /^Could not read the input: .*duplicate member/);
+
   await evaluate('document.getElementById("record").value = "{not json"');
   assert.match(await run('malformed input'), /^Could not read the input/);
-  console.log('verify page: 4 of 4 checks passed');
+  console.log('verify page: 5 of 5 checks passed');
 } catch (error) {
   console.error(error.stack ?? error);
   process.exitCode = 1;
