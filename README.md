@@ -37,6 +37,7 @@ Live. `main` is published as the site; every pull request runs the route, keyboa
 | [`agent-evidence/`](agent-evidence/index.html) | Predicate, vocabulary and interoperability pages behind persistent identifiers |
 | [`agent-evidence-observer/`](agent-evidence-observer/README.md) | Observer notes and architecture |
 | [`verify/`](verify/index.html) | Check an evaluation-claim record in the browser, with the reader pinned by digest |
+| [`catalog/`](catalog/README.md) | The signed AI Catalog at `/.well-known/ai-catalog.json`, its source and how it is checked |
 | [`scripts/`](scripts/check_served.py) | The served-bytes check and the README shape check |
 | [Contributing](https://github.com/probityai/.github/blob/main/CONTRIBUTING.md) | Commit sign-off, commit format and checks |
 | [Security](https://github.com/probityai/.github/blob/main/SECURITY.md) | Private vulnerability reporting |
