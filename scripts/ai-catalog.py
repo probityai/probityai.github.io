@@ -23,6 +23,9 @@ Every signature is a detached compact JWS, ES256 with a raw r || s signature.
   sign   ai-catalog.py sign --days 365 < private-key.pem
          The private key comes on standard input, never from a file in this repository; it lives
          in the operator's keyring (service probityai-ai-catalog, account es256-private-key-pem).
+  rotate ai-catalog.py rotate --to <new public_key_sha256> < pinned-private-key.pem
+         Writes catalog/rotation.json: the pinned key hands over to the new key, so `sign` accepts
+         the new key and `check --live` accepts a pin that differs from the key the site serves.
   check  ai-catalog.py check [--at RFC3339] [--a2a-card FILE] [--emit-cases DIR]
          Without the key: the published catalog is the source plus digests and manifests (nothing
          edited by hand), did.json holds the pinned key, every signature verifies with this
@@ -30,13 +33,18 @@ Every signature is a detached compact JWS, ES256 with a raw r || s signature.
          30 days left. With
          --a2a-card, the A2A entry's data must equal the card the released server serves. With
          --emit-cases, writes the inputs the two independent readers judge (see `judge`). With
-         --live, every release the entries point at is read from its source: each commit exists,
-         each tag names its commit, and each PyPI file has the digest the entry signs.
+         --live, the pinned key is the key the site serves at /.well-known/did.json (or that key
+         handed over to it in catalog/rotation.json), and every release the entries point at is
+         read from its source: each commit is on its repository's default branch, each tag names
+         its commit, and PyPI serves exactly the files the entry signs, none yanked.
   judge  ai-catalog.py judge DIR --verify CMD --vectors CMD
          Runs agent-evidence-verify (claim catalog_trust_manifest/v1) and the agent-evidence-vectors
          reference reader over every emitted case and requires `supported` / `accept` for each
-         entry under both constructions and for the snapshot, and a refusal from both readers for
-         each tampered copy, so a reader that passes everything fails this step.
+         entry under both constructions and for the snapshot, and for each refusal case (edited
+         data, a changed signature bit, another key, signatures swapped between entries, the
+         expiry instant, one second before issue) the decision, reason and exit status each
+         reader must give, so neither a reader that passes everything nor one that only
+         recomputes digests passes this step.
 """
 
 from __future__ import annotations
@@ -48,10 +56,13 @@ import datetime as dt
 import hashlib
 import json
 import os
+import re
 import shlex
 import subprocess
 import sys
+import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -66,12 +77,18 @@ SOURCE = ROOT / "catalog" / "source.json"
 PIN = ROOT / "catalog" / "signing-key.json"
 CATALOG = ROOT / ".well-known" / "ai-catalog.json"
 DID_DOC = ROOT / ".well-known" / "did.json"
+ROTATION = ROOT / "catalog" / "rotation.json"
 
 DID = "did:web:probityai.github.io"
 KID = DID + "#catalog-es256"
+# did:web resolution: the document the domain serves is the key authority a consumer reads.
+SERVED_DID = "https://" + DID.removeprefix("did:web:") + "/.well-known/did.json"
 PROFILE = "did-web-v1"
 AIC, ARD, SNAPSHOT = "ai-catalog-2026-11", "ard-draft-bu-00", "ai-catalog-snapshot"
-TYP = {AIC: "ai-catalog-trust-manifest+jws", SNAPSHOT: "ai-catalog+jws"}
+ROTATE = "ai-catalog-key-rotation"
+TYP = {AIC: "ai-catalog-trust-manifest+jws", SNAPSHOT: "ai-catalog+jws", ROTATE: "ai-catalog-key-rotation+jws"}
+RELEASE_TYPE = "application/vnd.probityai.release+json"
+MCP_TYPE = "application/mcp-registry-server+json"
 PASS = {
     AIC: ("supported", "signature_covers_release", "accept"),
     ARD: ("supported", "signature_covers_release", "accept"),
@@ -101,7 +118,19 @@ def strict_loads(raw: bytes) -> Any:
             out[key] = value
         return out
 
-    return json.loads(raw.decode("utf-8"), object_pairs_hook=pairs)
+    def constant(name: str) -> Any:
+        raise Failure(f"{name} is not a JSON value")
+
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise Failure("the bytes are not UTF-8") from exc
+    if text.startswith("﻿"):
+        raise Failure("a byte order mark is not JSON")
+    try:
+        return json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+    except json.JSONDecodeError as exc:
+        raise Failure(f"not JSON: {exc}") from exc
 
 
 def _string(text: str) -> str:
@@ -296,11 +325,95 @@ def stamp(moment: dt.datetime) -> str:
     return moment.astimezone(dt.UTC).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def instant(text: str) -> dt.datetime:
-    return dt.datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.UTC)
+def instant(text: Any) -> dt.datetime:
+    """An RFC 3339 UTC time written exactly as `stamp` writes it. strptime alone also reads
+    2026-11-1T1:2:3Z, which other readers refuse, so the text must round-trip."""
+    try:
+        moment = dt.datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.UTC)
+    except (TypeError, ValueError) as exc:
+        raise Failure(f"{text!r} is not an RFC 3339 UTC time with seconds") from exc
+    if stamp(moment) != text:
+        raise Failure(f"{text!r} is not written as YYYY-MM-DDTHH:MM:SSZ")
+    return moment
 
 
 # ----------------------------------------------------------------------------- commands
+
+
+def entry_errors(catalog: dict[str, Any]) -> list[str]:
+    """What the signed fields of each entry say about one another, read without the network: the
+    digest is the digest of the published data, the release a pointer names is the one its version,
+    tag, provenance and install line name, and an install line pins what the entry signs."""
+    errors: list[str] = []
+    seen: set[str] = set()
+    for entry in catalog["entries"]:
+        name, kind, data = entry["identifier"], entry["type"], entry["data"]
+        if name in seen:
+            errors.append(f"{name}: the identifier is listed twice")
+        seen.add(name)
+        if entry["digest"] != digest(data):
+            errors.append(f"{name}: digest is not the digest of the published data")
+        source = entry["trustManifests"][0]["provenance"][0]["sourceId"]
+        version = entry.get("version")
+        if kind == RELEASE_TYPE:
+            errors += release_errors(name, data, source, version)
+        elif kind == MCP_TYPE:
+            if data.get("repository", {}).get("url") != source:
+                errors.append(f"{name}: server.json repository is not the provenance source {source}")
+            if data.get("version") != version:
+                errors.append(f"{name}: entry version {version} is not the server.json version {data.get('version')}")
+            for package in data.get("packages") or [None]:
+                if not isinstance(package, dict) or package.get("registryType") != "pypi":
+                    errors.append(f"{name}: every package must be a PyPI package, the one registry the live check reads")
+                elif package.get("version") != version:
+                    errors.append(f"{name}: package {package.get('identifier')} {package.get('version')} is not {version}")
+        elif kind == A2A_TYPE:
+            if data.get("version") != version:
+                errors.append(f"{name}: entry version {version} is not the card version {data.get('version')}")
+        else:
+            errors.append(f"{name}: no check for type {kind}")
+    return errors
+
+
+def release_errors(name: str, data: dict[str, Any], source: str, version: str | None) -> list[str]:
+    errors = []
+    if data.get("repository") != source:
+        errors.append(f"{name}: repository {data.get('repository')} is not the provenance source {source}")
+    repo, commit, tag = source.removeprefix("https://github.com/"), data.get("commit"), data.get("tag")
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        errors.append(f"{name}: commit is not a full lowercase SHA-1")
+    if (tag is None) != (version is None) or (tag is not None and tag != f"v{version}"):
+        errors.append(f"{name}: tag {tag} and version {version} do not name one release")
+    packages = data.get("packages", [])
+    pins = [f"uses: {repo}@{commit}" + (f" # {tag}" if tag else "")]
+    for package in packages:
+        files = package.get("files") or []
+        names = [item.get("filename") for item in files]
+        if package.get("registry") != "pypi" or package.get("version") != version:
+            errors.append(f"{name}: package {package.get('name')} is not PyPI {version}")
+        if not files or len(set(names)) != len(names):
+            errors.append(f"{name}: package {package.get('name')} lists no files, or one file twice")
+        if any(not re.fullmatch(r"[0-9a-f]{64}", str(item.get("sha256"))) for item in files):
+            errors.append(f"{name}: package {package.get('name')} has a file digest that is not SHA-256 hex")
+        pins.append(f"pip install {package.get('name')}=={version}")
+    # A tagged or packaged release is installed by the line the entry carries, so that line must pin
+    # the signed commit or version; an install line that floats (@main, no ==) is not this release.
+    if (tag is not None or packages) and data.get("use") not in pins:
+        errors.append(f"{name}: use {data.get('use')!r} does not pin the release; expected one of {pins}")
+    return errors
+
+
+def rotation_hands_over(rotation: Any, old: dict[str, Any], new: dict[str, Any]) -> bool:
+    """catalog/rotation.json names the old key in full, the new key by its pin, and is signed by the old key."""
+    if rotation is None:
+        return False
+    if not isinstance(rotation, dict) or set(rotation) != {"from", "to", "jws"}:
+        raise Failure("catalog/rotation.json holds other members than from, to and jws")
+    statement = {"from": rotation["from"], "to": rotation["to"]}
+    if rotation["from"] != old["publicKeyJwk"] or rotation["to"] != new["public_key_sha256"]:
+        return False
+    verify_one(public_of(rotation["from"]), ROTATE, statement, rotation["jws"], "catalog/rotation.json")
+    return True
 
 
 def cmd_sign(args: argparse.Namespace) -> int:
@@ -308,15 +421,40 @@ def cmd_sign(args: argparse.Namespace) -> int:
     if not isinstance(key, ec.EllipticCurvePrivateKey) or key.curve.name != "secp256r1":
         raise Failure("the private key on standard input is not a P-256 key")
     jwk = jwk_of(key.public_key())
-    if PIN.exists() and strict_loads(PIN.read_bytes())["publicKeyJwk"] != jwk:
-        raise Failure("this key is not the pinned catalog key; rotate the pin on purpose, not by signing")
+    if PIN.exists():
+        pinned = strict_loads(PIN.read_bytes())
+        rotation = strict_loads(ROTATION.read_bytes()) if ROTATION.exists() else None
+        if pinned["publicKeyJwk"] != jwk and not rotation_hands_over(rotation, pinned, pin_of(jwk)):
+            raise Failure(
+                f"this key (public_key_sha256 {pin_of(jwk)['public_key_sha256']}) is not the pinned catalog key; "
+                "hand over first: the pinned key | ai-catalog.py rotate --to <that sha256>"
+            )
     now = dt.datetime.now(dt.UTC)
     catalog = signed(strict_loads(SOURCE.read_bytes()), key, stamp(now), stamp(now + dt.timedelta(days=args.days)))
+    errors = entry_errors(catalog)
+    if errors:
+        raise Failure("catalog/source.json: " + "; ".join(errors))
     CATALOG.parent.mkdir(exist_ok=True)
     CATALOG.write_bytes(dump(catalog))
     DID_DOC.write_bytes(dump(did_document(jwk)))
     PIN.write_bytes(dump(pin_of(jwk)))
     print(f"signed {len(catalog['entries'])} entries under {AIC} and {ARD}, and the catalog under {SNAPSHOT}")
+    return 0
+
+
+def cmd_rotate(args: argparse.Namespace) -> int:
+    """Sign, with the pinned key on standard input, the hand-over to the key whose pin is --to."""
+    key = serialization.load_pem_private_key(sys.stdin.buffer.read(), password=None)
+    if not isinstance(key, ec.EllipticCurvePrivateKey) or key.curve.name != "secp256r1":
+        raise Failure("the private key on standard input is not a P-256 key")
+    pinned = strict_loads(PIN.read_bytes())
+    if pinned["publicKeyJwk"] != jwk_of(key.public_key()):
+        raise Failure("only the pinned key can hand over; this key is not it")
+    if not re.fullmatch(r"[0-9a-f]{64}", args.to):
+        raise Failure("--to is the new key's public_key_sha256, 64 lowercase hex digits")
+    statement = {"from": pinned["publicKeyJwk"], "to": args.to}
+    ROTATION.write_bytes(dump({**statement, "jws": sign_one(key, ROTATE, statement)}))
+    print(f"wrote {ROTATION.relative_to(ROOT)}: the pinned key hands over to {args.to}; now sign with the new key")
     return 0
 
 
@@ -330,18 +468,29 @@ def check_published(at: dt.datetime) -> tuple[dict[str, Any], dict[str, Any], di
         raise Failure("catalog/signing-key.json: the pin does not match its own key")
     if document != did_document(jwk):
         raise Failure(".well-known/did.json is not the did:web document of the pinned key")
+    if ROTATION.exists():
+        rotation = strict_loads(ROTATION.read_bytes())
+        if not isinstance(rotation, dict) or not rotation_hands_over(rotation, pin_of(rotation.get("from", {})), pin):
+            raise Failure("catalog/rotation.json does not hand over to the pinned key")
     public = public_of(jwk)
     window = catalog.get("signature", {})
     issued, expires = window.get("issuedAt"), window.get("expiresAt")
     if not isinstance(issued, str) or not isinstance(expires, str):
         raise Failure("the catalog signature carries no issuedAt and expiresAt")
+    if not instant(issued) < instant(expires):
+        raise Failure(f"the catalog expires ({expires}) no later than it is issued ({issued})")
     stripped = copy.deepcopy(catalog)
     stripped["signature"].pop("jws", None)
     for entry in stripped.get("entries", []):
         entry["trustManifests"][0]["signature"].pop("jws", None)
         entry["trustManifest"].pop("signature", None)
-    if stripped != unsigned(source, issued, expires):
+    # Compare bytes, not Python values: Python calls false == 0 and 1 == 1.0, so a published 0 where the
+    # source holds false compared equal while its digest no longer matched its data.
+    if canonical(stripped) != canonical(unsigned(source, issued, expires)):
         raise Failure(".well-known/ai-catalog.json is not catalog/source.json signed; re-run `sign`")
+    errors = entry_errors(catalog)
+    if errors:
+        raise Failure("; ".join(errors))
     for index, entry in enumerate(catalog["entries"]):
         name = entry["identifier"]
         verify_one(
@@ -356,28 +505,101 @@ def check_published(at: dt.datetime) -> tuple[dict[str, Any], dict[str, Any], di
     return catalog, document, pin
 
 
+def flip(jws: str) -> str:
+    """The same JWS with one bit of r changed: the header and payload still match, the signature does not."""
+    protected, _, signature = jws.split(".")
+    raw = bytearray(b64url_decode(signature))
+    raw[10] ^= 1
+    return f"{protected}..{b64url(bytes(raw))}"
+
+
+def resigned(catalog: dict[str, Any], key: ec.EllipticCurvePrivateKey) -> dict[str, Any]:
+    """The same catalog with every signature made by another key."""
+    out = copy.deepcopy(catalog)
+    for index, entry in enumerate(out["entries"]):
+        entry["trustManifests"][0]["signature"]["jws"] = sign_one(key, AIC, payload(AIC, out, index))
+        entry["trustManifest"]["signature"] = sign_one(key, ARD, payload(ARD, out, index))
+    out["signature"]["jws"] = sign_one(key, SNAPSHOT, payload(SNAPSHOT, out, None))
+    return out
+
+
+def with_signature(catalog: dict[str, Any], construction: str, change) -> dict[str, Any]:
+    """A copy whose signature for entry 0 (or the snapshot) is change(catalog, current jws)."""
+    out = copy.deepcopy(catalog)
+    if construction == AIC:
+        slot = out["entries"][0]["trustManifests"][0]["signature"]
+        slot["jws"] = change(catalog, slot["jws"])
+    elif construction == ARD:
+        out["entries"][0]["trustManifest"]["signature"] = change(catalog, out["entries"][0]["trustManifest"]["signature"])
+    else:
+        out["signature"]["jws"] = change(catalog, out["signature"]["jws"])
+    return out
+
+
+def entry_one_signature(construction: str):
+    def change(catalog: dict[str, Any], _jws: str) -> str:
+        second = catalog["entries"][1]
+        return second["trustManifests"][0]["signature"]["jws"] if construction == AIC else second["trustManifest"]["signature"]
+
+    return change
+
+
 def emit(directory: Path, catalog: dict[str, Any], document: dict[str, Any], pin: dict[str, Any], at: str) -> int:
-    """Case inputs for both readers: each entry under both constructions, the snapshot, and one
-    tampered copy per construction that both readers must refuse."""
+    """Case inputs for both readers: each entry under both constructions and the snapshot, which both
+    must support, and per construction six refusals, each with the reason both readers must give. A
+    data edit alone is caught by recomputing digests, so a reader that never verified a signature
+    passed the earlier three-case set; the signature, key, swap and time cases need a real verifier."""
     raw = CATALOG.read_bytes()
     documents = canonical({DID: document})
+    other = ec.generate_private_key(ec.SECP256R1())
+    other_documents = canonical({DID: did_document(jwk_of(other.public_key()))})
     tampered = copy.deepcopy(catalog)
     first = tampered["entries"][0]
     first["data"] = {**first["data"], "description": first["data"].get("description", "") + " (edited)"}
-    edited = dump(tampered)
-    jobs = [(f"{i:02d}-{c}", raw, c, i, True) for i in range(len(catalog["entries"])) for c in (AIC, ARD)]
-    jobs.append(("snapshot", raw, SNAPSHOT, 0, True))
-    jobs += [(f"tampered-{c}", edited, c, 0, False) for c in (AIC, ARD, SNAPSHOT)]
+    issued, expires = catalog["signature"]["issuedAt"], catalog["signature"]["expiresAt"]
+    before = stamp(instant(issued) - dt.timedelta(seconds=1))
+    jobs: list[tuple[str, bytes, bytes, str, int, str, tuple[str, str], tuple[str, str]]] = []
+    for index in range(len(catalog["entries"])):
+        for construction in (AIC, ARD):
+            decision, reason, accept = PASS[construction]
+            jobs.append((f"{index:02d}-{construction}", raw, documents, construction, index, at, (decision, reason), (accept, reason)))
+    decision, reason, accept = PASS[SNAPSHOT]
+    jobs.append(("snapshot", raw, documents, SNAPSHOT, 0, at, (decision, reason), (accept, reason)))
+
+    def refuse(reason: str) -> tuple[tuple[str, str], tuple[str, str]]:
+        return ("contradicted", reason), ("reject", reason)
+
+    for construction in (AIC, ARD, SNAPSHOT):
+        edited = "signature_invalid" if construction == SNAPSHOT else "artifact_digest_mismatch"
+        cases = [
+            ("tampered", dump(tampered), documents, at, refuse(edited)),
+            ("signature-bit", dump(with_signature(catalog, construction, lambda _c, jws: flip(jws))), documents, at,
+             refuse("signature_invalid")),
+            ("other-key", dump(resigned(catalog, other)), documents, at, refuse("signature_invalid")),
+            # The DID documents name the other key. agent-evidence-verify refuses it against the pin; the
+            # vectors reader takes the DID documents as the resolver's answer and has no pin input, so it
+            # accepts. The pin is held by `check` (did.json is the pinned key's document) and by verify.
+            ("other-did", dump(resigned(catalog, other)), other_documents, at,
+             (("contradicted", "key_not_pinned"), (PASS[construction][2], PASS[construction][1]))),
+            ("expired", raw, documents, expires, refuse("manifest_expired")),
+            ("not-yet-issued", raw, documents, before, refuse("issued_in_future")),
+        ]
+        if construction != SNAPSHOT:
+            cases.append(("swapped", dump(with_signature(catalog, construction, entry_one_signature(construction))),
+                          documents, at, refuse("signature_invalid")))
+        for label, body, docs, moment, (mine, theirs) in cases:
+            jobs.append((f"{label}-{construction}", body, docs, construction, 0, moment, mine, theirs))
+
     assessments, plan = {}, []
-    for name, body, construction, index, expect in jobs:
+    for name, body, docs, construction, index, moment, mine, theirs in jobs:
         case = directory / "cases" / name
         case.mkdir(parents=True, exist_ok=True)
         (case / "catalog.json").write_bytes(body)
-        (case / "did-documents.json").write_bytes(documents)
+        (case / "did-documents.json").write_bytes(docs)
         (case / "context.json").write_bytes(
             dump(
                 {
-                    "at": at,
+                    "at": moment,
                     "attestationFiles": [],
                     "construction": construction,
                     "entry": index,
@@ -394,7 +616,7 @@ def emit(directory: Path, catalog: dict[str, Any], document: dict[str, Any], pin
                     "case_id": case_id,
                     "artifacts": {
                         file: {"path": file, "length": len(data), "sha256": hashlib.sha256(data).hexdigest()}
-                        for file, data in (("catalog.json", body), ("did-documents.json", documents))
+                        for file, data in (("catalog.json", body), ("did-documents.json", docs))
                     },
                 }
             )
@@ -405,7 +627,7 @@ def emit(directory: Path, catalog: dict[str, Any], document: dict[str, Any], pin
             "did_documents": "did-documents.json",
             "construction": construction,
             "role": "publisher",
-            "at": at,
+            "at": moment,
             "entry": index,
             "manifest": 0,
             "key_authority": {
@@ -413,27 +635,88 @@ def emit(directory: Path, catalog: dict[str, Any], document: dict[str, Any], pin
                 "keys": [{"kid": pin["kid"], "public_key_sha256": pin["public_key_sha256"]}],
             },
         }
-        plan.append({"name": name, "construction": construction, "expect_pass": expect})
+        plan.append({"name": name, "construction": construction, "verify": list(mine), "vectors": list(theirs)})
     (directory / "policy.json").write_bytes(dump({"schema_version": "probity-policy/v1", "assessments": assessments}))
     (directory / "plan.json").write_bytes(dump(plan))
     return len(plan)
 
 
-def fetch_json(url: str) -> Any:
+def fetch(url: str) -> bytes | None:
+    """The body at url, or None for 404. Three tries on a 5xx or a dropped connection (Pages answers a
+    transient 503 now and then); any other answer is a failure, never an empty result."""
     headers = {"User-Agent": "probityai-ai-catalog-check", "Accept": "application/json"}
     token = os.environ.get("GH_TOKEN")
     if token and url.startswith("https://api.github.com/"):
         headers["Authorization"] = f"Bearer {token}"
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=60) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                return None
+            if exc.code < 500 or attempt == 2:
+                raise Failure(f"could not read {url}: HTTP {exc.code}") from exc
+        except (urllib.error.URLError, TimeoutError) as exc:
+            if attempt == 2:
+                raise Failure(f"could not read {url}: {exc}") from exc
+        time.sleep(5 * (attempt + 1))
+    raise Failure(f"could not read {url}")
+
+
+def fetch_json(url: str) -> Any:
+    body = fetch(url)
+    if body is None:
+        raise Failure(f"could not read {url}: HTTP 404")
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=60) as resp:
-            return json.loads(resp.read())
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        return json.loads(body)
+    except json.JSONDecodeError as exc:
         raise Failure(f"could not read {url}: {exc}") from exc
 
 
 def pypi_files(name: str, version: str) -> dict[str, str]:
-    release = fetch_json(f"https://pypi.org/pypi/{name}/{version}/json")
-    return {item["filename"]: item["digests"]["sha256"] for item in release["urls"]}
+    """Every file PyPI serves for the release, refused when any is yanked or there are none."""
+    release = fetch_json(f"https://pypi.org/pypi/{urllib.parse.quote(name)}/{urllib.parse.quote(version)}/json")
+    files = {}
+    for item in release["urls"]:
+        if item.get("yanked"):
+            raise Failure(f"PyPI {name} {version}: {item['filename']} is yanked")
+        files[item["filename"]] = item["digests"]["sha256"]
+    if not files:
+        raise Failure(f"PyPI has no files for {name} {version}")
+    return files
+
+
+def on_default_branch(repo: str, commit: str) -> None:
+    """The commits endpoint answers for any commit in the fork network, including a closed pull
+    request's head that never merged, so existence is not enough: the default branch must contain it."""
+    branch = fetch_json(f"https://api.github.com/repos/{repo}")["default_branch"]
+    compare = fetch_json(f"https://api.github.com/repos/{repo}/compare/{commit}...{urllib.parse.quote(branch)}")
+    if compare.get("status") not in ("ahead", "identical"):
+        raise Failure(f"{repo}: commit {commit} is not on {branch} (compare says {compare.get('status')})")
+
+
+def check_key_continuity(pin: dict[str, Any]) -> str:
+    """The pinned key is the key the site already serves, or the served key handed over to it in
+    catalog/rotation.json. Without this, one change that replaced the key, the pin and did.json
+    together passed every other check. Before the first publication nothing is served."""
+    body = fetch(SERVED_DID)
+    if body is None:
+        return f"{SERVED_DID} is not served yet: this is the first publication of the key"
+    served = strict_loads(body)
+    methods = served.get("verificationMethod") if isinstance(served, dict) else None
+    if not isinstance(methods, list) or len(methods) != 1 or served != did_document(methods[0].get("publicKeyJwk")):
+        raise Failure(f"{SERVED_DID} is not a did:web document of one catalog key")
+    old = pin_of(methods[0]["publicKeyJwk"])
+    if old["public_key_sha256"] == pin["public_key_sha256"]:
+        return "the pinned key is the key the site serves"
+    rotation = strict_loads(ROTATION.read_bytes()) if ROTATION.exists() else None
+    if rotation is None or not rotation_hands_over(rotation, old, pin):
+        raise Failure(
+            f"the pinned key {pin['public_key_sha256']} is not the served key {old['public_key_sha256']}, "
+            "and no catalog/rotation.json signed by the served key hands over to it"
+        )
+    return f"the served key {old['public_key_sha256']} hands over to the pinned key"
 
 
 def check_live(catalog: dict[str, Any]) -> int:
@@ -441,31 +724,34 @@ def check_live(catalog: dict[str, Any]) -> int:
     checked = 0
     for entry in catalog["entries"]:
         data, name = entry["data"], entry["identifier"]
-        if entry["type"] == "application/vnd.probityai.release+json":
+        if entry["type"] == RELEASE_TYPE:
             repo = data["repository"].removeprefix("https://github.com/")
             commit = fetch_json(f"https://api.github.com/repos/{repo}/commits/{data['commit']}")
             if commit.get("sha") != data["commit"]:
                 raise Failure(f"{name}: commit {data['commit']} is not in {repo}")
+            on_default_branch(repo, data["commit"])
             if "tag" in data:
-                ref = fetch_json(f"https://api.github.com/repos/{repo}/git/ref/tags/{data['tag']}")["object"]
+                ref = fetch_json(f"https://api.github.com/repos/{repo}/git/ref/tags/{urllib.parse.quote(data['tag'])}")
+                ref = ref["object"]
                 if ref["type"] == "tag":
                     ref = fetch_json(ref["url"])["object"]
                 if ref["sha"] != data["commit"]:
                     raise Failure(f"{name}: tag {data['tag']} names {ref['sha']}, not {data['commit']}")
             for package in data.get("packages", []):
                 served = pypi_files(package["name"], package["version"])
-                for item in package["files"]:
-                    if served.get(item["filename"]) != item["sha256"]:
-                        raise Failure(f"{name}: PyPI {item['filename']} is not {item['sha256']}")
+                listed = {item["filename"]: item["sha256"] for item in package["files"]}
+                if served != listed:
+                    raise Failure(
+                        f"{name}: PyPI {package['name']} {package['version']} serves {sorted(served.items())}, "
+                        f"the entry signs {sorted(listed.items())}"
+                    )
             checked += 1
-        elif entry["type"] == "application/mcp-registry-server+json":
+        elif entry["type"] == MCP_TYPE:
             for package in data["packages"]:
-                if not pypi_files(package["identifier"], package["version"]):
-                    raise Failure(f"{name}: PyPI has no files for {package['identifier']} {package['version']}")
+                pypi_files(package["identifier"], package["version"])
             checked += 1
         elif entry["type"] == A2A_TYPE:
-            if not pypi_files("agent-evidence-verify", entry["version"]):
-                raise Failure(f"{name}: PyPI has no agent-evidence-verify {entry['version']}")
+            pypi_files("agent-evidence-verify", entry["version"])
             checked += 1
         else:
             raise Failure(f"{name}: no live check for type {entry['type']}")
@@ -478,11 +764,12 @@ def cmd_check(args: argparse.Namespace) -> int:
     if args.a2a_card:
         served = strict_loads(Path(args.a2a_card).read_bytes())
         cards = [e for e in catalog["entries"] if e["type"] == A2A_TYPE]
-        if len(cards) != 1 or cards[0]["data"] != served:
+        if len(cards) != 1 or canonical(cards[0]["data"]) != canonical(served):
             raise Failure("the A2A entry's data is not the card the released server serves")
         if cards[0].get("version") != served.get("version"):
             raise Failure("the A2A entry's version is not the served card's version")
     if args.live:
+        print(f"ai-catalog: {check_key_continuity(pin)}")
         print(f"ai-catalog: {check_live(catalog)} of {len(catalog['entries'])} entries resolve at their source")
     count = len(catalog["entries"])
     print(f"ai-catalog: {count} entries, {2 * count + 1} signatures verify with the pinned key at {stamp(at)}")
@@ -494,7 +781,9 @@ def cmd_check(args: argparse.Namespace) -> int:
     return 0
 
 
-def run_reader(command: list[str]) -> dict[str, Any]:
+def run_reader(command: list[str], exits: dict[str, int]) -> dict[str, Any]:
+    """One reader's answer. Its exit status must be the one it gives for that decision, so a reader
+    that printed a verdict and then failed is not read as having given it."""
     done = subprocess.run(command, capture_output=True, text=True, check=False)
     try:
         answer = json.loads(done.stdout)
@@ -504,7 +793,14 @@ def run_reader(command: list[str]) -> dict[str, Any]:
         ) from exc
     if not isinstance(answer, dict) or not isinstance(answer.get("decision"), str):
         raise Failure(f"{shlex.join(command)} printed no decision")
+    answer["exit_as_decided"] = exits.get(answer["decision"]) == done.returncode
+    answer["exit"] = done.returncode
     return answer
+
+
+# agent-evidence-verify reports every decision in its JSON and exits 0; the vectors reader exits 1 on reject.
+VERIFY_EXITS = {"supported": 0, "contradicted": 0}
+VECTORS_EXITS = {"accept": 0, "reject": 1}
 
 
 def cmd_judge(args: argparse.Namespace) -> int:
@@ -514,20 +810,22 @@ def cmd_judge(args: argparse.Namespace) -> int:
     wrong = []
     for job in plan:
         case = directory / "cases" / job["name"]
-        mine = run_reader([*verify, str(case / "case.json"), "--policy", str(directory / "policy.json"), "--json"])
-        theirs = run_reader([*vectors, "catalog-trust-manifest/v1", str(case), "--json"])
-        decision, reason, accept = PASS[job["construction"]]
-        if job["expect_pass"]:
-            ok = (mine["decision"], mine.get("reason")) == (decision, reason) and (
-                theirs["decision"],
-                theirs.get("reason"),
-            ) == (accept, reason)
-        else:
-            ok = mine["decision"] == "contradicted" and theirs["decision"] == "reject"
-        line = (
-            f"{job['name']}: agent-evidence-verify {mine['decision']} {mine.get('reason')}; "
-            f"vectors reader {theirs['decision']} {theirs.get('reason')}"
+        mine = run_reader(
+            [*verify, str(case / "case.json"), "--policy", str(directory / "policy.json"), "--json"], VERIFY_EXITS
         )
+        theirs = run_reader([*vectors, "catalog-trust-manifest/v1", str(case), "--json"], VECTORS_EXITS)
+        ok = (
+            [mine["decision"], mine.get("reason")] == job["verify"]
+            and [theirs["decision"], theirs.get("reason")] == job["vectors"]
+            and mine["exit_as_decided"]
+            and theirs["exit_as_decided"]
+        )
+        line = (
+            f"{job['name']}: agent-evidence-verify {mine['decision']} {mine.get('reason')} exit {mine['exit']}; "
+            f"vectors reader {theirs['decision']} {theirs.get('reason')} exit {theirs['exit']}"
+        )
+        if not ok:
+            line += f" (expected {' '.join(job['verify'])}; {' '.join(job['vectors'])})"
         print(("ok    " if ok else "WRONG ") + line)
         if not ok:
             wrong.append(job["name"])
@@ -541,6 +839,9 @@ def main(argv: list[str] | None = None) -> int:
     sign = sub.add_parser("sign", help="sign catalog/source.json with the PEM key on standard input")
     sign.add_argument("--days", type=int, default=365)
     sign.set_defaults(run=cmd_sign)
+    rotate = sub.add_parser("rotate", help="hand over from the pinned key (PEM on standard input) to a new key")
+    rotate.add_argument("--to", required=True, help="the new key's public_key_sha256")
+    rotate.set_defaults(run=cmd_rotate)
     check = sub.add_parser("check", help="check the published catalog without the key")
     check.add_argument("--at", help="check time, RFC 3339 UTC with seconds (default now)")
     check.add_argument("--a2a-card", help="the card the released A2A server serves")
@@ -557,6 +858,10 @@ def main(argv: list[str] | None = None) -> int:
         return args.run(args)
     except Failure as failure:
         print(f"ai-catalog: {failure}", file=sys.stderr)
+        return 1
+    except (KeyError, IndexError, TypeError, AttributeError) as error:
+        # A missing or mistyped member in a file this script reads: refused, with the member named.
+        print(f"ai-catalog: malformed input: {type(error).__name__}: {error}", file=sys.stderr)
         return 1
 
 
