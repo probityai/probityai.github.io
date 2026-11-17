@@ -5,7 +5,7 @@ Start with the [worked example](../TOOL-MANIFEST-EFFECT.md).
 ## Source and contributor
 
 Kenneives selected `ask_wiki_question` on `https://mcp.deepwiki.com/mcp` in
-[the first collaboration case](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247268743).
+[the first collaboration case](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529863593).
 The complete upstream case is pinned at AgentAvow commit
 `36426cfd5152bba6a27766febfac8aaef47b6f34`, in
 [tool-manifest-digest-vectors-v1](https://github.com/AgentAvow/AgentAvow/tree/36426cfd5152bba6a27766febfac8aaef47b6f34/docs/standards/tool-manifest-digest-vectors-v1).

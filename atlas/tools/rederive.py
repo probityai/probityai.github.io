@@ -28,7 +28,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
-UA = "agent-evidence-atlas-claim-check (https://github.com/probityai/agent-evidence-atlas)"
+UA = "agent-evidence-atlas-claim-check (https://github.com/probityai/probityai.github.io)"
 
 
 def get_json(url: str) -> dict:
