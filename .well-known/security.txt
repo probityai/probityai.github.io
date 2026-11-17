@@ -1,0 +1,6 @@
+# Security contact for probityai.github.io and every public probityai repository (RFC 9116).
+Contact: https://github.com/probityai/agent-evidence-vectors/security/advisories/new
+Expires: 2027-05-17T00:00:00Z
+Preferred-Languages: en
+Canonical: https://probityai.github.io/.well-known/security.txt
+Policy: https://github.com/probityai/.github/blob/main/SECURITY.md
