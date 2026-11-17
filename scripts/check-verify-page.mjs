@@ -1,5 +1,7 @@
 // Check the in-browser record checker at verify/ in a real headless Chrome, without a browser framework:
-// the pinned reader loads, the example record is ADMITTED with verdict pass, and two edits are REFUSED.
+// a page whose Pyodide lock file was altered in transit never loads the reader, the pinned reader loads with all
+// three runtime files checked, the example record is ADMITTED with verdict pass, two edits are REFUSED, and a
+// record with a duplicate member is refused as the command line refuses it.
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
@@ -40,6 +42,7 @@ async function until(check, label, milliseconds = 30_000) {
 
 let socket, sequence = 0;
 const pending = new Map();
+const listeners = new Map();
 function cdp(method, params = {}) {
   const id = ++sequence;
   return new Promise((done, fail) => {
@@ -72,19 +75,51 @@ try {
   await new Promise((done, fail) => { socket.onopen = done; socket.onerror = fail; });
   socket.onmessage = event => {
     const message = JSON.parse(event.data);
+    if (message.method) { listeners.get(message.method)?.(message.params); return; }
     const item = message.id && pending.get(message.id);
     if (!item) return;
     pending.delete(message.id); clearTimeout(item.timer);
     message.error ? item.fail(new Error(JSON.stringify(message.error))) : item.done(message.result);
   };
   await cdp('Page.enable');
+  // No cached runtime file may stand in for a network read, and the altered lock file must not be reused.
+  await cdp('Network.enable');
+  await cdp('Network.setCacheDisabled', { cacheDisabled: true });
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 900, deviceScaleFactor: 1, mobile: true });
+  const loaded = () => evaluate('document.body?.dataset.ready === "true" || document.getElementById("status")?.dataset.result === "ERROR"');
+
+  // Counter-example: one byte added to each pinned runtime file on its way from the CDN, one file per load. The
+  // page must refuse to load the reader rather than run a runtime its pins do not describe. A byte appended to the
+  // standard library zip still opens as a zip, so only the page's own pin can refuse that one.
+  for (const name of ['pyodide.asm.wasm', 'python_stdlib.zip', 'pyodide-lock.json']) {
+    let tampered = 0;
+    listeners.set('Fetch.requestPaused', async ({ requestId, responseStatusCode, responseHeaders }) => {
+      const { body, base64Encoded } = await cdp('Fetch.getResponseBody', { requestId });
+      const bytes = Buffer.concat([Buffer.from(body, base64Encoded ? 'base64' : 'utf8'), Buffer.from(' ')]);
+      tampered += 1;
+      await cdp('Fetch.fulfillRequest', { requestId, responseCode: responseStatusCode, responseHeaders, body: bytes.toString('base64') });
+    });
+    await cdp('Fetch.enable', { patterns: [{ urlPattern: `*/${name}`, requestStage: 'Response' }] });
+    // Mark the current document, so the wait below cannot read the previous load's refusal as this one's.
+    await evaluate('document.body && (document.body.dataset.stale = "true")');
+    await cdp('Page.navigate', { url: page });
+    await until(() => evaluate('document.body?.dataset.stale !== "true" && document.getElementById("status")?.dataset.result === "ERROR" || document.body?.dataset.ready === "true"'), `tampered ${name} refused`, 180_000);
+    const refusal = await status();
+    console.log(`tampered ${name}: ${refusal}`);
+    assert.equal(tampered, 1, `the ${name} request was not intercepted, so the counter-example tested nothing`);
+    const quoted = name.replace(/\./g, '\\.');
+    assert.match(refusal, new RegExp(`^The reader did not load: runtime file ${quoted} digest [0-9a-f]{64} differs`));
+    assert.equal(await evaluate('document.getElementById("run").disabled'), true);
+    await cdp('Fetch.disable');
+    listeners.delete('Fetch.requestPaused');
+  }
+
   await cdp('Page.navigate', { url: page });
   // Pyodide, its standard library and the 12 MB wheel come over the network: allow three minutes.
-  await until(() => evaluate(`location.href === ${JSON.stringify(page)} && document.readyState === "complete"`), 'page loaded');
-  await until(() => evaluate('document.body?.dataset.ready === "true" || document.getElementById("status")?.dataset.result === "ERROR"'),
-    'reader loaded', 180_000);
+  await until(() => evaluate(`location.href === ${JSON.stringify(page)} && document.readyState === "complete" && !document.getElementById("status").dataset.result`), 'page loaded');
+  await until(loaded, 'reader loaded', 180_000);
   assert.equal(await evaluate('document.body.dataset.ready'), 'true', `reader failed: ${await status()}`);
+  assert.equal(await evaluate('document.body.dataset.runtime'), '3 of 3 runtime files checked');
   const layout = await evaluate('({width: innerWidth, content: document.documentElement.scrollWidth})');
   assert(layout.content <= layout.width, `horizontal overflow at 390 px: ${JSON.stringify(layout)}`);
 
@@ -102,9 +137,17 @@ try {
     c[0].cases[2].expect = "verified"; document.getElementById("case-sets").value = JSON.stringify(c); })()`);
   assert.match(await run('expectation flipped in the held case set'), /^REFUSED: .*CASE_SET_UNRESOLVED/);
 
+  // Counter-example: a record whose first "verdict" says fail and whose last says pass. A last-wins parser
+  // admitted it with verdict pass while "agent-evidence-vectors claim verify" refuses the same bytes.
+  await evaluate('document.getElementById("example").click()');
+  await until(() => evaluate('document.getElementById("record").value.length > 100'), 'example reloaded');
+  await evaluate(`(() => { const box = document.getElementById("record");
+    box.value = box.value.replace('"verdict": "pass"', '"verdict": "fail", "verdict": "pass"'); })()`);
+  assert.match(await run('duplicate verdict member'), /^Could not read the input: .*duplicate member/);
+
   await evaluate('document.getElementById("record").value = "{not json"');
   assert.match(await run('malformed input'), /^Could not read the input/);
-  console.log('verify page: 4 of 4 checks passed');
+  console.log('verify page: 6 of 6 checks passed');
 } catch (error) {
   console.error(error.stack ?? error);
   process.exitCode = 1;
