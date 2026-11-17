@@ -37,7 +37,9 @@ import urllib.request
 DESCRIPTION = "Check that GitHub Pages serves every published file with the bytes we published."
 HOST = "https://probityai.github.io"
 W3ID = "https://w3id.org/agent-evidence"
-SERVED_DIRS = ("agent-evidence-atlas", "agent-evidence")
+# .well-known holds the signed AI Catalog and the did:web document its signatures name; a served
+# copy that differs from the signed bytes would fail every consumer's check, so it is read back too.
+SERVED_DIRS = ("agent-evidence-atlas", "agent-evidence", ".well-known")
 # Root files search engines and answer engines fetch: crawl rules, the sitemap and its ledger, the
 # agent guide, and the IndexNow key file (a 32-hex-digit name), which must serve its own key.
 ROOT_FILES = ("robots.txt", "sitemap.xml", "sitemap-ledger.json", "llms.txt")
