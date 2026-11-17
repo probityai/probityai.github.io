@@ -120,3 +120,15 @@ class RootFilesTest(unittest.TestCase):
                 (tree / top).mkdir()
             labels = [label for label, _, _ in mod.targets(tree, "")]
         self.assertEqual(labels, ["0123456789abcdef0123456789abcdef.txt", "robots.txt", "sitemap.xml"])
+
+    def test_the_signed_catalog_and_did_document_are_read_back(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            tree = pathlib.Path(raw)
+            for top in mod.SERVED_DIRS:
+                (tree / top).mkdir()
+            for name in ("ai-catalog.json", "did.json"):
+                (tree / ".well-known" / name).write_text("{}")
+            urls = [url for label, url, _ in mod.targets(tree, "") if label.startswith(".well-known/")]
+        self.assertEqual(urls, [f"{mod.HOST}/.well-known/ai-catalog.json", f"{mod.HOST}/.well-known/did.json"])
