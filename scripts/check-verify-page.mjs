@@ -58,6 +58,15 @@ async function evaluate(expression) {
 }
 const status = () => evaluate('document.getElementById("status").textContent');
 
+// Click "Load the example" and wait for THIS click's load to finish. Waiting on the record's length instead
+// passed at once on every reload after the first (the old example was still in the box), so the edit that
+// followed was overwritten when the fetch completed and the check ran on the unedited example.
+async function loadExample(label) {
+  const before = await evaluate('Number(document.body.dataset.exampleLoads ?? 0)');
+  await evaluate('document.getElementById("example").click()');
+  await until(() => evaluate(`Number(document.body.dataset.exampleLoads ?? 0) > ${before}`), label);
+}
+
 async function run(label) {
   await evaluate('document.getElementById("status").textContent = ""; document.getElementById("run").click()');
   const text = await until(status, `verdict for ${label}`);
@@ -123,26 +132,25 @@ try {
   const layout = await evaluate('({width: innerWidth, content: document.documentElement.scrollWidth})');
   assert(layout.content <= layout.width, `horizontal overflow at 390 px: ${JSON.stringify(layout)}`);
 
-  await evaluate('document.getElementById("example").click()');
-  await until(() => evaluate('document.getElementById("record").value.length > 100'), 'example loaded');
+  await loadExample('example loaded');
   assert.equal(await run('example'), 'ADMITTED, verdict pass');
 
   await evaluate(`(() => { const r = JSON.parse(document.getElementById("record").value);
     r.verdict = "fail"; document.getElementById("record").value = JSON.stringify(r); })()`);
   assert.match(await run('verdict rewritten'), /^REFUSED: .*VERDICT_CONTRADICTED/);
 
-  await evaluate('document.getElementById("example").click()');
-  await delay(500);
+  await loadExample('example reloaded for the case-set edit');
   await evaluate(`(() => { const c = JSON.parse(document.getElementById("case-sets").value);
     c[0].cases[2].expect = "verified"; document.getElementById("case-sets").value = JSON.stringify(c); })()`);
   assert.match(await run('expectation flipped in the held case set'), /^REFUSED: .*CASE_SET_UNRESOLVED/);
 
   // Counter-example: a record whose first "verdict" says fail and whose last says pass. A last-wins parser
   // admitted it with verdict pass while "agent-evidence-vectors claim verify" refuses the same bytes.
-  await evaluate('document.getElementById("example").click()');
-  await until(() => evaluate('document.getElementById("record").value.length > 100'), 'example reloaded');
-  await evaluate(`(() => { const box = document.getElementById("record");
-    box.value = box.value.replace('"verdict": "pass"', '"verdict": "fail", "verdict": "pass"'); })()`);
+  await loadExample('example reloaded for the duplicate member');
+  const edited = await evaluate(`(() => { const box = document.getElementById("record");
+    box.value = box.value.replace('"verdict": "pass"', '"verdict": "fail", "verdict": "pass"');
+    return box.value.includes('"verdict": "fail", "verdict": "pass"'); })()`);
+  assert.equal(edited, true, 'the duplicate member was not written into the record, so the counter-example tested nothing');
   assert.match(await run('duplicate verdict member'), /^Could not read the input: .*duplicate member/);
 
   await evaluate('document.getElementById("record").value = "{not json"');

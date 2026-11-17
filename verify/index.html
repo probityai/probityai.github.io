@@ -180,11 +180,20 @@ $("run").addEventListener("click", () => {
   }
 });
 
+// The example arrives over the network, so a click fills the boxes later. Each completed load bumps a counter
+// on the body; anything that edits the example (a reader of this page or its browser check) waits for it.
 $("example").addEventListener("click", async () => {
-  const example = await (await fetch("example.json")).json();
+  const response = await fetch("example.json");
+  if (!response.ok) {
+    $("status").dataset.result = "ERROR";
+    $("status").textContent = `The example did not load: HTTP ${response.status}`;
+    return;
+  }
+  const example = await response.json();
   $("record").value = JSON.stringify(example.record, null, 2);
   $("rule").value = JSON.stringify(example.rule, null, 2);
   $("case-sets").value = JSON.stringify(example.case_sets, null, 2);
+  document.body.dataset.exampleLoads = String(Number(document.body.dataset.exampleLoads ?? 0) + 1);
 });
 
 boot().catch(error => {
