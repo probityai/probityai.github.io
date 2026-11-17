@@ -182,18 +182,25 @@ $("run").addEventListener("click", () => {
 
 // The example arrives over the network, so a click fills the boxes later. Each completed load bumps a counter
 // on the body; anything that edits the example (a reader of this page or its browser check) waits for it.
+// A load that fails (no network, an HTTP error, a body that is not the example) says so in the status
+// and bumps its own counter, so neither a reader nor the check waits on a load that will never finish.
 $("example").addEventListener("click", async () => {
-  const response = await fetch("example.json");
-  if (!response.ok) {
+  try {
+    const response = await fetch("example.json");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const example = await response.json();
+    if (![example?.record, example?.rule, example?.case_sets].every(part => part && typeof part === "object")) {
+      throw new Error("example.json has no record, rule and case_sets");
+    }
+    $("record").value = JSON.stringify(example.record, null, 2);
+    $("rule").value = JSON.stringify(example.rule, null, 2);
+    $("case-sets").value = JSON.stringify(example.case_sets, null, 2);
+    document.body.dataset.exampleLoads = String(Number(document.body.dataset.exampleLoads ?? 0) + 1);
+  } catch (error) {
     $("status").dataset.result = "ERROR";
-    $("status").textContent = `The example did not load: HTTP ${response.status}`;
-    return;
+    $("status").textContent = `The example did not load: ${error.message || error}`;
+    document.body.dataset.exampleFailures = String(Number(document.body.dataset.exampleFailures ?? 0) + 1);
   }
-  const example = await response.json();
-  $("record").value = JSON.stringify(example.record, null, 2);
-  $("rule").value = JSON.stringify(example.rule, null, 2);
-  $("case-sets").value = JSON.stringify(example.case_sets, null, 2);
-  document.body.dataset.exampleLoads = String(Number(document.body.dataset.exampleLoads ?? 0) + 1);
 });
 
 boot().catch(error => {

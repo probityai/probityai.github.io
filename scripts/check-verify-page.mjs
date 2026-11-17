@@ -155,7 +155,23 @@ try {
 
   await evaluate('document.getElementById("record").value = "{not json"');
   assert.match(await run('malformed input'), /^Could not read the input/);
-  console.log('verify page: 6 of 6 checks passed');
+
+  // A failed example load must say so and must not leave a waiter hanging: before this the page threw an
+  // unhandled rejection on a dropped connection or a body that was not JSON, and the status stayed empty.
+  for (const [label, body, expected] of [
+    ['no network', 'Promise.reject(new TypeError("Failed to fetch"))', /^The example did not load: Failed to fetch/],
+    ['body not JSON', 'Promise.resolve(new Response("<html>"))', /^The example did not load: /],
+    ['wrong shape', 'Promise.resolve(new Response("{}"))', /^The example did not load: example.json has no record/],
+  ]) {
+    const failures = await evaluate('Number(document.body.dataset.exampleFailures ?? 0)');
+    await evaluate(`(() => { const real = window.fetch; window.__realFetch = real;
+      window.fetch = url => String(url).endsWith("example.json") ? ${body} : real(url);
+      document.getElementById("status").textContent = ""; document.getElementById("example").click(); })()`);
+    await until(() => evaluate(`Number(document.body.dataset.exampleFailures ?? 0) > ${failures}`), `example failure: ${label}`);
+    await evaluate('window.fetch = window.__realFetch');
+    assert.match(await status(), expected, `example failure: ${label}`);
+  }
+  console.log('verify page: 7 of 7 checks passed');
 } catch (error) {
   console.error(error.stack ?? error);
   process.exitCode = 1;
