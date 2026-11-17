@@ -88,25 +88,31 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 900, deviceScaleFactor: 1, mobile: true });
   const loaded = () => evaluate('document.body?.dataset.ready === "true" || document.getElementById("status")?.dataset.result === "ERROR"');
 
-  // Counter-example: one byte added to pyodide-lock.json on its way from the CDN. The page must refuse to load
-  // the reader rather than run a runtime its pins do not describe.
-  let tampered = 0;
-  listeners.set('Fetch.requestPaused', async ({ requestId, responseStatusCode, responseHeaders }) => {
-    const { body, base64Encoded } = await cdp('Fetch.getResponseBody', { requestId });
-    const bytes = Buffer.concat([Buffer.from(body, base64Encoded ? 'base64' : 'utf8'), Buffer.from(' ')]);
-    tampered += 1;
-    await cdp('Fetch.fulfillRequest', { requestId, responseCode: responseStatusCode, responseHeaders, body: bytes.toString('base64') });
-  });
-  await cdp('Fetch.enable', { patterns: [{ urlPattern: '*pyodide-lock.json', requestStage: 'Response' }] });
-  await cdp('Page.navigate', { url: page });
-  await until(loaded, 'tampered runtime refused', 180_000);
-  const refusal = await status();
-  console.log(`tampered pyodide-lock.json: ${refusal}`);
-  assert.equal(tampered, 1, 'the lock file request was not intercepted, so the counter-example tested nothing');
-  assert.match(refusal, /^The reader did not load: runtime file pyodide-lock\.json digest [0-9a-f]{64} differs/);
-  assert.equal(await evaluate('document.getElementById("run").disabled'), true);
-  await cdp('Fetch.disable');
-  listeners.delete('Fetch.requestPaused');
+  // Counter-example: one byte added to each pinned runtime file on its way from the CDN, one file per load. The
+  // page must refuse to load the reader rather than run a runtime its pins do not describe. A byte appended to the
+  // standard library zip still opens as a zip, so only the page's own pin can refuse that one.
+  for (const name of ['pyodide.asm.wasm', 'python_stdlib.zip', 'pyodide-lock.json']) {
+    let tampered = 0;
+    listeners.set('Fetch.requestPaused', async ({ requestId, responseStatusCode, responseHeaders }) => {
+      const { body, base64Encoded } = await cdp('Fetch.getResponseBody', { requestId });
+      const bytes = Buffer.concat([Buffer.from(body, base64Encoded ? 'base64' : 'utf8'), Buffer.from(' ')]);
+      tampered += 1;
+      await cdp('Fetch.fulfillRequest', { requestId, responseCode: responseStatusCode, responseHeaders, body: bytes.toString('base64') });
+    });
+    await cdp('Fetch.enable', { patterns: [{ urlPattern: `*/${name}`, requestStage: 'Response' }] });
+    // Mark the current document, so the wait below cannot read the previous load's refusal as this one's.
+    await evaluate('document.body && (document.body.dataset.stale = "true")');
+    await cdp('Page.navigate', { url: page });
+    await until(() => evaluate('document.body?.dataset.stale !== "true" && document.getElementById("status")?.dataset.result === "ERROR" || document.body?.dataset.ready === "true"'), `tampered ${name} refused`, 180_000);
+    const refusal = await status();
+    console.log(`tampered ${name}: ${refusal}`);
+    assert.equal(tampered, 1, `the ${name} request was not intercepted, so the counter-example tested nothing`);
+    const quoted = name.replace(/\./g, '\\.');
+    assert.match(refusal, new RegExp(`^The reader did not load: runtime file ${quoted} digest [0-9a-f]{64} differs`));
+    assert.equal(await evaluate('document.getElementById("run").disabled'), true);
+    await cdp('Fetch.disable');
+    listeners.delete('Fetch.requestPaused');
+  }
 
   await cdp('Page.navigate', { url: page });
   // Pyodide, its standard library and the 12 MB wheel come over the network: allow three minutes.
