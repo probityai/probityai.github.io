@@ -1268,6 +1268,8 @@ jobs:
         persist-credentials: false
         sparse-checkout: packaging/agent_evidence_vectors
     - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - name: Inputs an earlier check or judge passed are refused
+      run: uv run --script tests/ai_catalog_cases.py
     - name: Read the agent card the released A2A server serves
       run: uv run --script scripts/ai-catalog-a2a-card.py catalog/a2a-policy.json catalog > "$RUNNER_TEMP/a2a-card.json"
     - name: The catalog is the source signed, every signature verifies and is current, every pointer resolves
