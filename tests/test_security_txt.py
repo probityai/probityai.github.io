@@ -1,7 +1,8 @@
 """Tests for .well-known/security.txt: the RFC 9116 fields a reporter and a scanner read.
 
 RFC 9116 requires Contact and Expires, and a file past its Expires must be treated as stale. The
-test fails 30 days before the date, so the next run of CI asks for a new date in time.
+test fails 30 days before the date. It runs on every push and on the Monday schedule of ci.yml
+(the site_check group's cron), so a quiet month cannot let the file lapse unseen.
 """
 
 import datetime as dt
@@ -41,6 +42,18 @@ class SecurityTxt(unittest.TestCase):
         now = dt.datetime.now(dt.timezone.utc)
         self.assertGreater(expires - now, HORIZON, "set Expires to a date under a year away")
         self.assertLess(expires - now, dt.timedelta(days=366), "RFC 9116 asks for less than a year")
+
+
+class RunsOnASchedule(unittest.TestCase):
+    def test_the_group_that_runs_this_test_has_a_cron(self):
+        import json
+        import re
+
+        ci = (FILE.parents[1] / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+        groups = json.loads(re.search(r"GROUPS: '(.*?)'\n", ci, re.S).group(1).replace("\n          ", " "))
+        crons = groups["site_check"]["crons"]
+        self.assertTrue(crons, "site_check has no cron, so the Expires test only runs when someone pushes")
+        self.assertTrue(set(crons) <= set(re.findall(r"- cron: (.+)", ci)), crons)
 
 
 if __name__ == "__main__":
