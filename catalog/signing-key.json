@@ -1,0 +1,10 @@
+{
+  "kid": "did:web:probityai.github.io#catalog-es256",
+  "publicKeyJwk": {
+    "crv": "P-256",
+    "kty": "EC",
+    "x": "BY2vo64CsYczC3e9ccHuv4mFKR449mTrYRDCImF_I-Y",
+    "y": "JwvyHAXvuX80W8wTKIYQ9StsLSm4ri2diYa5YDsSBYI"
+  },
+  "public_key_sha256": "6d925720f13d35f433444ef9a146da09b97065b6119603e55abe06c09425ec47"
+}

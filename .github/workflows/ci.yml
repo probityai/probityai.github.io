@@ -1237,6 +1237,56 @@ jobs:
       run: python3 scripts/readme-lint.py README.md
     - name: One pull-request workflow, ending in ci-ok
       uses: probityai/.github/actions/workflow-fold@5416fd9043dc665f166ed7248e29932739e90306 # main
+  site_check__ai-catalog:
+    name: Root site task routes / Signed AI catalog
+    needs:
+    - changes
+    if: ${{ fromJSON(needs.changes.outputs.run).site_check }}
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      # The two readers that judge the catalog, each pinned to one commit: agent-evidence-verify
+      # (claim catalog_trust_manifest/v1) and the agent-evidence-vectors reference reader.
+      VERIFY_COMMIT: 07b34ef97f20ccc7037b1b1a649d1f1e75a5ab69
+      VECTORS_COMMIT: 4a9733eca5d4dda432ac140632ac7cb3dd55ffdd
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        persist-credentials: false
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: probityai/probity
+        ref: ${{ env.VERIFY_COMMIT }}
+        path: verify-src
+        persist-credentials: false
+        sparse-checkout: packages/agent-evidence-verify
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: probityai/agent-evidence-vectors
+        ref: ${{ env.VECTORS_COMMIT }}
+        path: vectors-src
+        persist-credentials: false
+        sparse-checkout: packaging/agent_evidence_vectors
+    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - name: Inputs an earlier check or judge passed are refused
+      run: uv run --script tests/ai_catalog_cases.py
+    - name: Read the agent card the released A2A server serves
+      run: uv run --script scripts/ai-catalog-a2a-card.py catalog/a2a-policy.json catalog > "$RUNNER_TEMP/a2a-card.json"
+    - name: The catalog is the source signed, every signature verifies and is current, every pointer resolves
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: uv run --script scripts/ai-catalog.py check --live --a2a-card "$RUNNER_TEMP/a2a-card.json" --emit-cases "$RUNNER_TEMP/catalog-cases"
+    - name: Install agent-evidence-verify at its pinned commit
+      run: |
+        uv venv --python 3.12 "$RUNNER_TEMP/verify-env"
+        uv pip install --python "$RUNNER_TEMP/verify-env/bin/python" ./verify-src/packages/agent-evidence-verify
+    - name: Both readers support every entry under both constructions and the snapshot, and refuse the tampered copies
+      run: >-
+        uv run --script scripts/ai-catalog.py judge "$RUNNER_TEMP/catalog-cases"
+        --verify "$RUNNER_TEMP/verify-env/bin/agent-evidence-verify"
+        --vectors "env PYTHONPATH=$GITHUB_WORKSPACE/vectors-src/packaging python3 -m agent_evidence_vectors.catalogtrust"
   archived_repos:
     name: Archived repositories / No live link to one
     needs:
@@ -1287,6 +1337,7 @@ jobs:
     - figures
     - site_check__browser
     - site_check__served-check
+    - site_check__ai-catalog
     - archived_repos
     runs-on: ubuntu-24.04
     timeout-minutes: 5

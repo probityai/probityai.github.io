@@ -1,0 +1,216 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Probity AI",
+    "identifier": "did:web:probityai.github.io",
+    "documentationUrl": "https://probityai.github.io/"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:probityai.github.io:mcp:agent-evidence-mcp",
+      "type": "application/mcp-registry-server+json",
+      "version": "0.2.6",
+      "tags": [
+        "mcp",
+        "evidence",
+        "verification",
+        "offline"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "source": "https://github.com/probityai/probity",
+      "data": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.probityai/agent-evidence-mcp",
+        "title": "Agent evidence",
+        "description": "Offline, read-only tools that verify AI claims against evidence and replay conformance vectors.",
+        "repository": {
+          "url": "https://github.com/probityai/probity",
+          "subfolder": "packages/agent-evidence-mcp",
+          "source": "github"
+        },
+        "version": "0.2.6",
+        "packages": [
+          {
+            "registryType": "pypi",
+            "identifier": "agent-evidence-mcp",
+            "version": "0.2.6",
+            "transport": {
+              "type": "stdio"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:a2a:agent-evidence-verify",
+      "type": "application/a2a-agent-card+json",
+      "version": "0.5.1",
+      "tags": [
+        "a2a",
+        "evidence",
+        "verification"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "source": "https://github.com/probityai/probity",
+      "data": {
+        "capabilities": {
+          "pushNotifications": false,
+          "streaming": false
+        },
+        "defaultInputModes": [
+          "application/vnd.probity.case+json"
+        ],
+        "defaultOutputModes": [
+          "application/vnd.probity.decision+json",
+          "text/plain"
+        ],
+        "description": "Consumer-policy assessments and pinned Lab record reads.",
+        "documentationUrl": "https://github.com/probityai/probity/blob/main/packages/agent-evidence-verify/docs/a2a.md",
+        "name": "Probity Verify",
+        "skills": [
+          {
+            "description": "Assess raw case bytes against operator-held policy and artifacts.",
+            "id": "verify_case",
+            "inputModes": [
+              "application/vnd.probity.case+json"
+            ],
+            "name": "Verify a pinned case",
+            "outputModes": [
+              "application/vnd.probity.decision+json",
+              "text/plain"
+            ],
+            "tags": [
+              "evidence",
+              "verification"
+            ]
+          }
+        ],
+        "supportedInterfaces": [
+          {
+            "protocolBinding": "JSONRPC",
+            "protocolVersion": "1.0",
+            "url": "http://127.0.0.1:41241/a2a/jsonrpc"
+          }
+        ],
+        "version": "0.5.1"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:action:agent-evidence-vectors",
+      "type": "application/vnd.probityai.release+json",
+      "version": "0.37.0",
+      "tags": [
+        "github-action",
+        "conformance",
+        "ci"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "source": "https://github.com/probityai/agent-evidence-vectors",
+      "data": {
+        "name": "agent-evidence-vectors GitHub Action",
+        "description": "Check a verifier against the conformance corpora, check a producer's records with the pinned readers, or admit or refuse agent evidence in CI.",
+        "repository": "https://github.com/probityai/agent-evidence-vectors",
+        "commit": "6029918a3c6d016ab852faec0beb99ce4b7f7baf",
+        "use": "uses: probityai/agent-evidence-vectors@6029918a3c6d016ab852faec0beb99ce4b7f7baf # v0.37.0",
+        "tag": "v0.37.0"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:corpus:agent-evidence-vectors",
+      "type": "application/vnd.probityai.release+json",
+      "version": "0.37.0",
+      "tags": [
+        "conformance",
+        "corpus",
+        "pypi"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "source": "https://github.com/probityai/agent-evidence-vectors",
+      "data": {
+        "name": "agent-evidence-vectors",
+        "description": "Conformance corpora and reference verifiers for AI-agent and supply-chain evidence formats.",
+        "repository": "https://github.com/probityai/agent-evidence-vectors",
+        "commit": "6029918a3c6d016ab852faec0beb99ce4b7f7baf",
+        "use": "pip install agent-evidence-vectors==0.37.0",
+        "tag": "v0.37.0",
+        "packages": [
+          {
+            "registry": "pypi",
+            "name": "agent-evidence-vectors",
+            "version": "0.37.0",
+            "files": [
+              {
+                "filename": "agent_evidence_vectors-0.37.0-py3-none-any.whl",
+                "sha256": "0cb4e7219db714a0035a7481396f3967a0c8fb79ad67a47b8727039819b3c00f"
+              },
+              {
+                "filename": "agent_evidence_vectors-0.37.0.tar.gz",
+                "sha256": "245591b9b0e98f9d32d4eb80efadf492fd902399223f89b53c7023308db21f47"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:template:evidence-starter",
+      "type": "application/vnd.probityai.release+json",
+      "tags": [
+        "template",
+        "evidence",
+        "starter"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "source": "https://github.com/probityai/evidence-starter",
+      "data": {
+        "name": "evidence-starter",
+        "description": "A template project that checks a claim about a retained, signed agent action offline, with the packages pinned and the conformance Action already in CI.",
+        "repository": "https://github.com/probityai/evidence-starter",
+        "commit": "9ffb7b9b62d78f814d0a2c9948d12f39174bf205",
+        "use": "gh repo create <name> --template probityai/evidence-starter"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:matrix:agent-evidence-matrix",
+      "type": "application/vnd.probityai.release+json",
+      "tags": [
+        "conformance",
+        "matrix",
+        "interoperability"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "source": "https://github.com/probityai/agent-evidence-matrix",
+      "data": {
+        "name": "agent evidence conformance matrix",
+        "description": "One table of which agent-evidence projects can be read by shared open verifiers and conformance corpora, with a verdict and a replay command for every cell.",
+        "repository": "https://github.com/probityai/agent-evidence-matrix",
+        "commit": "4167aaab8350c5417a33e212b40fb383934d3140",
+        "use": "python build_matrix.py --check"
+      }
+    }
+  ]
+}

@@ -1,0 +1,435 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Probity AI",
+    "identifier": "did:web:probityai.github.io",
+    "documentationUrl": "https://probityai.github.io/"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:probityai.github.io:mcp:agent-evidence-mcp",
+      "type": "application/mcp-registry-server+json",
+      "version": "0.2.6",
+      "tags": [
+        "mcp",
+        "evidence",
+        "verification",
+        "offline"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "data": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.probityai/agent-evidence-mcp",
+        "title": "Agent evidence",
+        "description": "Offline, read-only tools that verify AI claims against evidence and replay conformance vectors.",
+        "repository": {
+          "url": "https://github.com/probityai/probity",
+          "subfolder": "packages/agent-evidence-mcp",
+          "source": "github"
+        },
+        "version": "0.2.6",
+        "packages": [
+          {
+            "registryType": "pypi",
+            "identifier": "agent-evidence-mcp",
+            "version": "0.2.6",
+            "transport": {
+              "type": "stdio"
+            }
+          }
+        ]
+      },
+      "digest": "sha256:9afb117fef82d905f3613a88e1a62f0abb6a585aaa026e2dbb2dc57e3a947e92",
+      "trustManifests": [
+        {
+          "contributor": "did:web:probityai.github.io",
+          "subject": {
+            "identifier": "urn:air:probityai.github.io:mcp:agent-evidence-mcp",
+            "type": "application/mcp-registry-server+json",
+            "digest": "sha256:9afb117fef82d905f3613a88e1a62f0abb6a585aaa026e2dbb2dc57e3a947e92",
+            "version": "0.2.6"
+          },
+          "provenance": [
+            {
+              "relation": "publishedFrom",
+              "sourceId": "https://github.com/probityai/probity"
+            }
+          ],
+          "signature": {
+            "signer": "did:web:probityai.github.io",
+            "profile": "did-web-v1",
+            "issuedAt": "2026-11-17T15:07:18Z",
+            "expiresAt": "2027-11-17T15:07:18Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..WvNTJt-W4FKSxsDlZndzs0d0TLcnZ-5Qfd6xnSVSloMHDFQUziJOQq20LYmEmBF4BDaZA1ogpK2-NkIXaFTMwQ"
+          }
+        }
+      ],
+      "trustManifest": {
+        "identity": "did:web:probityai.github.io",
+        "subject": {
+          "identifier": "urn:air:probityai.github.io:mcp:agent-evidence-mcp",
+          "type": "application/mcp-registry-server+json",
+          "digest": "sha256:9afb117fef82d905f3613a88e1a62f0abb6a585aaa026e2dbb2dc57e3a947e92",
+          "version": "0.2.6"
+        },
+        "issuedAt": "2026-11-17T15:07:18Z",
+        "expiresAt": "2027-11-17T15:07:18Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2In0..-RHftAp1Wisk_NndYA3K6hqk96O6f37k0_UBQJvHN9IRFOdTAnr_2AMBWi4VDO7a-Rpedc8-0HubAx4s6V3Jsg"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:a2a:agent-evidence-verify",
+      "type": "application/a2a-agent-card+json",
+      "version": "0.5.1",
+      "tags": [
+        "a2a",
+        "evidence",
+        "verification"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "data": {
+        "capabilities": {
+          "pushNotifications": false,
+          "streaming": false
+        },
+        "defaultInputModes": [
+          "application/vnd.probity.case+json"
+        ],
+        "defaultOutputModes": [
+          "application/vnd.probity.decision+json",
+          "text/plain"
+        ],
+        "description": "Consumer-policy assessments and pinned Lab record reads.",
+        "documentationUrl": "https://github.com/probityai/probity/blob/main/packages/agent-evidence-verify/docs/a2a.md",
+        "name": "Probity Verify",
+        "skills": [
+          {
+            "description": "Assess raw case bytes against operator-held policy and artifacts.",
+            "id": "verify_case",
+            "inputModes": [
+              "application/vnd.probity.case+json"
+            ],
+            "name": "Verify a pinned case",
+            "outputModes": [
+              "application/vnd.probity.decision+json",
+              "text/plain"
+            ],
+            "tags": [
+              "evidence",
+              "verification"
+            ]
+          }
+        ],
+        "supportedInterfaces": [
+          {
+            "protocolBinding": "JSONRPC",
+            "protocolVersion": "1.0",
+            "url": "http://127.0.0.1:41241/a2a/jsonrpc"
+          }
+        ],
+        "version": "0.5.1"
+      },
+      "digest": "sha256:b7ad4bfedcca3fae94a4aa6ee51ec2cffe53164a10c6c1f652802d682ecfe5ff",
+      "trustManifests": [
+        {
+          "contributor": "did:web:probityai.github.io",
+          "subject": {
+            "identifier": "urn:air:probityai.github.io:a2a:agent-evidence-verify",
+            "type": "application/a2a-agent-card+json",
+            "digest": "sha256:b7ad4bfedcca3fae94a4aa6ee51ec2cffe53164a10c6c1f652802d682ecfe5ff",
+            "version": "0.5.1"
+          },
+          "provenance": [
+            {
+              "relation": "publishedFrom",
+              "sourceId": "https://github.com/probityai/probity"
+            }
+          ],
+          "signature": {
+            "signer": "did:web:probityai.github.io",
+            "profile": "did-web-v1",
+            "issuedAt": "2026-11-17T15:07:18Z",
+            "expiresAt": "2027-11-17T15:07:18Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..W_FFZhta6CPFRU1dpSwDYdtSwNZ1iU30cI-aLxS1G7C3bes7aAC_aNHQqVrHV-EDVDBpMQCSB1uWF1NCLWr-2A"
+          }
+        }
+      ],
+      "trustManifest": {
+        "identity": "did:web:probityai.github.io",
+        "subject": {
+          "identifier": "urn:air:probityai.github.io:a2a:agent-evidence-verify",
+          "type": "application/a2a-agent-card+json",
+          "digest": "sha256:b7ad4bfedcca3fae94a4aa6ee51ec2cffe53164a10c6c1f652802d682ecfe5ff",
+          "version": "0.5.1"
+        },
+        "issuedAt": "2026-11-17T15:07:18Z",
+        "expiresAt": "2027-11-17T15:07:18Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2In0..Cl8HmeTrYozDCEhYOKm-J8B6mQPNEUjDizUfPqGCMJFtwGFy85CcoU4zGw728h-KY99Z9tiRTh-tKg7mN8f6HQ"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:action:agent-evidence-vectors",
+      "type": "application/vnd.probityai.release+json",
+      "version": "0.37.0",
+      "tags": [
+        "github-action",
+        "conformance",
+        "ci"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "data": {
+        "name": "agent-evidence-vectors GitHub Action",
+        "description": "Check a verifier against the conformance corpora, check a producer's records with the pinned readers, or admit or refuse agent evidence in CI.",
+        "repository": "https://github.com/probityai/agent-evidence-vectors",
+        "commit": "6029918a3c6d016ab852faec0beb99ce4b7f7baf",
+        "use": "uses: probityai/agent-evidence-vectors@6029918a3c6d016ab852faec0beb99ce4b7f7baf # v0.37.0",
+        "tag": "v0.37.0"
+      },
+      "digest": "sha256:65645c884ae1c142a72cedcab1eba185f55e55d8f55dbd0fa0ed7ab1644f08e3",
+      "trustManifests": [
+        {
+          "contributor": "did:web:probityai.github.io",
+          "subject": {
+            "identifier": "urn:air:probityai.github.io:action:agent-evidence-vectors",
+            "type": "application/vnd.probityai.release+json",
+            "digest": "sha256:65645c884ae1c142a72cedcab1eba185f55e55d8f55dbd0fa0ed7ab1644f08e3",
+            "version": "0.37.0"
+          },
+          "provenance": [
+            {
+              "relation": "publishedFrom",
+              "sourceId": "https://github.com/probityai/agent-evidence-vectors"
+            }
+          ],
+          "signature": {
+            "signer": "did:web:probityai.github.io",
+            "profile": "did-web-v1",
+            "issuedAt": "2026-11-17T15:07:18Z",
+            "expiresAt": "2027-11-17T15:07:18Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..L6WNqY6tgdDVe_3jgGmgK08ngykG0QYkzoJx_xBhh_zf8zKT2znVjq8EOnel-ApVKvmQ5IDZbd5LRCOuoLXnPA"
+          }
+        }
+      ],
+      "trustManifest": {
+        "identity": "did:web:probityai.github.io",
+        "subject": {
+          "identifier": "urn:air:probityai.github.io:action:agent-evidence-vectors",
+          "type": "application/vnd.probityai.release+json",
+          "digest": "sha256:65645c884ae1c142a72cedcab1eba185f55e55d8f55dbd0fa0ed7ab1644f08e3",
+          "version": "0.37.0"
+        },
+        "issuedAt": "2026-11-17T15:07:18Z",
+        "expiresAt": "2027-11-17T15:07:18Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2In0..axcQi8FdcGSLdLSHqGEEWZllUCLyrvhQApWFDZQJtKEeZ3z-cNVybBu2ksTbm7fIEr8hs8DXsmmWbEwB4B05cQ"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:corpus:agent-evidence-vectors",
+      "type": "application/vnd.probityai.release+json",
+      "version": "0.37.0",
+      "tags": [
+        "conformance",
+        "corpus",
+        "pypi"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "data": {
+        "name": "agent-evidence-vectors",
+        "description": "Conformance corpora and reference verifiers for AI-agent and supply-chain evidence formats.",
+        "repository": "https://github.com/probityai/agent-evidence-vectors",
+        "commit": "6029918a3c6d016ab852faec0beb99ce4b7f7baf",
+        "use": "pip install agent-evidence-vectors==0.37.0",
+        "tag": "v0.37.0",
+        "packages": [
+          {
+            "registry": "pypi",
+            "name": "agent-evidence-vectors",
+            "version": "0.37.0",
+            "files": [
+              {
+                "filename": "agent_evidence_vectors-0.37.0-py3-none-any.whl",
+                "sha256": "0cb4e7219db714a0035a7481396f3967a0c8fb79ad67a47b8727039819b3c00f"
+              },
+              {
+                "filename": "agent_evidence_vectors-0.37.0.tar.gz",
+                "sha256": "245591b9b0e98f9d32d4eb80efadf492fd902399223f89b53c7023308db21f47"
+              }
+            ]
+          }
+        ]
+      },
+      "digest": "sha256:afc30389961a0c832c8da0ce62acb3d6b67029812d8c0f74870b973efacb61ef",
+      "trustManifests": [
+        {
+          "contributor": "did:web:probityai.github.io",
+          "subject": {
+            "identifier": "urn:air:probityai.github.io:corpus:agent-evidence-vectors",
+            "type": "application/vnd.probityai.release+json",
+            "digest": "sha256:afc30389961a0c832c8da0ce62acb3d6b67029812d8c0f74870b973efacb61ef",
+            "version": "0.37.0"
+          },
+          "provenance": [
+            {
+              "relation": "publishedFrom",
+              "sourceId": "https://github.com/probityai/agent-evidence-vectors"
+            }
+          ],
+          "signature": {
+            "signer": "did:web:probityai.github.io",
+            "profile": "did-web-v1",
+            "issuedAt": "2026-11-17T15:07:18Z",
+            "expiresAt": "2027-11-17T15:07:18Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..1cA5v-or12ZskcAGoswsYYFsKYFLFc4mNV8vE9Vsk3BCo4siyBZkV_rZ_1lKswUCHkEfppoY2dGUa8q_V_uFSQ"
+          }
+        }
+      ],
+      "trustManifest": {
+        "identity": "did:web:probityai.github.io",
+        "subject": {
+          "identifier": "urn:air:probityai.github.io:corpus:agent-evidence-vectors",
+          "type": "application/vnd.probityai.release+json",
+          "digest": "sha256:afc30389961a0c832c8da0ce62acb3d6b67029812d8c0f74870b973efacb61ef",
+          "version": "0.37.0"
+        },
+        "issuedAt": "2026-11-17T15:07:18Z",
+        "expiresAt": "2027-11-17T15:07:18Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2In0..gQ0P7tX6JNkv6su858_geT7W1m2jf2CJNtZ3B46iPn4Y5MaAHUvCFWhC4U-_UwgaKj5hKAkFr9fINJ8dlMq7AQ"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:template:evidence-starter",
+      "type": "application/vnd.probityai.release+json",
+      "tags": [
+        "template",
+        "evidence",
+        "starter"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "data": {
+        "name": "evidence-starter",
+        "description": "A template project that checks a claim about a retained, signed agent action offline, with the packages pinned and the conformance Action already in CI.",
+        "repository": "https://github.com/probityai/evidence-starter",
+        "commit": "9ffb7b9b62d78f814d0a2c9948d12f39174bf205",
+        "use": "gh repo create <name> --template probityai/evidence-starter"
+      },
+      "digest": "sha256:3500abef4f472151444fc3786cc88746e34a1b8932c86a0dce687481bc8beb64",
+      "trustManifests": [
+        {
+          "contributor": "did:web:probityai.github.io",
+          "subject": {
+            "identifier": "urn:air:probityai.github.io:template:evidence-starter",
+            "type": "application/vnd.probityai.release+json",
+            "digest": "sha256:3500abef4f472151444fc3786cc88746e34a1b8932c86a0dce687481bc8beb64"
+          },
+          "provenance": [
+            {
+              "relation": "publishedFrom",
+              "sourceId": "https://github.com/probityai/evidence-starter"
+            }
+          ],
+          "signature": {
+            "signer": "did:web:probityai.github.io",
+            "profile": "did-web-v1",
+            "issuedAt": "2026-11-17T15:07:18Z",
+            "expiresAt": "2027-11-17T15:07:18Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..NX5bMXqycXoHKv0iMfyZMagyyOn4vKlie7AuFBVWqnin8X7fscotDCZXPyuDeGTc4iqavBKv1C86YSiXh41u0w"
+          }
+        }
+      ],
+      "trustManifest": {
+        "identity": "did:web:probityai.github.io",
+        "subject": {
+          "identifier": "urn:air:probityai.github.io:template:evidence-starter",
+          "type": "application/vnd.probityai.release+json",
+          "digest": "sha256:3500abef4f472151444fc3786cc88746e34a1b8932c86a0dce687481bc8beb64"
+        },
+        "issuedAt": "2026-11-17T15:07:18Z",
+        "expiresAt": "2027-11-17T15:07:18Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2In0..ZLJCWNCkUivVU1qAjlyRPsMy5y8sMaCoCTGj5luBl0gx__qLr5GcRUVexwzCty3-q5MGa6PwNVwtDOMZpsWgUQ"
+      }
+    },
+    {
+      "identifier": "urn:air:probityai.github.io:matrix:agent-evidence-matrix",
+      "type": "application/vnd.probityai.release+json",
+      "tags": [
+        "conformance",
+        "matrix",
+        "interoperability"
+      ],
+      "publisher": {
+        "identifier": "did:web:probityai.github.io",
+        "displayName": "Probity AI",
+        "identityType": "did"
+      },
+      "data": {
+        "name": "agent evidence conformance matrix",
+        "description": "One table of which agent-evidence projects can be read by shared open verifiers and conformance corpora, with a verdict and a replay command for every cell.",
+        "repository": "https://github.com/probityai/agent-evidence-matrix",
+        "commit": "4167aaab8350c5417a33e212b40fb383934d3140",
+        "use": "python build_matrix.py --check"
+      },
+      "digest": "sha256:b4fa81569a49a3e1469cb1bf1fc0865ad2eea9eef86cfa5bb2814690f817c4b3",
+      "trustManifests": [
+        {
+          "contributor": "did:web:probityai.github.io",
+          "subject": {
+            "identifier": "urn:air:probityai.github.io:matrix:agent-evidence-matrix",
+            "type": "application/vnd.probityai.release+json",
+            "digest": "sha256:b4fa81569a49a3e1469cb1bf1fc0865ad2eea9eef86cfa5bb2814690f817c4b3"
+          },
+          "provenance": [
+            {
+              "relation": "publishedFrom",
+              "sourceId": "https://github.com/probityai/agent-evidence-matrix"
+            }
+          ],
+          "signature": {
+            "signer": "did:web:probityai.github.io",
+            "profile": "did-web-v1",
+            "issuedAt": "2026-11-17T15:07:18Z",
+            "expiresAt": "2027-11-17T15:07:18Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..4cr64MyYqjR--zgeYgfEguVzyB_4avDdlG2SPkgwxntMqZlJ77PmkXP272pKrc_XuuKRcLMdGeIEdaXz9Q_hbA"
+          }
+        }
+      ],
+      "trustManifest": {
+        "identity": "did:web:probityai.github.io",
+        "subject": {
+          "identifier": "urn:air:probityai.github.io:matrix:agent-evidence-matrix",
+          "type": "application/vnd.probityai.release+json",
+          "digest": "sha256:b4fa81569a49a3e1469cb1bf1fc0865ad2eea9eef86cfa5bb2814690f817c4b3"
+        },
+        "issuedAt": "2026-11-17T15:07:18Z",
+        "expiresAt": "2027-11-17T15:07:18Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2In0..izd_ORKkFaGuuOsiy664jWrFq6Qou1yj7BjRhS-F6-i3j4mY6gxdjEUcozmwvEjWbvC1zTEKmLZDI4Oan2jjvw"
+      }
+    }
+  ],
+  "signature": {
+    "signer": "did:web:probityai.github.io",
+    "profile": "did-web-v1",
+    "issuedAt": "2026-11-17T15:07:18Z",
+    "expiresAt": "2027-11-17T15:07:18Z",
+    "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHJvYml0eWFpLmdpdGh1Yi5pbyNjYXRhbG9nLWVzMjU2IiwidHlwIjoiYWktY2F0YWxvZytqd3MifQ..Hk4GIziUey1nBjQmP6h1Mwsqk-Qzf6HRAZTNUDpQ3dMaAtFhyGvNf-u7DHcl5txLlfk4nlM9rzXgyPkdlcdfiQ"
+  }
+}
