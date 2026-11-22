@@ -1,0 +1,22 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1"
+  ],
+  "id": "did:web:probityai.github.io",
+  "verificationMethod": [
+    {
+      "id": "did:web:probityai.github.io#catalog-es256",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:probityai.github.io",
+      "publicKeyJwk": {
+        "crv": "P-256",
+        "kty": "EC",
+        "x": "BY2vo64CsYczC3e9ccHuv4mFKR449mTrYRDCImF_I-Y",
+        "y": "JwvyHAXvuX80W8wTKIYQ9StsLSm4ri2diYa5YDsSBYI"
+      }
+    }
+  ],
+  "assertionMethod": [
+    "did:web:probityai.github.io#catalog-es256"
+  ]
+}

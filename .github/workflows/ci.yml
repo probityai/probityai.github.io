@@ -106,7 +106,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the hash-pinned walk dependencies
@@ -241,7 +241,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the locked example tools in their own environment
@@ -417,7 +417,7 @@ jobs:
         git clone --quiet --depth 1 --branch "$(python3 -c "import tomllib;print(tomllib.load(open('atlas/data/board.toml','rb'))['meta']['vectors_tag'])")" \
           https://github.com/probityai/agent-evidence-vectors "$RUNNER_TEMP/vectors"
         test "$(git -C "$RUNNER_TEMP/vectors" rev-parse HEAD)" = "$expected"
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
@@ -596,7 +596,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the exact case tools
@@ -635,7 +635,7 @@ jobs:
         path: atlas/.build/motebit-producer
         sparse-checkout: examples/interop/approval-triad
         persist-credentials: false
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the pinned Atlas link parser
@@ -676,7 +676,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the reader and the referee in separate hash-pinned environments
@@ -729,7 +729,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the exact reader tools in their own environment
@@ -882,7 +882,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Install the hash-pinned reader and test wheels
@@ -970,7 +970,7 @@ jobs:
     - name: Restore the experiment archives from their release
       working-directory: atlas
       run: python3 tools/archives.py fetch
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       with:
         version: 0.12.24
     - name: Fetch immutable inputs and run the original consumer
@@ -1176,11 +1176,11 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
         persist-credentials: false
         fetch-depth: 0
-    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
     - name: Rebuild, compare and lint every published figure
       env:
         BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -1200,10 +1200,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
         persist-credentials: false
-    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
       with:
         node-version: 24.19.0
     - name: Check task routes, keyboard access and mobile layout
@@ -1212,7 +1212,7 @@ jobs:
       run: node scripts/check-verify-page.mjs .
     - name: Retain browser evidence on success or failure
       if: always()
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
       with:
         name: root-site-browser-${{ github.run_id }}-${{ github.run_attempt }}
         path: site-check-artifacts/
@@ -1228,7 +1228,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
         persist-credentials: false
     - name: Test the Pages build wait
@@ -1237,6 +1237,56 @@ jobs:
       run: python3 scripts/readme-lint.py README.md
     - name: One pull-request workflow, ending in ci-ok
       uses: probityai/.github/actions/workflow-fold@5416fd9043dc665f166ed7248e29932739e90306 # main
+  site_check__ai-catalog:
+    name: Root site task routes / Signed AI catalog
+    needs:
+    - changes
+    if: ${{ fromJSON(needs.changes.outputs.run).site_check }}
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      # The two readers that judge the catalog, each pinned to one commit: agent-evidence-verify
+      # (claim catalog_trust_manifest/v1) and the agent-evidence-vectors reference reader.
+      VERIFY_COMMIT: 07b34ef97f20ccc7037b1b1a649d1f1e75a5ab69
+      VECTORS_COMMIT: 4a9733eca5d4dda432ac140632ac7cb3dd55ffdd
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        persist-credentials: false
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: probityai/probity
+        ref: ${{ env.VERIFY_COMMIT }}
+        path: verify-src
+        persist-credentials: false
+        sparse-checkout: packages/agent-evidence-verify
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: probityai/agent-evidence-vectors
+        ref: ${{ env.VECTORS_COMMIT }}
+        path: vectors-src
+        persist-credentials: false
+        sparse-checkout: packaging/agent_evidence_vectors
+    - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa
+    - name: Inputs an earlier check or judge passed are refused
+      run: uv run --script tests/ai_catalog_cases.py
+    - name: Read the agent card the released A2A server serves
+      run: uv run --script scripts/ai-catalog-a2a-card.py catalog/a2a-policy.json catalog > "$RUNNER_TEMP/a2a-card.json"
+    - name: The catalog is the source signed, every signature verifies and is current, every pointer resolves
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: uv run --script scripts/ai-catalog.py check --live --a2a-card "$RUNNER_TEMP/a2a-card.json" --emit-cases "$RUNNER_TEMP/catalog-cases"
+    - name: Install agent-evidence-verify at its pinned commit
+      run: |
+        uv venv --python 3.12 "$RUNNER_TEMP/verify-env"
+        uv pip install --python "$RUNNER_TEMP/verify-env/bin/python" ./verify-src/packages/agent-evidence-verify
+    - name: Both readers support every entry under both constructions and the snapshot, and refuse the tampered copies
+      run: >-
+        uv run --script scripts/ai-catalog.py judge "$RUNNER_TEMP/catalog-cases"
+        --verify "$RUNNER_TEMP/verify-env/bin/agent-evidence-verify"
+        --vectors "env PYTHONPATH=$GITHUB_WORKSPACE/vectors-src/packaging python3 -m agent_evidence_vectors.catalogtrust"
   archived_repos:
     name: Archived repositories / No live link to one
     needs:
@@ -1246,7 +1296,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
         persist-credentials: false
     - name: Test the gate
@@ -1287,6 +1337,7 @@ jobs:
     - figures
     - site_check__browser
     - site_check__served-check
+    - site_check__ai-catalog
     - archived_repos
     runs-on: ubuntu-24.04
     timeout-minutes: 5

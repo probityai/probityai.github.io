@@ -7,6 +7,10 @@
 - [Atlas guide](https://probityai.github.io/agent-evidence-atlas/llms.txt): Tools grouped by task, retained runs, claim ledger and pinned releases.
 - [Vectors guide](https://probityai.github.io/agent-evidence-vectors/llms.txt): Saved records with known outcomes for testing an agent-evidence verifier.
 
+## Discovery
+
+- [AI Catalog](https://probityai.github.io/.well-known/ai-catalog.json): Signed catalog of the MCP server, the A2A verifier, the GitHub Action, the corpus, the starter template and the conformance matrix.
+
 ## Persistent identifiers
 
 - [Predicate types and vocabulary](https://w3id.org/agent-evidence/): Stable URLs for the predicate types and vocabulary terms that records carry.
