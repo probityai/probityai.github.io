@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Budget lineage, contract v1</title>
+<style>body{max-width:44rem;margin:2rem auto;padding:0 1rem;font:16px/1.5 system-ui,sans-serif}code{background:#f2f2f2;padding:0 .2rem}@media (prefers-color-scheme:dark){body{background:#10151b;color:#e8edf3}code{background:#18202a}a{color:#8fb0ff}}</style>
+</head>
+<body>
+<h1>Budget lineage, contract v1</h1>
+<p>This URI identifies version 1 of the budget-lineage record: one principal's delegation tree and every charge the accounting authority booked for the agents in it, whatever budget each charge names. A runtime that keeps a counter per flow and starts it again when a sub-agent opens a new root shows the parent a clean picture; this contract judges the whole tree instead. A record written against it carries:</p>
+<pre><code>"contractId": "https://probityai.github.io/agent-evidence-observer/contract/budget-lineage/v1"</code></pre>
+<p>The reference cases and the expected decision for each are in
+<a href="https://github.com/probityai/agent-evidence-vectors/tree/main/corpora/vectors-budget-lineage">vectors-budget-lineage</a>
+in the agent-evidence-vectors repository. A reader refuses a record that omits this identifier or names another version.</p>
+</body>
+</html>
