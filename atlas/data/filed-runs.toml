@@ -74,3 +74,23 @@ operated_by = "historical record by ossumpossum; he reports the rule it tested w
 lab_rerun = "2026-10-23: all four blob hashes match the commit, which is still fetchable by SHA; witness_scope appears 0 times in runner.py and basis_adapter.py, and basis_vectors.json carries it on all 25 rows (21 EXTERNAL, 4 SELF)"
 shows = "A conformance rule keyed on a field that artifacts declare but no verifier credits or orders passes or fails by accident, and a runner cannot tell a scope it declined to evaluate from a scope nothing recorded."
 open = "The vocabulary entry is still proposed with no ordering over SELF, PEER and EXTERNAL. A rule over it needs that ordering and a verifier that credits the field."
+
+[[run]]
+id = "argentum-authority-dispatch-369dc33"
+link = "https://github.com/probityai/agent-evidence-vectors/issues/349#issuecomment-6754503151"
+target = "Declarative policy decision point x Effect (authority at dispatch)"
+pins = "giskard09/argentum-core@369dc33820e59cc266e8c5cf7a27d6d39954029f, examples/conformance/execution-join-ref, map_authority_at_dispatch.py over vectors-authority-at-dispatch"
+operated_by = "author-operated (giskard09 wrote the mapper and the reference; the corpus is the package's)"
+lab_rerun = "2026-11-23: verify.py 20/20 and map_authority_at_dispatch.py exit 0 in a fresh venv at agent-evidence-vectors 0.35.0 and again at 0.38.0; the two mapper outputs are identical byte for byte: 3 dispatch_not_approved EFFECTIVE_CALL_REBINDING_FAILED, 3 AUDITABLE_VIA_NAMED_AUTHORITY, 2 PARTIALLY_MODELED, 2 NOT_MODELED"
+shows = "Three reasons (grant_revoked, authority_evidence_stale, evidence_age_inconsistent) bind to a named authority whose check order can be read, two (scope_amplified, grant_expired) are partly modeled, and two (contract_id_missing, contract_id_unknown) are not modeled, by design."
+open = "AUDITABLE_VIA_NAMED_AUTHORITY means the order of the authority check can be read, not that a verifier confirms the grant was revoked or the evidence stale; that needs the external registry the new fields name."
+
+[[run]]
+id = "handoff-claims-d8fa411"
+link = "https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-7058216068"
+target = "Evidence integrity, claim boundary (byte integrity versus historical anchor)"
+pins = "aymanaseriai-cell/agent-economy-os-2047@d8fa41120ab33f844426051aab35894e34c26824, fixtures/handoff-claims-v1, ten synthetic cases; kept immutable at imokokok's request"
+operated_by = "author-operated (aymanaseriai-cell wrote the fixture and the verifier); reviewed by imokokok and zambodotdev"
+lab_rerun = "2026-11-23: the verifier at d8fa411 prints 10/10 synthetic cases match and its unit tests pass (CPython 3.13.15)"
+shows = "Byte integrity can pass while the historical anchor stays NOT_PROVEN, and current freshness stays UNVERIFIED_SOURCE_FRESHNESS, so a run of passing hashes is not read as provenance."
+open = "A follow-up revision records the comparison legs (bytes_match_declared_digest, declared_digest_matches_supplied_reference, bytes_match_supplied_reference) with a reason code, reports reference_consistency as NOT_APPLICABLE when no reference is supplied, and does not rename an inconsistent reference as an anchor failure."
