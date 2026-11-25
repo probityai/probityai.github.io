@@ -1,7 +1,0 @@
-{
-  "contract": "request-effect-join-fixture/v1",
-  "sha256": {
-    "cases.json": "sha256:8671d4cf1db3847f01a3c4fb5cf7cbde837dd144e898e1c1adda32d75863e421",
-    "expected.json": "sha256:ef82c3aad762505b7205da099f208600defd3b0b0514cb461a048d0d3c025a58"
-  }
-}
